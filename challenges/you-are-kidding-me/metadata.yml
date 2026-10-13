@@ -1,0 +1,18 @@
+version: beta2
+platform: unknown
+native_id: '12'
+name: You Are Kidding Me
+category: web
+description: Ever wanted to read up on the cars of the future? We got a blog for that!
+value: 427
+files: []
+challenge_mode: remote
+connection_info: https://kidding.web.2026.sunshinectf.games/
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#You%20Are%20Kidding%20Me-12
+environment: {}
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: solved
+reason: ''

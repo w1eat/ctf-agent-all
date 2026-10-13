@@ -1,0 +1,34 @@
+version: beta2
+platform: unknown
+native_id: '5'
+name: Print Print Revolution
+category: Pwn
+description: 'The arcade''s score printer has been spitting out strange tickets all
+  week. Step up to the renderer and see what it''s really printing. Files: revolution
+  (sha256 918483831ef0b27d0cfb8afa9e0341f38d0a296931ccc5f73ef80f5d610f8fa5, 14520
+  bytes). nc chal.sunshinectf.games 26002'
+value: 0
+files:
+- distfiles/revolution
+challenge_mode: hybrid
+connection_info: nc chal.sunshinectf.games 26002
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Print%20Print%20Revolution-5
+environment:
+  status: unknown
+  source: remote
+  url: nc chal.sunshinectf.games 26002
+  host: chal.sunshinectf.games
+  port: 26002
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- name: revolution
+  sha256: 918483831ef0b27d0cfb8afa9e0341f38d0a296931ccc5f73ef80f5d610f8fa5
+  size: 14520
+  target: a[href="https://sunshinectf.games/files/cc3135/revolution"]
+  url: https://sunshinectf.games/files/cc3135/revolution
+attachments_scanned: true
+state: solved
+reason: ''

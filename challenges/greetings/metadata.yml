@@ -1,0 +1,18 @@
+version: beta2
+platform: unknown
+native_id: '1'
+name: Greetings
+category: misc
+description: Greetings! Here's a flag! `sun{heres_a_flag}`
+value: 1
+files: []
+challenge_mode: unknown
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#Greetings-1
+environment: {}
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: solved
+reason: ''

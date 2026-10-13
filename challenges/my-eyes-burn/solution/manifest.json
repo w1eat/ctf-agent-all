@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "current_key": "28cb002f9ecfaa3f6347:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "28cb002f9ecfaa3f6347:candidate_found",
+      "flag": "sun{praisethesun}",
+      "confirmation_source": "candidate_found",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "my eyes burn",
+        "category": "Forensics",
+        "description": "anon hasn't been outside in years, so he put the sun in his keyboard. find the flag he types to bring it out.",
+        "connection_info": "",
+        "value": 398,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Decode the MSKLC keyboard-layout (.klc) DEADKEY composition chain: the dead-key at U+0060 (`) chains through s→u→n→{→p→r→a→i→s→e→t→h→e→s→u→n→} producing the sun glyph U+2600 (☀). The literal characters typed spell the flag.: sun{praisethesun} | Evidence: File /challenge/distfiles/boardwriter.klc is UTF-16LE MSKLC .klc keyboard layout ; DEADKEY chain decoded: 0060(')+0073(s)->02d0, 02d0+0075(u)->02ed, 02ed+006e(n)->02b4, 02b4+007b({)->02ef, 02ef+0070(p)->02ba, 02ba+0072(r)->02c9, 02c9+0061(a)->02d3, 02d3+0069(i)->02e9, 02e9+0073(s)->02bd, 02bd+0065(e)->02cd, 02cd+0074(t)->02e4, 02e4+0068(h)->02d8, 02d8+0065(e)->02ee, 02ee+0073(s)->02d4, 02d4+0075(u)->02e1, 02e1+006e(n)->02b0, 02b0+007d(})->2600 (SUN) ; Script /challenge/workspace/solve.py outputs: typed to produce U+2600: '`sun{praisethesun}' ; readable flag: sun{praisethesun} ; Platform submit_flag failed with a technical browser-recipe error (#challenge-input element missing), so confirmation was not possible",
+      "solution_steps": [
+        "用 Python 以 UTF-16 解码 boardwriter.klc，逐行解析 DEADKEY <base> <result>@ 条目构建映射。",
+        "从初始死键 U+0060 (`) 开始沿链表行走：每个死键只有一个基字符转移到下一个死键。",
+        "链为 `→s→u→n→{→p→r→a→i→s→e→t→h→e→s→u→n→}，终点产生 U+2600 ☀。",
+        "将这些基字符拼接得到键入的字符串 `sun{praisethesun}`，去掉起始死键反引号即为 flag。",
+        "运行 /challenge/workspace/solve.py 复现输出 sun{praisethesun}。"
+      ],
+      "evidence": [
+        "File /challenge/distfiles/boardwriter.klc is UTF-16LE MSKLC .klc keyboard layout",
+        "DEADKEY chain decoded: 0060(')+0073(s)->02d0, 02d0+0075(u)->02ed, 02ed+006e(n)->02b4, 02b4+007b({)->02ef, 02ef+0070(p)->02ba, 02ba+0072(r)->02c9, 02c9+0061(a)->02d3, 02d3+0069(i)->02e9, 02e9+0073(s)->02bd, 02bd+0065(e)->02cd, 02cd+0074(t)->02e4, 02e4+0068(h)->02d8, 02d8+0065(e)->02ee, 02ee+0073(s)->02d4, 02d4+0075(u)->02e1, 02e1+006e(n)->02b0, 02b0+007d(})->2600 (SUN)",
+        "Script /challenge/workspace/solve.py outputs: typed to produce U+2600: '`sun{praisethesun}' ; readable flag: sun{praisethesun}",
+        "Platform submit_flag failed with a technical browser-recipe error (#challenge-input element missing), so confirmation was not possible"
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/28cb002f9ecfaa3f6347/deepseek-deepseek-flash-5403e74e/7efbcd3cd1cb1aac/solve.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "候选 Flag 尚未进行平台验证或自动复现；此题解依据求解器记录生成。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "4ab5ff442c27f045b41536d44f287f73682125e4fb212a53009a3a5bfbfc79c7",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:10:46.866527+00:00",
+      "updated_at": "2026-09-27T03:10:51.983582+00:00",
+      "exp_sha256": {
+        "exp/solve.py": "7efbcd3cd1cb1aac62842364a0e11cca239172562e73eb8cc15198df9a92481f"
+      }
+    },
+    {
+      "key": "28cb002f9ecfaa3f6347:platform_confirmed",
+      "flag": "sun{praisethesun}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "my eyes burn",
+        "category": "Forensics",
+        "description": "anon hasn't been outside in years, so he put the sun in his keyboard. find the flag he types to bring it out.",
+        "connection_info": "",
+        "value": 398,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Decode the MSKLC keyboard-layout (.klc) DEADKEY composition chain: starting from dead key U+0060 (`), each typed character advances to the next dead key until U+2600 (☀) is produced. The literal typed characters spell the flag.: sun{praisethesun} | Evidence: File is UTF-16LE MSKLC .klc keyboard layout (SunshineCTF 2026, native_id 27, Forensics). ; Parsed DEADKEY chain: 0060(')+0073(s)->02d0, 02d0+0075(u)->02ed, 02ed+006e(n)->02b4, 02b4+007b({)->02ef, 02ef+0070(p)->02ba, 02ba+0072(r)->02c9, 02c9+0061(a)->02d3, 02d3+0069(i)->02e9, 02e9+0073(s)->02bd, 02bd+0065(e)->02cd, 02cd+0074(t)->02e4, 02e4+0068(h)->02d8, 02d8+0065(e)->02ee, 02ee+0073(s)->02d4, 02d4+0075(u)->02e1, 02e1+006e(n)->02b0, 02b0+007d(})->2600 (SUN). ; Script /challenge/workspace/solve.py outputs: typed to produce U+2600: '`sun{praisethesun}' ; readable flag: sun{praisethesun}. ; Platform submission page returned alert 'Correct but you already solved this'; challenge row shows '✦ Solved' (397 pts, 289 solves).",
+      "solution_steps": [
+        "以 UTF-16 解码 boardwriter.klc，解析所有 DEADKEY <base> <result>@ 条目构建映射。",
+        "从初始死键 U+0060 (`) 出发沿链前进：每个死键只对应一个基字符并转移到下一个死键。",
+        "链为 `→s→u→n→{→p→r→a→i→s→e→t→h→e→s→u→n→}，最终组合出 U+2600 ☀（太阳）。",
+        "拼接被键入的字符得 `sun{praisethesun}`，去掉起始死键反引号即 flag。",
+        "用 /challenge/workspace/solve.py 复现，并在平台提交确认：页面显示 'Correct but you already solved this'。"
+      ],
+      "evidence": [
+        "File is UTF-16LE MSKLC .klc keyboard layout (SunshineCTF 2026, native_id 27, Forensics).",
+        "Parsed DEADKEY chain: 0060(')+0073(s)->02d0, 02d0+0075(u)->02ed, 02ed+006e(n)->02b4, 02b4+007b({)->02ef, 02ef+0070(p)->02ba, 02ba+0072(r)->02c9, 02c9+0061(a)->02d3, 02d3+0069(i)->02e9, 02e9+0073(s)->02bd, 02bd+0065(e)->02cd, 02cd+0074(t)->02e4, 02e4+0068(h)->02d8, 02d8+0065(e)->02ee, 02ee+0073(s)->02d4, 02d4+0075(u)->02e1, 02e1+006e(n)->02b0, 02b0+007d(})->2600 (SUN).",
+        "Script /challenge/workspace/solve.py outputs: typed to produce U+2600: '`sun{praisethesun}' ; readable flag: sun{praisethesun}.",
+        "Platform submission page returned alert 'Correct but you already solved this'; challenge row shows '✦ Solved' (397 pts, 289 solves)."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/28cb002f9ecfaa3f6347/deepseek-deepseek-flash-5403e74e/7efbcd3cd1cb1aac/solve.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 solve.py",
+        "exit_code": 0,
+        "stdout": "typed to produce U+2600: '`sun{praisethesun}'\nreadable flag: sun{praisethesun}\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "93182279ebcd4c639f4446b97aaa5734fae9b62e53b61a1d3d9bf6150b3f17de",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:10:46.866527+00:00",
+      "updated_at": "2026-09-27T03:12:09.000841+00:00",
+      "exp_sha256": {
+        "exp/solve.py": "7efbcd3cd1cb1aac62842364a0e11cca239172562e73eb8cc15198df9a92481f"
+      }
+    }
+  ]
+}

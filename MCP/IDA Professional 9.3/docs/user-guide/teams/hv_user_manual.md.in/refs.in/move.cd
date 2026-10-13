@@ -1,0 +1,21 @@
+.[-s] Silent mode; do not output any messages.
+.[-w WORKLIST_ID] The id of the worklist that the file(s) will be added to. If omitted, defaults to the worklist 1.
+.$NCAT_VAULT_PATH:SRC_PATH The source path.
+.$NCAT_VAULT_PATH:DST_PATH The destination path.
+
+>Opens tracked file(s) for moving/renaming.
+
+This is similar to performing a [copy](#copy), followed by a
+[del](#del): the new file will be checked out for copy while the
+original file will be checked out for deletion.
+
+!
+$$ //VxWorks/CP05x/info.txt //VxWorks/CP05x/info.md
+ok moved '//VxWorks/CP05x/info.txt#1' to '//VxWorks/CP05x/info.md'
+
+$ hv wk show 1
+WL 1 copy //VxWorks/CP05x/info.md#0
+WL 1 del  //VxWorks/CP05x/info.txt#1
+
+$ hv edit //VxWorks/CP05x/info.txt
+file '//VxWorks/CP05x/info.txt' is already checked out

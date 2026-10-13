@@ -1,0 +1,17 @@
+.COMMIT_ID The id of the commit to display.
+
+>Displays the contents of a commit.
+
+This will list all of the files that were changed by the commit.
+
+For each file the following details will be displayed:
+
+* the action that was performed on it in the commit
+* the path
+* the revision
+* if it's unsynced, an extra label will be displayed
+* the size of the file
+
+!
+$$ 5
+add  //cat.i64#1 (size 503909)

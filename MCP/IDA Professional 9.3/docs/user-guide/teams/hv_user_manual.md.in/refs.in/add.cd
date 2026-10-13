@@ -1,0 +1,37 @@
+.[-s] Silent mode; do not output any messages.
+.[-w WORKLIST_ID] The id of the worklist that the file(s) will be added to. If omitted, defaults to worklist 1.
+.$NCAT_LOCAL_PATH...:PATH_PATTERN Local path to file(s) to add to the vault.
+
+>Adds new file(s) to a worklist.
+
+Issuing this command will not upload the file(s) to the server right away: the new
+file name(s) will be placed into a worklist, which then needs to be
+[committed](#committing-a-worklist-to-the-server) to the server. Once a worklist is committed,
+its files will be available to other users.
+
+The specified file(s) are not required to exist, it is possible to add a file
+that does not exist yet.
+
+The files must be inside the site's [rootdir](#root-directory).
+
+The files will be filtered using [hvignore](#hvignore-and-.hvignore-files) rules.
+
+!
+$$ new.idb
+ok added '//new.idb'
+
+! add files to worklist 2
+$$ -w 2 cuda_demo_suite/*
+ok added '//cuda_demo_suite/bandwidthTest'
+ok added '//cuda_demo_suite/busGrind'
+ok added '//cuda_demo_suite/deviceQuery'
+ok added '//cuda_demo_suite/nbody'
+ok added '//cuda_demo_suite/nbody_data_files/nbody_galaxy_20K.bin'
+ok added '//cuda_demo_suite/oceanFFT'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ocean.frag'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ocean.vert'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ref_slopeShading.bin'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ref_spatialDomain.bin'
+ok added '//cuda_demo_suite/randomFog'
+ok added '//cuda_demo_suite/randomFog_data_files/ref_randomFog.bin'
+ok added '//cuda_demo_suite/vectorAdd'

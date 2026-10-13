@@ -1,0 +1,19 @@
+version: beta2
+platform: unknown
+native_id: '11'
+name: Used Goods of Tomorrow
+category: web
+description: Come to Tommorow-Mart for all your used goods! We even have a partnership
+  with FutureBank to grant you 500 free credits to start!
+value: 407
+files: []
+challenge_mode: remote
+connection_info: https://usedgoods.web.2026.sunshinectf.games/
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Used%20Goods%20of%20Tomorrow-11
+environment: {}
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: solved
+reason: ''

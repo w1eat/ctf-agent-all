@@ -1,0 +1,9 @@
+.USERNAME The username of the user to modify.
+.EMAIL The email address of the user.
+.IS_ADMIN Should be 1 if the user is admin, otherwise 0.
+.LICENSE_ID The license of the user.
+
+>Edits a user definition.
+
+!For the given username, set the email, admin flag and license ID
+$$ damiank damiank@acme.com 0 XX-XXXX-XXXX-XX

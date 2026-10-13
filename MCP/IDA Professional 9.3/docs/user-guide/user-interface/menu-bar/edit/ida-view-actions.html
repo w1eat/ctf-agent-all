@@ -1,0 +1,1104 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>IDA View - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="edit-menu-actions-for-ida-view"><a class="header" href="#edit-menu-actions-for-ida-view">Edit menu actions for IDA View</a></h1>
+<p>{% hint style=“info” %}
+The options below appear when the <strong>Edit menu is opened from the <a href="/user-guide/user-interface/subviews.html#ida-view">IDA View</a></strong>. In other views, the menu adapts dynamically and may show a different set of options.
+{% endhint %}</p>
+<p>Below is an overview of all actions that can be accessed from this menu.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>UI Action Name</th><th>Action Name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Copy</td><td><code>EditCopy</code></td><td>Copy</td></tr>
+<tr><td>Begin selection</td><td><code>Anchor</code></td><td>Begin selection. Some IDA commands such as selecting a portion of file to output or specifying a segment to move need an anchor. <a href="#begin-selection">More…</a></td></tr>
+<tr><td>Select all</td><td><code>SelectAll</code></td><td>Select all</td></tr>
+<tr><td>Select identifier</td><td><code>SelectIdentifier</code></td><td>Select identifier</td></tr>
+<tr><td>Undo</td><td><code>UndoAction</code></td><td>This command reverts the database to the state before executing the last user action. <a href="#undo">More…</a></td></tr>
+<tr><td>Redo</td><td><code>RedoAction</code></td><td>This command reverts the previously issued Undo command. <a href="#redo">More…</a></td></tr>
+<tr><td>Export data</td><td><code>ExportData</code></td><td>Export data</td></tr>
+<tr><td>Code</td><td><code>MakeCode</code></td><td>Convert to instruction. <a href="#code">More…</a></td></tr>
+<tr><td>Data</td><td><code>MakeData</code></td><td>Convert to data. <a href="#data">More…</a></td></tr>
+<tr><td>Struct var…</td><td><code>DeclareStructVar</code></td><td>Declare a structure variable. <a href="#struct-var">More…</a></td></tr>
+<tr><td>Strings</td><td>``</td><td></td></tr>
+<tr><td>String</td><td><code>MakeStrlit</code></td><td>Convert to string. <a href="#string">More…</a></td></tr>
+<tr><td>C-style (0 terminated)</td><td><code>StringC</code></td><td>C-style (0 terminated)</td></tr>
+<tr><td>DOS style ($ terminated)</td><td><code>StringDOS</code></td><td>DOS style ($ terminated)</td></tr>
+<tr><td>Pascal style (1 byte length)</td><td><code>StringPascal1</code></td><td>Pascal style (1 byte length)</td></tr>
+<tr><td>Wide pascal (2 byte length)</td><td><code>StringPascal2</code></td><td>Wide pascal (2 byte length)</td></tr>
+<tr><td>Delphi (4 byte length)</td><td><code>StringDelphi</code></td><td>Delphi (4 byte length)</td></tr>
+<tr><td>Unicode</td><td><code>StringUnicode</code></td><td>Unicode</td></tr>
+<tr><td>Unicode pascal (2 byte length)</td><td><code>StringUnicodePascal2</code></td><td>Unicode pascal (2 byte length)</td></tr>
+<tr><td>Unicode wide pascal (4 byte length)</td><td><code>StringUnicodePascal4</code></td><td>Unicode wide pascal (4 byte length)</td></tr>
+<tr><td>Array…</td><td><code>MakeArray</code></td><td>Convert to array. <a href="#array">More…</a></td></tr>
+<tr><td>Undefine</td><td><code>MakeUnknown</code></td><td>Convert to undefined. <a href="#undefine">More…</a></td></tr>
+<tr><td>Rename</td><td><code>MakeName</code></td><td>Rename the current location. <a href="#rename">More…</a></td></tr>
+<tr><td>Operand type</td><td>``</td><td></td></tr>
+<tr><td>Offset</td><td>``</td><td></td></tr>
+<tr><td>Offset (data segment)</td><td><code>OpOffset</code></td><td>Convert the current operand to an offset in the data segment. <a href="#offset-data-segment">More…</a></td></tr>
+<tr><td>Offset (current segment)</td><td><code>OpOffsetCs</code></td><td>Convert the current operand to an offset in the current segment. <a href="#offset-current-segment">More…</a></td></tr>
+<tr><td>Offset by (any segment)…</td><td><code>OpAnyOffset</code></td><td>Convert the current operand to an offset in any segment. <a href="#offset-by-any-segment">More…</a></td></tr>
+<tr><td>Offset (user-defined)…</td><td><code>OpUserOffset</code></td><td>Convert the current operand to an offset with any base. <a href="#offset-user-defined">More…</a></td></tr>
+<tr><td>Offset (struct)…</td><td><code>OpStructOffset</code></td><td>Convert the current operand to a structure offset. <a href="#offset-struct">More…</a></td></tr>
+<tr><td>Number</td><td>``</td><td></td></tr>
+<tr><td>Number (default)</td><td><code>OpNumber</code></td><td>Convert the current operand to a number. <a href="#number-default">More…</a></td></tr>
+<tr><td>Hexadecimal</td><td><code>OpHex</code></td><td>Convert the current operand to a hexadecimal number. <a href="#hexadecimal">More…</a></td></tr>
+<tr><td>Decimal</td><td><code>OpDecimal</code></td><td>Convert the current operand to a decimal number. <a href="#decimal">More…</a></td></tr>
+<tr><td>Octal</td><td><code>OpOctal</code></td><td>Convert the current operand to a octal number. <a href="#octal">More…</a></td></tr>
+<tr><td>Binary</td><td><code>OpBinary</code></td><td>Convert the current operand to a binary number. <a href="#binary">More…</a></td></tr>
+<tr><td>Floating point</td><td><code>OpFloat</code></td><td>Convert to floating point. <a href="#floating-point">More…</a></td></tr>
+<tr><td>Toggle leading zeroes</td><td><code>ToggleLeadingZeroes</code></td><td>Toggle leading zeroes. <a href="#toggle-leading-zeroes">More…</a></td></tr>
+<tr><td>Character</td><td><code>OpChar</code></td><td>Convert the current operand to a character constant</td></tr>
+<tr><td>Segment</td><td><code>OpSegment</code></td><td>Convert the current operand to a segment base</td></tr>
+<tr><td>Enum member…</td><td><code>OpEnum</code></td><td>Convert the current operand to a symbolic constant</td></tr>
+<tr><td>Stack variable</td><td><code>OpStackVariable</code></td><td>Convert the current operand to a stack variable</td></tr>
+<tr><td>Change sign</td><td><code>ChangeSign</code></td><td>Change the sign of the current operand</td></tr>
+<tr><td>Bitwise negate</td><td><code>BitwiseNegate</code></td><td>Perform bitwise negation of the current operand</td></tr>
+<tr><td>Manual…</td><td><code>ManualOperand</code></td><td>Enter the current operand manually. <a href="#manual">More…</a></td></tr>
+<tr><td>Set operand type…</td><td><code>SetOpType</code></td><td>Set the current operand’s type</td></tr>
+<tr><td>Comments</td><td>``</td><td></td></tr>
+<tr><td>Copy pseudocode to disassembly</td><td><code>hx:EditCmt</code></td><td>Edit func comment</td></tr>
+<tr><td>Add pseudocode comments…</td><td><code>hx:AddPseudoCmt</code></td><td>Add pseudocode comments</td></tr>
+<tr><td>Delete pseudocode comments…</td><td><code>hx:DelPseudoCmt</code></td><td>Delete pseudocode comments</td></tr>
+<tr><td>Enter comment…</td><td><code>MakeComment</code></td><td>Enter a regular comment. <a href="#enter-comment">More…</a></td></tr>
+<tr><td>Enter repeatable comment…</td><td><code>MakeRptCmt</code></td><td>Enter repeatable comment. <a href="#enter-repeatable-comment">More…</a></td></tr>
+<tr><td>Enter anterior lines…</td><td><code>MakeExtraLineA</code></td><td>Enter lines preceding the generated lines. <a href="#enter-anterior-lines">More…</a></td></tr>
+<tr><td>Enter posterior lines…</td><td><code>MakeExtraLineB</code></td><td>Enter lines following the generated lines</td></tr>
+<tr><td>Edit block comment…</td><td><code>mv:EditBlockCmt</code></td><td>Edit block comment of microcode line</td></tr>
+<tr><td>Edit comment…</td><td><code>mv:EditCmt</code></td><td>Edit comment of microcode line</td></tr>
+<tr><td>Segments</td><td>``</td><td></td></tr>
+<tr><td>Create segment…</td><td><code>CreateSegment</code></td><td>This command allows you to create a new segment. <a href="#create-segment">More…</a></td></tr>
+<tr><td>Edit segment…</td><td><code>EditSegment</code></td><td>Edit segment attributes. <a href="#edit-segment">More…</a></td></tr>
+<tr><td>Delete segment…</td><td><code>KillSegment</code></td><td>Delete segment. <a href="#delete-segment">More…</a></td></tr>
+<tr><td>Move current segment…</td><td><code>MoveSegment</code></td><td>Change the current segment boundaries. <a href="#move-current-segment">More…</a></td></tr>
+<tr><td>Rebase program…</td><td><code>RebaseProgram</code></td><td>Rebase program. <a href="#rebase-program">More…</a></td></tr>
+<tr><td>Change segment translation…</td><td><code>SegmentTranslation</code></td><td>Change the current segment translation table</td></tr>
+<tr><td>Change segment register value…</td><td><code>SetSegmentRegister</code></td><td>Change segment register value. <a href="#change-segment-register-value">More…</a></td></tr>
+<tr><td>Set default segment register value…</td><td><code>SetSegmentRegisterDefault</code></td><td>Set default segment register value. <a href="#set-default-segment-register-value">More…</a></td></tr>
+<tr><td>Structs</td><td>``</td><td></td></tr>
+<tr><td>Struct var…</td><td><code>DeclareStructVar</code></td><td>Declare a structure variable. <a href="#struct-var">More…</a></td></tr>
+<tr><td>Force zero offset field</td><td><code>ZeroStructOffset</code></td><td>Toggle display of the first field of a structure in an offset expression. <a href="#force-zero-offset-field">More…</a></td></tr>
+<tr><td>Select union member…</td><td><code>SelectUnionMember</code></td><td>Choose the representation of a union member. <a href="#select-union-member">More…</a></td></tr>
+<tr><td>Create struct from selection</td><td><code>CreateStructFromData</code></td><td>This command defines a new structure from data already defined. The new structure is created with adequate data types, and each member uses the current data name if it is available. <a href="#create-struct-from-selection">More…</a></td></tr>
+<tr><td>Copy field info to pointers</td><td><code>CopyFieldsToPointers</code></td><td>Copy field info to pointed addresses. This command scans the current struct variable and renames the locations pointed by offset expressions unless they already have a non-dummy name. <a href="#copy-field-info-to-pointers">More…</a></td></tr>
+<tr><td>Functions</td><td>``</td><td></td></tr>
+<tr><td>Create function…</td><td><code>MakeFunction</code></td><td>Create a new function in the disassembly. <a href="#create-function">More…</a></td></tr>
+<tr><td>Edit function…</td><td><code>EditFunction</code></td><td>Edit function attributes - change function properties, including bounds, name, flags, and stack frame parameters. <a href="#edit-function">More…</a></td></tr>
+<tr><td>Append function tail…</td><td><code>AppendFunctionTail</code></td><td>This command appends an arbitrary range of the program to a function definition. A range must be selected before applying this command. This range must not intersect with other function chunks (however, an existing tail can be added to multiple functions). <a href="#append-function-tail">More…</a></td></tr>
+<tr><td>Remove function tail…</td><td><code>RemoveFunctionTail</code></td><td>Remove function tail. <a href="#remove-function-tail">More…</a></td></tr>
+<tr><td>Delete function</td><td><code>DelFunction</code></td><td>Delete function. Deleting a function deletes only information about a function, such as information about stack variables, comments, function type, etc. The instructions composing the function will remain intact.</td></tr>
+<tr><td>Set function end</td><td><code>FunctionEnd</code></td><td>Change the function end address. This command changes the current or previous function bounds so that its end will be set at the cursor. If it is not possible, IDA beeps.</td></tr>
+<tr><td>Stack variables…</td><td><code>OpenStackVariables</code></td><td>Open the stack variables window. See <a href="/user-guide/user-interface/subviews.html">subviews</a> for more.</td></tr>
+<tr><td>Change stack pointer…</td><td><code>ChangeStackPointer</code></td><td>Change stack pointer. This command allows you to specify how the stack pointer (SP) is modified by the current instruction. <a href="#change-stack-pointer">More…</a></td></tr>
+<tr><td>Rename register…</td><td><code>RenameRegister</code></td><td>Rename a general processor register. <a href="#rename-register">More…</a></td></tr>
+<tr><td>Set type…</td><td><code>SetType</code></td><td>Set type information for an item or current function. <a href="#set-type">More…</a></td></tr>
+<tr><td>Patch program</td><td>``</td><td></td></tr>
+<tr><td>Change byte…</td><td><code>PatchByte</code></td><td>Change program bytes. <a href="#change-byte">More…</a></td></tr>
+<tr><td>Change word…</td><td><code>PatchWord</code></td><td>Change program words</td></tr>
+<tr><td>Assemble…</td><td><code>Assemble</code></td><td>This command allows you to assemble instructions. Currently, only the IBM PC processors provide an assembler, nonetheless, plugin writers can extend or totally replace the built-in assembler by writing their own. <a href="#assemble">More…</a></td></tr>
+<tr><td>Patched bytes</td><td><code>PatchedBytes</code></td><td>Open the Patched bytes window. <a href="#patched-bytes">More…</a></td></tr>
+<tr><td>Apply patches to input file…</td><td><code>ApplyPatches</code></td><td>Apply previously patched bytes back to the input file. If the “Restore” option is selected, then the original bytes will be applied to the input file. <a href="#apply-patches-to-input-file">More…</a></td></tr>
+<tr><td>Other</td><td>``</td><td></td></tr>
+<tr><td>Specify switch idiom…</td><td><code>uiswitch:SpecSwitchIdiom</code></td><td>Specify switch idiom</td></tr>
+<tr><td>Create alignment directive…</td><td><code>MakeAlignment</code></td><td>Create alignment directive. <a href="#create-alignment-directive">More…</a></td></tr>
+<tr><td>Manual instruction…</td><td><code>ManualInstruction</code></td><td>Specify alternate representation of the current instruction. <a href="#manual-instruction">More…</a></td></tr>
+<tr><td>Color instruction…</td><td><code>ColorInstruction</code></td><td>This command allows you to specify the background color for the current instruction or data item. <a href="#color-instruction">More…</a></td></tr>
+<tr><td>Reset decompiler information…</td><td><code>hx:ResTypeInfo</code></td><td>Reset decompiler information</td></tr>
+<tr><td>Toggle skippable instructions…</td><td><code>hx:ToggleSkippableInsn</code></td><td>Toggle skippable instructions</td></tr>
+<tr><td>Decompile as call…</td><td><code>hx:UserDefinedCall</code></td><td>Decompile as call</td></tr>
+<tr><td>Toggle border</td><td><code>ToggleBorder</code></td><td>Toggle the display of a border between code and data. <a href="#toggle-border">More…</a></td></tr>
+<tr><td>detect and parse golang metadata</td><td><code>golang:detect_and_parse</code></td><td>detect and parse golang metadata</td></tr>
+<tr><td>Open picture in default viewer</td><td><code>picture_search:open_in_viewer</code></td><td>Open picture in default viewer</td></tr>
+<tr><td>Save picture</td><td><code>picture_search:save_picture</code></td><td>Save picture</td></tr>
+<tr><td>Plugins</td><td>``</td><td></td></tr>
+<tr><td>Quick run plugins</td><td><code>QuickRunPlugins</code></td><td>Quickly run a plugin</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="begin-selection"><a class="header" href="#begin-selection">Begin selection</a></h2>
+<p>Begin selection. Some IDA commands such as selecting a portion of file to output or specifying a segment to move need an anchor.</p>
+<p>To drop the anchor, you can either use the <kbd>Alt</kbd> + <kbd>L</kbd> key or the <kbd>Shift</kbd> + <kbd>↑</kbd>, <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↓</kbd> combination, which is more convenient. You can also drop the anchor with the mouse by simply clicking and dragging it.</p>
+<p>After you’ve dropped the anchor, you can navigate freely using arrows, etc. Any command that uses the anchor, raises it.</p>
+<p>The anchored range is displayed with another color.</p>
+<p>When you exit from IDA, the anchor value is lost.</p>
+<h2 id="undo"><a class="header" href="#undo">Undo</a></h2>
+<p>This command reverts the database to the state before executing the last user action.
+It is possible to apply Undo multiple times, in this case multiple user actions will be reverted.</p>
+<p>Please note the entire database is reverted, including all modifications that were made to the database after executing the user action and including the ones that are not connected to the user action. For example, if a third party plugin modified the database during or after the user action, this modification will be reverted. In theory it is possible to go back in time to the very beginning and revert the database to the state that was present immediately after performing the very first user action. However, in practice the undo buffers overflow because of the changes made by autoanalysis.</p>
+<p>Autoanalysis (Options → General… → Analysis) generates copious amounts of undo data. Also, please note that maintaining undo data during autoanalysis slows it down a bit. In practice, it is not a big deal because the limit on the undo data is reached quite quickly (in a matter of minutes). Therefore, if during analysis the user does not perform any actions that modify the database, the undo feature will turn itself off temporarily.</p>
+<p>However, if you prefer not to collect undo data at all during the initial autoanalysis, just turn off the UNDO_DURING_AA parameter in ida.cfg.</p>
+<p>The configuration file ida.cfg has 2 more undo-related parameters:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Description</th><th>Default</th></tr>
+</thead>
+<tbody>
+<tr><td>UNDO_MAXSIZE</td><td>Max size of undo buffers. Once this limit is reached, the undo info about the oldest user action will be forgotten.</td><td>128MB</td></tr>
+<tr><td>UNDO_DEPTH</td><td>Max number of user actions to remember. If set to 0, the undo feature will be unavailable.</td><td>1000000</td></tr>
+</tbody>
+</table>
+</div>
+<p>Since there is a limit on the size of undo buffers, any action, even the tiniest, may become non-undoable after some time. This is true because the analysis or plugins may continue to modify the database and overflow the buffers. Some massive actions, like deleting a segment, may be non-undoable just because of the sheer amount of undo data they generate.</p>
+<p>Please note that Undo does not affect the state of IDC or Python scripts. Script variables will not change their values because of Undo. Also nothing external to the database can be changed: created files will not be deleted, etc.</p>
+<p>Some actions cannot be undone. For example, launching a debugger or resuming from a breakpoint cannot be undone.</p>
+<h2 id="redo"><a class="header" href="#redo">Redo</a></h2>
+<p>This command reverts the previously issued Undo command.
+It is possible to use Redo multiple times.</p>
+<p>This command also reverts all changes that were done to the database after the last Undo command, including the eventual useful modifications made by the autoanalysis. In other words, the entire database is modified to get to the exact state that it had before executing the last Undo command.</p>
+<h2 id="code"><a class="header" href="#code">Code</a></h2>
+<p>Convert to instruction.
+This command converts the current unexplored bytes to instruction(s). IDA will warn you if it is not possible.</p>
+<p>If you have selected a range using the <code>Anchor</code> action, all the bytes from this range will be converted to instructions.</p>
+<p>If you apply this command to an instruction, it will be reanalyzed.</p>
+<h2 id="data"><a class="header" href="#data">Data</a></h2>
+<p>Convert to data.
+This command converts the current unexplored bytes to data. If it is not possible, IDA will warn you.</p>
+<p>Multiple using of this command will change the data type:</p>
+<pre><code> db -&gt; dw -&gt; dd -&gt; float -&gt; dq -&gt; double -&gt; dt -&gt; packreal -&gt; octa \;
+ ^                                                                 |;
+ \---------&lt;----------------&lt;--------------&lt;-----------------------/;
+</code></pre>
+<p>You may remove some items from this list using the Setup data types… command	(action <code>SetupData</code>).</p>
+<p>If the target assembler (Options → General… → Analysis) does not support double words or another data type, it will be skipped. To create a structure variable, use the Struct var… command (action <code>DeclareStructVar</code>). To create an array, use the Array… command (action <code>MakeArray</code>). To convert back, use the Undefine command (action <code>MakeUnknown</code>).</p>
+<h2 id="struct-var"><a class="header" href="#struct-var">Struct var…</a></h2>
+<p>Declare a structure variable.
+IDA will ask you to choose a structure type. You must have some structure types defined in order to use this command.
+If the target assembler supports it, IDA will display the structure in terse form (using just one line). To uncollapse a terse structure variable use the Unhide command. You can also use this command to declare a structure field in another structure (i.e., nested structures are supported too).</p>
+<h2 id="string"><a class="header" href="#string">String</a></h2>
+<p>Convert to string.
+This command converts the current unexplored bytes to a string.
+The set of allowed characters is specified in the <a href="/user-guide/configuration/configuration-files.html">configuration file</a>, parameter <code>StrlitChars</code>. Character ‘\0’ is not allowed in any case. If the current assembler (Options → General → Analysis → Target assembler) does not allow characters above 0x7F, characters with high bit set are not allowed.
+If the anchor has been dropped, IDA will take for the string all characters between the current cursor position and the anchor.
+Use the anchor if the string starts a disallowed character.</p>
+<p>This command also generates a <a href="/user-guide/disassembler/navigation/how-to-enter-an-identifier.html">name</a> for the string. In the <a href="/user-guide/configuration/configuration-files.html">configuration file</a>, you can specify the characters allowed in names (NameChars).
+You can change the literal string length using Array… command (action <code>MakeArray</code>).
+The GUI version allows you to assign a special hotkey to create Unicode strings. To do so, change the value of the StringUnicode parameter in the IDAGUI.CFG file.</p>
+<h2 id="array"><a class="header" href="#array">Array…</a></h2>
+<p>Convert to array.
+This command allows you to create arrays and change their sizes.</p>
+<p>The arrays are created in 2 simple steps:</p>
+<ol>
+<li>
+<p>Create the first element of array using the data definition commands (data, string, structs)</p>
+</li>
+<li>
+<p>Apply the array command to the created data item. Enter array size in current array elements (not bytes). The suggested array size is the minimum of the following values:</p>
+</li>
+</ol>
+<ul>
+<li>the address of the next item with a cross reference</li>
+<li>the address of the next user-defined name
+For string literals, you can use this command to change the length of the string.</li>
+</ul>
+<p>The dialog box contains the following fields:</p>
+<ul>
+<li>
+<p><strong>Items on a line</strong> (meaningless for string literals):</p>
+<ul>
+<li><strong>0</strong> - place maximal number of items on a line</li>
+<li><strong>other value</strong> - number of items on a line
+Please note that the margin parameter affects the number of items on a line too.</li>
+</ul>
+</li>
+<li>
+<p><strong>Alignment</strong> (meaningless for string literals):</p>
+<ul>
+<li><strong>-1</strong> - do not align items</li>
+<li><strong>0</strong> - align automatically</li>
+<li><strong>other value</strong> - width of each item</li>
+</ul>
+</li>
+<li>
+<p><strong>Signed elements</strong>: if checked, IDA treats all elements as signed numbers. Only meaningful for numbers (not for offsets and segments and strings)</p>
+</li>
+<li>
+<p><strong>Display indexes</strong>: if checked, IDA will display the indexes of array elements in the form of comments (0,1,2…)</p>
+</li>
+<li>
+<p><strong>Create as array</strong>: if not checked, IDA will create a separate item for each array element. Useful for creating huge arrays. If the box is unchecked when this command is applied to string literals, IDA will create many string literals instead of one big string.</p>
+</li>
+</ul>
+<p>If applied to a variable-sized structure, this command is used to specify the overall size of the structure. You cannot create arrays of variable-sized structures.</p>
+<h2 id="undefine"><a class="header" href="#undefine">Undefine</a></h2>
+<p>Convert to undefined.
+This command deletes the current instruction or data, converting it to ‘unexplored’ bytes. IDA will delete the subsequent instructions if there are no more references to them (functions are never deleted).</p>
+<p>If you have selected a range using the <code>Anchor</code> action, all the bytes in this range will be converted into ‘unexplored’ bytes. In this case, IDA will not delete any other instructions even if there are no references to them after the deletion.</p>
+<h2 id="rename"><a class="header" href="#rename">Rename</a></h2>
+<p>Rename the current location.
+This command gives name/renames/deletes <a href="/user-guide/disassembler/navigation/how-to-enter-an-identifier.html">name</a> for the current item.</p>
+<p>To delete a name, simply give an empty name.</p>
+<p>If the current item is referenced, you cannot delete its name. Even if you try, IDA will generate a dummy name (See Options → Name representation…).</p>
+<p>List of available options:</p>
+<ul>
+<li>
+<p><strong>Local name</strong>: The name is considered to be defined only in the current function. Please note that IDA does not check the uniqueness of the local names in the whole program. However, it does verify that the name is unique for the function.</p>
+</li>
+<li>
+<p><strong>Include in name list</strong>: Here you can also include/remove the name from the name list (see the Jump by name… command; action <code>JumpName</code>). If the name is hidden, you will not see it in the <a href="/user-guide/user-interface/subviews.html#names-window">names window</a>.</p>
+</li>
+<li>
+<p><strong>Public name</strong>: You can declare a name as a public (global) name. If the current assembler supports the “public” directive, IDA will use it. Otherwise, the publicness of the name will be displayed as a comment.</p>
+</li>
+<li>
+<p><strong>Autogenerated name</strong>: An autogenerated name will appear in a different color. If the item is indefined, it will disappear automatically.</p>
+</li>
+<li>
+<p><strong>Weak name</strong>: You can declare a name as a weak name. If the current assembler supports the “weak” directive, IDA will use it. Otherwise, the weakness of the name will be displayed as a comment.</p>
+</li>
+<li>
+<p><strong>Create name anyway</strong>: If this flag is on, and if the specified name already exists, IDA will try to variate the specified name by appending a suffix to it.</p>
+</li>
+</ul>
+<h2 id="offset-data-segment"><a class="header" href="#offset-data-segment">Offset (data segment)</a></h2>
+<p>Convert the current operand to an offset in the data segment.
+This command converts the immediate operand of the current instruction/data to an offset from the current data segment (DS).
+If the current DS value is unknown (or equal 0xFFFF) IDA will warn you - it will beep. In this case, you have to define DS register value for the current byte. The best way to do it is:</p>
+<ul>
+<li>jump to segment register change point (the Jump to segment register… command; action <code>JumpSegmentRegister</code>),</li>
+<li>change value of DS (the Change segment register value… command;	action <code>SetSegmentRegister</code>)</li>
+<li>return (the Jump back command; action <code>Return</code>) or you can change default value of DS for the current segment (the Set default segment register value… command;	action <code>SetSegmentRegisterDefault</code>).</li>
+</ul>
+<p>If you want to delete offset definition, you can use this command again - it works as trigger.
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.
+If a range is selected using the anchor, IDA will perform ‘en masse’ conversion. It will convert immediate operands of all instructions in the selected range to offsets. However, IDA will ask you first the lower and upper limits of immediate operand value. If the operand value is &gt;= lower limit and &lt;= upper limit then the operand will be converted to offset, otherwise it will be left unmodified.
+To create offsets to structure members use the Offset (struct)… command (action <code>OpStructOffset</code>).</p>
+<h2 id="offset-current-segment"><a class="header" href="#offset-current-segment">Offset (current segment)</a></h2>
+<p>Convert the current operand to an offset in the current segment.
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.
+If a range is selected using the anchor, IDA will perform ‘en masse’ conversion. It will convert immediate operands of all instructions in the selected range to offsets. However, IDA will ask you first the lower and upper limits of immediate operand value. If the operand value is &gt;= lower limit and &lt;= upper limit then the operand will be converted to offset, otherwise, it will be left unmodified.
+If this command is applied to a structure member in the Local types window, then IDA will create an “automatic offset”. An automatic offset is an offset with the base equal to 0xFFFFFFFF. This base value means that the actual value of the base will be calculated by IDA when a structure instance is created.
+To create offsets to structure members use the Offset (struct)… command (action <code>OpStructOffset</code>).</p>
+<h2 id="offset-by-any-segment"><a class="header" href="#offset-by-any-segment">Offset by (any segment)…</a></h2>
+<p>Convert the current operand to an offset in any segment.
+This command converts the immediate operand of the current instruction/data to an offset from any segment.
+IDA will ask to choose a base segment for the offset.
+If a range is selected using the anchor, IDA will perform ‘en masse’ conversion. It will convert immediate operands of all instructions in the selected range to offsets. However, IDA will ask you first the lower and upper limits of immediate operand value. If the operand value is &gt;= lower limit and &lt;= upper limit then the operand will be converted to offset, otherwise it will be left unmodified.
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.
+To create offsets to structure members use Offset (struct)… command (action <code>OpStructOffset</code>).</p>
+<h2 id="offset-user-defined"><a class="header" href="#offset-user-defined">Offset (user-defined)…</a></h2>
+<p>Convert the current operand to an offset with any base.
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.
+If the offset base is specified as 0xFFFFFFFF, then IDA will create “an automatic offset”. Automatic offsets mean that the actual value of the base will be calculated by IDA.</p>
+<p>The following offset attributes are available:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Treat the base address as a plain number</td><td>if checked, IDA will treat the base address as a number. In this case, IDA will not create a cross-reference to it and the base address will be printed as a number, not as an offset expression.</td></tr>
+<tr><td>Offset points past the main object</td><td>Offsets of this type point past an object end. They do not cause an object created/deletion.</td></tr>
+<tr><td>Use image base as offset base</td><td>These offsets are based on the image base. There is no need to explicitly specify the offset base. These offsets are displayed in a concise form: <code>rva func</code> instead of <code>offset func - imagebase</code>. If you intend to reassemble the output file, execute the following IDC statement: <code>set_inf_attr(INF_GENFLAGS, get_inf_attr(INF_GENFLAGS) &amp; ~INFFL_ALLASM);</code></td></tr>
+<tr><td>Subtract operand value</td><td>Use this option when the operand value should be substracted from the base to get the target address. In this case the displayed expression will be displayed as <code>offset base - target</code> instead of the usual <code>offset target - base</code></td></tr>
+<tr><td>Signed operand</td><td>Use this option if the operand should be interpreted as a signed value. This option is only available for OFF_REF8, OFF_REF16, OFF_REF32 and OFF_REF64 offset types.</td></tr>
+<tr><td>Operand value of 0 is invalid</td><td>If the operand value is 0, the value will be highlighted in red.</td></tr>
+<tr><td>Operand value of NOT 0 is invalid</td><td>If the operand value is zero’s complement (i.e. all bits are set), the value will be highlighted in red. For example a OFF_REF16 with an operand value of 0xFFFF would be invalid.</td></tr>
+<tr><td>Use the current address as the offset base</td><td>The offset base is dynamically calculated and is equal to the address of the current element: - for standalone items: their start address - for arrays: the start of the array element - for structures: the start of the structure field</td></tr>
+</tbody>
+</table>
+</div>
+<p>The offset expression is displayed in the following concise form: offset target - $ where “$” denotes the start of the element (and is assembler-dependent).</p>
+<p>To create offsets to structure members use the Offset (struct)… command (action <code>OpStructOffset</code>).</p>
+<h2 id="offset-struct"><a class="header" href="#offset-struct">Offset (struct)…</a></h2>
+<p>Convert the current operand to a structure offset.
+This command permits to convert all immediate operands of instructions in a range selection to a path of offsets through a structure and its possible sub unions. If no selection is active, IDA will simply permit to convert the current operand. In this case, it will display a simple dialog box the same way as the text version (see below).
+You can select the desired register in the drop-down list: all operands relative to this register will be added to the ‘Offsets’ list. A special empty line in the drop-down list is used to directly work on immediate values. Checkboxes in the ‘Offsets’ list allow you to select which operand you indeed want to modify. By default, IDA will select only undefined operands, to avoid overwriting previous type definitions. This list is sorted by operand value, by instruction address and finally by operand number. You can easily see the instructions related to the operand by moving the mouse over it, and wait for a hint to be displayed.
+The ‘Structures and Unions’ tree will contain all selectable structures, and sub unions. Once you select or move over a structure, the ‘Offsets’ list updates itself for each checked offset: the computed name of the operand is displayed, according to the selected structure in the tree. An icon is also drawn, to easily know if a specific structure matches the offset or not, or if the offset is too big for the selected structure. The structures who match the most offsets will be near the top of the tree. You can also move your mouse over structures in the tree to obtain an interesting hint.
+A ‘?’ icon can also appear, if the offset can be specialized by selecting an union member. In this case, if you expand the structure in the tree, you can select the adequate union member simply by checking the desired radio button. IDA automatically corrects the related name in the ‘Offsets’ list.
+The ‘Offset delta’ value represents the difference between the structure start and the pointer value. For example, if you have an operand 4 and want to convert in into an expression like “mystruct.field_6-2”, then you have to enter 2 as the delta. Usually the delta is zero, i.e. the pointer points to the start of the structure.
+The ‘Hide sub structures without sub unions’ option (checked by default) avoids to add unnecessary sub structures to the tree, to keep it as small as possible. If you uncheck this option, all sub structures will be added to the tree.
+By default, IDA displays the structure member at offset 0. To change this behavior, you can directly disable the ‘Force zero offset field’ in the ‘Options’ frame. Later zero offsets can be forced using Edit → Structs → Force zero offset menu item.</p>
+<h3 id="text-version"><a class="header" href="#text-version">Text version</a></h3>
+<p>This command converts immediate operand(s) type of the current instruction/data to an offset within the specified structure. Before using this command, you have to define a structure type.
+First of all, IDA will ask a so-called “struct offset delta”. This value represents the difference between the structure start and the pointer value. For example, if you have an operand 4 and want to convert in into an expression like “mystruct.field_6-2”, then you have to enter 2 as the delta. Usually the delta is zero, i.e. the pointer points to the start of the structure.
+If a range is selected using the anchor, IDA will perform ‘en masse’ conversion. It will convert immediate operands of all instructions in the selected range to offsets. However, IDA will ask you first the lower and upper limits of immediate operand value. If the an operand value is &gt;= lower limit and &lt;= upper limit then the operand will be converted to offset, otherwise it will be left unmodified.
+When you use this command, IDA deletes the manually entered operand.
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.
+By default IDA doesn’t display the structure member at offset 0. To change this behavior, use the Force zero offset field command.
+Moreover, if there are several possible representations (this can happen if unions are used), select the desired representation using the Select union member… command.</p>
+<h2 id="number-default"><a class="header" href="#number-default">Number (default)</a></h2>
+<p>Convert the current operand to a number.
+That way, you can delete suspicious mark of the item.
+The number is represented in the default radix for the current processor (usually hex, but octal for PDP-11, for example).
+When you use this command, IDA deletes the manually entered operand (via the Manual… command; action <code>ManualOperand</code>).
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.</p>
+<h2 id="hexadecimal"><a class="header" href="#hexadecimal">Hexadecimal</a></h2>
+<p>Convert the current operand to a hexadecimal number.
+This command converts the immediate operand(s) type of the current instruction/data to a hex number, so that you can delete the suspicious mark of the item.
+When you use this command, IDA deletes the manually entered operand (via the Manual… command; action <code>ManualOperand</code>).
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.</p>
+<h2 id="decimal"><a class="header" href="#decimal">Decimal</a></h2>
+<p>Convert the current operand to a decimal number.
+This command converts the immediate operand(s) type of the current instruction/data to decimal. Therefore, it becomes a ‘number’.
+When you use this command, IDA deletes the manually entered operand (via the Manual… command; action <code>ManualOperand</code>).
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.</p>
+<h2 id="octal"><a class="header" href="#octal">Octal</a></h2>
+<p>Convert the current operand to a octal number.
+IDA always uses 123o notation for octal numbers even if the current assembler does not support octal numbers.
+When you use this command, IDA deletes the manually entered operand (via the Manual… command; action <code>ManualOperand</code>).
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.</p>
+<h2 id="binary"><a class="header" href="#binary">Binary</a></h2>
+<p>Convert the current operand to a binary number.
+This command makes the current instruction or data operand type binary. IDA always uses 123b notation for binary numbers even if the current assembler does not support binary numbers.
+When you use this command, IDA deletes the manually entered operand (via the Manual… command; action <code>ManualOperand</code>).
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.</p>
+<h2 id="floating-point"><a class="header" href="#floating-point">Floating point</a></h2>
+<p>Convert to floating point.
+When you use this command, IDA deletes the manually entered operand (via the Manual… command; action <code>ManualOperand</code>).
+If the cursor is on the first operand (the cursor is before ‘,’) then the first operand will be affected; otherwise, all other operands will be affected.</p>
+<h2 id="toggle-leading-zeroes"><a class="header" href="#toggle-leading-zeroes">Toggle leading zeroes</a></h2>
+<p>Toggle leading zeroes.</p>
+<p>This command displays or hides the leading zeroes of the current operand. Example: if the instruction looked like this:</p>
+<pre><code>    and     ecx, 40h
+</code></pre>
+<p>then after applying the command it will look like this:</p>
+<pre><code>    and     ecx, 00000040h
+</code></pre>
+<p>If you prefer to see leading zeroes in all cases, then open the calculator and enter the following expression: <a href="https://idc.docs.hex-rays.com/inf_attr.html">set_inf_attr</a> (INF_GENFLAGS, get_inf_attr(INF_GENFLAGS) | INFFL_LZERO); This will toggle the default for the current database and all numbers without leading zeroes will become numbers with leading zeroes, and vice versa.
+See also Edit|Operand types submenu.</p>
+<h2 id="manual"><a class="header" href="#manual">Manual…</a></h2>
+<p>Enter the current operand manually.
+You may specify any string instead of an operand if IDA does not represent the operand in the desired form. In this case, IDA will simply display the specified string in the instruction instead of the default operand.</p>
+<p>The current operand (under the cursor) will be affected.</p>
+<p>You can use this command not only with instructions but with data items too.</p>
+<p>IDA proposes the previous manual operand as the default value in the input form.</p>
+<p>To delete the manual operand and revert back to the default text, specify an empty string.</p>
+<p>IDA automatically deletes manually entered operands when you change operand representation using Edit → Operand types submenu.</p>
+<p>{% hint style=“info” %}
+A text offset reference is generated if you use a label in the program as the operand string. In other cases no cross-references are generated.
+{% endhint %}</p>
+<h2 id="enter-comment"><a class="header" href="#enter-comment">Enter comment…</a></h2>
+<p>Enter a regular comment.
+If you stand at the function start and your cursor is on a function name, IDA will ask you to enter a function comment.
+If you stand at the segment start and your cursor is on a segment name, IDA will ask you to enter a segment comment.
+If this command is issued in the Local types window, it allows you to change the comment of a structure/enum, or structure/enum member. If the cursor is on the structure/enum name, the structure/enum comment will be changed, otherwise the member comment will be changed.
+Otherwise, this command allows you to enter a normal indented comment for the current item.
+You can show/hide all comments in Options → General → Disassembly → Display disassembly line parts: Comments.</p>
+<h2 id="enter-repeatable-comment"><a class="header" href="#enter-repeatable-comment">Enter repeatable comment…</a></h2>
+<p>Enter repeatable comment.
+A repeatable comment will appear attached to the current item and all other items referencing it.
+If you stand at the function start, IDA will ask you to enter a function comment.
+If this command is issued in the Local types window, it allows you to change the comment of a structure/enum, or structure/enum member. If the cursor is on the structure/enum name, the structure/enum comment will be changed, otherwise the member comment will be changed.
+Otherwise, this command allows you to enter a repeatable comment for the current item.</p>
+<p>{% hint style=“info” %}
+You cannot enter repeatable segment comments.
+{% endhint %}</p>
+<p>All items that refer to the current item will have this comment by default.
+Note that if you have defined both comment types (regular and repeatable), the regular comment will be displayed for the current item and the repeatable comment will be displayed for all items that refer to the current item, if they do not have their own comments.
+The repeatable comments may be used to describe subroutines, data items, etc., because all calls to the subroutine will have the repeatable comment.
+You can show/hide all comments in Options → General → Disassembly → Display disassembly line parts: Comments.</p>
+<h2 id="enter-anterior-lines"><a class="header" href="#enter-anterior-lines">Enter anterior lines…</a></h2>
+<p>Enter lines preceding the generated lines.
+If you want to enter multi-line comments or additional instructions, you can use this feature of IDA.</p>
+<p>There are two kinds of extra lines: the ones generated before the instruction line and the ones generated after the instruction line.</p>
+<p>Do not forget that the maximal number of lines for an item is 500.</p>
+<p>IDA does not insert a comment symbol at the beginning of the lines.</p>
+<h2 id="create-segment"><a class="header" href="#create-segment">Create segment…</a></h2>
+<p>This command allows you to create a new segment.</p>
+<p>If you select a range using the anchor, IDA will propose the start address and the end address of the selection as defaults for the segment bounds.</p>
+<p>You need to specify at least:</p>
+<ul>
+<li>the segment start address</li>
+<li>the segment end address (excluded from the range)</li>
+<li>the segment base</li>
+</ul>
+<p>Click <a href="/user-guide/general-concepts/segment-address-space.html">here</a> to learn about addressing model used in IDA.</p>
+<p>If “sparse storage” is set, IDA will use special sparse storage method for the segment. This method is recommended for huge segments. Later, it is possible to change the storage method of any region using <a href="https://idc.docs.hex-rays.com/set_storage_type.html">set_storage_type</a> IDC function.</p>
+<p>If another segment already exists at the specified address, the existing segment is truncated and the new segment lasts from the specified start address to the next segment (or specified end address, whichever is lower). If the old and the new segments have the same base address, instructions/data will not be discarded by IDA. Otherwise, IDA will discard all instructions/data of the new segment.</p>
+<p>An additional segment may be created by IDA to cover the range after the end of the new segment.</p>
+<h2 id="edit-segment"><a class="header" href="#edit-segment">Edit segment…</a></h2>
+<p>Edit segment attributes.
+This command opens the Change segment attributes dialog.</p>
+<p><img src="assets/change-segment-attributes.png" alt="Change segment attributes dialog"></p>
+<h2 id="change-segment-attributes-options"><a class="header" href="#change-segment-attributes-options">Change segment attributes options</a></h2>
+<ul>
+<li><a href="#segment-name">How to change segment name</a></li>
+<li><a href="#class-name">How to change segment class</a></li>
+<li><a href="#segment-bitness">How to change segment addressing mode (16/32)</a></li>
+<li><a href="#segment-alignment">How to change segment alignment</a></li>
+<li><a href="#segment-combination">How to change segment combination</a></li>
+</ul>
+<p>{% hint style=“info” %}
+Changing the segment class may change the segment type.
+{% endhint %}</p>
+<ul>
+<li>
+<p><strong>Move Adjacent Segments</strong>: means that the previous and next segments will be shrunk or expanded to fill gaps between segments. Click <a href="user-guide/general-concepts/various-dialog-help-messages.html#moving-the-segment-start">here</a> for more information.</p>
+</li>
+<li>
+<p><strong>Disable Addresses</strong>: if set, when a segment is shrunk, all information about bytes going out of the segment will be completely removed.. Otherwise, IDA will discard information about instructions/data, comments etc, but will retain byte values so that another segment can be created later and it will use the existing byte values.</p>
+</li>
+</ul>
+<p>If IDA creates 2 segments where only one segment must exist, you may try the following sequence:</p>
+<ul>
+<li>Delete one segment (action <code>KillSegment</code>). Choose one with bad segment base value. Do not disable addresses occupied by the segment being deleted.</li>
+<li>Change bounds of another segment. Note that the Create segment… command (action <code>CreateSegment</code>) changes the boundaries of the overlapping segment automatically.</li>
+</ul>
+<p>Segments with the “debugger” attribute are the segments whose memory contents are not saved in the database. Usually, these segments are created by the debugger to reflect the current memory state of the program.</p>
+<p>However, the user can modify this attribute.</p>
+<p>If it is cleared, then the segment will permanently stay in the database after closing the debugger session. The database will reflect the state of the segment which was at the time when the status is changed.</p>
+<p>If it is set, then the segment will become a temporary segment and will be deleted at the end of the debugging session.</p>
+<p>The <em>debugger segment</em> checbkox is available only during debugging sessions.</p>
+<p>The “loader” segments are the segment created by the file loader. The segment having this attribute are considered to be part of the input file.</p>
+<p>A segment with the “debugger” attribute set and the “loader” attribute not set is considered to be an ephemeral segment. Such segments are not analyzed automatically by IDA.</p>
+<p>“Segment permissions” group box can be used to modify Segment access permissions (Read/Write/Execute)</p>
+<h3 id="segment-name"><a class="header" href="#segment-name">Segment Name</a></h3>
+<p>Enter a new name for the segment. A segment name is up to 8 characters long. IDA does check if the length is ok. Try to give mnemonic names for the segments.</p>
+<h3 id="class-name"><a class="header" href="#class-name">Class Name</a></h3>
+<p>The segment class name identifies the segment with a class name (such as CODE, FAR_DATA, or STACK). The linker places segments with the same class name into a contiguous range of memory in the runtime memory map.</p>
+<p>Changing the segment class changes only the segment definition on the screen. There are the following predefined segment class names:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Segment class</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>CODE</td><td>Pure code</td></tr>
+<tr><td>DATA</td><td>Pure data</td></tr>
+<tr><td>CONST</td><td>Pure data</td></tr>
+<tr><td>BSS</td><td>Uninitialized data</td></tr>
+<tr><td>STACK</td><td>Uninitialized data</td></tr>
+<tr><td>XTRN</td><td>Extern definitions segment</td></tr>
+</tbody>
+</table>
+</div>
+<p>If you change segment class and the segment type is “Regular”, then the segment type will be changed accordingly.</p>
+<p>In order to set the segment type “Regular”, you should change the segment class to “UNK”.</p>
+<p>{% hint style=“info” %}
+Segment class names are never deleted. Once you define a segment class name, you cannot reuse it as a name of another object.
+{% endhint %}</p>
+<h3 id="segment-bitness"><a class="header" href="#segment-bitness">Segment bitness</a></h3>
+<p>You can choose between 16-bit and 32-bit segment addressing.</p>
+<p>IDA will delete all instructions and data in the segment if the segment address is changed.</p>
+<p>Never do it if you are not sure. It may have irreversible consequences, all instructions/data will be converted to undefined bytes.</p>
+<h3 id="segment-alignment"><a class="header" href="#segment-alignment">Segment Alignment</a></h3>
+<p>You can specify the segment alignment for the selected segment. By default, IDA assumes ‘byte’ alignment.</p>
+<p>Changing the alignment changes only the segment definition on the screen. Nothing else will happen.</p>
+<h3 id="segment-combination"><a class="header" href="#segment-combination">Segment Combination</a></h3>
+<p>A field that describes how the linker can combine the segment with other segments. Under MS-DOS, segments with the same name and class can be combined in two ways: they can be concatenated to form one logical segment, or they can be overlapped. In the latter case, they have either the same start address or the same end address, and they describe a common range in memory. Values for the field are:</p>
+<ul>
+<li><strong>Private</strong>: Do not combine with any other program segment.</li>
+<li><strong>Public</strong>: Combine by appending at an offset that meets the alignment requirement.</li>
+<li><strong>Stack</strong>: Combine as for Public. This combine type forces byte alignment.</li>
+<li><strong>Common</strong>: Combine by overlay using maximum size.</li>
+</ul>
+<p>Changing segment combination changes only the segment definition on the screen. Nothing else will happen.</p>
+<h2 id="delete-segment"><a class="header" href="#delete-segment">Delete segment…</a></h2>
+<p>Delete segment.
+IDA will ask your the permission to disable the addresses occupied by the segment. If you allow this operation, all information about the segment will be deleted. In other words, IDA will discard the information about instructions or data, comments etc.</p>
+<p>If you check the “disable addresses” checkbox, IDA will mark the addresses occupied by the segment as “nonexistent” in the program. You will lose <em>ALL</em> information, including byte values.</p>
+<p>It is impossible to disassemble the content of addresses not located in any segment, therefore you must create a new segment if you want to resume the disassembly of that part of the code.</p>
+<p>You can also edit an adjacent segment to expand it to those addresses (Edit → Segments → Edit segment…).</p>
+<p>IDA will ask your the permission to disable addresses occupied by the segment. If you give your permission, information about the segment will be deleted, otherwise IDA will discard information about instruction/data, comments etc, but retain byte values so that you will be able to create another segment afterwards.
+To disassemble the addresses occupied by the segment, you need to create a new segment again (i.e. you cannot disassemble bytes without a segment). You can also expand another adjacent segment to these addresses.</p>
+<h2 id="move-current-segment"><a class="header" href="#move-current-segment">Move current segment…</a></h2>
+<p>Change the current segment boundaries.
+This command open the Move segment dialog and allows you to move segment(s) to another address. Use it if the segment(s) are loaded at a wrong address.
+This command shifts (moves) the selected segments in the memory to the target address. There must be enough free space at the target address for the segments.
+All information in the segment will be moved to the new address, but since the addresses change, the disassembly might be not valid anymore (especially if the program is moved to the wrong addresses and the relocation information is not available).</p>
+<h3 id="fix-up-the-relocated-segment"><a class="header" href="#fix-up-the-relocated-segment">Fix up the relocated segment</a></h3>
+<p>This option allows IDA to modify the references to/from the relocated segment(s). If it is turned off, the references might be wrong after the move.</p>
+<h2 id="rebase-program"><a class="header" href="#rebase-program">Rebase program…</a></h2>
+<p>Rebase program.
+The whole program will be shifted by the specified amount of bytes in the memory. The following options are available (we strongly recommend to leave them turned on):</p>
+<ul>
+<li><strong>Fix up relocations</strong>:
+This option allows IDA to modify the references to/from the relocated segment(s). If it is turned off, the references might be wrong after the move.</li>
+<li><strong>Rebase the whole image</strong>:
+This option is accessible only if the whole program is selected. It allows IDA to adjust internal variables on the whole program.</li>
+</ul>
+<p>Please note rebasing the program might remove user-defined xrefs.</p>
+<h2 id="change-segment-register-value"><a class="header" href="#change-segment-register-value">Change segment register value…</a></h2>
+<p>Change segment register value.
+Relevant only for processors with the segment registers. Currently this command works for IBM PC, TMS320C2, Intel80196, and PowerPC processors.
+This command creates or updates a segment register change point.
+See also the Jump to segment register… command (action <code>JumpSegmentRegister</code>) for more info.</p>
+<h2 id="set-default-segment-register-value"><a class="header" href="#set-default-segment-register-value">Set default segment register value…</a></h2>
+<p>Set default segment register value.
+Relevant only for processors with the segment registers.
+You can specify a default value of a segment register for the current segment. When you change the default value, IDA will reanalyze the segment, taking the default value when it cannot determine the actual value of the register. This takes time, so do not be surprised if references are not corrected immediately.</p>
+<p>To specify a value other than the default value of a segment register, you can use the Change segment register value… command (action <code>SetSegmentRegister</code>).</p>
+<h2 id="struct-var-1"><a class="header" href="#struct-var-1">Struct var…</a></h2>
+<p>Declare a structure variable.
+IDA will ask you to choose a structure type. You must have some structure types defined in order to use this command.
+If the target assembler supports it, IDA will display the structure in terse form (using just one line). To uncollapse a terse structure variable use the Unhide command. You can also use this command to declare a structure field in another structure (i.e., nested structures are supported too).</p>
+<h2 id="force-zero-offset-field"><a class="header" href="#force-zero-offset-field">Force zero offset field</a></h2>
+<p>Toggle display of the first field of a structure in an offset expression.
+This command forces IDA to display a full structure member name even if the offset of the member is equal to zero.</p>
+<p>If used twice, the command cancels itself.</p>
+<p>Example: Suppose we have the following structure:</p>
+<pre><code>    xxx     struc
+    a       db ?
+    b       db ?
+    c       db ?
+    xxx     ends
+
+    dloc    xxx ?
+</code></pre>
+<p>Normally IDA displays references to it like this:</p>
+<pre><code>    mov     eax, offset dloc
+    mov     eax, offset dloc.b
+</code></pre>
+<p>If you force IDA, then it displays member ‘a’:</p>
+<pre><code>    mov     eax, offset dloc.a
+    mov     eax, offset dloc.b
+</code></pre>
+<h2 id="select-union-member"><a class="header" href="#select-union-member">Select union member…</a></h2>
+<p>Choose the representation of a union member.
+This command tells IDA how to display references to a union from the current cursor location.</p>
+<p>Example: Suppose we have the following union:</p>
+<pre><code>        xxx     union
+        a       db ?
+        b       dw ?
+        c       dd ?
+        ends   xxx
+        dloc    xxx ?
+</code></pre>
+<p>Normally, IDA displays references to “dloc” like this:</p>
+<pre><code>        mov     al,  byte ptr dloc
+        mov     eax, word ptr dloc
+</code></pre>
+<p>After using this command, IDA can display the union members:</p>
+<pre><code>        mov     al,  dloc.b
+        mov     eax, dloc.d 
+</code></pre>
+<h2 id="create-struct-from-selection"><a class="header" href="#create-struct-from-selection">Create struct from selection</a></h2>
+<p>This command defines a new structure from data already defined. The new structure is created with adequate data types, and each member uses the current data name if it is available.</p>
+<p>This command is available only in the graphical version of IDA.</p>
+<h2 id="copy-field-info-to-pointers"><a class="header" href="#copy-field-info-to-pointers">Copy field info to pointers</a></h2>
+<p>Copy field info to pointed addresses. This command scans the current struct variable and renames the locations pointed by offset expressions unless they already have a non-dummy name.</p>
+<p>It also copies the type info from the struct members to pointed locations.</p>
+<h2 id="create-function"><a class="header" href="#create-function">Create function…</a></h2>
+<p>Create a new function in the disassembly.
+You can specify function boundaries using the anchor. If you don’t specify any, IDA will try to find the boundaries automatically:</p>
+<ul>
+<li>function start point is equal to the current cursor position;</li>
+<li>function end point is calculated by IDA.</li>
+</ul>
+<p>A function cannot contain references to undefined instructions. If a function has already been defined at the specified addresses, IDA will jump to its start address, showing you a warning message.
+A function must start with an instruction.</p>
+<h2 id="edit-function"><a class="header" href="#edit-function">Edit function…</a></h2>
+<p>Edit function attributes - change function properties, including bounds, name, flags, and stack frame parameters.
+This command opens an Edit Function dialog, and allows you to modify function characteristics and stack frame structure. If the current address does not belong to any function, IDA will beep.</p>
+<p><img src="assets/edit-function.png" alt="Edit function dialog"></p>
+<p>To change only the function end address, use the <code>FunctionEnd</code> command instead.
+This command allows you to change the function frame parameters too. You can change sizes of some parts of frame structure.</p>
+<h3 id="stack-frame-structure"><a class="header" href="#stack-frame-structure">Stack Frame Structure</a></h3>
+<p>IDA represents the stack using the following structure:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Stack Section</th><th>Pointer</th></tr>
+</thead>
+<tbody>
+<tr><td>function arguments</td><td>-</td></tr>
+<tr><td>return address</td><td>-</td></tr>
+<tr><td>saved registers (SI, DI, etc)</td><td>← BP</td></tr>
+<tr><td>local variables</td><td>← SP</td></tr>
+</tbody>
+</table>
+</div>
+<p>{% hint style=“info” %}
+For some processors or functions, BP may equal SP, meaning it points to the bottom of the stack frame.
+{% endhint %}</p>
+<p>You may specify the number of bytes in each part of the stack frame. The size of the return address is calculated by IDA (possibly depending on the far function flag).</p>
+<pre><code>           push    ebp
+           lea     ebp, [esp-78h]
+           sub     esp, 588h
+           push    ebx
+           push    esi
+           lea     eax, [ebp+74h]
+</code></pre>
+<pre><code>
+      +------------------------------+
+      | function arguments           |
+      +------------------------------+
+      | return address               |
+      +------------------------------+
+      | saved registers (SI,DI,etc)  |
+      +------------------------------+  &lt;- typical BP
+      |                              |
+      |                              |
+      |                              |  &lt;- actual BP
+      | local variables              |
+      |                              |
+      |                              |
+      |                              |
+      +------------------------------+  &lt;- SP
+</code></pre>
+<p>In our example, the saved registers area is empty (since EBP has been initialized before saving EBX and ESI). The difference between the ‘typical BP’ and ‘actual BP’ is 0x78 and this is the value of FPD.</p>
+<p>After specifying FPD=0x78 the last instruction of the example becomes</p>
+<pre><code>           lea     eax, [ebp+78h+var_4]
+</code></pre>
+<p>where <code>var_4 = -4</code></p>
+<p>Most of the time, IDA calculates the FPD value automatically. If it fails, the user can specify the value manually.</p>
+<p>If the value of the stack pointer is modified in an unpredictable way, (e.g. “and esp, -16”), then IDA marks the function as “fuzzy-sp”.</p>
+<p>If this command is invoked for an imported function, then a simplified dialog box will appear on the screen.</p>
+<p>See also:</p>
+<ul>
+<li><a href="https://hex-rays.com/blog/igors-tip-of-the-week-126-non-returning-functions">Igor’s Tip of the Week #126: Non-returning functions</a></li>
+<li><a href="https://hex-rays.com/blog/igors-tip-of-the-week-106-outlined-functions">Igor’s tip of the week #106: Outlined functions</a></li>
+</ul>
+<h3 id="configurable-parameters"><a class="header" href="#configurable-parameters">Configurable Parameters</a></h3>
+<ul>
+<li><strong>Stack Frame Sizes</strong>: You can specify the number of bytes in each part of the stack frame. The return address size is calculated automatically by IDA (may depend on the far function flag).</li>
+<li><strong>Purged Bytes</strong>: Specifies the number of bytes added to SP upon function return. This value calculates SP changes at call sites (used in calling conventions such as <code>__stdcall</code> in Windows 32-bit programs).</li>
+<li><strong>BP Based Frame</strong>: Enables IDA to automatically convert [BP+xxx] operands to stack variables.</li>
+<li><strong>BP Equal to SP</strong>: Indicates that the frame pointer points to the bottom of the stack. Commonly used for processors that set up the stack frame with EBP and ESP both pointing to the bottom (e.g., MC6816, M32R).</li>
+<li><strong>Reanalysis</strong>: Pressing <kbs>Enter without changing any parameter will cause IDA to reanalyze the function.</kbs></li>
+</ul>
+<h2 id="append-function-tail"><a class="header" href="#append-function-tail">Append function tail…</a></h2>
+<p>This command appends an arbitrary range of the program to a function definition. A range must be selected before applying this command. This range must not intersect with other function chunks (however, an existing tail can be added to multiple functions).</p>
+<p>IDA will ask to select the parent function for the selection and will append the range to the function definition.</p>
+<h2 id="remove-function-tail"><a class="header" href="#remove-function-tail">Remove function tail…</a></h2>
+<p>Remove function tail.
+This command removes the function tail at the cursor from a function definition.
+If there are several parent functions for the current function tail range, IDA will ask to select the parent function(s) to remove the tail from.
+After the confirmation, the current function tail range will be removed from the selected function definition.
+If the parent was the only owner of the current tail, then the tail will be destroyed. Otherwise it will still be present in the database. If the removed parent was the owner of the tail, then another function will be selected as the owner.</p>
+<h2 id="change-stack-pointer"><a class="header" href="#change-stack-pointer">Change stack pointer…</a></h2>
+<p>Change stack pointer. This command allows you to specify how the stack pointer (SP) is modified by the current instruction.</p>
+<p>You cannot use this command if the current instruction does not belong to any function.</p>
+<p>You will need to use this command only if IDA was not able to trace the value of the SP register. Usually IDA can handle it but in some special cases it fails. An example of such a situation is an indirect call of a function that purges its parameters from the stack. In this case, IDA has no information about the function and cannot properly trace the value of SP.</p>
+<p>Please note that you need to specify the <strong>difference</strong> between the old and new values of SP.</p>
+<p>The value of SP is used if the current function accesses local variables by [ESP+xxx] notation.</p>
+<p>See also how to convert to stack variable (Action <code>OpStackVariable</code>).</p>
+<h2 id="rename-register"><a class="header" href="#rename-register">Rename register…</a></h2>
+<p>Rename a general processor register.
+This command allows you to rename a processor general register to some meaningful name. While this is not used very often on IBM PCs, it is especially useful on RISC processors with lots of registers. For example, a general register R9 is not very meaningful and a name like ‘CurrentTime’ is much better.</p>
+<p>This command can be used to define a new register name as well as to remove it. Just move the cursor on the register name and press enter. If you enter the new register name as an empty string, then the definition will be deleted.</p>
+<p>If you have selected a range before using this command, then the definition will be restricted to the selected range. But in any case, the definition cannot cross the function boundaries.</p>
+<p>You cannot use this command if the current instruction does not belong to any function.</p>
+<h2 id="set-type"><a class="header" href="#set-type">Set type…</a></h2>
+<p>Set type information for an item or current function.
+This command allows you to specify the type of the current item.
+If the cursor is located on a name, the type of the named item will be edited. Otherwise, the current function type (if there is a function) or the current item type (if it has a name) will be edited.</p>
+<p>The function type must be entered as a C declaration. Hidden arguments (like ‘this’ pointer in C++) should be specified explicitly. IDA will use the type information to comment the disassembly with the information about function arguments. It can also be used by the Hex-Rays decompiler plugin for better decompilation. Here is an example of a function declaration:</p>
+<pre><code>    int main(int argc, const char *argv[]);
+</code></pre>
+<p>It is also possible to specify a function name coming from a type library. For example, if entering “LoadLibraryW” would yield its prototype:</p>
+<pre><code>    HMODULE __stdcall LoadLibraryW(LPCWSTR lpLibFileName);
+</code></pre>
+<p>provided that the corresponding type library is in memory.
+To delete a type declaration, just enter an empty string.
+IDA supports the user-defined calling convention. In this calling convention, the user can explicitly specify the locations of arguments and the return value. For example:</p>
+<pre><code>    int __usercall func@&lt;ebx&gt;(int x, int y@&lt;esi&gt;);
+</code></pre>
+<p>denotes a function with 2 arguments: the first argument is passed on the stack (IDA automatically calculates its offset) and the second argument is passed in the ESI register and the return value is stored in the EBX register. Stack locations can be specified explicitly:</p>
+<pre><code>    int __usercall runtime_memhash@&lt;^12.4&gt;(void *p@&lt;^0.4&gt;, int q@&lt;^4.4&gt;, int r@&lt;^8.4&gt;)
+</code></pre>
+<p>There is a restriction for a __usercall function type: all stack locations should be specified explicitly or all are automatically calculated by IDA. General rules for the user defined prototypes are:</p>
+<ul>
+<li>
+<p>the return value must be in a register.
+Exception: stack locations are accepted for the __golang and __usercall calling conventions.</p>
+</li>
+<li>
+<p>if the return type is ‘void’, the return location must not be specified</p>
+</li>
+<li>
+<p>if the argument location is not specified, it is assumed to be on the stack; consequent stack locations are allocated for such arguments</p>
+</li>
+<li>
+<p>it is allowed to declare nested declarations, for example:
+int **__usercall func16@<eax>(int *(__usercall *x)@<ebx>
+(int, long@<ecx>, int)@<esi>);</esi></ecx></ebx></eax></p>
+<p>Here the pointer “x” is passed in the ESI register;
+The pointed function is a usercall function and expects its second
+argument in the ECX register, its return value is in the EBX register.
+The rule of thumb to apply in such complex cases is to specify the
+the registers just before the opening brace for the parameter list.</p>
+</li>
+<li>
+<p>registers used for the location names must be valid for the current
+processor; some registers are unsupported (if the register name is
+generated on the fly, it is unsupported; inform us about such cases;
+we might improve the processor module if it is easy)</p>
+</li>
+<li>
+<p>register pairs can be specified with a colon like <a href="edx:eax">edx:eax</a></p>
+</li>
+<li>
+<p>for really complicated cases this syntax can be used. IDA also understands the “__userpurge” calling convention. It is the same thing as __usercall, the only difference is that the callee cleans the stack.</p>
+</li>
+</ul>
+<p>The name used in the declaration is ignored by IDA.
+If the default calling convention is __golang then explicit specification of stack offsets is permitted. For example:</p>
+<pre><code>  __attribute__((format(printf,2,3)))
+  int myprnt(int id, const char *format, ...);
+</code></pre>
+<p>This declaration means that myprnt is a print-like function; the format string is the second argument and the variadic argument list starts at the third argument.</p>
+<p>Below is the full list of attributes that can be handled by IDA.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Attribute</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>packed</code></td><td>pack structure/union fields tightly, without gaps</td></tr>
+<tr><td><code>aligned</code></td><td>specify the alignment</td></tr>
+<tr><td><code>noreturn</code></td><td>declare as not returning function</td></tr>
+<tr><td><code>ms_struct</code></td><td>use microsoft layout for the structure/union</td></tr>
+<tr><td><code>format</code></td><td>possible formats: printf, scanf, strftime, strfmon</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="data-declaration-keywords"><a class="header" href="#data-declaration-keywords">Data Declaration Keywords</a></h3>
+<p>For data declarations, the following custom <code>__attribute((annotate(X)))</code> keywords have been added. The control the representation of numbers in the output:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Keyword</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__bin</code></td><td>unsigned binary number</td></tr>
+<tr><td><code>__oct</code></td><td>unsigned octal number</td></tr>
+<tr><td><code>__hex</code></td><td>unsigned hexadecimal number</td></tr>
+<tr><td><code>__dec</code></td><td>signed decimal number</td></tr>
+<tr><td><code>__sbin</code></td><td>signed binary number</td></tr>
+<tr><td><code>__soct</code></td><td>signed octal number</td></tr>
+<tr><td><code>__shex</code></td><td>signed hexadecimal number</td></tr>
+<tr><td><code>__udec</code></td><td>unsigned decimal number</td></tr>
+<tr><td><code>__float</code></td><td>floating point</td></tr>
+<tr><td><code>__char</code></td><td>character</td></tr>
+<tr><td><code>__segm</code></td><td>segment name</td></tr>
+<tr><td><code>__enum()</code></td><td>enumeration member (symbolic constant)</td></tr>
+<tr><td><code>__off</code></td><td>offset expression (a simpler version of __offset)</td></tr>
+<tr><td><code>__offset()</code></td><td>offset expression</td></tr>
+<tr><td><code>__strlit()</code></td><td>string</td></tr>
+<tr><td><code>__stroff()</code></td><td>structure offset</td></tr>
+<tr><td><code>__custom()</code></td><td>custom data type and format</td></tr>
+<tr><td><code>__invsign</code></td><td>inverted sign</td></tr>
+<tr><td><code>__invbits</code></td><td>inverted bitwise</td></tr>
+<tr><td><code>__lzero</code></td><td>add leading zeroes</td></tr>
+<tr><td><code>__tabform()</code></td><td>tabular form</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="type-declaration-keywords"><a class="header" href="#type-declaration-keywords">Type Declaration Keywords</a></h3>
+<p>The following additional keywords can be used in type declarations:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Keyword</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>_BOOL1</code></td><td>a boolean type with explicit size specification (1 byte)</td></tr>
+<tr><td><code>_BOOL2</code></td><td>a boolean type with explicit size specification (2 bytes)</td></tr>
+<tr><td><code>_BOOL4</code></td><td>a boolean type with explicit size specification (4 bytes)</td></tr>
+<tr><td><code>__int8</code></td><td>a integer with explicit size specification (1 byte)</td></tr>
+<tr><td><code>__int16</code></td><td>a integer with explicit size specification (2 bytes)</td></tr>
+<tr><td><code>__int32</code></td><td>a integer with explicit size specification (4 bytes)</td></tr>
+<tr><td><code>__int64</code></td><td>a integer with explicit size specification (8 bytes)</td></tr>
+<tr><td><code>__int128</code></td><td>a integer with explicit size specification (16 bytes)</td></tr>
+<tr><td><code>_BYTE</code></td><td>an unknown type; the only known info is its size: 1 byte</td></tr>
+<tr><td><code>_WORD</code></td><td>an unknown type; the only known info is its size: 2 bytes</td></tr>
+<tr><td><code>_DWORD</code></td><td>an unknown type; the only known info is its size: 4 bytes</td></tr>
+<tr><td><code>_QWORD</code></td><td>an unknown type; the only known info is its size: 8 bytes</td></tr>
+<tr><td><code>_OWORD</code></td><td>an unknown type; the only known info is its size: 16 bytes</td></tr>
+<tr><td><code>_TBYTE</code></td><td>10-byte floating point value</td></tr>
+<tr><td><code>_UNKNOWN</code></td><td>no info is available</td></tr>
+<tr><td><code>__pure</code></td><td>pure function: always returns the same value and does not modify memory in a visible way</td></tr>
+<tr><td><code>__noreturn</code></td><td>function does not return</td></tr>
+<tr><td><code>__usercall</code></td><td>user-defined calling convention; see above</td></tr>
+<tr><td><code>__userpurge</code></td><td>user-defined calling convention; see above</td></tr>
+<tr><td><code>__golang</code></td><td>golang calling convention</td></tr>
+<tr><td><code>__swiftcall</code></td><td>swift calling convention</td></tr>
+<tr><td><code>__spoils</code></td><td>explicit spoiled-reg specification; see above</td></tr>
+<tr><td><code>__hidden</code></td><td>hidden function argument; this argument was hidden in the source code (e.g. ‘this’ argument in c++ methods is hidden)</td></tr>
+<tr><td><code>__return_ptr</code></td><td>pointer to return value; implies hidden</td></tr>
+<tr><td><code>__struct_ptr</code></td><td>was initially a structure value</td></tr>
+<tr><td><code>__array_ptr</code></td><td>was initially an array</td></tr>
+<tr><td><code>__unused</code></td><td>unused function argument</td></tr>
+<tr><td><code>__cppobj</code></td><td>a c++ style struct; the struct layout depends on this keyword</td></tr>
+<tr><td><code>__ptr32</code></td><td>explicit pointer size specification (32 bits)</td></tr>
+<tr><td><code>__ptr64</code></td><td>explicit pointer size specification (64 bits)</td></tr>
+<tr><td><code>__shifted</code></td><td>shifted pointer declaration</td></tr>
+<tr><td><code>__high</code></td><td>high level prototype (does not explicitly specify hidden arguments like ‘this’, for example) this keyword may not be specified by the user but IDA may use it to describe high level prototypes</td></tr>
+<tr><td><code>__bitmask</code></td><td>a bitmask enum, a collection of bit groups</td></tr>
+<tr><td><code>__tuple</code></td><td>a tuple, a special kind of struct. tuples behave like structs but have more relaxed comparison rules: the field names and alignments are ignored.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="change-byte"><a class="header" href="#change-byte">Change byte…</a></h2>
+<p>Change program bytes.
+You can modify the executable file and eventually generate a new file (the Create EXE file… command; action <code>ProduceExe</code>).
+If you patch bytes, then you may enter multiple bytes (see also <a href="/user-guide/general-concepts/binary-string-format.html">Binary string format</a>).
+If this command is invoked when the debugger is active, then IDA will modify the memory and the database. If the database does not contain the patched bytes, then only the process memory will be modified.
+You can create a difference file too (the Create DIFF file… command; action <code>ProduceDiff</code>).
+See also <a href="/user-guide/disassembler/navigation/how-to-enter-a-number.html">How to Enter a Number</a>.</p>
+<h2 id="assemble"><a class="header" href="#assemble">Assemble…</a></h2>
+<p>This command allows you to assemble instructions. Currently, only the IBM PC processors provide an assembler, nonetheless, plugin writers can extend or totally replace the built-in assembler by writing their own.</p>
+<p>The assembler requires to enclose all memory references into square brackets. For example:</p>
+<pre><code>        mov ax, [counter]
+</code></pre>
+<p>Also, the keyword ‘offset’ must not be used. Instead of</p>
+<pre><code>        mov eax, offset name
+</code></pre>
+<p>you must write</p>
+<pre><code>        mov eax, name
+</code></pre>
+<p>See also <a href="/user-guide/disassembler/navigation/how-to-enter-a-number.html">How to Enter a Number</a>.</p>
+<h2 id="patched-bytes"><a class="header" href="#patched-bytes">Patched bytes</a></h2>
+<p>Open the Patched bytes window.
+The Patched bytes view shows the list of the patched locations in the database. It also allows you to revert modifications selectively.</p>
+<p><img src="assets/patched-bytes.png" alt="Patched bytes view"></p>
+<h3 id="reverting-changes"><a class="header" href="#reverting-changes">Reverting changes</a></h3>
+<p>Select location(s) and click <strong>Revert…</strong> from the context menu to revert this modification.</p>
+<h3 id="patching-bytes"><a class="header" href="#patching-bytes">Patching bytes</a></h3>
+<p>You can change individual bytes via <strong>Edit → Patch program → Change byte…</strong>.</p>
+<h2 id="apply-patches-to-input-file"><a class="header" href="#apply-patches-to-input-file">Apply patches to input file…</a></h2>
+<p>Apply previously patched bytes back to the input file. If the “Restore” option is selected, then the original bytes will be applied to the input file.</p>
+<p>See also <code>ProduceDiff</code> action.</p>
+<h2 id="create-alignment-directive"><a class="header" href="#create-alignment-directive">Create alignment directive…</a></h2>
+<p>Create alignment directive.
+The alignment directive will replace a number of useless bytes inserted by the linker to align code and data to paragraph boundary or any other address which is equal to a power of two.
+You can select a range to be converted to an alignment directive. If you have selected a range, IDA will try to determine a correct alignment automatically.</p>
+<p>There are at least two requirements for this command to work:</p>
+<ul>
+<li>There must be enough unexplored bytes at the current address.</li>
+<li>An alignment directive must always end at an address which is divisible by a power or two.</li>
+</ul>
+<h2 id="manual-instruction"><a class="header" href="#manual-instruction">Manual instruction…</a></h2>
+<p>Specify alternate representation of the current instruction.
+Use it if IDA cannot represent the current instruction as desired. If the instruction itself is ok and only one operand is misrepresented, then use Manual… command (action <code>ManualOperand</code>).
+To delete the manual representation, specify an empty string.</p>
+<h2 id="color-instruction"><a class="header" href="#color-instruction">Color instruction…</a></h2>
+<p>This command allows you to specify the background color for the current instruction or data item.
+Only GUI version supports different background colors. Specifying a non-defined custom color will reset the instruction color.</p>
+<h2 id="toggle-border"><a class="header" href="#toggle-border">Toggle border</a></h2>
+<p>Toggle the display of a border between code and data.
+This command allows you to hide a thin border which is like the one generated automatically by IDA between instructions and data. If the border was already hidden, then it is displayed again.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/user-interface/menu-bar/edit.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/user-interface/menu-bar/edit/pseudocode-actions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/user-interface/menu-bar/edit.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/user-interface/menu-bar/edit/pseudocode-actions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

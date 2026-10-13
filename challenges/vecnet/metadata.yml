@@ -1,0 +1,28 @@
+version: beta2
+platform: unknown
+native_id: '51'
+name: Vecnet
+category: misc
+description: VecNet makes use of AI embedding technologies to speed up your database
+  needs. Get started today!
+value: 496
+files: []
+challenge_mode: remote
+connection_info: https://vec.web.2026.sunshinectf.games/
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Vecnet-51
+environment:
+  status: ready
+  source: remote
+  url: https://vec.web.2026.sunshinectf.games/
+  host: vec.web.2026.sunshinectf.games
+  port: 443
+  compose_project: ''
+  metadata:
+    verified: true
+    note: always-on remote web env; no start button
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: needs_input
+reason: 'attachment_page_mismatch: active challenge heading does not match'

@@ -1,0 +1,28 @@
+version: beta2
+platform: unknown
+native_id: '32'
+name: Lil Chompy and the World's Fair
+category: BSides Orlando
+description: Go on an adventure with Lil Chompy to the World's Fair! Connect to the
+  badge's UART interface that's accessible via the SAO connector.
+value: 472
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#Lil%20Chompy%20and%20the%20World's%20Fair-32
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Lil%20Chompy%20and%20the%20World's%20Fair-32
+environment:
+  status: not_required
+  source: platform-page
+  url: https://2026.sunshinectf.org/challenges#Lil%20Chompy%20and%20the%20World's%20Fair-32
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment/attachments: physical badge UART via SAO connector
+      (115200 8n1). Remote path = badge hardware repo artifacts + firmware/boardwriter
+      repos; challenge host 35.211.211.18 scanned (no UART bridge found).'
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: preparing
+reason: ''

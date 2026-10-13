@@ -1,0 +1,9 @@
+>Shows users.
+
+!
+$$
+LastActive Adm Login  License         User name                   Email             
+---------- --- ------ --------------- --------------------------- ------------------
+2022-08-29 *   bob    XX-XXXX-XXXX-XX bob                         bob@acme.com
+2022-08-29 *   alice  XX-XXXX-XXXX-XX alice                       alice@acme.com
+2022-08-27     damian XX-XXXX-XXXX-XX damian                      damian@acme.com

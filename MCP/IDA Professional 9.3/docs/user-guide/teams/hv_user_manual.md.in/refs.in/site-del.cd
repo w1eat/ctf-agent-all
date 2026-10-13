@@ -1,0 +1,16 @@
+.[-f] Force the deletion even if the site still has worklists.
+.SITENAME Name of the site to delete.
+
+>Deletes a site.
+
+If `-f` was passed and the site has some pending worklists, they will be deleted.
+
+This is not a reversible operation, so we recommend caution.
+
+Only admins can delete sites that belong to other users.
+
+! Delete the site, forcing deletion of the site's worklists
+$$ alice_old_laptop
+'alice_old_laptop' not empty
+
+$$ -f alice_old_laptop

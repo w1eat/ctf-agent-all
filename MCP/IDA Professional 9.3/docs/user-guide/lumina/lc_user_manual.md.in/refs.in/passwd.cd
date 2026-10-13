@@ -1,0 +1,8 @@
+.PASS The new password.
+.USER The username whose password should be changed
+Only admins can change other users' passwords.
+
+>Modifies the password for a user.
+
+!
+$$ secret_password john

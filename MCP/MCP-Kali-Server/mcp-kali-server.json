@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "mcp-kali-server": {
+      "command": "python3",
+        "args": [
+          "/absolute/path/to/client.py",
+          "--server",
+          "http://LINUX_IP:5000/"
+        ],
+        "description": "MCP Kali Server",
+        "timeout": 300,
+        "alwaysAllow": []
+    }
+  }
+}

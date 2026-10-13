@@ -1,0 +1,656 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Help Messages - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="various-dialog-help-messages"><a class="header" href="#various-dialog-help-messages">Various dialog help messages</a></h1>
+<ul>
+<li><a href="various-dialog-help-messages.html#packed-files">Packed Files</a></li>
+<li><a href="various-dialog-help-messages.html#bad-relocation-table">Bad Relocation Table</a></li>
+<li><a href="various-dialog-help-messages.html#additional-information-at-the-end-of-file">Additional information at the end of file</a></li>
+<li><a href="various-dialog-help-messages.html#overlayed-files">Overlayed files</a></li>
+<li><a href="various-dialog-help-messages.html#error-loading-overlays">Error loading overlays</a></li>
+<li><a href="various-dialog-help-messages.html#maximal-number-of-segments-is-reached">Maximal number of segments is reached</a></li>
+<li><a href="various-dialog-help-messages.html#cannot-generate-executable-file">Cannot generate executable file</a></li>
+<li><a href="various-dialog-help-messages.html#bad-input-file-format">Bad input file format</a></li>
+<li><a href="various-dialog-help-messages.html#choose-mark-number">Choose mark number</a></li>
+<li><a href="various-dialog-help-messages.html#enter-mark-description">Enter mark description</a></li>
+<li><a href="various-dialog-help-messages.html#choose-marked-location">Choose marked location</a></li>
+<li><a href="various-dialog-help-messages.html#ida-view-bookmarks">IDA View bookmarks</a></li>
+<li><a href="various-dialog-help-messages.html#structs-bookmarks">Structs bookmarks</a></li>
+<li><a href="various-dialog-help-messages.html#enums-bookmarks">Enums bookmarks</a></li>
+<li><a href="various-dialog-help-messages.html#cannot-rename-a-location">Cannot Rename a Byte</a></li>
+<li><a href="various-dialog-help-messages.html#cannot-find-file-segmentation">Cannot find file segmentation</a></li>
+<li><a href="various-dialog-help-messages.html#negative-offsets">Negative Offsets</a></li>
+<li><a href="various-dialog-help-messages.html#database-is-not-closed">DataBase is not closed</a></li>
+<li><a href="various-dialog-help-messages.html#obsolete-database-format">Obsolete Database Format</a></li>
+<li><a href="various-dialog-help-messages.html#the-name-list-is-empty">The Name List is Empty</a></li>
+<li><a href="various-dialog-help-messages.html#upgrading-ida-database">Upgrading IDA database</a></li>
+<li><a href="various-dialog-help-messages.html#unexpected-database-format">Unexpected Database Format</a></li>
+<li><a href="various-dialog-help-messages.html#imported-module-is-not-found">Imported module is not found</a></li>
+<li><a href="various-dialog-help-messages.html#load-file-dialog">Load file dialog</a></li>
+<li><a href="various-dialog-help-messages.html#pe-.idata-section-has-additional-data">PE .idata section has additional data</a></li>
+<li>Repeat search for instruction/data with the specified operand (see Next immediate value command; action <code>JumpImmediate</code>)</li>
+<li>Repeat search for substring in the disassembly (see Next text command; action <code>JumpText</code>)</li>
+<li>Repeat search for substring in the file (see Sequence of bytes… command; action <code>AskBinaryText</code>)</li>
+<li><a href="various-dialog-help-messages.html#moving-the-segment-start">Moving Segment</a></li>
+<li><a href="various-dialog-help-messages.html#deleting-a-segment-1">Deleting a Segment</a></li>
+<li><a href="various-dialog-help-messages.html#auto-analysis-is-not-completed">Auto analysis is not completed</a></li>
+<li><a href="various-dialog-help-messages.html#silent-mode-of-ida">Silent mode of IDA</a></li>
+<li><a href="various-dialog-help-messages.html#rename-a-structuremember">Rename a structure/member</a></li>
+<li><a href="various-dialog-help-messages.html#delete-a-structure-member">Delete a structure member</a></li>
+<li><a href="various-dialog-help-messages.html#unpacked-database-is-dangerous">Unpacked database is dangerous</a></li>
+<li><a href="various-dialog-help-messages.html#database-is-empty">Database Is Empty</a></li>
+<li><a href="various-dialog-help-messages.html#illegal-usage-of-the-switch">Illegal Usage of the Switch</a></li>
+<li><a href="various-dialog-help-messages.html#cannot-find-input-file">Cannot Find Input File</a></li>
+<li><a href="various-dialog-help-messages.html#patched-bytes-are-skipped">Patched Bytes Are Skipped</a></li>
+<li><a href="various-dialog-help-messages.html#list-of-functions">Patched bytes have relocation information</a></li>
+<li><a href="various-dialog-help-messages.html#no-segment-for-the-current-byte">No Segment for the current byte</a></li>
+<li><a href="various-dialog-help-messages.html#empty-program">Empty Program</a></li>
+<li><a href="various-dialog-help-messages.html#load-additional-binary-file">Load additional binary file</a></li>
+<li><a href="various-dialog-help-messages.html#patched-bytes-have-relocation-information">Patching Relocation Bytes</a></li>
+<li><a href="various-dialog-help-messages.html#notvafile">NotVaFile</a></li>
+<li><a href="various-dialog-help-messages.html#vatoohighversion">VaTooHighVersion</a></li>
+<li><a href="../../desktops.html">Desktops</a></li>
+<li><a href="various-dialog-help-messages.html#cannot-assign-to-segment-register--cannot-create-segment-registers-range">Can’t create segment registers range</a></li>
+<li><a href="various-dialog-help-messages.html#cannot-assign-to-segment-register--cannot-create-segment-registers-range">Cannot assign to Segment Register</a></li>
+</ul>
+<h3 id="packed-files"><a class="header" href="#packed-files">Packed Files</a></h3>
+<p>Sometimes, executable files are shipped in a packed form. It means that to disassemble these files you need to unpack them.</p>
+<p>IDA displays this message if the relocation table of the input MZ executable file is empty.</p>
+<h3 id="bad-relocation-table"><a class="header" href="#bad-relocation-table">Bad Relocation Table</a></h3>
+<p>Relocation table has references beyond program limits.</p>
+<h3 id="additional-information-at-the-end-of-file"><a class="header" href="#additional-information-at-the-end-of-file">Additional information at the end of file</a></h3>
+<p>The file being loaded is not completely loaded to memory by the operating system. This may be because:</p>
+<ul>
+<li>the file is overlayed; IDA does not know this type of overlays</li>
+<li>the file has debugging information attached to its end</li>
+<li>the file has other type of information at the end</li>
+</ul>
+<p>Anyway, IDA will not load the additional information.</p>
+<h3 id="overlayed-files"><a class="header" href="#overlayed-files">Overlayed files</a></h3>
+<p>Some EXE files are built with overlays. This means that the whole file is not loaded into the memory at the start of the program, but only a part of it. Other parts are loaded by the program itself into the dynamic memory or over some subroutines of the program. This fact leads to many difficulties when you disassemble such a program.</p>
+<p>Currently, IDA knows about overlays created by Borland and Microsoft C and Pascal compilers.</p>
+<h3 id="error-loading-overlays"><a class="header" href="#error-loading-overlays">Error loading overlays</a></h3>
+<p>One of the following occurred:</p>
+<pre><code>        - overlay stub is not found
+        - overlay relocation data is incorrect
+</code></pre>
+<p>i.e. the input file structure is bad.</p>
+<h3 id="maximal-number-of-segments-is-reached"><a class="header" href="#maximal-number-of-segments-is-reached">Maximal number of segments is reached</a></h3>
+<p>When IDA tried to delete bytes outside of any segment, the maximal number of contiguous chunks is reached. This is NOT a fatal error.</p>
+<p>Some bytes outside of any segment will be present =&gt; the output text will be incorrect because of these bytes. However, you can delete them in the output text using a text editor.</p>
+<h3 id="cannot-generate-executable-file"><a class="header" href="#cannot-generate-executable-file">Cannot generate executable file</a></h3>
+<p>IDA produces executable files only for:</p>
+<ul>
+<li>MS DOS .exe</li>
+<li>MS DOS .com</li>
+<li>MS DOS .drv</li>
+<li>MS DOS .sys</li>
+<li>general binary</li>
+<li>Intel Hex Object Format</li>
+<li>MOS Technology Hex Object Format</li>
+</ul>
+<p>Furthermore, external loaders may or may not support the creation of user-defined input file formats.</p>
+<h3 id="bad-input-file-format"><a class="header" href="#bad-input-file-format">Bad input file format</a></h3>
+<pre><code>The input file does not conform to the following definitions:
+</code></pre>
+<p>Intel Hex Object Format ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ This is the default format. This format is line oriented and uses only printable ASCII characters except for the carriage return/line feed at the end of each line. Each line in the file assumes the following format:</p>
+<pre><code> :NNAAAARRHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHCCTT
+</code></pre>
+<p>Where:</p>
+<p>All fields marked ‘hex’ consist of two or four ASCII hexadecimal digits (0-9, A-F). A maximum of 24 data bytes will be represented on each line.</p>
+<pre><code> :      = Record Start Character
+ NN     = Byte Count (hex)
+ AAAA   = Address of first byte (hex)
+ RR     = Record Type (hex, 00 except for last record which is 01)
+ HH     = Data Bytes (hex)
+ CC     = Check Sum (hex)
+ TT     = Line Terminator (carriage return, line feed)
+</code></pre>
+<p>The last line of the file will be a record conforming to the above format with a byte count of zero (‘:00000001FF’).</p>
+<p>The checksum is defined as:</p>
+<pre><code>        sum      =  byte_count + address_hi + address_lo +
+                        record_type + (sum of all data bytes)
+        checksum =  ((-sum) &amp; ffh)
+</code></pre>
+<p>MOS Technology Hex Object Format ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ This format is line oriented and uses only printable ASCII characters except for the carriage return/line feed at the end of each line. Each line in the file assumes the following format:</p>
+<pre><code> ;NNAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHCCCCTT
+</code></pre>
+<p>Where:</p>
+<p>All fields marked ‘hex’ consist of two or four ASCII hexadecimal digits (0-9, A-F). A maximum of 24 data bytes will be represented on each line.</p>
+<pre><code> ;      = Record Start Character
+ NN     = Byte Count (hex)
+ AAAA   = Address of first byte (hex)
+ HH     = Data Bytes (hex)
+ CCCC   = Check Sum (hex)
+ TT     = Line Terminator (carriage return, line feed)
+</code></pre>
+<p>The last line of the file will be a record with a byte count of zero (‘;00’).</p>
+<p>The checksum is defined as:</p>
+<pre><code>        sum      =  byte_count + address_hi + address_lo +
+                        (sum of all data bytes)
+        checksum =  (sum &amp; ffffh)
+</code></pre>
+<h3 id="choose-mark-number"><a class="header" href="#choose-mark-number">Choose mark number</a></h3>
+<p>This command allows you to mark a location so that afterwards you can jump to the marked location immediately. Select any line from the list. The selected line will be used for mark description. Afterwards, you will be able to jump to the marked location using &lt;Alt-J&gt; key.</p>
+<p>You can use &lt;Up&gt;, &lt;Down&gt;, &lt;PgUp&gt;, &lt;PgDn&gt;, &lt;Home&gt;, &lt;End&gt; keys. If you select the first line of the list, nothing will be selected.</p>
+<p>Press &lt;Enter&gt; to select line, &lt;Esc&gt; to cancel.</p>
+<p>See also: <a href="various-dialog-help-messages.html#choose-marked-location">How to jump to the marked location</a></p>
+<h3 id="enter-mark-description"><a class="header" href="#enter-mark-description">Enter mark description</a></h3>
+<p>Mark description is any text line. The description is for your information only.</p>
+<h3 id="choose-marked-location"><a class="header" href="#choose-marked-location">Choose marked location</a></h3>
+<p>This command allows you to jump to the previously marked location. Select any line. You will jump to the selected location.</p>
+<p>You can use &lt;Up&gt;, &lt;Down&gt;, &lt;PgUp&gt;, &lt;PgDn&gt;, &lt;Home&gt;, &lt;End&gt; keys. If you select the first line of the list, nothing will be selected.</p>
+<p>Press &lt;Enter&gt; to select line, &lt;Esc&gt; to cancel.</p>
+<p>See also: <a href="various-dialog-help-messages.html#choose-mark-number">How to mark a location</a></p>
+<h3 id="ida-view-bookmarks"><a class="header" href="#ida-view-bookmarks">IDA View bookmarks</a></h3>
+<p>See: <a href="various-dialog-help-messages.html#choose-marked-location">Choose marked location</a></p>
+<h3 id="structs-bookmarks"><a class="header" href="#structs-bookmarks">Structs bookmarks</a></h3>
+<p>See: <a href="various-dialog-help-messages.html#choose-marked-location">Choose marked location</a></p>
+<h3 id="enums-bookmarks"><a class="header" href="#enums-bookmarks">Enums bookmarks</a></h3>
+<p>See: <a href="various-dialog-help-messages.html#choose-marked-location">Choose marked location</a></p>
+<h3 id="cannot-rename-a-location"><a class="header" href="#cannot-rename-a-location">Cannot rename a location</a></h3>
+<p>It might be because of one of the following reasons:</p>
+<p>1. The name is ill-formed:</p>
+<ul>
+<li>it is a reserved word </li>
+</ul>
+<p>{% hint style=“info” %}
+IDA does not allow the use of register names as byte names.
+{% endhint %}</p>
+<ul>
+<li>it contains bad characters. The list of allowed characters is specified in IDA.CFG</li>
+<li>it starts with a reserved prefix. Some prefixes are used by IDA to generate names. See <a href="../options.html#names-representation">Names Representation</a> dialog for the list of prefixes.</li>
+</ul>
+<ol start="2">
+<li>The name is already used in the program. Try to use another <a href="../../../disassembler/navigation/how-to-enter-an-identifier.html">name</a>. In order to know where the name is used, you can try to jump to it using <a href="../jump.html#jump-to-the-named-location">Jump to the Named Location</a></li>
+</ol>
+<p>3. The address cannot have a name:</p>
+<pre><code>     - IDA refuses to rename tail bytes (i.e. the second, third...
+       bytes of instruction/data).
+     - the address does not belong to the program
+</code></pre>
+<h3 id="cannot-find-file-segmentation"><a class="header" href="#cannot-find-file-segmentation">Cannot find file segmentation</a></h3>
+<p>The database is empty or corrupt. Unfortunately, all information has been lost.</p>
+<p>Please use a backup copy of the database if there is any.</p>
+<p>If you have previously saved your database into a text file, you can load it. See the <a href="../file/produce-output-files.html#dump-database-to-idc-file">Dump database</a> command for explanations.</p>
+<h3 id="negative-offsets"><a class="header" href="#negative-offsets">Negative Offsets</a></h3>
+<p>A segment cannot have bytes with negative offset from the segment base. Example: if a segment base is 0x3000, this segment can have a start address above or equal to 0x30000, but it cannot have a start address 0x2FFFF.</p>
+<h3 id="obsolete-database-format"><a class="header" href="#obsolete-database-format">Obsolete Database Format</a></h3>
+<p>Please use an old version of IDA. The current version of IDA does not support this database.</p>
+<h3 id="database-is-not-closed"><a class="header" href="#database-is-not-closed">Database is not closed</a></h3>
+<p>The database was not closed after the last IDA session. Most probably this happened due to a power fault, unexpected reboot of the computer, or another abnormal session termination.</p>
+<p>You may try to repair the database but the best solution would be to use the intact packed database or use a backup.</p>
+<p>The repairing may fail to recover the database.</p>
+<p>See also the <a href="../file/produce-output-files.html#dump-database-to-idc-file">Dump database</a> command.</p>
+<h3 id="the-name-list-is-empty"><a class="header" href="#the-name-list-is-empty">The Name List is Empty</a></h3>
+<p>is command allows you to select a name from the user defined names. It means that no such names are defined now, or that all user-defined names are hidden. To give a name to the location, use <a href="../edit/give-name-to-the-location.html">Rename</a> or [Rename any]../edit/other/rename-any-address.md) commands.</p>
+<h3 id="upgrading-ida-database"><a class="header" href="#upgrading-ida-database">Upgrading IDA database</a></h3>
+<p>If IDA finds out that your database has an old format, it will try to upgrade the database to a new format. The upgrade process is completely automatic, no user intervention is needed. However, after upgrading your database, you will not be able to work with it using old versions of IDA. That is why IDA asks your confirmation before upgrading the database.</p>
+<p>This feature works only for databases starting from IDA version 2.05.</p>
+<h3 id="unexpected-database-format"><a class="header" href="#unexpected-database-format">Unexpected Database Format</a></h3>
+<p>Database format is newer than expected. That is because you are using an old version of IDA. The only thing you can do is to get a new version of IDA.</p>
+<h3 id="imported-module-is-not-found"><a class="header" href="#imported-module-is-not-found">Imported module is not found</a></h3>
+<p>IDA did not find the specified module in:</p>
+<ul>
+<li>
+<p>the current directory</p>
+</li>
+<li>
+<p>the operating system directory (see switch <a href="../configuration/command-line-switches.html">-W</a> and configuration file parameters <a href="../configuration/configuration-files.html">WINDIR,OS2DIR</a>)</p>
+<pre><code>OR
+      - the module cannot be accepted because:
+      - the module name (recorded in the file) doesn't match
+        the expected name
+      - the module does not contains any exported names (all exported functions
+        are exported by ordinal numbers)
+</code></pre>
+</li>
+</ul>
+<p>Entries imported by ordinal entries will not be commented. If IDA finds a module, all entries that are imported by ordinal will be commented like this:</p>
+<pre><code>  KERNEL_91:
+                retf            ; INITTASK
+                                  ^^^^^^^^^
+                                  comment
+</code></pre>
+<p>This comment will be propagated (repeated - see the Enter repeatable comment… command) to all locations which call this entry:</p>
+<pre><code>                call    far ptr KERNEL_91 ; INITTASK
+</code></pre>
+<p>IDA searches all files named “modulename.*” for the module. If you know that the imported module resides in another directory, copy it to your current directory. If the module file name is different from “modulename.*”, rename it. After the database is loaded, you can delete the copied module.</p>
+<p>IDA also looks for file “modulename.ids” in the current directory in the IDS subdirectory of the directory where IDA.EXE resides in the PATHed directories</p>
+<p>You can create such a file yourself. For an example, look at DOSCALLS.IDS in the IDS subdirectory.</p>
+<h3 id="load-file-dialog"><a class="header" href="#load-file-dialog">Load file dialog</a></h3>
+<p>Below is the description of dialog box fields:</p>
+<pre><code> Load address - the paragraph where the file will be loaded.
+                Meaningful only for EXE and binary files. For new exe
+                files, please use 'manual load' feature.
+ Load offset  - relevant only for binary files.
+                specifies offset of the first byte from the start of
+                the first segment. For example, if load offset=0x2700 and
+                load address=0x1000, the first byte of the file will
+                be at 1000:2700.
+ DLL directory - path where IDA will look up referenced DLL files.
+                Note that if IDA finds .IDS file, it does not look for
+                .DLL file.
+ Create segments        - relevant for binary files.
+                          If not checked, IDA does not create segments.
+ Load resources         - If not checked, IDA does not load resources from
+                          NE files.
+ Rename DLL entries     - If not checked, IDA makes repeatable comments
+                          for entries imported by ordinals. Otherwise,
+                          IDA renames the entries to meaningful names.
+ Manual load            - relevant only for NE,LE,LX,ELF files.
+                          If checked, IDA will ask loading addresses
+                          and selectors for each object of the file.
+                          For experienced users only!
+ Fill segment gaps      - relevant only for COFF &amp; OMF files.
+                          If checked, IDA will fill gaps between
+                          segments, creating one big chunk.
+                          This option facilitates loading of big
+                          object files.
+ Make imports section   - relevant only for PE files.
+                          If checked, IDA will convert .idata section
+                          definitions to "extrn" directives and truncate it.
+                          Unfortunately, sometimes there are some additional
+                          data in .idata section so you'll need to disable
+                          this feature if some information is not loaded
+                          into the database.
+ Create FLAT group      - relevant only for IBM PC PE files.
+                          If checked, IDA will automatically create FLAT
+                          group and use its selector as the default value
+                          for the segment registers.
+ Code segment           - If checked, IDA creates a code but not a data
+                          segment. Relevant for processors with different
+                          code/data segment addressing schemes (for
+                          example, Atmel AVR).
+ Loading options        - relevant only ELF,JAVA files.
+                          If checked, IDA will ask additional loader
+                          options. For experienced users only!
+</code></pre>
+<h3 id="pe-idata-section-has-additional-data"><a class="header" href="#pe-idata-section-has-additional-data">PE .idata section has additional data</a></h3>
+<p>If “create imports section” in the file loading dialog is checked, IDA will convert .idata section definitions to “extrn” directives and truncate it so it will not contain empty lines.</p>
+<p>Unfortunately, sometimes there is some additional data in .idata section so you’ll need to disable this feature if some information is not loaded into the database.</p>
+<p>IDA tries to detect additional data in .idata section automatically.</p>
+<p>If you disable conversion of .idata section to a segment with “extrn” directives, you will see</p>
+<p>somename dd ?</p>
+<p>instead of</p>
+<pre><code>        extrn   somename
+</code></pre>
+<p>directives.</p>
+<p>Another impact is that the .idata segment will not be truncated in any way.</p>
+<h3 id="moving-the-segment-start"><a class="header" href="#moving-the-segment-start">Moving the Segment Start</a></h3>
+<p>When you edit the segment boundaries, you can check the “move the adjacent segments” checkbox.</p>
+<p>IDA will try to shrink/expand the previous segment in order to move the beginning of the selected segment. Of course, you cannot move the start of the segment ‘too far’:</p>
+<pre><code>  - the segment must have at least 1 byte
+  - the start address of the segment must be less than the end of the segment
+  - no segments can be killed during moving
+  - the segment cannot have bytes with negative offsets
+</code></pre>
+<p>You cannot shrink a segment to zero bytes. A segment must have at least one byte.</p>
+<p>This command is mostly used when IDA does not detect the boundary between segments correctly.</p>
+<p>Sometimes, IDA creates 2 segments where only one segment must exist. In this case, you should not use this command. Use the following sequence instead:</p>
+<ul>
+<li>[delete](see the Delete segment… command) one segment. Choose the one with the bad segment base value. Do not disable addresses occupied by the segment being deleted.</li>
+<li>change boundaries of the other segment. Caution: moving the first segment of the program will delete all information about the bytes between the old start of the segment and the new start of the segment!</li>
+</ul>
+<p>See also another command that changes segment bounds in the Edit → Segments submenu.</p>
+<h3 id="deleting-a-segment"><a class="header" href="#deleting-a-segment">Deleting a Segment</a></h3>
+<h4 id="deleting-a-segment-1"><a class="header" href="#deleting-a-segment-1">Deleting a Segment</a></h4>
+<p>If you want to delete the segment, please mark ‘CONFIRM DELETION’ checkbox</p>
+<h4 id="disable-addresses-checkbox"><a class="header" href="#disable-addresses-checkbox">Disable addresses checkbox</a></h4>
+<pre><code>        CAUTION: ALL INFORMATION ABOUT THE SEGMENT WILL BE LOST!
+</code></pre>
+<p>If you disable the addresses occupied by the segment, all information about these addresses will be lost. You will not see them on the screen anymore.</p>
+<p>Otherwise, the segment will be deleted, but its data will remain unchanged. You can create another segment(s) for these addresses using the Create segment… command.</p>
+<h3 id="auto-analysis-is-not-completed"><a class="header" href="#auto-analysis-is-not-completed">Auto analysis is not completed</a></h3>
+<p>As long as auto analysis is not completed, the IDA database is not consistent:</p>
+<ul>
+<li>not all cross-references are found</li>
+<li>not all instructions are disassembled</li>
+<li>not all data items are explored</li>
+</ul>
+<p>See also:</p>
+<ul>
+<li><a href="../disassembler/background-analysis.html">auto analysis</a></li>
+<li>Set up auto analysis via Options → General… → Analysis</li>
+</ul>
+<h3 id="silent-mode-of-ida"><a class="header" href="#silent-mode-of-ida">Silent mode of IDA</a></h3>
+<p>In this mode, IDA will not display dialog boxes on the screen. Instead, it will assume the default answer and proceed. For example, if you press @&lt;Quit&gt;, IDA will promptly exit to OS without asking for any confirmation.</p>
+<p>To return to normal mode you will need to execute an IDC function: <a href="https://idc.docs.hex-rays.com/get_forced_operand.html">batch</a>(0); i.e. disable batch “silent” mode. To execute a script command, select File → Script command… menu item or press @&lt;ExecuteLine&gt; hotkey.</p>
+<h3 id="rename-a-structuremember"><a class="header" href="#rename-a-structuremember">Rename a structure/member</a></h3>
+<p>IDA maintains separate namespaces for each structure. For example, you can define something like this:</p>
+<pre><code> xxx    struc
+ xxx    db ?
+ xxx    struc
+</code></pre>
+<p>Beware, usually assemblers have one common namespace and do not allow the mentioned above example.</p>
+<p>An empty name cannot be specified.</p>
+<p>This command is available when you open a Local Types <a href="../view/open-subviews.html#local-types-window">window</a>.</p>
+<p>If the cursor is on the structure name at the beginning of the structure definition, IDA proposes to rename the structure. Otherwise, IDA proposes to rename a structure field.</p>
+<p>If a structure is being renamed, the option “Don’t include in the list” means that the structure will not be included in the list of the structures which appears when the user applies the structure definition (for example, when the user creates a variable of this structure type). We recommend to mark this checkbox when you have defined all variables of this structure type and want to reduce the number of choices in the list.</p>
+<p>See also:</p>
+<ul>
+<li>Edit → Structs submenu.</li>
+<li><a href="../disassembler/navigation/how-to-enter-an-identifier.html">How to Enter an Identifier</a></li>
+</ul>
+<h3 id="delete-a-structure-member"><a class="header" href="#delete-a-structure-member">Delete a structure member</a></h3>
+<pre><code>Please remember that deleting a member deletes also all information
+about this member, including comments, member name etc.
+</code></pre>
+<p>See also Edit → Structs submenu.</p>
+<h3 id="unpacked-database-is-dangerous"><a class="header" href="#unpacked-database-is-dangerous">Unpacked database is dangerous</a></h3>
+<p>First of all, you may lose all information because you will not have a backup copy of the database. IDA makes modifications to the unpacked database and if some unexpected condition occurs, the unpacked database is usually damaged. IDA is able to repair this database, but some information could be irreversibly lost, leading to disastrous consequences.</p>
+<p>The only advantage of the unpacked database is that it is loaded very fast. the same way, exiting IDA is fast too.</p>
+<p>If packing is disabled, the Abort command will not be available the next time the database is loaded.</p>
+<p>We strongly discourage using unpacked databases.</p>
+<p>To disable this prompt in the future, simply modify ASK_EXIT_UNPACKED parameter in IDATUI.CFG or IDAGUI.CFG file.</p>
+<p>Please note that when the “File -&gt; Save as” is used with an unpacked database, IDA will continue to use the unpacked database and not the newly created database (the saved as one). In this case, please close and re-open the newly created database to ensure that IDA will use it instead of the original database.</p>
+<h3 id="database-is-empty"><a class="header" href="#database-is-empty">Database Is Empty</a></h3>
+<p>Although the database exists, it is empty. Please delete it and start over.</p>
+<p>If you have previously saved your database into a text file, you can load it. See Dump database to IDC file… command for explanations.
+See also <a href="../../../configuration/command-line-switches.html">IDA usage help</a></p>
+<h3 id="illegal-usage-of-the-switch"><a class="header" href="#illegal-usage-of-the-switch">Illegal Usage of the Switch</a></h3>
+<p>Not all switches can be used when you start IDA for the second or more time. Below are valid switches: -a disable <a href="../disassembler/background-analysis.html">auto analysis</a> -d debug </p>
+<p>See also <a href="../configuration/command-line-switches.html">IDA usage help</a></p>
+<h3 id="cannot-find-input-file"><a class="header" href="#cannot-find-input-file">Cannot Find Input File</a></h3>
+<p>IDA has tried to find a file with the extensions mentioned in the <a href="../configuration/configuration-files.html">IDA.CFG</a> file, but could not find anything.</p>
+<p>The default extension table looks like this:</p>
+<pre><code> Extension    Processor
+
+  "com" :       ""
+  "exe" :       ""
+  "dll" :       ""
+  "drv" :       ""
+  "sys" :       ""
+  "bin" :       ""
+  "ovl" :       ""
+  "ovr" :       ""
+  "ov?" :       ""
+  "nlm" :       ""
+  "lan" :       ""
+  "dsk" :       ""
+  "obj" :       ""
+  "prc" :       "68000"
+  "axf" :       "arm710a"
+  "h68" :       "68000"
+  "i51" :       "8051"
+  "sav" :       "pdp11"
+  "rom" :       "z80"
+  "cla*":       "java"
+  "s19":        "6811"
+  "epoc":       "arm"
+  "o":          ""
+</code></pre>
+<p>See also <a href="../configuration/command-line-switches.html">IDA usage help</a></p>
+<h3 id="patched-bytes-are-skipped"><a class="header" href="#patched-bytes-are-skipped">Patched Bytes Are Skipped</a></h3>
+<p>Some bytes in program memory have no corresponding byte in the executable file. For example, uninitialized data is not kept in the file. OS/2 Warp and Window support compressed pages.</p>
+<p>In this case, IDA cannot create a full difference file. It shows the skipped byte addresses along with their values in the message window.</p>
+<h3 id="patched-bytes-have-relocation-information"><a class="header" href="#patched-bytes-have-relocation-information">Patched bytes have relocation information</a></h3>
+<h4 id="list-of-functions"><a class="header" href="#list-of-functions">List of Functions</a></h4>
+<p>You can use <a href="../user-interface/list-viewers.html">list viewer</a> commands in this window. Here is the <a href="../user-interface/subviews.html#functions-window">format</a> of this window.</p>
+<h3 id="no-segment-for-the-current-byte"><a class="header" href="#no-segment-for-the-current-byte">No Segment for the current byte</a></h3>
+<p>Some commands cannot be applied to the addresses without a segment.</p>
+<p>Create a segment first. You can do this using the Create segment… command.</p>
+<h3 id="empty-program"><a class="header" href="#empty-program">Empty Program</a></h3>
+<p>The input file doesn’t contain any instructions or data, i.e. there is nothing to disassemble.</p>
+<p>Some file formats allow the situation when the file is not empty but it doesn’t contain anything to disassemble. For example, COFF/OMF/EXE formats could contain a file header which just declares that there are no executable sections in the file.</p>
+<p>There could be type information, compiler options and other auxiliary information in the file. This is the reason why the file doesn’t look empty but IDA doesn’t find anything to disassemble.</p>
+<h3 id="load-additional-binary-file"><a class="header" href="#load-additional-binary-file">Load additional binary file</a></h3>
+<p>Below is the description of dialog box fields:</p>
+<pre><code> Load segment    - The paragraph where the file will be loaded.
+ Load offset     - Specifies offset of the first byte from the start of
+                   the first segment. For example, if load offset=0x2700
+                   and load segment=0x1000, the first byte of the file will
+                   be at 1000:2700, or in linear addressing, 0x12700.
+ File offset     - Offset in the input file to load bytes from.
+ Number of bytes - Number of bytes to load from the file.
+                   0 means load as many as possible.
+ Create segments        - If not checked, IDA does not create segments.
+ Code segment           - If checked, IDA creates a code segment.
+                          relevant for processors which have different
+                          code/data segment addressing schemes (for
+                          example, Atmel AVR).
+</code></pre>
+<h3 id="patching-relocation-bytes"><a class="header" href="#patching-relocation-bytes">Patching Relocation Bytes</a></h3>
+<p>If a byte has relocation information attached to it, then the value of this byte is changed when the file is loaded into the memory by the system loader or linker. Therefore, it doesn’t make much sense (and sometimes it is simply illegal) to modify the byte.</p>
+<p>We recommend to return the original value of the byte(s).</p>
+<p>You can see the relocation information attached to an item by using the Print internal flags command.</p>
+<h3 id="notvafile"><a class="header" href="#notvafile">NotVaFile</a></h3>
+<h4 id="not-a-virtual-array-file"><a class="header" href="#not-a-virtual-array-file">Not a virtual array file</a></h4>
+<p>The most probable error is that you tried to use an incompatible version of IDA. Starting from IDA 2.0 beta2 the format of virtual files was changed.</p>
+<h3 id="vatoohighversion"><a class="header" href="#vatoohighversion">VaTooHighVersion</a></h3>
+<h4 id="virtual-array-too-high-va-version"><a class="header" href="#virtual-array-too-high-va-version">Virtual Array: Too high VA version</a></h4>
+<p>The most probable error is that you tried to open database with old version of IDA. Please use newer version of IDA to open this database.</p>
+<h3 id="cannot-assign-to-segment-register--cannot-create-segment-registers-range"><a class="header" href="#cannot-assign-to-segment-register--cannot-create-segment-registers-range">Cannot assign to Segment Register | Cannot create segment registers range</a></h3>
+<p>This error happens because of the database corruption. Try to finish your work as soon as possible and generate the text source file.</p>
+<p>The best choice would be to restore from a backup because the database is corrupted.</p>
+<h2 id=""><a class="header" href="#"> </a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/general-concepts/problems-list.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/general-concepts/advanced-type-annotations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/general-concepts/problems-list.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/general-concepts/advanced-type-annotations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

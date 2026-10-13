@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "current_key": "62b6255d6d1074339f3e:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "62b6255d6d1074339f3e:platform_confirmed",
+      "flag": "sun{qwerty_sucks}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "suntrail",
+        "category": "Forensics",
+        "description": "im lost, but you can find the way!",
+        "connection_info": "",
+        "value": 385,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Forensics analysis of a Windows keyboard-layout file (.klc). The shift-state-0 column encoded Unicode arrows (U+2198, U+2192, U+2196, U+25A0) forming a trail over the 3-row keyboard grid, while the shift-state-1 column gave the character printed on each key. Following the arrows from Q produced a Hamiltonian path through every key spelling the flag.: sun{qwerty_sucks} | Evidence: suntrail.klc is an ASCII Windows Keyboard Layout Creator file (header KBD\\tkbdusx\\t\"US\"), category Forensics. ; LAYOUT rows are '<scancode>\\t<VK>\\t0\\t<state0_char>\\t<state1_char>\\t-1'. State0 chars: U+2198(↘), U+2192(→), U+2196(↖), U+25A0(■) -> trail directions. State1 chars are ASCII letters. ; Key->char map (state1): Q=s W=w E=e R=s T=u A=u S=q D=r F=_ G=c H=} Z=n X={ C=t V=y B=k N=s. ; Applying directions (down/right/up) on the grid yields path Q->A->Z->X->S->W->E->D->C->V->F->R->T->G->B->N->H, visiting all 17 keys exactly once. ; Letters along the path = 'sun{qwerty_sucks}'.",
+      "solution_steps": [
+        "用 file/xxd 确认 suntrail.klc 是 Windows 键盘布局文件，属于 Forensics。",
+        "解析 LAYOUT 段：每行 <scancode>\\t<VK>\\t0\\t<state0>\\t<state1>\\t-1。",
+        "state0 列是 Unicode 箭头：U+2198(↘/向下)、U+2192(→/向右)、U+2196(↖/向上)、U+25A0(■=终点)，表示在键盘网格上的行进方向。",
+        "state1 列是每个键对应的字符。",
+        "把键盘排成 3 行网格（QWERT / ASDFGH / ZXCVBN），从 Q 出发按箭头逐键行进，得到哈密顿路径，读出字符。",
+        "路径为 Q A Z X S W E D C V F R T G B N H，字符拼出 sun{qwerty_sucks}。",
+        "提交该 flag，页面显示 Correct。"
+      ],
+      "evidence": [
+        "suntrail.klc is an ASCII Windows Keyboard Layout Creator file (header KBD\\tkbdusx\\t\"US\"), category Forensics.",
+        "LAYOUT rows are '<scancode>\\t<VK>\\t0\\t<state0_char>\\t<state1_char>\\t-1'. State0 chars: U+2198(↘), U+2192(→), U+2196(↖), U+25A0(■) -> trail directions. State1 chars are ASCII letters.",
+        "Key->char map (state1): Q=s W=w E=e R=s T=u A=u S=q D=r F=_ G=c H=} Z=n X={ C=t V=y B=k N=s.",
+        "Applying directions (down/right/up) on the grid yields path Q->A->Z->X->S->W->E->D->C->V->F->R->T->G->B->N->H, visiting all 17 keys exactly once.",
+        "Letters along the path = 'sun{qwerty_sucks}'.",
+        "Submission via platform returned alert 'Correct' confirming the flag."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/62b6255d6d1074339f3e/deepseek-deepseek-flash-5403e74e/d5da45804a86414c/solve.py",
+        ".writeup-drafts/62b6255d6d1074339f3e/deepseek-deepseek-flash-5403e74e/d5da45804a86414c/exp_suntrail.py",
+        ".writeup-drafts/62b6255d6d1074339f3e/deepseek-deepseek-flash-5403e74e/6d61d4a912f9d1b9/brute.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 solve.py",
+        "exit_code": 0,
+        "stdout": "Q(s) -> A(u) -> Z(n) -> X({) -> S(q) -> W(w) -> E(e) -> D(r) -> C(t) -> V(y) -> F(_) -> R(s) -> T(u) -> G(c) -> B(k) -> N(s) -> H(})\nFLAG: sun{qwerty_sucks}\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "9be478d3abaf11893ce684db5e68bf23a64400ed9414e03c34d87a283e7fae68",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:11:31.566960+00:00",
+      "updated_at": "2026-09-27T03:11:41.897978+00:00",
+      "exp_sha256": {
+        "exp/solve.py": "d5da45804a86414ce1f5178a89ee62aeb174ed2cc96ab6c904663d1190f8698b",
+        "exp/exp_suntrail.py": "d5da45804a86414ce1f5178a89ee62aeb174ed2cc96ab6c904663d1190f8698b",
+        "exp/brute.py": "6d61d4a912f9d1b9e8028f6f0dc464d3e02d04b59ded66c33fbe741123bd2814"
+      }
+    }
+  ]
+}

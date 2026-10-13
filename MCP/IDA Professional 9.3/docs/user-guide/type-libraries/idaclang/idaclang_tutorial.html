@@ -1,0 +1,1233 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>IDAClang - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="using-the-idaclang-plugin-for-ida-pro"><a class="header" href="#using-the-idaclang-plugin-for-ida-pro">Using the IDAClang plugin for IDA Pro</a></h1>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>The IDAClang plugin integrates the clang compiler frontend into IDA itself. This allows IDA to parse type information from complex C/C++/Objective-C source code and import it directly into an IDA database.</p>
+<h3 id="libclang"><a class="header" href="#libclang">Libclang</a></h3>
+<p>IDAClang utilizes a specialized build of <a href="https://clang.llvm.org/doxygen/group__CINDEX.html">libclang</a> - the opensource C API for the clang compiler. This custom library is also shipped with IDA alongside the plugin itself, so you do not need to worry about it. The plugin will find and load libclang automatically.</p>
+<p>Our build of libclang is from Clang v13.0, so it can handle any Objective-C syntax and anything from C++20 and earlier.</p>
+<h3 id="motivation"><a class="header" href="#motivation">Motivation</a></h3>
+<p>IDAClang was introduced as a more robust alternative to IDA’s built-in source code parser. The built-in parser can handle simple C source code, but naturally it struggles to handle complex C++ and Objective-C syntax. IDAClang solves this problem by outsourcing all the heavy lifting to a third-party library that can handle the ugly parsing operations. The plugin needs only to parse the abstract syntax tree generated by clang.</p>
+<p>As a result, IDAClang should be much more flexible. You can even feed it complete .cpp source files. The plugin will extract whatever useful type information it can find, and ignore the rest.</p>
+<h4 id="vtables"><a class="header" href="#vtables">VTables</a></h4>
+<p>One big advantage of using libclang is that we can take advantage of clang’s internal C++ VTable management. For example, when IDAClang parses a C++ class that looks like this:</p>
+<pre><code class="language-cpp">class C
+{
+  virtual void func(void);
+};
+</code></pre>
+<p>The following types will be generated in the database:</p>
+<pre><code class="language-c">struct __cppobj C
+{
+  C_vtbl *__vftable /*VFT*/;
+};
+
+struct /*VFT*/ C_vtbl
+{
+  void (__cdecl *func)(C *this);
+};
+</code></pre>
+<p>To create the C_vtbl type, IDAClang traverses clang’s internal VTableLayout data structure. This data structure is the same mechanism that the clang compiler uses during the actual code generation. Thus, we can be very confident that IDAClang is producing correct vtable types - even in much more complex situations. After all, clang knows what it’s doing in this regard.</p>
+<p>Moreover, when using IDAClang to generate a type library (see <a href="#building-type-libraries-with-idaclang">Building Type Libraries with IDAClang</a> below), the plugin will take advantage of clang’s name mangling to populate the symbol table:</p>
+<pre><code>SYMBOLS
+FFFFFFFF 00000000 void __cdecl _ZN1C4funcEv(C *this);
+00000018 00000000 C_vtbl_layout _ZTV1C;
+
+TYPES
+struct C_vtbl_layout
+{
+  __int64 thisOffset;
+  void *rtti;
+  void (__cdecl *func)(C *this);
+};
+</code></pre>
+<p>Here IDAClang created symbols for the <strong>C::func</strong> member function, as well as the mangled VTable symbol for the <strong>C</strong> class.</p>
+<h4 id="templates"><a class="header" href="#templates">Templates</a></h4>
+<p>Another notable advantage of using libclang is it allows us to gracefully handle C++ templates.</p>
+<p>For example, consider the following template declarations:</p>
+<pre><code class="language-cpp">template &lt;typename T, typename V&gt; struct S
+{
+  T x;
+  V y;
+};
+
+typedef S&lt;int, void *&gt; instance_t;
+</code></pre>
+<p>When clang parses the <strong>instance_t</strong> declaration, internally it will generate a structure that represents the specialized template <strong>S&lt;int, void *&gt;</strong>. The IDAClang plugin will then use this internal representation to generate a valid type for <strong>S&lt;int, void *&gt;</strong> in IDA’s type system:</p>
+<pre><code class="language-c">struct S&lt;int, void *&gt;
+{
+  int x;
+  void *y;
+};
+
+typedef S&lt;int, void *&gt; instance_t;
+</code></pre>
+<p>The type with name <strong>S&lt;int, void *&gt;</strong> represents the fully resolved structure, with all template arguments replaced. This all happens automatically, and it is especially useful in more complex situations - such as template classes containing virtual methods that depend on template parameters, resulting in specialized VTables.</p>
+<h2 id="the-idaclang-ui"><a class="header" href="#the-idaclang-ui">The IDAClang UI</a></h2>
+<h3 id="enabling-the-idaclang-parser"><a class="header" href="#enabling-the-idaclang-parser">Enabling the IDAClang Parser</a></h3>
+<p>To provide support for third-party parsers, IDA now has a new <strong>Source parser</strong> field in the <strong>Options&gt;Compiler</strong> dialog:</p>
+<figure><img src="assets/compiler_options1.png" alt="compiler options1"><figcaption></figcaption></figure>
+<p>To enable the IDAClang parser, select the <strong>clang</strong> parser from the dropdown menu:</p>
+<figure><img src="assets/compiler_options2.png" alt="compiler options2"><figcaption></figcaption></figure>
+<p>As a quick sanity check, try saving the following declaration in a file called test.h:</p>
+<pre><code class="language-c">typedef int myint_t;
+</code></pre>
+<p>Parse the file using menu <strong>File&gt;Load file&gt;Parse C header file</strong>. IDA should print this to the output window:</p>
+<pre><code>/private/tmp/test.h: successfully compiled
+</code></pre>
+<p>The type should now be present in the <strong>Local Types</strong> view:</p>
+<figure><img src="assets/local_types1.png" alt="local types1"><figcaption></figcaption></figure>
+<h3 id="configuring-idaclang"><a class="header" href="#configuring-idaclang">Configuring IDAClang</a></h3>
+<p>Of course, IDAClang is capable of parsing source code that is much more complex. Often times this requires more detailed configuration of the parser invocations.</p>
+<p>To support this, the <strong>Compiler&gt;Options</strong> dialog provides the <strong>Arguments</strong> field:</p>
+<figure><img src="assets/compiler_options3.png" alt="compiler options3"><figcaption></figcaption></figure>
+<p>In this field you can provide any argument you would typically provide to the clang compiler when invoking it from the command line. For example:</p>
+<figure><img src="assets/compiler_options4.png" alt="compiler options4"><figcaption></figcaption></figure>
+<p>One of the more important clang arguments is the <strong>-target</strong> option, which specifies the target architecture and platform. This allows clang to properly configure itself to parse macOS/Windows/Linux system headers. Clang calls this the target “triple” because it is often given in the form of:</p>
+<pre><code>-target &lt;arch&gt;-&lt;vendor&gt;-&lt;platform&gt;
+</code></pre>
+<p>Some examples:</p>
+<pre><code>-target arm64-apple-darwin
+-target x86_64-pc-win32
+-target i386-pc-linux
+</code></pre>
+<p>The various combinations of supported targets is documented in more detail <a href="https://clang.llvm.org/docs/CrossCompilation.html">here</a>.</p>
+<p>Note that in the simple <strong>test.h</strong> example above, we did not specify a target platform. In this case clang will assume that the target platform is the same as the host machine IDA is currently running on. You can print the exact target used by clang by opening <strong>Options&gt;Compiler&gt;Parser specific options</strong> and enable the following option:</p>
+<figure><img src="assets/clang_options1.png" alt="clang options1"><figcaption></figcaption></figure>
+<p>Now when we use IDAClang to parse the <strong>test.h</strong> file, it will print a message:</p>
+<pre><code>IDACLANG: triple: x86_64-apple-macosx10.15.0
+</code></pre>
+<p>Which would be the typical output when IDA is running on macOS. On Windows the default will look something like:</p>
+<pre><code>IDACLANG: triple: x86_64-pc-windows-msvc19.29.30137
+</code></pre>
+<p>And on Linux:</p>
+<pre><code>IDACLANG: triple: x86_64-unknown-linux-gnu
+</code></pre>
+<p>Such is the default behavior within libclang, but clang supports a wide variety of platforms and architectures. You can almost always specify a target that will match the input binary in the current database.</p>
+<h3 id="example-files-package"><a class="header" href="#example-files-package">Example Files Package</a></h3>
+<p>You can download all the examples referenced in this tutorial from here:</p>
+<p>{% file src=“assets/examples.zip” %}</p>
+<h3 id="stl-example"><a class="header" href="#stl-example">STL Example</a></h3>
+<p>Now let’s try invoking IDAClang on some more real-world source code.</p>
+<p>In this example, assume we are analyzing an x64 binary that makes heavy use of the C++ Standard Template Library. Then assume that at some point we want to create a structure that looks like this:</p>
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+
+struct stl_example_t
+{
+  std::string str;
+  std::vector&lt;int&gt; vec;
+  std::map&lt;std::string, int&gt; map;
+  std::set&lt;char&gt; set;
+};
+</code></pre>
+<p>This is the contents of stl/stl_example.h from <a href="#example-files-package">examples.zip</a>. IDA’s default parser cannot handle such complex C++ syntax, so IDAClang is our only hope of importing this type. The precise configuration of IDAClang will vary between platforms, so we’ll demonstrate them all separately.</p>
+<p>To parse stl_example.h on macOS, we’ll have to point IDAClang to the macOS SDK as well as the STL system headers:</p>
+<pre><code>-target x86_64-apple-darwin
+-x c++
+-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
+-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3/include
+</code></pre>
+<p>Copy the text above into the <strong>Options&gt;Compiler&gt;Arguments</strong> field.</p>
+<p>Note that we point IDAClang to the macOS SDK with the <strong>-isysroot</strong> option and use the <strong>-I</strong> option to allow IDAClang to find the proper system headers in the Xcode toolchain. Be wary of the last option (ending with usr/lib/clang/11.0.3/include). This path contains the clang version number, so it might be different on your machine. Also make special note of the <strong>-x c++</strong> option. This is used to inform libclang that the input source will <strong>not</strong> be plain C, which is the default syntax for .h files in libclang.</p>
+<p>Now we can use <strong>File&gt;Load file&gt;Parse C header file</strong> to parse stl_example.h. This will generate a useful type for stl_example_t in our database:</p>
+<figure><img src="assets/stl_example_macos.png" alt="stl example macos"><figcaption></figcaption></figure>
+<p>On Windows the configuration is a bit different. If you’re using Visual Studio, libclang is normally able to detect common header paths automatically.</p>
+<p>Thus you will likely only need to specify the following arguments in <strong>Options&gt;Compiler&gt;Arguments</strong>:</p>
+<pre><code>-target x86_64-pc-win32 -x c++
+</code></pre>
+<p>Ideally this will be enough to parse stl_example.h and generate some useful type info:</p>
+<figure><img src="assets/stl_example_windows.png" alt="stl example windows"><figcaption></figcaption></figure>
+<p>If for whatever reason the heuristics within libclang fail to find the headers on your system, it is very easy to specify the header paths manually. Simply open a Visual Studio x64 Command Prompt and run the following command:</p>
+<pre><code>echo %INCLUDE%
+</code></pre>
+<p>This will print a semicolon-separated list of the header paths used on your system:</p>
+<figure><img src="assets/vs_prompt.png" alt="vs prompt"><figcaption></figcaption></figure>
+<p>This list can be copied directly into the <strong>Options&gt;Compiler&gt;Include directories</strong> field in IDA. IDAClang will automatically process this list and pass the header paths to clang upon invocation of the parser. This is likely enough to handle most Windows-based source code.</p>
+<p>On Linux you can determine the header paths used your system by running the following command:</p>
+<pre><code>cpp -v
+</code></pre>
+<p>This will print something like:</p>
+<pre><code>#include &lt;...&gt; search starts here:
+ /usr/lib/gcc/x86_64-linux-gnu/6/include
+ /usr/local/include
+ /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+</code></pre>
+<p>You can then use these arguments in the <strong>Options&gt;Compiler&gt;Arguments</strong> field in IDA:</p>
+<pre><code>-target x86_64-pc-linux-gnu
+-x c++
+-I/usr/lib/gcc/x86_64-linux-gnu/6/include
+-I/usr/local/include
+-I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed
+-I/usr/include/x86_64-linux-gnu
+-I/usr/include
+</code></pre>
+<p>Then use <strong>File&gt;Load file&gt;Parse C header file</strong> to parse stl_example.h.</p>
+<h2 id="invoking-idaclang-from-idapython"><a class="header" href="#invoking-idaclang-from-idapython">Invoking IDAClang from IDAPython</a></h2>
+<p>Like any good IDA feature, IDAClang can also be invoked from an IDAPython script.</p>
+<p>IDA 7.7 introduced the <strong>ida_srclang</strong> module to provide simple support for invoking third-party parsers from IDAPython. Use the following IDAPython commands for an overview of this new module:</p>
+<pre><code>import ida_srclang
+? ida_srclang
+? ida_srclang.parse_decls_with_parser
+? ida_srclang.set_parser_argv
+</code></pre>
+<p>The function <strong>ida_srclang.parse_decls_with_parser</strong> can notably be used to parse source code snippets:</p>
+<pre><code>Python&gt;? ida_srclang.parse_decls_with_parser
+Help on function parse_decls_with_parser in module ida_srclang:
+parse_decls_with_parser(*args) -&gt; 'int'
+    Parse type declarations using the parser with the specified name
+    @param parser_name: (C++: const char *) name of the target parser
+    @param til: (C++: til_t *) type library to store the types
+    @param input: (C++: const char *) input source. can be a file path or decl string
+    @param is_path: (C++: bool) true if input parameter is a path to a source file, false if the
+                    input is an in-memory source snippet
+    @retval -1: no parser was found with the given name
+    @retval else: the number of errors encountered in the input source
+</code></pre>
+<p>If the <strong>is_path</strong> argument is <strong>False</strong>, this function will assume the <strong>input</strong> argument is a string that represents a source code snippet. Otherwise it will be considered a path to a source file on disk. Also note the <strong>til</strong> parameter, which will often times be <strong>None</strong>. This ensures the parsed types are imported directly into the current database.</p>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p>IMPORANT NOTE: when libclang parses in-memory strings, it makes no assumptions about the expected syntax. Thus, you must specify the <strong>-x</strong> option to tell clang which syntax to expect before invoking the parser. Here are the the known syntax directives:</p>
+<pre><code>-x c
+-x c++
+-x objective-c
+-x objective-c++
+</code></pre>
+<p>For example, this is how you would use ida_srclang to parse a simple C source string with IDAClang:</p>
+<pre><code class="language-python">import ida_srclang
+# tell clang the expected syntax
+ida_srclang.set_parser_argv("clang", "-x c")
+# parse a type string
+ida_srclang.parse_decls_with_parser("clang", None, "typedef int myint_t;", False)
+</code></pre>
+<h4 id="stl-example-revisited"><a class="header" href="#stl-example-revisited">STL Example Revisited</a></h4>
+<p>We can also handle the same STL example discussed previously, but this time parse <strong>stl_example_t</strong> as a source snippet:</p>
+<pre><code class="language-python">import ida_srclang
+
+clang_argv = [
+  "-target x86_64-apple-darwin",
+  "-x c++",
+  "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+  "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
+  "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3/include",
+  ]
+ida_srclang.set_parser_argv("clang", " ".join(clang_argv))
+
+decl = """
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+
+struct stl_example_t
+{
+  std::string str;
+  std::vector&lt;int&gt; vec;
+  std::map&lt;std::string, int&gt; map;
+  std::set&lt;char&gt; set;
+};
+"""
+ida_srclang.parse_decls_with_parser("clang", None, decl, False)
+</code></pre>
+<p>This should produce an identical result as before when we used <strong>File&gt;Load file&gt;Parse C header file</strong> for stl_example.h.</p>
+<h4 id="boost-example"><a class="header" href="#boost-example">Boost Example</a></h4>
+<p>In this example we will show how IDAClang can be used in batch mode to improve the analysis of a binary compiled from Boost headers. The experiment will be performed on Debian Linux with gcc 6.3.0.</p>
+<p>Consider the following source files from the boost/ directory in <a href="#example-files-package">examples.zip</a>:</p>
+<ul>
+<li>chat_server.cpp</li>
+<li>chat_message.hpp</li>
+</ul>
+<p>These sources were taken directly from the <a href="https://www.boost.org/doc/libs/1_77_0/doc/html/boost_asio/examples/cpp11_examples.html">Boost 1.77 examples</a>, and we’ll use them to compile a test binary. Begin by downloading the <a href="https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.zip">Boost 1.77.0 headers</a>, then compile the chat_server application:</p>
+<pre><code>g++ -I boost_1_77_0 -std=c++11 -o chat_server.elf chat_server.cpp -lpthread
+</code></pre>
+<p>Since Boost is a template library, it will generate a bloated binary that contains thousands of instantiated template functions. Thus, IDA’s initial analysis of chat_server.elf will likely not be very pretty. How can IDAClang help us with this? Consider boost/chat_server.py from <a href="#example-files-package">examples.zip</a>:</p>
+<pre><code class="language-python">import sys
+import ida_pro
+import ida_auto
+import ida_srclang
+
+clang_argv = {
+  "-target x86_64-pc-linux",
+  "-x c++",
+  "-std=c++11",
+  "-I./boost_1_77_0",
+  # NOTE: include paths were copied from the output of `cpp -v`. they might differ on your machine.
+  "-I/usr/lib/gcc/x86_64-linux-gnu/6/include",
+  "-I/usr/local/include",
+  "-I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed",
+  "-I/usr/include/x86_64-linux-gnu",
+  "-I/usr/include",
+}
+
+# invoke the clang parser
+ida_srclang.set_parser_argv("clang", " ".join(clang_argv))
+ida_srclang.parse_decls_with_parser("clang", None, "./chat_server.cpp", True)
+
+# analyze the input file
+ida_auto.auto_mark_range(0, BADADDR, AU_FINAL)
+ida_auto.auto_wait()
+
+# save and exit
+ida_pro.qexit(0)
+</code></pre>
+<p>This script will configure IDAClang to parse the chat_server.cpp source file and extract any type information it finds, then analyze the input with the imported type info, and saves the resulting database in chat_server.i64. You can run the script like this:</p>
+<pre><code>idat64 -c -A -Schat_server.py -Oidaclang:t -ochat_server.i64 -Lchat_server.log chat_server.elf
+</code></pre>
+<p>You may have noticed this option:</p>
+<pre><code>-Oidaclang:t
+</code></pre>
+<p>This option is passed to the IDAClang plugin and it enables <strong>CLANG_APPLY_TINFO</strong> (see idaclang.cfg for more info).</p>
+<p>Now let’s open the resulting database chat_server.i64 in IDA, and try decompiling some functions. Immediately we see that the analysis does benefit from the imported type info. For example <strong>chat_session::do_write</strong> seems somewhat intelligible after some minor simplifications:</p>
+<figure><img src="assets/boost_example1.png" alt="boost example1"><figcaption></figcaption></figure>
+<p>Since IDAClang parsed the <strong>chat_session</strong> class, we now have a correct prototype for <strong>chat_session:do_write</strong>, as well as a valid <strong>chat_session</strong> structure. Note that references to <strong>chat_session.write_msgs_</strong> (std::deque&lt;chat_message&gt;) and <strong>chat_session.socket</strong> (boost::asio::ip::tcp::socket) were correctly resolved.</p>
+<p>Granted, this is not the most realistic example. It’s not often we have access to the full source code of the target binary, but hopefully this shows that whenever any relevant source code is available, IDAClang can take full advantage.</p>
+<h2 id="building-type-libraries-with-idaclang"><a class="header" href="#building-type-libraries-with-idaclang">Building Type Libraries with IDAClang</a></h2>
+<p>The IDAClang plugin is useful for enriching your database with complex type information, but often times the imported types are relevant to more than just one database. In this section we discuss how you can use IDAClang to generate rich, generic type libraries for IDA Pro.</p>
+<p>Hex-Rays also provides a <a href="https://my.hex-rays.com/dashboard/download-center/downloads">command-line version of IDAClang</a>(which you can download from our Customer Portal), specifically designed for building custom Type Information Libraries (TILs) that can be loaded into any IDA database.</p>
+<p>After downloading the idaclang binary, copy it to the idabin/ directory of your IDA installation (next to the libclang dll).</p>
+<p>For an overview of idaclang’s functionality, run:</p>
+<pre><code>idaclang -h
+</code></pre>
+<p>For a quick demonstration, save the following source in a file named test.h:</p>
+<pre><code class="language-cpp">class C
+{
+  virtual void func(void);
+};
+</code></pre>
+<p>You can compile this header into a type library by invoking idaclang the same way you would typically invoke the clang compiler from the command line:</p>
+<pre><code>idaclang -x c++ -target x86_64-pc-linux test.h
+</code></pre>
+<p>This will generate a file called test.til that contains all types that were parsed in test.h. Try dumping the TIL with the tilib utility.</p>
+<pre><code>tilib -l /tmp/test.til
+
+TYPE INFORMATION LIBRARY CONTENTS
+Description:
+Flags      : 0107 compressed macro_table_present extended_sizeof_info sizeof_long_double
+Base tils  :
+Compiler   : GNU C++
+sizeof(near*) = 8 sizeof(far*) = 8 near code, near data, cdecl
+default_align = 0 sizeof(bool) = 1 sizeof(long)  = 8 sizeof(llong) = 8
+sizeof(enum) = 4 sizeof(int) = 4 sizeof(short) = 2
+sizeof(long double) = 16
+SYMBOLS
+FFFFFFFF 00000000 void __cdecl ZN1C4funcEv(C *__hidden this);
+00000018 00000000 C_vtbl_layout ZTV1C;
+TYPES
+00000008 struct __cppobj C {C_vtbl *__vftable /*VFT*/;};
+00000008 struct /*VFT*/ C_vtbl {void (__cdecl *func)(C *__hidden this);};
+00000018 struct C_vtbl_layout {__int64 thisOffset;void *rtti;void (__cdecl *func)(C *__hidden this);};
+MACROS
+Total 2 symbols, 3 types, 0 macros
+</code></pre>
+<p>The tool also provides extra arguments to configure the til generation. They are given the <strong>–idaclang-</strong> prefix so they can be easily separated from the clang arguments. For example:</p>
+<pre><code>idaclang --idaclang-tilname /tmp/test2.til -x c++ -target x86_64-pc-linux test.h
+</code></pre>
+<p>This will create the library at /tmp/test2.til, instead of the default location.</p>
+<p>Now let’s try building some type libraries from real-world code. The examples in this section will demonstrate the power of IDAClang by creating TILs from many different opensource C++ projects. They cover a large variety of platforms, architectures, and codebases, so it is best to unify the build system using makefiles.</p>
+<p>At the top level of <a href="#example-files-package">examples.zip</a> there should be a makefile named idaclang.mak:</p>
+<pre><code class="language-make">IDACLANG_ARGS += --idaclang-log-all
+IDACLANG_ARGS += --idaclang-tilname $(TIL_NAME)
+IDACLANG_ARGS += --idaclang-tildesc $(TIL_DESC)
+
+CLANG_ARGV += -ferror-limit=50
+
+all: $(TIL_NAME)
+.PHONY: all $(TIL_NAME) clean
+$(TIL_NAME): $(TIL_NAME).til
+
+$(TIL_NAME).til: $(TIL_NAME).mak $(INPUT_FILE)
+    idaclang $(IDACLANG_ARGS) $(CLANG_ARGV) $(INPUT_FILE) &gt; $(TIL_NAME).log
+    tilib64 -ls $(TIL_NAME).til &gt; $(TIL_NAME).til.txt
+
+clean:
+    rm -rf *.til *.txt *.log
+</code></pre>
+<p>This makefile defines a simple rule for building a TIL using the idaclang command-line utility. It will be used extensively in the following examples.</p>
+<h3 id="idasdk"><a class="header" href="#idasdk">IDASDK</a></h3>
+<p>Hex-Rays publishes an SDK for developing custom IDA plugins, which is comprised mostly of C++ header files. Thus, it is a perfect use case for IDAClang. In this example we will build a type library for IDA itself, using IDA SDK, which the latest version you can download from <a href="https://my.hex-rays.com/dashboard/download-center/downloads">Customer Portal</a>.</p>
+<p>After downloading idasdk.zip, unzip it into the <strong>idasdk</strong> subdirectory of <a href="#example-files-package">examples.zip</a>.</p>
+<p>To build this TIL we only need to create a single header file that includes all headers from the IDA SDK, and then parse this file with idaclang. See examples/idasdk/idasdk.h, which contains include directives for all files in idasdk77/include (they happen to be in alphabetical order, but the order shouldn’t matter much):</p>
+<pre><code class="language-c">#include &lt;auto.hpp&gt;
+#include &lt;bitrange.hpp&gt;
+#include &lt;bytes.hpp&gt;
+// ... etc
+#include &lt;typeinf.hpp&gt;
+#include &lt;ua.hpp&gt;
+#include &lt;xref.hpp&gt;
+</code></pre>
+<p>The IDAClang configuration required to parse idasdk.h is highly platform-dependent, so we provide separate makefiles for each of IDA’s supported platforms.</p>
+<p>To demonstrate how we might build idasdk.h on MacOSX, see examples/idasdk/idasdk_mac_x64.mak:</p>
+<pre><code class="language-make">TIL_NAME = idasdk_mac_x64
+TIL_DESC = "IDA SDK headers for MacOSX"
+INPUT_FILE = idasdk.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk
+TOOLCHAIN = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+CLANG_ARGV = -target x86_64-apple-darwin                 \
+             -x objective-c++                            \
+             -isysroot $(SDK)                            \
+             -I$(TOOLCHAIN)/usr/include/c++/v1           \
+             -I$(TOOLCHAIN)/usr/lib/clang/11.0.3/include \
+             -I./idasdk77/include/                       \
+             -D__MAC__                                   \
+             -D__EA64__                                  \
+             -Wno-nullability-completeness
+
+include ../idaclang.mak
+</code></pre>
+<p>You can build the TIL with:</p>
+<pre><code>make -f idasdk_mac_x64.mak
+</code></pre>
+<p>This will generate a type library named idasdk_mac_x64.til, along with a dump of the til contents in idasdk_mac_x64.til.txt. In the text dump we might notice some familiar types:</p>
+<pre><code>00000010 struct __cppobj range_t
+{
+  ea_t start_ea;
+  ea_t end_ea;
+};
+//  0. 0000 0008 effalign(8) fda=0 bits=0000 range_t.start_ea ea_t;
+//  1. 0008 0008 effalign(8) fda=0 bits=0000 range_t.end_ea ea_t;
+//          0010 effalign(8) sda=0 bits=0080 range_t struct packalign=0
+
+00000050 struct __cppobj memory_info_t : range_t
+{
+  qstring name;
+  qstring sclass;
+  ea_t sbase;
+  uchar bitness;
+  uchar perm;
+};
+//  0. 0000 0010 effalign(8) fda=0 bits=0020 memory_info_t.range_t range_t;
+//  1. 0010 0018 effalign(8) fda=0 bits=0000 memory_info_t.name qstring;
+//  2. 0028 0018 effalign(8) fda=0 bits=0000 memory_info_t.sclass qstring;
+//  3. 0040 0008 effalign(8) fda=0 bits=0000 memory_info_t.sbase ea_t;
+//  4. 0048 0001 effalign(1) fda=0 bits=0000 memory_info_t.bitness uchar;
+//  5. 0049 0001 effalign(1) fda=0 bits=0000 memory_info_t.perm uchar;
+//          004A unpadded_size
+//          0050 effalign(8) sda=0 bits=0080 memory_info_t struct packalign=0
+</code></pre>
+<p>It’s worth building a separate til for both x64 and arm64 macOS. IDA’s source code is not very architecture dependent, but many system headers might be. So it’s best to be as precise as possible.</p>
+<p>To build this TIL on macOS12 for Apple Silicon, the approach is very similar:</p>
+<pre><code class="language-make">TIL_NAME = idasdk_mac_arm64
+TIL_DESC = "IDA SDK headers for arm64 macOS 12"
+INPUT_FILE = idasdk.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk
+TOOLCHAIN = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+CLANG_ARGV = -target arm64-apple-darwin                  \
+             -x objective-c++                            \
+             -isysroot $(SDK)                            \
+             -I$(TOOLCHAIN)/usr/lib/clang/13.0.0/include \
+             -I./idasdk77/include/                       \
+             -D__MAC__                                   \
+             -D__EA64__                                  \
+             -D__ARM__                                   \
+             -Wno-nullability-completeness
+
+include ../idaclang.mak
+</code></pre>
+<p>Note that we did not provide the path to the C++ STL headers like we did in idasdk_mac_x64.mak. On macOS12 the C++ headers are shipped within MacOSX12.0.sdk, so there is no need to explicitly tell idaclang where to find them.</p>
+<p>To parse idasdk.h on Windows, use examples/idasdk/idasdk_win.mak:</p>
+<pre><code class="language-make">TIL_NAME = idasdk_win
+TIL_DESC = "IDA SDK headers for x64 Windows"
+INPUT_FILE = idasdk.h
+CLANG_ARGV = -target x86_64-pc-win32       \
+             -x c++                        \
+             -I./idasdk77/include          \
+             -D__NT__                      \
+             -D__EA64__                    \
+             -Wno-nullability-completeness
+
+include ../idaclang.mak
+</code></pre>
+<p>Normally we do not need to specify any include paths, since idaclang can find the Visual Studio headers automatically. If it can’t, you can always explicitly provide include paths with the -I option.</p>
+<p>Building idasdk.h on Linux is also fairly straightforward. See idasdk_linux.mak:</p>
+<pre><code class="language-make">TIL_NAME = idasdk_linux
+TIL_DESC = "IDA SDK headers for x64 linux"
+INPUT_FILE = idasdk.h
+GCC_VERSION = $(shell expr `gcc -dumpversion | cut -f1 -d.`)
+CLANG_ARGV = -target x86_64-pc-linux                                      \
+             -x c++                                                       \
+             -I/usr/lib/gcc/x86_64-linux-gnu/$(GCC_VERSION)/include       \
+             -I/usr/local/include                                         \
+             -I/usr/lib/gcc/x86_64-linux-gnu/$(GCC_VERSION)/include-fixed \
+             -I/usr/include/x86_64-linux-gnu                              \
+             -I/usr/include                                               \
+             -I./idasdk77/include/                                        \
+             -D__LINUX__                                                  \
+             -D__EA64__                                                   \
+             -Wno-nullability-completeness
+
+include ../idaclang.mak
+</code></pre>
+<p>You can also include the decompiler types from the hexrays SDK in the type library for your version of idasdk. Simply copy hexrays.hpp from hexrays_sdk/ in your IDA installation to idasdkXX/include/, then add this line to idasdk.h:</p>
+<pre><code>#include &lt;hexrays.hpp&gt;
+</code></pre>
+<p>Then rebuild the TIL. It will likely yield some useful decompiler types:</p>
+<pre><code>00000050 struct __cppobj minsn_t
+{
+  mcode_t opcode;
+  int iprops;
+  minsn_t *next;
+  minsn_t *prev;
+  ea_t ea;
+  mop_t l;
+  mop_t r;
+  mop_t d;
+};
+//  0. 0000 0004 effalign(4) fda=0 bits=0000 minsn_t.opcode mcode_t;
+//  1. 0004 0004 effalign(4) fda=0 bits=0000 minsn_t.iprops int;
+//  2. 0008 0008 effalign(8) fda=0 bits=0000 minsn_t.next minsn_t *;
+//  3. 0010 0008 effalign(8) fda=0 bits=0000 minsn_t.prev minsn_t *;
+//  4. 0018 0008 effalign(8) fda=0 bits=0000 minsn_t.ea ea_t;
+//  5. 0020 0010 effalign(8) fda=0 bits=0000 minsn_t.l mop_t;
+//  6. 0030 0010 effalign(8) fda=0 bits=0000 minsn_t.r mop_t;
+//  7. 0040 0010 effalign(8) fda=0 bits=0000 minsn_t.d mop_t;
+//          0050 effalign(8) sda=0 bits=0080 minsn_t struct packalign=0
+
+00000028 struct __cppobj minsn_visitor_t : op_parent_info_t
+{
+  minsn_visitor_t_vtbl *__vftable /*VFT*/;
+};
+//  0. 0000 0008 effalign(8) fda=0 bits=0100 minsn_visitor_t.__vftable minsn_visitor_t_vtbl *;
+//  1. 0008 0020 effalign(8) fda=0 bits=0020 minsn_visitor_t.op_parent_info_t op_parent_info_t;
+//          0028 effalign(8) sda=0 bits=0080 minsn_visitor_t struct packalign=0
+</code></pre>
+<h3 id="qt"><a class="header" href="#qt">Qt</a></h3>
+<p>In this example we will build a type library for the Qt Opensource UI Framework. The example uses Qt 5.15.2, but theoretically it can work for any Qt version. We assume you already have a Qt installation present on your system (See the <strong>QTDIR</strong> variable in the following makefiles).</p>
+<p>Let’s start by creating a file that includes as many Qt headers as we can. Qt makes this easy because they ship “umbrella” headers for the various sub-frameworks, which take care of including most of the critical Qt header files.</p>
+<p>See examples/qt/qt.h from <a href="#example-files-package">examples.zip</a>:</p>
+<pre><code class="language-c">#include &lt;QtCore&gt;
+#include &lt;QtGui&gt;
+#include &lt;QtWidgets&gt;
+#include &lt;QtPrintSupport&gt;
+#include &lt;QtNetwork&gt;
+#include &lt;QtConcurrent&gt;
+#include &lt;QtDBus&gt;
+#include &lt;QtDesigner&gt;
+#include &lt;QtDesignerComponents&gt;
+#include &lt;QtHelp&gt;
+#include &lt;QtOpenGL&gt;
+#include &lt;QtSql&gt;
+#include &lt;QtTest&gt;
+#include &lt;QtUiPlugin&gt;
+#include &lt;QtXml&gt;
+</code></pre>
+<p>This will be more than enough to get started.</p>
+<p>To build qt.h on macOS, consider examples/qt/qt_mac.mak:</p>
+<pre><code class="language-make">TIL_NAME = qt_mac
+TIL_DESC = "Qt 5.15.2 headers for x64 macOS"
+INPUT_FILE = qt.h
+QTDIR = /Users/Shared/Qt/5.15.2-x64
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk
+TOOLCHAIN = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/
+CLANG_ARGV = -target x86_64-apple-darwin                           \
+             -x objective-c++                                      \
+             -isysroot $(SDK)                                      \
+             -I$(TOOLCHAIN)/usr/include/c++/v1                     \
+             -I$(TOOLCHAIN)/usr/lib/clang/11.0.3/include           \
+             -F$(QTDIR)/lib/                                       \
+             -I$(QTDIR)/lib/QtCore.framework/Headers               \
+             -I$(QTDIR)/lib/QtGui.framework/Headers                \
+             -I$(QTDIR)/lib/QtWidgets.framework/Headers            \
+             -I$(QTDIR)/lib/QtPrintSupport.framework/Headers       \
+             -I$(QTDIR)/lib/QtNetwork.framework/Headers            \
+             -I$(QTDIR)/lib/QtCLucene.framework/Headers            \
+             -I$(QTDIR)/lib/QtConcurrent.framework/Headers         \
+             -I$(QTDIR)/lib/QtDBus.framework/Headers               \
+             -I$(QTDIR)/lib/QtDesigner.framework/Headers           \
+             -I$(QTDIR)/lib/QtDesignerComponents.framework/Headers \
+             -I$(QTDIR)/lib/QtHelp.framework/Headers               \
+             -I$(QTDIR)/lib/QtOpenGL.framework/Headers             \
+             -I$(QTDIR)/lib/QtSql.framework/Headers                \
+             -I$(QTDIR)/lib/QtTest.framework/Headers               \
+             -I$(QTDIR)/lib/QtUiPlugin.framework/Headers           \
+             -I$(QTDIR)/lib/QtXml.framework/Headers
+
+include ../idaclang.mak
+</code></pre>
+<p>For the Qt build we must explicitly add the Headers/ directory for each Qt framework to the include paths. Also pay special attention to the <strong>-F$(QTDIR)/lib/</strong> option. This option is specific to macOS and informs libclang that the given directory contains <strong>.framework</strong> bundles. This is necessary for some include directives to be resolved correctly, e.g.:</p>
+<pre><code>#include &lt;QtCore/QtCoreDepends&gt;
+</code></pre>
+<p>Now we can build the TIL with:</p>
+<pre><code>make -f qt_mac.mak
+</code></pre>
+<p>We might want to check qt_mac.til.txt to see if some core Qt types were correctly added to the TIL:</p>
+<pre><code>00000010 struct __cppobj QObject
+{
+  QObject_vtbl *__vftable /*VFT*/;
+  QScopedPointer&lt;QObjectData&gt; d_ptr;
+};
+//  0. 0000 0008 effalign(8) fda=0 bits=0100 QObject.__vftable QObject_vtbl *;
+//  1. 0008 0008 effalign(8) fda=0 bits=0000 QObject.d_ptr QScopedPointer&lt;QObjectData&gt;;
+//          0010 effalign(8) sda=0 bits=0080 QObject struct packalign=0
+
+00000030 struct __cppobj QWidget : QObject, QPaintDevice
+{
+  QWidgetData *data;
+};
+//  0. 0000 0010 effalign(8) fda=0 bits=0020 QWidget.QObject QObject;
+//  1. 0010 0018 effalign(8) fda=0 bits=0020 QWidget.QPaintDevice QPaintDevice;
+//  2. 0028 0008 effalign(8) fda=0 bits=0000 QWidget.data QWidgetData *;
+//          0030 effalign(8) sda=0 bits=0080 QWidget struct packalign=0
+</code></pre>
+<p>To build the Qt type library on Windows, use examples/qt/qt_win.mak:</p>
+<pre><code class="language-make">TIL_NAME = qt_win
+TIL_DESC = "Qt 5.15.2 headers for x64 Windows"
+INPUT_FILE = qt.h
+QTDIR = C:\Qt\5.15.2-x64
+CLANG_ARGV = -target x86_64-pc-win32                   \
+             -x c++                                    \
+             -I"$(QTDIR)\include"                      \
+             -I"$(QTDIR)\include\QtCore"               \
+             -I"$(QTDIR)\include\QtGui"                \
+             -I"$(QTDIR)\include\QtWidgets"            \
+             -I"$(QTDIR)\include\QtPrintSupport"       \
+             -I"$(QTDIR)\include\QtNetwork"            \
+             -I"$(QTDIR)\include\QtConcurrent"         \
+             -I"$(QTDIR)\include\QtDBus"               \
+             -I"$(QTDIR)\include\QtDesigner"           \
+             -I"$(QTDIR)\include\QtDesignerComponents" \
+             -I"$(QTDIR)\include\QtHelp"               \
+             -I"$(QTDIR)\include\QtOpenGL"             \
+             -I"$(QTDIR)\include\QtSql"                \
+             -I"$(QTDIR)\include\QtTest"               \
+             -I"$(QTDIR)\include\QtUiPlugin"           \
+             -I"$(QTDIR)\include\QtXml"
+
+include ../idaclang.mak
+</code></pre>
+<p>And on Linux, use examples/qt/qt_linux.mak:</p>
+<pre><code class="language-make">TIL_NAME = qt_linux
+TIL_DESC = "Qt 5.15.2 headers for x64 Linux"
+INPUT_FILE = qt.h
+QTDIR = /usr/local/Qt/5.15.2-x64
+GCC_VERSION = $(shell expr `gcc -dumpversion | cut -f1 -d.`)
+CLANG_ARGV = -target x86_64-pc-linux                                      \
+             -x c++                                                       \
+             -I/usr/lib/gcc/x86_64-linux-gnu/$(GCC_VERSION)/include       \
+             -I/usr/local/include                                         \
+             -I/usr/lib/gcc/x86_64-linux-gnu/$(GCC_VERSION)/include-fixed \
+             -I/usr/include/x86_64-linux-gnu                              \
+             -I/usr/include                                               \
+             -I$(QTDIR)/include                                           \
+             -I$(QTDIR)/include/QtCore                                    \
+             -I$(QTDIR)/include/QtGui                                     \
+             -I$(QTDIR)/include/QtWidgets                                 \
+             -I$(QTDIR)/include/QtPrintSupport                            \
+             -I$(QTDIR)/include/QtNetwork                                 \
+             -I$(QTDIR)/include/QtConcurrent                              \
+             -I$(QTDIR)/include/QtDBus                                    \
+             -I$(QTDIR)/include/QtDesigner                                \
+             -I$(QTDIR)/include/QtDesignerComponents                      \
+             -I$(QTDIR)/include/QtHelp                                    \
+             -I$(QTDIR)/include/QtOpenGL                                  \
+             -I$(QTDIR)/include/QtSql                                     \
+             -I$(QTDIR)/include/QtTest                                    \
+             -I$(QTDIR)/include/QtUiPlugin                                \
+             -I$(QTDIR)/include/QtXml
+
+include ../idaclang.mak
+</code></pre>
+<h3 id="linux-kernel"><a class="header" href="#linux-kernel">Linux Kernel</a></h3>
+<p>This section demonstrates how to build a type library from the Linux Kernel headers.</p>
+<p>First you must ensure that you have the kernel headers installed on your system:</p>
+<pre><code>apt-get install linux-headers-`uname -r`
+</code></pre>
+<p>As well as the tools necessary to build against them:</p>
+<pre><code>apt-get install build-essential
+</code></pre>
+<p>The tricky part about building a TIL for the Linux kernel is configuring the correct include paths. The kernel header directory structure is not consistent between different distros, so there is no one configuration that works on all machines. We’ve found that the easiest way to discover the correct kernel header paths on your system is to build a trivial Linux kernel module, then copy the paths used within the kernel build system.</p>
+<p>Consider examples/linux/lkm_example/lkm_example.c from <a href="#example-files-package">examples.zip</a>:</p>
+<pre><code class="language-c">#include &lt;linux/init.h&gt;
+#include &lt;linux/module.h&gt;
+#include &lt;linux/kernel.h&gt;
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Robert W. Oliver II");
+MODULE_DESCRIPTION("A simple example Linux module.");
+MODULE_VERSION("0.01");
+
+static int __init lkm_example_init(void)
+{
+  printk(KERN_INFO "Hello, world!\n");
+  return 0;
+}
+
+static void __exit lkm_example_exit(void)
+{
+  printk(KERN_INFO "Goodbye, world\n");
+}
+
+module_init(lkm_example_init);
+module_exit(lkm_example_exit);
+</code></pre>
+<p>This is a simple kernel module taken from <a href="https://blog.sourcerer.io/writing-a-simple-linux-kernel-module-d9dc3762c234">this tutorial</a>. It can be built with:</p>
+<pre><code>cd lkm_example/
+make
+</code></pre>
+<p>After building, you may notice that the kernel build system added many hidden files to the build directory. One of them being <strong>.lkm_example.o.cmd</strong>. This file contains the gcc command used to compile the kernel module source file. It will contain many important compiler switches that we will need to copy over to idaclang, including the proper include paths:</p>
+<pre><code>-I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi
+</code></pre>
+<p>These paths are relative to the directory:</p>
+<pre><code>/usr/src/linux-headers-$(uname -r)
+</code></pre>
+<p>We will need to copy them to idaclang as absolute paths. For example, consider examples/linux/linux_kernel_5_11.mak:</p>
+<pre><code class="language-make">TIL_NAME = linux_kernel_5_11
+TIL_DESC = "Linux kernel headers for 5.11.0-41-generic (Ubuntu 20.04)"
+INPUT_FILE = linux.h
+KERNEL_HEADERS = /usr/src/linux-headers-5.11.0-41-generic
+CLANG_ARGV = -target x86_64-pc-linux-gnu                               \
+             -nostdinc                                                 \
+             -isystem /usr/lib/gcc/x86_64-linux-gnu/9/include          \
+             -I$(KERNEL_HEADERS)/arch/x86/include                      \
+             -I$(KERNEL_HEADERS)/arch/x86/include/generated            \
+             -I$(KERNEL_HEADERS)/include                               \
+             -I$(KERNEL_HEADERS)/arch/x86/include/uapi                 \
+             -I$(KERNEL_HEADERS)/arch/x86/include/generated/uapi       \
+             -I$(KERNEL_HEADERS)/include/uapi                          \
+             -I$(KERNEL_HEADERS)/include/generated/uapi                \
+             -include $(KERNEL_HEADERS)/include/linux/compiler_types.h \
+             -D__KERNEL__                                              \
+             -O2                                                       \
+             -mfentry                                                  \
+             -DCC_USING_FENTRY                                         \
+             -Wno-gnu-variable-sized-type-not-at-end
+
+include ../idaclang.mak
+</code></pre>
+<p>This is a makefile we used to successfully generate a Linux kernel TIL on Ubuntu 20.04. The input file <strong>linux.h</strong> contains include directives for a few interesting kernel header files:</p>
+<pre><code class="language-c">#include &lt;linux/kconfig.h&gt;
+#include &lt;linux/init.h&gt;
+#include &lt;linux/module.h&gt;
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/acpi.h&gt;
+#include &lt;linux/fs.h&gt;
+#include &lt;linux/efi.h&gt;
+#include &lt;linux/bpf.h&gt;
+#include &lt;linux/usb.h&gt;
+#include &lt;linux/kmod.h&gt;
+#include &lt;linux/device.h&gt;
+#include &lt;linux/blkdev.h&gt;
+</code></pre>
+<p>It is not an exhaustive list. You can easily make the TIL more robust by adding more headers to linux.h, but for demonstration purposes this is enough to get the ball rolling.</p>
+<p>Inspecting the dump of the til we can see some important kernel types have already been added:</p>
+<pre><code>struct kobject
+{
+  const char *name;
+  list_head entry;
+  kobject *parent;
+  kset *kset;
+  kobj_type *ktype;
+  kernfs_node *sd;
+  kref kref;
+  unsigned __int32 state_initialized : 1;
+  unsigned __int32 state_in_sysfs : 1;
+  unsigned __int32 state_add_uevent_sent : 1;
+  unsigned __int32 state_remove_uevent_sent : 1;
+  unsigned __int32 uevent_suppress : 1;
+};
+
+struct kset
+{
+  list_head list;
+  spinlock_t list_lock;
+  kobject kobj;
+  const kset_uevent_ops *uevent_ops;
+};
+</code></pre>
+<p>On Debian Linux the configuration is slightly different. The kernel header package tends to be split across multiple root directories. We must let idaclang know about both of them. See examples/linux/linux_kernel_4_9.mak:</p>
+<pre><code class="language-make">TIL_NAME = linux_kernel_4_9
+TIL_DESC = "Linux kernel headers for 4.9.0-16-amd64 (Debian 9.13)"
+INPUT_FILE = linux.h
+KERNEL_HEADERS1 = /usr/src/linux-headers-4.9.0-16-common
+KERNEL_HEADERS2 = /usr/src/linux-headers-4.9.0-16-amd64
+CLANG_ARGV = -target x86_64-pc-linux-gnu                          \
+             -nostdinc                                            \
+             -isystem /usr/lib/gcc/x86_64-linux-gnu/6/include     \
+             -I$(KERNEL_HEADERS1)/arch/x86/include                \
+             -I$(KERNEL_HEADERS1)/include                         \
+             -I$(KERNEL_HEADERS1)/arch/x86/include/uapi           \
+             -I$(KERNEL_HEADERS1)/include/uapi                    \
+             -I$(KERNEL_HEADERS2)/arch/x86/include/generated/uapi \
+             -I$(KERNEL_HEADERS2)/arch/x86/include/generated      \
+             -I$(KERNEL_HEADERS2)/include                         \
+             -I$(KERNEL_HEADERS2)/include/generated/uapi          \
+             -D__KERNEL__                                         \
+             -O2                                                  \
+             -mfentry                                             \
+             -DCC_USING_FENTRY                                    \
+             -Wno-gnu-variable-sized-type-not-at-end
+
+include ../idaclang.mak
+</code></pre>
+<p>We used this makefile to generate a Linux kernel TIL on Debian 9.13. It should produce almost the same result as the Ubuntu example discussed above.</p>
+<h3 id="xnu-kernel"><a class="header" href="#xnu-kernel">XNU Kernel</a></h3>
+<p>The XNU kernel for macOS and iOS relies heavily on C++ object-oriented development via the <a href="https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/IOKitFundamentals/Features/Features.html">IOKit framework</a>. The goal of this section is to create a type library for the XNU kernel, focusing specifically on the C++ type information in the IOKit headers.</p>
+<p>Apple publishes the kernel SDK via <strong>Kernel.framework</strong> in the macOS SDK:</p>
+<pre><code>MacOSX12.0.sdk/System/Library/Frameworks/Kernel.framework
+</code></pre>
+<p>The IOKit C++ headers are usually present at:</p>
+<pre><code>MacOSX12.0.sdk/System/Library/Frameworks/Kernel.framework/Headers/IOKit
+</code></pre>
+<p>See examples/xnu/xnu.h in <a href="#example-files-package">examples.zip</a>, which includes some of the important header files from the IOKit/ directory. We’ll use this file to generate our type library.</p>
+<p>Now consider examples/xnu/xnu_x64.mak:</p>
+<pre><code class="language-make">TIL_NAME = xnu_x64
+TIL_DESC = "Darwin Kernel Headers for x64 macOS"
+INPUT_FILE = xnu.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk
+CLANG_ARGV = -target x86_64-apple-macos12.0                              \
+             -x c++                                                      \
+             -isysroot $(SDK)                                            \
+             -I$(SDK)/System/Library/Frameworks/Kernel.framework/Headers \
+             -nostdinc                                                   \
+             -std=gnu++1z                                                \
+             -stdlib=libc++                                              \
+             -mkernel                                                    \
+             -DKERNEL                                                    \
+             -DAPPLE                                                     \
+             -DNeXT
+
+include ../idaclang.mak
+</code></pre>
+<p>We can use this makefile to generate an XNU TIL:</p>
+<pre><code>make -f xnu_x64.mak
+</code></pre>
+<p>Now let’s have a look at the OSMetaClassBase class in the text dump <strong>xnu_x64.til.txt</strong>:</p>
+<pre><code>00000008 struct __cppobj OSMetaClassBase
+{
+  OSMetaClassBase_vtbl *__vftable /*VFT*/;
+};
+//  0. 0000 0008 effalign(8) fda=0 bits=0100 OSMetaClassBase.__vftable OSMetaClassBase_vtbl *;
+//          0008 effalign(8) sda=0 bits=0080 OSMetaClassBase struct packalign=0
+</code></pre>
+<p>More specifically the OSMetaClassBase_vtbl type, which has some peculiar members at the end of it:</p>
+<pre><code>00000088 struct /*VFT*/ OSMetaClassBase_vtbl
+{
+  ...
+  void (__cdecl *_RESERVEDOSMetaClassBase4)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase5)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase6)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase7)(OSMetaClassBase *__hidden this);
+}
+</code></pre>
+<p>Apple added several dummy virtual methods to this class so that they can add new methods without breaking binary compatibility. This is a common paradigm in the XNU kernel source, but we must be <em>very</em> careful with it. From the original source code in OSMetaClass.h, we can see that it is heavily platform dependent:</p>
+<pre><code class="language-c">#if APPLE_KEXT_VTABLE_PADDING
+// Virtual Padding
+#if defined(__arm64__) || defined(__arm__)
+    virtual void _RESERVEDOSMetaClassBase0();
+    virtual void _RESERVEDOSMetaClassBase1();
+    virtual void _RESERVEDOSMetaClassBase2();
+    virtual void _RESERVEDOSMetaClassBase3();
+#endif /* defined(__arm64__) || defined(__arm__) */
+    virtual void _RESERVEDOSMetaClassBase4();
+    virtual void _RESERVEDOSMetaClassBase5();
+    virtual void _RESERVEDOSMetaClassBase6();
+    virtual void _RESERVEDOSMetaClassBase7();
+#endif /* APPLE_KEXT_VTABLE_PADDING */
+</code></pre>
+<p>Note that the APPLE_KEXT_VTABLE_PADDING macro is not defined for iOS builds. The iOS kernel does not pad its vtables in order to conserve memory, so these extra vtable members will only be present for macOS builds. Moreover, from the above source we can see that arm64 macOS uses <em>more</em> vtable padding than on x64.</p>
+<p>Why is this a big deal? Because almost every single important C++ class in IOKit inherits from OSMetaClassBase. Thus if the vtable type for OSMetaClassBase is not 100% correct, <em>all</em> of our vtable types will be useless. We have no choice but to build separate TILs for each of x64 macOS, arm64 macOS, and iOS, to ensure that we’re working with precise vtables.</p>
+<p>See examples/xnu/xnu_m1.mak, which builds the XNU TIL for arm64 macOS:</p>
+<pre><code class="language-make">TIL_NAME = xnu_m1
+TIL_DESC = "Darwin Kernel Headers for arm64 macOS"
+INPUT_FILE = xnu.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk
+CLANG_ARGV = -target arm64e-apple-macos12.0                              \
+             -x c++                                                      \
+             -isysroot $(SDK)                                            \
+             -I$(SDK)/System/Library/Frameworks/Kernel.framework/Headers \
+             -nostdinc                                                   \
+             -std=gnu++1z                                                \
+             -stdlib=libc++                                              \
+             -mkernel                                                    \
+             -DKERNEL                                                    \
+             -DAPPLE                                                     \
+             -DNeXT
+
+include ../idaclang.mak
+</code></pre>
+<p>From the text dump we can see that OSMetaClassBase_vtbl is a bit larger, as expected:</p>
+<pre><code>000000A8 struct /*VFT*/ OSMetaClassBase_vtbl
+{
+  ...
+  void (__cdecl *_RESERVEDOSMetaClassBase0)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase1)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase2)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase3)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase4)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase5)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase6)(OSMetaClassBase *__hidden this);
+  void (__cdecl *_RESERVEDOSMetaClassBase7)(OSMetaClassBase *__hidden this);
+}
+</code></pre>
+<p>To build the TIL for iOS, use xnu_ios.mak:</p>
+<pre><code class="language-make">TIL_NAME = xnu_ios
+TIL_DESC = "Darwin Kernel Headers for arm64e iOS"
+INPUT_FILE = xnu.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk
+CLANG_ARGV = -target arm64e-apple-ios15-macabi                           \
+             -x c++                                                      \
+             -isysroot $(SDK)                                            \
+             -I$(SDK)/System/Library/Frameworks/Kernel.framework/Headers \
+             -nostdinc                                                   \
+             -std=gnu++1z                                                \
+             -stdlib=libc++                                              \
+             -mkernel                                                    \
+             -DKERNEL                                                    \
+             -DAPPLE                                                     \
+             -DNeXT
+
+include ../idaclang.mak
+</code></pre>
+<p>Which yields smaller vtables without any padding, as expected:</p>
+<pre><code>00000068 struct /*VFT*/ OSMetaClassBase_vtbl
+</code></pre>
+<p>Hopefully this section demonstrates how easy it is to get in trouble when building type libraries from C++ source, and how the precision of idaclang can help deal with it.</p>
+<h3 id="mfc"><a class="header" href="#mfc">MFC</a></h3>
+<p>The makefile examples/mfc/mfc.mak from <a href="#example-files-package">examples.zip</a> demonstrates how to build a type library for the Microsoft Foundation Class Library (MFC) on Windows:</p>
+<pre><code class="language-make">TIL_NAME = mfc
+TIL_DESC = "Microsoft Foundation Class library for x86"
+INPUT_FILE = mfc.h
+CLANG_ARGV = -x c++ -target i386-pc-win32
+include ../idaclang.mak
+</code></pre>
+<p>This makefile instructs idaclang to parse examples/mfc/mfc.h, which contains some essential MFC headers:</p>
+<pre><code class="language-c">#include &lt;afxwin.h&gt;         // MFC core and standard components
+#include &lt;afxext.h&gt;         // MFC extensions
+#include &lt;afxdisp.h&gt;        // MFC OLE automation classes
+#include &lt;afxcmn.h&gt;         // MFC support for Windows Common Controls
+#include &lt;atlbase.h&gt;
+#include &lt;atlcom.h&gt;
+</code></pre>
+<p>This is enough to generate a solid type library for MFC. You can build it with:</p>
+<pre><code>make -f mfc.mak
+</code></pre>
+<p>From the dump of the til in mfc.til.txt, it appears some essential types are successfully created:</p>
+<pre><code>00000004 #pragma pack(push, 8)
+struct __cppobj CObject
+{
+  CObject_vtbl *__vftable /*VFT*/;
+};
+#pragma pack(pop)
+//  0. 0000 0004 effalign(4) fda=0 bits=0100 CObject.__vftable CObject_vtbl *;
+//          0004 effalign(4) sda=0 bits=0080 CObject struct packalign=4
+
+00000014 #pragma pack(push, 8)
+struct __cppobj CFile : CObject
+{
+  HANDLE m_hFile;
+  BOOL m_bCloseOnDelete;
+  CString m_strFileName;
+  ATL::CAtlTransactionManager *m_pTM;
+};
+#pragma pack(pop)
+//  0. 0000 0004 effalign(4) fda=0 bits=0020 CFile.CObject CObject;
+//  1. 0004 0004 effalign(4) fda=0 bits=0000 CFile.m_hFile HANDLE;
+//  2. 0008 0004 effalign(4) fda=0 bits=0000 CFile.m_bCloseOnDelete BOOL;
+//  3. 000C 0004 effalign(4) fda=0 bits=0000 CFile.m_strFileName CString;
+//  4. 0010 0004 effalign(4) fda=0 bits=0000 CFile.m_pTM ATL::CAtlTransactionManager *;
+//          0014 effalign(4) sda=0 bits=0080 CFile struct packalign=4
+</code></pre>
+<p>There are many more headers that could be included in the build, so don’t hesitate to add more headers to mfc.h if you think they might contain relevant types.</p>
+<h3 id="macosios-sdk"><a class="header" href="#macosios-sdk">macOS/iOS SDK</a></h3>
+<p>One advantage of using libclang is that we can parse the complex Objective-C syntax used in macOS and iOS Frameworks. Thus we can create type libraries from Apple’s SDKs without much issue.</p>
+<p>See examples/macsdk/macos12_sdk.mak in <a href="#example-files-package">examples.zip</a>, which creates a TIL from the macOS12 SDK:</p>
+<pre><code class="language-make">TIL_NAME = macos12_sdk
+TIL_DESC = "MacOSX12.0.sdk headers for x64"
+INPUT_FILE = macos12_sdk.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk
+TOOLCHAIN = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+CLANG_ARGV = -target x86_64-apple-darwin                 \
+             -x objective-c++                            \
+             -isysroot $(SDK)                            \
+             -I$(TOOLCHAIN)/usr/lib/clang/13.0.0/include
+
+include ../idaclang.mak
+</code></pre>
+<p>The input file used here is examples/macsdk/macos12_sdk.h, which simply includes the umbrella header from every Framework present in the SDK:</p>
+<pre><code class="language-c">#include &lt;CoreFoundation/CoreFoundation.h&gt;
+#include &lt;CoreServices/CoreServices.h&gt;
+#include &lt;CoreText/CoreText.h&gt;
+// ... etc
+#include &lt;WidgetKit/WidgetKit.h&gt;
+#include &lt;SystemExtensions/SystemExtensions.h&gt;
+#include &lt;Virtualization/Virtualization.h&gt;
+</code></pre>
+<p>The Frameworks that have an umbrella header can be easily identified by their <strong>module.modulemap</strong> file. For example:</p>
+<pre><code>$ cat MacOSX12.0.sdk/System/Library/Frameworks/Network.framework/Modules/module.modulemap
+framework module Network [system] [extern_c] {
+    umbrella header "Network.h"
+    export *
+}
+</code></pre>
+<p>Some Frameworks don’t have an umbrella header and they were left out, but this still gives us plenty of useful type info. From macos12_sdk.til.txt we can see that many Objective-C types were successfully parsed:</p>
+<pre><code>00000030 struct NSCalendarDate
+{
+  NSDate super;
+  NSUInteger refCount;
+  NSTimeInterval _timeIntervalSinceReferenceDate;
+  NSTimeZone *_timeZone;
+  NSString *_formatString;
+  void *_reserved;
+};
+//  0. 0000 0008 effalign(8) fda=0 bits=0000 NSCalendarDate.super NSDate;
+//  1. 0008 0008 effalign(8) fda=0 bits=0000 NSCalendarDate.refCount NSUInteger;
+//  2. 0010 0008 effalign(8) fda=0 bits=0000 NSCalendarDate._timeIntervalSinceReferenceDate NSTimeInterval;
+//  3. 0018 0008 effalign(8) fda=0 bits=0000 NSCalendarDate._timeZone NSTimeZone *;
+//  4. 0020 0008 effalign(8) fda=0 bits=0000 NSCalendarDate._formatString NSString *;
+//  5. 0028 0008 effalign(8) fda=0 bits=0000 NSCalendarDate._reserved void *;
+//          0030 effalign(8) sda=0 bits=0000 NSCalendarDate struct packalign=0
+</code></pre>
+<p>Also the prototypes for many Objective-C methods were added to the symbol table:</p>
+<pre><code>NWHostEndpoint *__cdecl +[NWHostEndpoint endpointWithHostname:port:](id, SEL, NSString *hostname, NSString *port);
+</code></pre>
+<p>Having such detailed and accurate prototypes for Objective-C Frameworks is particularly useful when analyzing dyld_shared_cache files. The type information parsed in the source headers is much more detailed than the Objective-C type information embedded in the module binaries.</p>
+<p>Note that you can build the same TIL for Apple Silicon by simply changing the -target argument to:</p>
+<pre><code>-target arm64-apple-darwin
+</code></pre>
+<p>Building a TIL for the iPhoneOS.sdk is just as easy. See ios15_sdk.mak and ios15_sdk.h:</p>
+<pre><code class="language-make">TIL_NAME = ios15_sdk
+TIL_DESC = "iPhoneOS15.0.sdk headers for arm64"
+INPUT_FILE = ios15_sdk.h
+SDK = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk
+TOOLCHAIN = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+CLANG_ARGV = -target arm64-apple-darwin                  \
+             -x objective-c++                            \
+             -isysroot $(SDK)                            \
+             -I$(TOOLCHAIN)/usr/lib/clang/13.0.0/include
+
+include ../idaclang.mak
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../user-guide/type-libraries.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../user-guide/type-libraries/tilib.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../user-guide/type-libraries.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../user-guide/type-libraries/tilib.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../highlight-abc7f01d.js"></script>
+        <script src="../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

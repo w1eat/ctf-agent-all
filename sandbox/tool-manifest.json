@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "target_architecture": "x86_64",
+  "categories": {
+    "web": [
+      {"name": "curl", "command": "curl", "use": "HTTP requests"},
+      {"name": "nmap", "command": "nmap", "use": "service discovery"},
+      {"name": "sqlmap", "command": "sqlmap", "use": "SQL injection testing"},
+      {"name": "ffuf", "command": "ffuf", "use": "path and parameter discovery"},
+      {"name": "requests", "module": "requests", "use": "scripted HTTP sessions"},
+      {"name": "Beautiful Soup", "module": "bs4", "use": "HTML parsing"},
+      {"name": "Playwright", "module": "playwright.sync_api", "use": "headless Chromium DOM and screenshots"}
+    ],
+    "pwn": [
+      {"name": "gcc", "command": "gcc", "use": "build native and i386 fixtures"},
+      {"name": "gdb", "command": "gdb", "use": "native debugger"},
+      {"name": "gdb-multiarch", "command": "gdb-multiarch", "use": "cross-architecture debugger"},
+      {"name": "qemu-arm", "command": "qemu-arm", "use": "ARM user-mode emulation"},
+      {"name": "qemu-mips", "command": "qemu-mips", "use": "MIPS user-mode emulation"},
+      {"name": "patchelf", "command": "patchelf", "use": "ELF interpreter and rpath editing"},
+      {"name": "pwntools", "module": "pwn", "use": "exploit scripting"},
+      {"name": "angr", "module": "angr", "use": "symbolic execution"},
+      {"name": "ROPgadget", "command": "ROPgadget", "use": "ROP gadget search"}
+    ],
+    "reverse": [
+      {"name": "radare2", "command": "r2", "use": "static disassembly"},
+      {"name": "Ghidra headless", "command": "ghidra-headless", "use": "headless analysis and decompilation"},
+      {"name": "JDK 21", "command": "javac", "use": "Java runtime and compiler required by Ghidra"},
+      {"name": "PyGhidra", "module": "pyghidra", "use": "Ghidra from Python"},
+      {"name": "binwalk", "command": "binwalk", "use": "embedded-file inspection"},
+      {"name": "pefile", "module": "pefile", "use": "PE static parsing"},
+      {"name": "dnfile", "module": "dnfile", "use": ".NET metadata parsing"}
+    ],
+    "crypto": [
+      {"name": "SageMath", "command": "sage", "use": "CAS, LLL and algebra"},
+      {"name": "RsaCtfTool", "command": "RsaCtfTool", "use": "RSA attack collection"},
+      {"name": "CADO-NFS", "command": "cado-nfs", "use": "large integer factoring"},
+      {"name": "flatter", "command": "flatter", "use": "lattice reduction"},
+      {"name": "PyCryptodome", "module": "Crypto", "use": "cryptographic primitives"},
+      {"name": "z3", "module": "z3", "use": "constraint solving"},
+      {"name": "fpylll", "module": "fpylll", "use": "LLL and BKZ"},
+      {"name": "torch", "module": "torch", "use": "ML challenge tensors"},
+      {"name": "Keras", "module": "keras", "use": "ML model loading"}
+    ],
+    "forensics": [
+      {"name": "tshark", "command": "tshark", "use": "PCAP protocol filtering"},
+      {"name": "Scapy", "module": "scapy.all", "use": "packet scripting"},
+      {"name": "Volatility 3", "command": "vol", "use": "memory-image analysis"},
+      {"name": "Sleuth Kit", "command": "fls", "use": "filesystem analysis"},
+      {"name": "foremost", "command": "foremost", "use": "file carving"},
+      {"name": "exiftool", "command": "exiftool", "use": "metadata inspection"},
+      {"name": "pdfinfo", "command": "pdfinfo", "use": "PDF metadata"},
+      {"name": "pdftotext", "command": "pdftotext", "use": "PDF text extraction"},
+      {"name": "olevba", "command": "olevba", "use": "Office macro inspection"}
+    ],
+    "stego": [
+      {"name": "steghide", "command": "steghide", "use": "JPEG, BMP and WAV extraction"},
+      {"name": "stegseek", "command": "stegseek", "use": "steghide password recovery"},
+      {"name": "zsteg", "command": "zsteg", "use": "PNG and BMP bit planes"},
+      {"name": "pngcheck", "command": "pngcheck", "use": "PNG structure checks"},
+      {"name": "ImageMagick", "command": "convert", "use": "image transformations"},
+      {"name": "ffmpeg", "command": "ffmpeg", "use": "audio and video extraction"},
+      {"name": "sox", "command": "sox", "use": "audio analysis"}
+    ],
+    "misc": [
+      {"name": "7z", "command": "7z", "use": "archive extraction"},
+      {"name": "john", "command": "john", "use": "password recovery"},
+      {"name": "hashcat", "command": "hashcat", "use": "CPU OpenCL password recovery"},
+      {"name": "tesseract", "command": "tesseract", "use": "English and Chinese OCR"},
+      {"name": "zbarimg", "command": "zbarimg", "use": "QR and barcode decoding"},
+      {"name": "Pillow", "module": "PIL", "use": "image scripting"},
+      {"name": "pypdf", "module": "pypdf", "use": "PDF scripting"}
+    ],
+    "mobile": [
+      {"name": "jadx", "command": "jadx", "use": "APK and DEX static decompilation"},
+      {"name": "apktool", "command": "apktool", "use": "APK resources and smali"},
+      {"name": "Androguard", "module": "androguard", "use": "APK scripting"},
+      {"name": "adb", "command": "adb", "use": "connect to an external Android device"},
+      {"name": "frida", "command": "frida", "use": "connect to an external Frida server"}
+    ],
+    "osint": [
+      {"name": "dig", "command": "dig", "use": "DNS inspection"},
+      {"name": "whois", "command": "whois", "use": "domain registration lookup"},
+      {"name": "headless browser", "module": "playwright.sync_api", "use": "render public web pages"}
+    ],
+    "blockchain": [
+      {"name": "forge", "command": "forge", "use": "contract build and tests"},
+      {"name": "cast", "command": "cast", "use": "EVM RPC interaction"},
+      {"name": "anvil", "command": "anvil", "use": "local EVM node"},
+      {"name": "solc", "command": "solc", "use": "Solidity compiler"},
+      {"name": "slither", "command": "slither", "use": "contract static analysis"},
+      {"name": "Web3.py", "module": "web3", "use": "Ethereum scripting"}
+    ]
+  }
+}

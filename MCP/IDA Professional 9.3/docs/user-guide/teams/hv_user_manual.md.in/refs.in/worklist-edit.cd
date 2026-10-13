@@ -1,0 +1,7 @@
+.WORKLIST_ID The worklist to modify.
+.DESCRIPTION The new description for the worklist.
+
+>Edits a worklist description.
+
+! change description of worklist 4
+$$ 4 "vm2vm: resolved all offsets in 'main' function"

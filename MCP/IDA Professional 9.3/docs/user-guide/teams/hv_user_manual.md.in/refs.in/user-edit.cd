@@ -1,0 +1,10 @@
+.USERNAME The username of the user to modify.
+.REALNAME The full name of the user.
+.EMAIL The email address of the user.
+.IS_ADMIN Should be 1 if the user is admin, otherwise 0.
+.NOTES Extra notes about the user.
+
+>Edits a user definition.
+
+!
+$$ johndoe "John Doe" john_doe@doe.net 0 "NOTES"

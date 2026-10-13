@@ -1,0 +1,33 @@
+version: beta2
+platform: unknown
+native_id: '24'
+name: RoboCall
+category: RE
+description: 'Welcome to robocall! Let''s see how nimbly you navigate this stack.
+  Files: robocall (https://sunshinectf.games/files/42969e/robocall, sha256 4f27b9746e5c3e433108ff1902bf31229d1a518f0d282f29f029b017932811bd,
+  30968 bytes). nc sunshinectf.games 26199'
+value: 486
+files:
+- distfiles/robocall
+challenge_mode: hybrid
+connection_info: nc sunshinectf.games 26199
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#RoboCall-24
+environment:
+  status: unknown
+  source: remote
+  url: ''
+  host: sunshinectf.games
+  port: 26199
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- name: robocall
+  sha256: 4f27b9746e5c3e433108ff1902bf31229d1a518f0d282f29f029b017932811bd
+  size: 30968
+  target: a[href="https://sunshinectf.games/files/42969e/robocall"]
+  url: https://sunshinectf.games/files/42969e/robocall
+attachments_scanned: true
+state: solved
+reason: ''

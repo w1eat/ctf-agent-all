@@ -1,0 +1,33 @@
+version: beta2
+platform: ctfd
+native_id: '16'
+name: Layers of Secrets
+category: BSides Orlando
+description: 'That copper-and-FR4 sandwich hanging from your neck is hiding a buried
+  secret... (BSides Orlando 2026 on-site PCB challenge: the answer is on the ''Lil
+  Chompy'' conference badge PCB, 4-layer FR4.) REMOTE-ATTEMPT GUIDANCE: this is a
+  pure OSINT challenge with no local environment or attachment. Locate the published
+  BSides Orlando 2026 ''Lil Chompy'' badge hardware design files (KiCad/Gerber) and
+  firmware (GitHub: bsidesorlando / kcolley badge repos) and inspect the inner copper
+  layers for hidden text/flag.'
+value: 0
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#Layers%20of%20Secrets-16
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Layers%20of%20Secrets-16
+environment:
+  status: not_required
+  source: platform-page
+  url: ''
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment and no attachment: BSides Orlando on-site PCB challenge;
+      answer is on the physical conference badge PCB. Solvable remotely only via OSINT
+      on published badge design files.'
+capabilities: []
+attachments: []
+attachments_scanned: true
+state: ready
+reason: ''

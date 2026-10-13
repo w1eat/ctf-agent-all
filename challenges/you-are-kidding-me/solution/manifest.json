@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "current_key": "ebc803cdea280628b195:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "ebc803cdea280628b195:platform_confirmed",
+      "flag": "sun{h0tw1r3d_4dm1n_jwt}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "You Are Kidding Me",
+        "category": "web",
+        "description": "Ever wanted to read up on the cars of the future? We got a blog for that!",
+        "connection_info": "https://kidding.web.2026.sunshinectf.games/",
+        "value": 427,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via JWT `kid` header path-traversal file disclosure in /admin's debug 'Pass Inspector', which leaks the Flask source containing a hardcoded editor HS256 signing key; forge an editor JWT to read the flag.: sun{h0tw1r3d_4dm1n_jwt} | Evidence: /login issues a JWT with header kid=reader.key, HS256 (observed Set-Cookie token=[已脱敏] ; /admin loads the file named in the JWT `kid` header via os.path.join('/app/keys', kid) and, when the resolved path is not protected, dumps the file contents in the debug 'Pass Inspector' panel. ; GET /admin with kid=/etc/passwd dumped /etc/passwd contents; kid=/app/app.py dumped the Flask source (confirmed reachable at GET /admin, HTTP 401 with disclosed body). ; The dumped /app/app.py hardcodes EDITOR_KEY = b'ch-pr0t0type-edit0r-s1gn1ng-k3y-d0-n0t-sh1p' and reveals is_protected() only withholds the two key files and flag.txt. ; Forged HS256 JWT: header {alg:HS256,kid:editor.key}, payload {sub:reader,role:editor}, signed with the leaked editor key -> GET /admin returns HTTP 200 with body containing sun{h0tw1r3d_4dm1n_jwt}.",
+      "solution_steps": [
+        "访问 /login，POST name=reader 获取 HS256 JWT，观察 header 中的 kid=reader.key。",
+        "构造伪造 token 访问 /admin，用 kid 字段做路径穿越读取文件：kid=/etc/passwd、kid=/app/app.py，服务端把文件内容在 'Pass Inspector' 调试面板中回显（不受保护的路径才会回显）。",
+        "从泄露的 /app/app.py 源码里拿到硬编码的编辑器签名密钥 EDITOR_KEY = b'ch-pr0t0type-edit0r-s1gn1ng-k3y-d0-n0t-sh1p'，并确认 is_protected() 只屏蔽 reader.key/editor.key/flag.txt。",
+        "用该密钥自行签发 HS256 JWT：header={alg:HS256,kid:editor.key,typ:JWT}，payload={sub:reader,role:editor}。",
+        "携带该 token 请求 /admin，服务端校验通过且 role=editor，返回 flag：sun{h0tw1r3d_4dm1n_jwt}。"
+      ],
+      "evidence": [
+        "/login issues a JWT with header kid=reader.key, HS256 (observed Set-Cookie token=[已脱敏]",
+        "/admin loads the file named in the JWT `kid` header via os.path.join('/app/keys', kid) and, when the resolved path is not protected, dumps the file contents in the debug 'Pass Inspector' panel.",
+        "GET /admin with kid=/etc/passwd dumped /etc/passwd contents; kid=/app/app.py dumped the Flask source (confirmed reachable at GET /admin, HTTP 401 with disclosed body).",
+        "The dumped /app/app.py hardcodes EDITOR_KEY = b'ch-pr0t0type-edit0r-s1gn1ng-k3y-d0-n0t-sh1p' and reveals is_protected() only withholds the two key files and flag.txt.",
+        "Forged HS256 JWT: header {alg:HS256,kid:editor.key}, payload {sub:reader,role:editor}, signed with the leaked editor key -> GET /admin returns HTTP 200 with body containing sun{h0tw1r3d_4dm1n_jwt}.",
+        "Platform submission page displayed alert 'Correct'."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/ebc803cdea280628b195/deepseek-deepseek-flash-5403e74e/c76ce3d028649e27/solve.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 solve.py",
+        "exit_code": 0,
+        "stdout": "200\n['sun{h0tw1r3d_4dm1n_jwt}']\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "1010621993d6446e8c29da4eb6ee9ad7d09d9376be1656650122378ea508f9d4",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:12:27.123312+00:00",
+      "updated_at": "2026-09-27T03:12:37.834036+00:00",
+      "exp_sha256": {
+        "exp/solve.py": "c76ce3d028649e27467c5da3e345c3c1a2c2811a2f32e4f497565dd9e1242407"
+      }
+    }
+  ]
+}

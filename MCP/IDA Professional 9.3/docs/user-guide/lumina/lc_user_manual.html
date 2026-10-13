@@ -1,0 +1,949 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>lc command reference manual - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="lc-command-reference-manual"><a class="header" href="#lc-command-reference-manual">lc command reference manual</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>The lc executable provides a command-line interface to interact with a Lumina server and its contents.</p>
+<p>NOTE: virtually all the commands described in this document,
+require administrator rights; “regular” users will typically not
+have the necessary privileges.</p>
+<h2 id="command-line-options"><a class="header" href="#command-line-options">Command-line options</a></h2>
+<p><strong>-h, –host</strong> HOSTNAME[:PORT]<br>Lumina host name and port (if port is omitted, it defaults to 443)</p>
+<p><strong>-u</strong> USERNAME<br>specify username</p>
+<p><strong>-p</strong> PASSWORD<br>specify password</p>
+<p><strong>-v, –verbose</strong><br>verbose output</p>
+<p>In order to connect to a Lumina server, lc must at least be provided with a hostname and a valid user-password pair.</p>
+<p>In order to keep the various commands’ syntax as clear as possible, we will omit the login options from commands for the rest of this manual.</p>
+<p>Other options exists, specific to each lc command (see <a href="#commands">Commands</a>).</p>
+<h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
+<p>The following commands are accepted by lc:</p>
+<h3 id="operating-with-metadata"><a class="header" href="#operating-with-metadata">Operating with metadata</a></h3>
+<p>Commands in this section let users view metadata stored in the Lumina server and their history.</p>
+<h4 id="hist-show"><a class="header" href="#hist-show"><code>hist show</code></a></h4>
+<p><strong>hist show [OPTION]</strong></p>
+<p>Queries history of changes for function(s).</p>
+<p>The following informations will be displayed for each change:</p>
+<ul>
+<li>The ID of the change</li>
+<li>The timestamp of the change</li>
+<li>The ID of the push that contains the change</li>
+<li>The name of the function at that change (+ <code>(*)</code> if it has been modified past this change)</li>
+<li>optional: The username of the user that pushed this change</li>
+<li>optional: The name of the license associated with the push for this change</li>
+<li>optional: The email of the license associated with the push for this change</li>
+<li>optional: The ID of the license associated with the push for this change</li>
+<li>optional: The ID of the function</li>
+<li>optional: The effective address (EA) of the function in the input file for the change</li>
+<li>optional: The hash of the function</li>
+<li>optional: The path of the idb file where the change came from</li>
+<li>optional: The hash of the file where the change came from</li>
+<li>optional: The path of the file where the change came from</li>
+</ul>
+<p>TIP: Wildcards can be used to facilitate the usage of options that take strings as input.
+See the <a href="#string-patterns">appendix</a>.</p>
+<p><strong>Options:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short form</th><th>Long form</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>-a</code></td><td><code>--additional-fields LIST</code></td><td>Comma-delimited list of additional info to display (<code>username</code>, <code>license_name</code>, <code>license_email</code>, <code>license_id</code>, <code>func_id</code>, <code>func_ea</code>, <code>calcrel_hash</code>, <code>idb_path</code>, <code>input_hash</code>, <code>input_path</code>, <code>all</code>)</td></tr>
+<tr><td><code>-d</code></td><td><code>--details</code></td><td>Show details (diff-like) for each change</td></tr>
+<tr><td><code>None</code></td><td><code>--chronological</code></td><td>Display entries in chronological order (defaults to reverse-chronological).</td></tr>
+<tr><td><code>-m</code></td><td><code>--max-entries NUMBER</code></td><td>maximum number of entries to fetch (defaults to 100)</td></tr>
+<tr><td><code>-l</code></td><td><code>--license-id LICENSE</code></td><td>license ID (XX-XXXX-XXXX-XX format) to operate on</td></tr>
+<tr><td><code>-r</code></td><td><code>--history-id-range RANGE</code></td><td>history ID range(s) to operate on (<code>start0..end0 [...]</code>)</td></tr>
+<tr><td><code>-t</code></td><td><code>--time-range RANGE</code></td><td>time range to operate on (<code>start..end</code>) see the <a href="#timerange-formats">appendix</a></td></tr>
+<tr><td><code>-i</code></td><td><code>--idb IDB</code></td><td>IDB name(s) to operate on</td></tr>
+<tr><td><code>-f</code></td><td><code>--input FILE</code></td><td>input file(s) to operate on</td></tr>
+<tr><td><code>-u</code></td><td><code>--username USERNAME</code></td><td>username(s) to operate on</td></tr>
+<tr><td><code>-n</code></td><td><code>--func NAME</code></td><td>function name(s) to operate on</td></tr>
+<tr><td><code>-h</code></td><td><code>--input-hash HASH</code></td><td>input file hash(es) to operate on</td></tr>
+<tr><td><code>-p</code></td><td><code>--pushes-id-range RANGE</code></td><td>Pushes ID range(s) to operate on (<code>start0..end0 [...]</code>)</td></tr>
+<tr><td><code>-c</code></td><td><code>--calcrel-hash HASH</code></td><td>function hash(es) to operate on</td></tr>
+<tr><td><code>None</code></td><td><code>--last-change</code></td><td>Select only the last change for a function (which <a href="#speed-of-retrieving-changes">speeds up execution</a>)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: List the last 8 changes ("-m 8" specifies the number of changes to show; the default order is reverse-chronological)
+alice@alice_PC$ lc hist show -m 8
+	Change Time                Push Func name                  
+	------ ------------------- ---- ---------------------------
+	507    2022-09-15 14:48:18 5    math_things                
+	506    2022-09-15 14:48:17 4    calc_things (*)            
+	505    2022-09-15 14:48:17 4    start                      
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a
+	503    2022-09-15 14:48:16 3    display_keygen_window      
+	502    2022-09-15 14:48:15 2    fstat                      
+	501    2022-09-15 14:48:15 2    __umoddi3                  
+	500    2022-09-15 14:48:15 2    __udivdi3                  
+	# Shown 8 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: List changes from id 9 up to (but excluding) id 14
+alice@alice_PC$ lc hist show -r9..14
+	Change Time                Push Func name            
+	------ ------------------- ---- ---------------------
+	13     2022-09-15 14:48:05 2    AllocateBucketGroup  
+	12     2022-09-15 14:48:05 2    addr_map_find        
+	11     2022-09-15 14:48:05 2    addr_map_insert      
+	10     2022-09-15 14:48:05 2    addr_map_compare_func
+	9      2022-09-15 14:48:05 2    addr_map_free_func   
+	# Shown 5 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: List changes using multiple ranges (9..14,505..515; in this case, there were no changes after 507 in the database)
+alice@alice_PC$ lc hist show -r9..14,505..515
+	Change Time                Push Func name            
+	------ ------------------- ---- ---------------------
+	507    2022-09-15 14:48:18 5    math_things          
+	506    2022-09-15 14:48:17 4    calc_things (*)      
+	505    2022-09-15 14:48:17 4    start                
+	13     2022-09-15 14:48:05 2    AllocateBucketGroup  
+	12     2022-09-15 14:48:05 2    addr_map_find        
+	11     2022-09-15 14:48:05 2    addr_map_insert      
+	10     2022-09-15 14:48:05 2    addr_map_compare_func
+	9      2022-09-15 14:48:05 2    addr_map_free_func   
+	# Shown 8 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Find changes from a specific idb file ("-i"), showing the function hash and ea ("-a" adds additional columns to the output)
+alice@alice_PC$ lc hist show -i C:\malware\apts\pc_keygenme_3.pe.idb -a calcrel_hash,func_ea
+	Change Time                Push Func name                   Func EA Func hash                       
+	------ ------------------- ---- --------------------------- ------- --------------------------------
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 4011e2  420A0485EDB7C6774E1822953FB785D4
+	503    2022-09-15 14:48:16 3    display_keygen_window       401099  ACA673D198FBC0DF24C20A15FF7F25CE
+	# Shown 2 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show the first 4 changes ("-m4") with their input file(s) (in "--chronological" order; "-a" adds an additional column)
+alice@alice_PC$ lc hist show --chronological -m 4 -a input_path
+	Change Time                Push Func name             Input path                          
+	------ ------------------- ---- --------------------- ------------------------------------
+	1      2022-09-15 14:47:44 1    .init_proc            /home/alice/work/pc_dwarf_arrays.elf
+	2      2022-09-15 14:47:44 1    _start                /home/alice/work/pc_dwarf_arrays.elf
+	3      2022-09-15 14:47:44 1    __do_global_dtors_aux /home/alice/work/pc_dwarf_arrays.elf
+	4      2022-09-15 14:47:44 1    frame_dummy           /home/alice/work/pc_dwarf_arrays.elf
+	# Shown 4 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show the last change by a user ("-u" indicates the user, "-m1" means show 1 change only, "-a" adds an additional column)
+alice@alice_PC$ lc hist show -ubob -m1 -a username
+	Change Time                Push Func name Username
+	------ ------------------- ---- --------- --------
+	502    2022-09-15 14:48:15 2    fstat     bob     
+	# Shown 1 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show up to 4 changes ("-m4") between two dates ("-t" indicates a range of "YYYY-MM-DD" dates)
+alice@alice_PC$ lc hist show -m4 -t2022-09-02..2022-12-03
+	Change Time                Push Func name                  
+	------ ------------------- ---- ---------------------------
+	507    2022-09-15 14:48:18 5    math_things                
+	506    2022-09-15 14:48:17 4    calc_things (*)            
+	505    2022-09-15 14:48:17 4    start                      
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a
+	# Shown 4 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show up to 4 changes ("-m4") between two "now"-relative dates ("-t", from 2 weeks ago to 5 minutes ago) ("-a" adds an additional column)
+alice@alice_PC$ lc hist show -m4 -t-2w..-5M -a func_id
+	Change Time                Push Func name                   Func ID
+	------ ------------------- ---- --------------------------- -------
+	507    2022-09-15 14:48:18 5    math_things                 506    
+	506    2022-09-15 14:48:17 4    calc_things (*)             506    
+	505    2022-09-15 14:48:17 4    start                       505    
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504    
+	# Shown 4 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show up to 4 changes ("-m4") between two "now"-relative dates ("-t", from 2 weeks ago to 5 minutes ago) ("-a" adds an additional column), only select the last change for each function
+alice@alice_PC$ lc hist show -m4 -t-2w..-5M -a func_id --last-change
+	Change Time                Push Func name                   Func ID
+	------ ------------------- ---- --------------------------- -------
+	507    2022-09-15 14:48:18 5    math_things                 506    
+	505    2022-09-15 14:48:17 4    start                       505    
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504    
+	503    2022-09-15 14:48:16 3    display_keygen_window       503    
+	# Shown 4 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show up to 4 changes ("-m4"), occurring after a "now"-relative date ("-t", from 6 hours ago up to now)
+alice@alice_PC$ lc hist show -m4 -t-6H
+	Change Time                Push Func name                  
+	------ ------------------- ---- ---------------------------
+	507    2022-09-15 14:48:18 5    math_things                
+	506    2022-09-15 14:48:17 4    calc_things (*)            
+	505    2022-09-15 14:48:17 4    start                      
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a
+	# Shown 4 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show changes about a specific function name ("-n")
+alice@alice_PC$ lc hist show -n print_relocinfo
+	Change Time                Push Func name      
+	------ ------------------- ---- ---------------
+	175    2022-09-15 14:48:08 2    print_relocinfo
+	# Shown 1 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show changes about a function name ("-n") searched by wildcard ("like:...")
+alice@alice_PC$ lc hist show -n "like:%reloc%info%"
+	Change Time                Push Func name                 
+	------ ------------------- ---- --------------------------
+	179    2022-09-15 14:48:08 2    print_reloc_information_32
+	178    2022-09-15 14:48:08 2    print_reloc_information_64
+	177    2022-09-15 14:48:08 2    print_relocinfo_32        
+	176    2022-09-15 14:48:08 2    print_relocinfo_64        
+	175    2022-09-15 14:48:08 2    print_relocinfo           
+	# Shown 5 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show metadata details ("--details") in changes for a function ("-n"); this particular change added a new function
+alice@alice_PC$ lc hist show -n is_location_form --details
+	Change Time                Push Func name       
+	------ ------------------- ---- ----------------
+	126    2022-09-15 14:48:07 2    is_location_form
+	      &gt;&gt; Score
+	      &gt;&gt;     - 0
+	      &gt;&gt;     + 1445
+	      &gt;&gt; Name
+	      &gt;&gt;     - None
+	      &gt;&gt;     + is_location_form
+	      &gt;&gt; Prototype
+	      &gt;&gt;     - 
+	      &gt;&gt;     + 0C303D08626F6F6C65616E0207
+	      &gt;&gt; Member @ 0x8
+	      &gt;&gt;     .type
+	      &gt;&gt;         - None
+	      &gt;&gt;         + 07
+	      &gt;&gt;     .cmt
+	      &gt;&gt;         - None
+	      &gt;&gt;         + 
+	      &gt;&gt;     .rptcmt
+	      &gt;&gt;         - None
+	      &gt;&gt;         + 
+	      &gt;&gt; Insn operands @ 0+0x3
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      &gt;&gt; Insn operands @ 0+0x9
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      &gt;&gt; Insn operands @ 0+0xf
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      &gt;&gt; Insn operands @ 0+0x15
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      &gt;&gt; Insn operands @ 0+0x1b
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      &gt;&gt; Insn operands @ 0+0x21
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      &gt;&gt; Insn operands @ 0+0x27
+	      &gt;&gt;     - [&lt;no ops repr&gt;]
+	      &gt;&gt;     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	# Shown 1 results
+</code></pre>
+<hr>
+<h4 id="hist-pushes"><a class="header" href="#hist-pushes"><code>hist pushes</code></a></h4>
+<p><strong>hist pushes [OPTION]</strong></p>
+<p>Shows pushes to the Lumina server.</p>
+<p><strong>Options:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short form</th><th>Long form</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>-a</code></td><td><code>--additional-fields LIST</code></td><td>Comma-delimited list of additional info to display (<code>license_name</code>, <code>license_email</code>, <code>license_id</code>, <code>all</code>)</td></tr>
+<tr><td><code>-t</code></td><td><code>--time-range TIMESTAMP</code></td><td>timestamp</td></tr>
+<tr><td><code>-u</code></td><td><code>--username USERNAME</code></td><td>username(s) to operate on</td></tr>
+<tr><td><code>-l</code></td><td><code>--license-id LICENSE</code></td><td>license ID (XX-XXXX-XXXX-XX format) to operate on</td></tr>
+<tr><td><code>-m</code></td><td><code>--max-entries NUMBER</code></td><td>maximum number of entries to operate on (defaults to 100)</td></tr>
+<tr><td><code>None</code></td><td><code>--chronological</code></td><td>Display entries in chronological order (defaults to reverse-chronological).</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc hist pushes 
+	Push ID Time                User name IDB path                                
+	------- ------------------- --------- ----------------------------------------
+	5       2022-09-15 14:48:18 alice     /home/alice/work/pc_math_b_64.elf.i64   
+	4       2022-09-15 14:48:17 alice     /home/alice/work/pc_math_a_64.elf.i64   
+	3       2022-09-15 14:48:16 damian    C:\malware\apts\pc_keygenme_3.pe.idb    
+	2       2022-09-15 14:48:05 bob       /Users/bob/idbs/pc_dwarfdump.elf.idb    
+	1       2022-09-15 14:47:44 alice     /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 5 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: List all pushes from a specific license ID
+alice@alice_PC$ lc hist pushes -l BB-0B0B-AC8E-01 -a license_email
+	Push ID Time                User name License email IDB path                            
+	------- ------------------- --------- ------------- ------------------------------------
+	2       2022-09-15 14:48:05 bob       bob@acme.com  /Users/bob/idbs/pc_dwarfdump.elf.idb
+	# Shown 1 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: List all pushes from licenses with IDs matching a pattern ("-a" adds an additional column)
+alice@alice_PC$ lc hist pushes -l like:AA-% -a license_id
+	Push ID Time                User name License ID      IDB path                                
+	------- ------------------- --------- --------------- ----------------------------------------
+	5       2022-09-15 14:48:18 alice     AA-A11C-AC8E-01 /home/alice/work/pc_math_b_64.elf.i64   
+	4       2022-09-15 14:48:17 alice     AA-A11C-AC8E-01 /home/alice/work/pc_math_a_64.elf.i64   
+	1       2022-09-15 14:47:44 alice     AA-A11C-AC8E-01 /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 3 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show the first push
+alice@alice_PC$ lc hist pushes --chronological -m 1
+	Push ID Time                User name IDB path                                
+	------- ------------------- --------- ----------------------------------------
+	1       2022-09-15 14:47:44 alice     /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 1 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: List all pushes between two timestamps
+alice@alice_PC$ lc hist pushes -t"2022-09-07 10:20:00..2022-12-31"
+	Push ID Time                User name IDB path                                
+	------- ------------------- --------- ----------------------------------------
+	5       2022-09-15 14:48:18 alice     /home/alice/work/pc_math_b_64.elf.i64   
+	4       2022-09-15 14:48:17 alice     /home/alice/work/pc_math_a_64.elf.i64   
+	3       2022-09-15 14:48:16 damian    C:\malware\apts\pc_keygenme_3.pe.idb    
+	2       2022-09-15 14:48:05 bob       /Users/bob/idbs/pc_dwarfdump.elf.idb    
+	1       2022-09-15 14:47:44 alice     /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 5 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: List all pushes from two users ("-a" adds an additional column)
+alice@alice_PC$ lc hist pushes -u"bob damian" -a"license_name license_id"
+	Push ID Time                User name License name License ID      IDB path                            
+	------- ------------------- --------- ------------ --------------- ------------------------------------
+	3       2022-09-15 14:48:16 damian    Damian       DD-DA81-A000-01 C:\malware\apts\pc_keygenme_3.pe.idb
+	2       2022-09-15 14:48:05 bob       Bob          BB-0B0B-AC8E-01 /Users/bob/idbs/pc_dwarfdump.elf.idb
+	# Shown 2 results
+</code></pre>
+<hr>
+<h4 id="hist-del"><a class="header" href="#hist-del"><code>hist del</code></a></h4>
+<p><strong>hist del [OPTION]</strong></p>
+<p>Deletes history and metadata for functions.</p>
+<p><strong>Options:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short form</th><th>Long form</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td><code>--silent</code></td><td>Do not ask for confirmation before deleting history</td></tr>
+<tr><td><code>-l</code></td><td><code>--license-id LICENSE</code></td><td>license ID (XX-XXXX-XXXX-XX format) to operate on</td></tr>
+<tr><td><code>-r</code></td><td><code>--history-id-range RANGE</code></td><td>history ID range(s) to operate on (<code>start0..end0 [...]</code>)</td></tr>
+<tr><td><code>-t</code></td><td><code>--time-range RANGE</code></td><td>time range to operate on (<code>start..end</code>) see the <a href="#timerange-formats">appendix</a></td></tr>
+<tr><td><code>-i</code></td><td><code>--idb IDB</code></td><td>IDB name(s) to operate on</td></tr>
+<tr><td><code>-f</code></td><td><code>--input FILE</code></td><td>input file(s) to operate on</td></tr>
+<tr><td><code>-u</code></td><td><code>--username USERNAME</code></td><td>username(s) to operate on</td></tr>
+<tr><td><code>-n</code></td><td><code>--func NAME</code></td><td>function name(s) to operate on</td></tr>
+<tr><td><code>-h</code></td><td><code>--input-hash HASH</code></td><td>input file hash(es) to operate on</td></tr>
+<tr><td><code>-p</code></td><td><code>--pushes-id-range RANGE</code></td><td>Pushes ID range(s) to operate on (<code>start0..end0 [...]</code>)</td></tr>
+<tr><td><code>-c</code></td><td><code>--calcrel-hash HASH</code></td><td>function hash(es) to operate on</td></tr>
+<tr><td><code>None</code></td><td><code>--last-change</code></td><td>Select only the last change for a function (which <a href="#speed-of-retrieving-changes">speeds up execution</a>)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Display the last 10 changes, with their input file(s) and function ID(s)
+alice@alice_PC$ show -m10 -a input_path
+	Change Time                Push Func name                   Func ID Input path                       
+	------ ------------------- ---- --------------------------- ------- ---------------------------------
+	507    2022-09-15 14:48:18 5    math_things                 506     /home/alice/work/pc_math_b_64.elf
+	506    2022-09-15 14:48:17 4    calc_things (*)             506     /home/alice/work/pc_math_a_64.elf
+	505    2022-09-15 14:48:17 4    start                       505     /home/alice/work/pc_math_a_64.elf
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504     C:\malware\apts\pc_keygenme_3.pe 
+	503    2022-09-15 14:48:16 3    display_keygen_window       503     C:\malware\apts\pc_keygenme_3.pe 
+	502    2022-09-15 14:48:15 2    fstat                       502     /Users/bob/idbs/pc_dwarfdump.elf 
+	501    2022-09-15 14:48:15 2    __umoddi3                   501     /Users/bob/idbs/pc_dwarfdump.elf 
+	500    2022-09-15 14:48:15 2    __udivdi3                   500     /Users/bob/idbs/pc_dwarfdump.elf 
+	499    2022-09-15 14:48:14 2    dwarf_get_ADDR_name         499     /Users/bob/idbs/pc_dwarfdump.elf 
+	498    2022-09-15 14:48:14 2    dwarf_get_FRAME_name        498     /Users/bob/idbs/pc_dwarfdump.elf 
+	# Shown 10 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete all changes for functions matching a pattern
+alice@alice_PC$ lc hist del -s -n like:%dwarf%
+	267 entries deleted from history
+
+alice@alice_PC$ hist show -m10 -a input_path,func_id
+	Change Time                Push Func name                   Func ID Input path                       
+	------ ------------------- ---- --------------------------- ------- ---------------------------------
+	507    2022-09-15 14:48:18 5    math_things                 506     /home/alice/work/pc_math_b_64.elf
+	506    2022-09-15 14:48:17 4    calc_things (*)             506     /home/alice/work/pc_math_a_64.elf
+	505    2022-09-15 14:48:17 4    start                       505     /home/alice/work/pc_math_a_64.elf
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504     C:\malware\apts\pc_keygenme_3.pe 
+	503    2022-09-15 14:48:16 3    display_keygen_window       503     C:\malware\apts\pc_keygenme_3.pe 
+	502    2022-09-15 14:48:15 2    fstat                       502     /Users/bob/idbs/pc_dwarfdump.elf 
+	501    2022-09-15 14:48:15 2    __umoddi3                   501     /Users/bob/idbs/pc_dwarfdump.elf 
+	500    2022-09-15 14:48:15 2    __udivdi3                   500     /Users/bob/idbs/pc_dwarfdump.elf 
+	474    2022-09-15 14:48:14 2    free_macro_stack            474     /Users/bob/idbs/pc_dwarfdump.elf 
+	468    2022-09-15 14:48:14 2    print_line_detail           468     /Users/bob/idbs/pc_dwarfdump.elf 
+	# Shown 10 results (more are available...)
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete all changes stemming from a specific file
+alice@alice_PC$ lc hist del -s -f/Users/bob/idbs/pc_dwarfdump.elf
+	228 entries deleted from history
+
+</code></pre>
+<pre><code class="language-shell"># Example: List the changes from pushes 1 to 5 (not included), showing their input file(s)
+alice@alice_PC$ lc show -p1..5 -a input_path
+	Change Time                Push Func name                   Input path                          
+	------ ------------------- ---- --------------------------- ------------------------------------
+	506    2022-09-15 14:48:17 4    math_things                 /home/alice/work/pc_math_a_64.elf   
+	505    2022-09-15 14:48:17 4    start                       /home/alice/work/pc_math_a_64.elf   
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a C:\malware\apts\pc_keygenme_3.pe    
+	503    2022-09-15 14:48:16 3    display_keygen_window       C:\malware\apts\pc_keygenme_3.pe    
+	7      2022-09-15 14:47:44 1    __do_global_ctors_aux       /home/alice/work/pc_dwarf_arrays.elf
+	6      2022-09-15 14:47:44 1    __libc_csu_init             /home/alice/work/pc_dwarf_arrays.elf
+	5      2022-09-15 14:47:44 1    main                        /home/alice/work/pc_dwarf_arrays.elf
+	4      2022-09-15 14:47:44 1    frame_dummy                 /home/alice/work/pc_dwarf_arrays.elf
+	3      2022-09-15 14:47:44 1    __do_global_dtors_aux       /home/alice/work/pc_dwarf_arrays.elf
+	2      2022-09-15 14:47:44 1    _start                      /home/alice/work/pc_dwarf_arrays.elf
+	1      2022-09-15 14:47:44 1    .init_proc                  /home/alice/work/pc_dwarf_arrays.elf
+	# Shown 11 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete one single change
+alice@alice_PC$ lc hist del -s -r505..506
+	1 entries deleted from history
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete all the changes from push 1
+alice@alice_PC$ lc hist del -s -p 1..2
+	7 entries deleted from history
+
+alice@alice_PC$ hist show -a username
+	Change Time                Push Func name                   Username
+	------ ------------------- ---- --------------------------- --------
+	507    2022-09-15 14:48:18 5    math_things                 alice   
+	506    2022-09-15 14:48:17 4    calc_things (*)             alice   
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a damian  
+	503    2022-09-15 14:48:16 3    display_keygen_window       damian  
+	# Shown 4 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete all changes by a user
+alice@alice_PC$ lc hist del -s -udamian
+	2 entries deleted from history
+
+alice@alice_PC$ hist show -a func_id
+	Change Time                Push Func name       Func ID
+	------ ------------------- ---- --------------- -------
+	507    2022-09-15 14:48:18 5    math_things     506    
+	506    2022-09-15 14:48:17 4    calc_things (*) 506    
+	# Shown 2 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete the last change for a function
+alice@alice_PC$ lc hist del -s --func math_things --last-change
+	1 entries deleted from history
+
+alice@alice_PC$ hist show -a func_id
+	Change Time                Push Func name   Func ID
+	------ ------------------- ---- ----------- -------
+	506    2022-09-15 14:48:17 4    calc_things 506    
+	# Shown 1 results
+
+</code></pre>
+<pre><code class="language-shell"># Example: Delete all remaining changes for a function by name
+alice@alice_PC$ lc hist del -s --func calc_things
+	1 entries deleted from history
+
+alice@alice_PC$ hist show
+	# Shown 0 results
+</code></pre>
+<hr>
+<h3 id="various-information"><a class="header" href="#various-information">Various information</a></h3>
+<h4 id="info"><a class="header" href="#info"><code>info</code></a></h4>
+<p><strong>info</strong></p>
+<p>Shows lumina connection information.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc info 
+Hex-Rays Lumina Server v8.0
+Lumina time: 2022-08-29 10:13:37, up since 2022-08-21 21:00:05
+MAC address: FF:32:67:FF:D3:00
+Client name: alice *ADMIN*
+Client host: 127.0.0.1
+</code></pre>
+<hr>
+<h4 id="users"><a class="header" href="#users"><code>users</code></a></h4>
+<p><strong>users</strong></p>
+<p>Shows users.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc users 
+LastActive Adm Login  License         User name                   Email             
+---------- --- ------ --------------- --------------------------- ------------------
+2022-08-29 *   bob    XX-XXXX-XXXX-XX bob                         bob@acme.com
+2022-08-29 *   alice  XX-XXXX-XXXX-XX alice                       alice@acme.com
+2022-08-27     damian XX-XXXX-XXXX-XX damian                      damian@acme.com
+</code></pre>
+<hr>
+<h4 id="stats"><a class="header" href="#stats"><code>stats</code></a></h4>
+<p><strong>stats [OPTION]</strong></p>
+<p>Shows the numbers of functions, pushes, history records, IDBs and input files stored in the Lumina server database.</p>
+<p><strong>Options:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short form</th><th>Long form</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>-u</code></td><td><code>--username USERNAME</code></td><td>username(s) to operate on</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc stats 
+	Consolidated statistics from lumina_server:
+	Number of functions: 4
+	Number of pushes: 5
+	Number of history records: 6
+	Number of IDBs: 3
+	Number of input files: 3
+	---------------------------------------------
+
+</code></pre>
+<pre><code class="language-shell"># Example: Retrieve the statistics for a list of users
+alice@alice_PC$ lc stats -ualice,bob,russ
+	Statistics for alice:
+	Number of functions: 2
+	Number of pushes: 3
+	Number of history records: 4
+	Number of IDBs: 1
+	Number of input files: 1
+	---------------------------------------------
+	Statistics for bob:
+	Number of functions: 1
+	Number of pushes: 1
+	Number of history records: 1
+	Number of IDBs: 1
+	Number of input files: 1
+	---------------------------------------------
+</code></pre>
+<hr>
+<h3 id="administrative-commands"><a class="header" href="#administrative-commands">Administrative commands</a></h3>
+<p>These commands require that the user executing them has admin privileges.</p>
+<h4 id="managing-users"><a class="header" href="#managing-users">Managing users</a></h4>
+<p>User management will depend whether the Lumina server is configured to work
+with its own set of users, or <a href="../../admin-guide/lumina-server.html#installation-in-a-teams-setup">delegating user management to the Teams server</a>.</p>
+<p>In the latter case, you should use <a href="../teams/hv_user_manual.html#managing-users">the <code>hv</code> command-line tool</a> to administer the Teams server.</p>
+<h5 id="locally-managing-users"><a class="header" href="#locally-managing-users">Locally managing users</a></h5>
+<p>The following commands allow the administrator to manipulate users known to the Lumina server (provided
+of course the Lumina server doesn’t delegate users management to the Teams server)</p>
+<h6 id="user-add"><a class="header" href="#user-add"><code>user add</code></a></h6>
+<p><strong>user add USERNAME EMAIL IS_ADMIN LICENSE_ID</strong></p>
+<p>Adds a user.</p>
+<p>The <a href="#passwd"><code>passwd</code></a> command must be used after creating a user; otherwise the new user will not be able to login to the Lumina server and use it.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The username of the user.</td></tr>
+<tr><td><code>EMAIL</code></td><td>The email address of the user.</td></tr>
+<tr><td><code>IS_ADMIN</code></td><td>Should be 1 if the user is admin, otherwise 0.</td></tr>
+<tr><td><code>LICENSE_ID</code></td><td>The license of the user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc user add damiank damian@acme.com 0 XX-XXXX-XXXX-XX
+</code></pre>
+<hr>
+<h6 id="user-edit"><a class="header" href="#user-edit"><code>user edit</code></a></h6>
+<p><strong>user edit USERNAME EMAIL IS_ADMIN LICENSE_ID</strong></p>
+<p>Edits a user definition.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The username of the user to modify.</td></tr>
+<tr><td><code>EMAIL</code></td><td>The email address of the user.</td></tr>
+<tr><td><code>IS_ADMIN</code></td><td>Should be 1 if the user is admin, otherwise 0.</td></tr>
+<tr><td><code>LICENSE_ID</code></td><td>The license of the user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell"># Example: For the given username, set the email, admin flag and license ID
+alice@alice_PC$ lc user edit damiank damiank@acme.com 0 XX-XXXX-XXXX-XX
+</code></pre>
+<hr>
+<h6 id="user-del"><a class="header" href="#user-del"><code>user del</code></a></h6>
+<p><strong>user del USERNAME EMAIL LICENSE_ID</strong></p>
+<p>Deletes a user.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The name of the user to delete.</td></tr>
+<tr><td><code>EMAIL</code></td><td>The email address of the user.</td></tr>
+<tr><td><code>LICENSE_ID</code></td><td>The license of the user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc user del damiank damiank@acme.com XX-XXXX-XXXX-XX
+</code></pre>
+<hr>
+<h6 id="passwd"><a class="header" href="#passwd"><code>passwd</code></a></h6>
+<p><strong>passwd PASS USER</strong></p>
+<p>Modifies the password for a user.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>PASS</code></td><td>The new password.</td></tr>
+<tr><td><code>USER</code></td><td>The username whose password should be changed Only admins can change other users’ passwords.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc passwd secret_password john
+</code></pre>
+<hr>
+<h4 id="managing-sessions"><a class="header" href="#managing-sessions">Managing sessions</a></h4>
+<h5 id="session-list"><a class="header" href="#session-list"><code>session list</code></a></h5>
+<p><strong>session list</strong></p>
+<p>Lists the current connections to the Lumina server. For each connection, the currently executed query (if any) is shown.
+For each connection, the currently executed query (if any) is shown.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc session list 
+id=1642 peer="127.0.0.1", user="...", license="...", e-mail="...", established="2022-08-16 17:13:21"
+current_query="INSERT INTO pushes (fk_idb, fk_user) VALUES (?, ?)" (0msec)
+</code></pre>
+<hr>
+<h5 id="session-kill"><a class="header" href="#session-kill"><code>session kill</code></a></h5>
+<p><strong>session kill ID</strong></p>
+<p>Kills an existing connection to the Lumina server.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>ID</code></td><td>The connection to kill, as shown by the &lt;&lt;cmd_session-list&gt;&gt; command</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ lc session list
+id=1 peer="127.0.0.1", user="...", license="...", e-mail="...", established="2022-09-20 16:47:07" current_query="" (0msec)
+alice@alice_PC$ lc session kill 1
+Connection killed
+alice@alice_PC$ lc session list
+No connections.
+</code></pre>
+<hr>
+<h2 id="concepts"><a class="header" href="#concepts">Concepts</a></h2>
+<h3 id="what-is-the-lumina-server"><a class="header" href="#what-is-the-lumina-server">What is the Lumina server</a></h3>
+<p>The Lumina server is a “functions metadata” repository.</p>
+<p>It is a place where IDA users can <strong>push</strong>, and <strong>pull</strong> such metadata, to ease their reverse-engineering work: metadata can be extracted from existing projects, and re-applied effortlessly to new projects, thereby reducing (sometimes dramatically) the amount of time needed to analyze binaries.</p>
+<h4 id="functions-metadata"><a class="header" href="#functions-metadata"><strong>Functions metadata</strong></a></h4>
+<p>The Lumina server associates “function metadata” to functions, by means of a (<code>md5</code>) <em>hash</em> of those functions: whenever it wants to push information to, or pull information from the server, IDA will first have to compute hashes of the functions it wants to retrieve metadata for, and send those hashes to the Lumina server.</p>
+<p>Similarly, when IDA <strong>push</strong>es information to the Lumina server, it will first compute hashes for the corresponding functions, extract the metadata corresponding to those from the <code>.idb</code> file, and send those hash+metadata pairs to the server.</p>
+<h4 id="metadata-contents"><a class="header" href="#metadata-contents"><strong>Metadata contents</strong></a></h4>
+<p>Metadata about functions can include:</p>
+<ul>
+<li>function name</li>
+<li>function address</li>
+<li>function size</li>
+<li>function prototype</li>
+<li>function [repeatable] comments</li>
+<li>instruction-specific [repeatable] comments</li>
+<li>anterior/posterior (i.e., “extra”) comments</li>
+<li>user-defined “stack points” in the function’s frame</li>
+<li>the function frame description and stack variables</li>
+<li>instructions operands representations</li>
+</ul>
+<h4 id="pushing--overriding-metadata"><a class="header" href="#pushing--overriding-metadata"><strong>Pushing &amp; overriding metadata</strong></a></h4>
+<p>When a user pushes metadata about a function whose <code>md5</code> hash isn’t present in the database, the Lumina server will simply create a new record for it.</p>
+<p>However, when a user pushes metadata about a function whose <code>md5</code> hash (and associated metadata) is already present in the database, the Lumina server will attempt to “score” the quality of the old metadata and the quality of the new metadata. If the score of the new metadata is higher, the new function metadata will override the previous one.</p>
+<p>{% hint style=“info” %}
+When a user asks IDA to push <em>all</em> functions to the Lumina server, IDA will automatically skip some functions: those that still have a “dummy” name (e.g., <code>sub_XXXX</code>), or that are below a certain size threshold (i.e., 32 bytes) will be ignored.
+{% endhint %}</p>
+<h4 id="metadata-history"><a class="header" href="#metadata-history"><strong>Metadata history</strong></a></h4>
+<p>The Lumina server retains a history of the metadata associated to functions. Using the <code>lc</code> utility, it is possible to dig into that history, and view changes (detailed diffs, too.)</p>
+<h4 id="file-contents"><a class="header" href="#file-contents"><strong>File contents</strong></a></h4>
+<p>It’s worth pointing out that when pushing metadata to the Lumina server, IDA will not push the binary file itself. Only the following metadata about the file itself will be sent:</p>
+<ul>
+<li>the name of the input file</li>
+<li>the name of the IDB file</li>
+<li>a <code>md5</code> hash of the input file</li>
+</ul>
+<p>The Lumina server cannot therefore be used as a backup/repository for binary files &amp; IDBs (that is the role of the <code>vault_server</code>)</p>
+<h2 id="commands-1"><a class="header" href="#commands-1">Commands</a></h2>
+<h3 id="string-patterns"><a class="header" href="#string-patterns">String patterns</a></h3>
+<p>Options that take strings as inputs can be enhanced through wildcards.
+The following wildcards are available:</p>
+<p><code>%</code><br>represents zero, one or multiple characters.</p>
+<p><code>_</code><br>represents one character.</p>
+<p>To use wildcards in a string, it must be prefixed with <code>like:</code> e.g. <code>-n like:%main%</code>.</p>
+<h3 id="timerange-formats"><a class="header" href="#timerange-formats">Timerange formats</a></h3>
+<p>For timeranges, the following syntaxes are supported:</p>
+<ul>
+<li><code>&lt;ts&gt;..&lt;ts&gt;</code> (from timestamp to (but not including) timestamp)</li>
+<li><code>&lt;ts&gt;</code> (only one timestamp)</li>
+</ul>
+<p>Where <code>&lt;ts&gt;</code> can be of the form:</p>
+<ul>
+<li><code>yyyy-mm-dd HH:MM:SS</code>: e.g., <code>2022-09-12 11:38:22</code></li>
+<li><code>yyyy-mm-dd</code>: e.g., <code>2020-03-12</code></li>
+<li><code>+|-&lt;count&gt;&lt;unit&gt;</code>: this is a “now-relative” timestamp, where <code>&lt;unit&gt;</code> must be one of <code>w</code>, <code>d</code>, <code>H</code>, <code>M</code>, <code>S</code> for weeks, days, hours, minutes or seconds respectively. E.g., <code>-4d</code>, <code>+5w</code>, <code>-8H</code>, <code>+1H</code>, …​</li>
+</ul>
+<p>when using the <code>&lt;ts&gt;</code> syntax (i.e., only 1 timestamp is provided, not an actual range), the final range will be either “from now to &lt;ts&gt;”, or “from &lt;ts&gt; to now”, depending on whether <code>&lt;ts&gt;</code> is before, or after, the present time.</p>
+<h3 id="speed-of-retrieving-changes"><a class="header" href="#speed-of-retrieving-changes">Speed of retrieving changes</a></h3>
+<p>Although it may seem like a simple operation, <code>lc hist show</code> is
+actually a very demanding one: by default it will have to fetch
+bits of information from multiple tables (e.g., in order to provide
+information about which change was superseded by a later one.)</p>
+<p>This can be significantly sped up through the use of <code>--last-change</code>:
+this option lets the server issue a much simpler query, resulting in
+significantly reduced processing time.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/lumina.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/plugins.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/lumina.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/plugins.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

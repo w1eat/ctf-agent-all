@@ -1,0 +1,11 @@
+,[-l|--license-id|LICENSE] license ID (XX-XXXX-XXXX-XX format) to operate on
+,[-r|--history-id-range|RANGE] history ID range(s) to operate on (`start0..end0 [...]`)
+,[-t|--time-range|RANGE] time range to operate on (`start..end`) see the [appendix](#timerange-formats)
+,[-i|--idb|IDB] IDB name(s) to operate on
+,[-f|--input|FILE] input file(s) to operate on
+,[-u|--username|USERNAME] username(s) to operate on
+,[-n|--func|NAME] function name(s) to operate on
+,[-h|--input-hash|HASH] input file hash(es) to operate on
+,[-p|--pushes-id-range|RANGE] Pushes ID range(s) to operate on (`start0..end0 [...]`)
+,[-c|--calcrel-hash|HASH] function hash(es) to operate on
+,[--last-change] Select only the last change for a function (which [speeds up execution](#speed-of-retrieving-changes))

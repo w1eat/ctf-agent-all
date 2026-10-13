@@ -1,0 +1,47 @@
+version: beta2
+platform: unknown
+native_id: '2'
+name: Cache Money
+category: Pwn
+description: 'The arcade''s credit manager tracks every wallet in the house. The books
+  haven''t been audited in years, so help yourself. Files: cache_money (sha256 f6b0c44221ac029f16f2d833178ee3747272930deca900b7525956b766676f23,
+  14592 bytes), libc.so.6 (sha256 c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb),
+  ld-linux-x86-64.so.2 (sha256 854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972).
+  nc chal.sunshinectf.games 26004'
+value: 484
+files:
+- distfiles/cache-money
+- distfiles/ld-linux-x86-64-so.2
+- distfiles/libc-so.6
+challenge_mode: hybrid
+connection_info: nc chal.sunshinectf.games 26004
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Cache%20Money-2
+environment:
+  status: unknown
+  source: remote
+  url: ''
+  host: chal.sunshinectf.games
+  port: 26004
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- name: cache-money
+  sha256: f6b0c44221ac029f16f2d833178ee3747272930deca900b7525956b766676f23
+  size: 14592
+  target: a[href="https://sunshinectf.games/files/4995ef/cache_money"]
+  url: https://sunshinectf.games/files/4995ef/cache_money
+- name: libc-so.6
+  sha256: c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb
+  size: 2125328
+  target: a[href="https://sunshinectf.games/files/4995ef/libc.so.6"]
+  url: https://sunshinectf.games/files/4995ef/libc.so.6
+- name: ld-linux-x86-64-so.2
+  sha256: 854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972
+  size: 236616
+  target: a[href="https://sunshinectf.games/files/4995ef/ld-linux-x86-64.so.2"]
+  url: https://sunshinectf.games/files/4995ef/ld-linux-x86-64.so.2
+attachments_scanned: true
+state: solved
+reason: ''

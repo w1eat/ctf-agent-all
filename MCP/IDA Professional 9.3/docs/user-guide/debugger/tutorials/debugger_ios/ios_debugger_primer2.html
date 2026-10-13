@@ -1,0 +1,580 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Debugging iOS Applications with IDA Pro - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="debugging-ios-applications-with-ida-pro"><a class="header" href="#debugging-ios-applications-with-ida-pro">Debugging iOS Applications with IDA Pro</a></h1>
+<p><em>Copyright 2020 Hex-Rays SA</em></p>
+<h2 id="overview"><a class="header" href="#overview">Overview <a href="#overview" id="overview"></a></a></h2>
+<p>This tutorial discusses optimal strategies for debugging native iOS applications with IDA Pro.</p>
+<p>IDA Pro supports remote debugging on any iOS version since iOS 9 (including iPadOS). Debugging is generally device agnostic so it shouldn’t matter which hardware you’re using as long as it’s running iOS. The debugger itself can be used on any desktop platform that IDA supports (Mac/Windows/Linux), although using the debugger on Mac makes more features available.</p>
+<p>Note that IDA supports debugging on both jailbroken and non-jailbroken devices. Each environment provides its own unique challenges and advantages, and we will discuss both in detail in this writeup.</p>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
+<p>The quickest way to get started with iOS debugging is to use Xcode to install a sample app on your device, then switch to IDA to debug it.</p>
+<p>In this example we’ll be using an iPhone SE 2 with iOS 13.4 (non-jailbroken) while using IDA 7.5 SP1 on OSX 10.15 Catalina. Start by launching Xcode and use menu <strong>File&gt;New&gt;Project…</strong> to create a new project from one of the iOS templates, any of them will work:</p>
+<p><img src="xcode1.png" alt=""></p>
+<p>After selecting a template, set the following project options:</p>
+<p><img src="xcode2.png" alt=""></p>
+<p>Note the bundle identifier <strong>primer.idatest</strong>, it will be important later. For the <strong>Team</strong> option choose the team associated with your iOS Developer account, and click OK. Before building be sure to set the target device in the top left of the Xcode window:</p>
+<p><img src="xcode3.png" alt=""></p>
+<p>Now launch the build in Xcode. If it succeeds then Xcode will install the app on your device automatically.</p>
+<h3 id="preparing-a-debugging-environment"><a class="header" href="#preparing-a-debugging-environment">Preparing a Debugging Environment</a></h3>
+<p>Now that we have a test app installed on our device, let’s prepare to debug it. First we must ensure that the iOS debugserver is installed on the device. Since our device is not jailbroken, this is not such a trivial task. By default iOS restricts all remote access to the device, and such operations are managed by special MacOS Frameworks.</p>
+<p>Fortunately Hex-Rays provides a solution. Download the <a href="https://my.hex-rays.com/dashboard/download-center/downloads">ios_deploy</a> utility from our download center. This is a command-line support utility that can perform critical tasks on iOS devices without requiring a jailbreak. Try running it with the <strong>listen</strong> phase. If ios_deploy can detect your device it will print a message:</p>
+<pre><code class="language-bash">$ ios_deploy listen
+Device connected:
+- name:    iPhone SE 2
+- model:   iPhone SE 2
+- ios ver: 13.4
+- build:   17E8255
+- arch:    arm64e
+- id:      XXXXXXXX-XXXXXXXXXXXXXXXX
+</code></pre>
+<p>Use the <strong>mount</strong> phase to install DeveloperDiskImage.dmg, which contains the debugserver:</p>
+<pre><code class="language-bash">$ export DEVELOPER=/Applications/Xcode.app/Contents/Developer
+$ export DEVTOOLS=$DEVELOPER/Platforms/iPhoneOS.platform/DeviceSupport
+$ ios_deploy mount -d $DEVTOOLS/13.4/DeveloperDiskImage.dmg
+</code></pre>
+<p>The device itself is now ready for debugging. Now let’s switch to IDA and start configuring the debugger. Load the <strong>idatest</strong> binary in IDA, Xcode likely put it somewhere in its <strong>DerivedData</strong> directory:</p>
+<pre><code class="language-bash">$ alias ida64="/Applications/IDA\ Pro\ 7.5\ sp1/ida64.app/Contents/MacOS/ida64"
+$ export XCDATA=~/Library/Developer/Xcode/DerivedData
+$ ida64 $XCDATA/idatest/Build/Products/Debug-iphoneos/idatest.app/idatest
+</code></pre>
+<p>Then go to menu <strong>Debugger&gt;Select debugger…</strong> and select <strong>Remote iOS Debugger</strong>:</p>
+<p><img src="select_debugger.png" alt=""></p>
+<p>When debugging a binary remotely, IDA must know the full path to the executable on the target device. This is another task that iOS makes surprisingly difficult. Details of the filesystem are not advertised, so we must use ios_deploy to retrieve the executable path. Use the <strong>path</strong> phase with the app’s bundle ID:</p>
+<pre><code>$ ios_deploy path -b primer.idatest
+/private/var/containers/Bundle/Application/&lt;UUID&gt;/idatest.app/idatest
+</code></pre>
+<p>Use this path for the fields in <strong>Debugger&gt;Process options…</strong> <img src="process_options1.png" alt=""></p>
+<p><strong>NOTE:</strong> the path contains a hex string representing the application’s 16-byte UUID. This id is regenerated every time you reinstall the app, so you must update the path in IDA whenever the app is updated on the device.</p>
+<p>Now go to <strong>Debugger&gt;Debugger options&gt;Set specific options…</strong> and ensure the following fields are set:</p>
+<p><img src="ios_options1.png" alt=""></p>
+<p>Make special note of the <strong>Symbol path</strong> option. This directory contains symbol files extracted from your device. Both IDA and Xcode use these files to load symbol tables for system libraries during debugging (instead of reading the tables in process memory), which will dramatically speed up debugging.</p>
+<p>Xcode likely already created this directory when it first connected to your device, but if not you can always use ios_deploy to create it yourself:</p>
+<pre><code>$ ios_deploy symbols
+Downloading /usr/lib/dyld
+Downloading 0.69 MB of 0.69 MB
+Downloading /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e
+Downloading 1648.38 MB of 1648.38 MB
+Extracting symbol file: 1866/1866
+/Users/troy/Library/Developer/Xcode/iOS DeviceSupport/13.4 (17E8255)/Symbols: done
+</code></pre>
+<p>Also ensure that the <strong>Launch debugserver automatically</strong> option is checked. This is required for non-jailbroken devices since we have no way to launch the server manually. This option instructs IDA to establish a connection to the debugserver itself via the MacOS Frameworks, which will happen automatically at debugging start.</p>
+<p>Lastly, Xcode might have launched the test application after installing it. Use the <strong>proclist</strong> phase to retreive the app’s pid and terminate it with the <strong>kill</strong> phase:</p>
+<pre><code>$ ios_deploy proclist -n idatest
+32250
+$ ios_deploy kill -p 32250
+</code></pre>
+<p>Finally we are ready to launch the debugger. Go to <strong>main</strong> in IDA’s disassembly view, use <strong>F2</strong> to set a breakpoint, then <strong>F9</strong> to launch the process, and wait for the process to hit our breakpoint:</p>
+<p><img src="main1.png" alt=""></p>
+<p>You are free to single step, inspect registers, and read/write memory just like any other IDA debugger.</p>
+<h2 id="source-level-debugging"><a class="header" href="#source-level-debugging">Source Level Debugging</a></h2>
+<p>You can also use IDA to debug the source code of your iOS application. Let’s rebuild the <strong>idatest</strong> application with the <strong>DWARF with dSYM File</strong> build setting:</p>
+<p><img src="srcdbg1.png" alt=""></p>
+<p>Since the app is reinstalled, the executable path will change. We’ll need to update the remote path in IDA:</p>
+<pre><code>$ ios_deploy path -b primer.idatest
+</code></pre>
+<p><img src="srcdbg3.png" alt=""></p>
+<p>Be sure to enable <strong>Debugger&gt;Use source-level debugging</strong>, then launch the process. At runtime IDA will be able to load the DWARF source information:</p>
+<p><img src="srcdbg2.png" alt=""></p>
+<p>Note that the debugserver does not provide DWARF information to IDA - instead IDA looks for dSYM bundles in the vicinity of the idb on your local filesystem. Thus if you want IDA to load DWARF info for a given module, both the module binary and its matching dSYM must be in the same directory as the idb, or in the idb’s parent directory.</p>
+<p>For example, in the case of the <strong>idatest</strong> build:</p>
+<pre><code>$ tree
+.
+├── idatest.app
+│   ├── idatest
+│   └── idatest.i64
+└── idatest.app.dSYM
+    └── Contents
+        └── Resources
+            └── DWARF
+                └── idatest
+</code></pre>
+<p>IDA was able to find the <strong>idatest</strong> binary next to <strong>idatest.i64</strong>, as well as the dSYM bundle next to the parent app directory.</p>
+<p>If IDA can’t find DWARF info on your filesystem for whatever reason, try launching IDA with the command-line option <strong>-z440010</strong>, which will enable much more verbose logging related to source-level debugging:</p>
+<pre><code>Looking for Mach-O file "idatest.app/idatest.dSYM/Contents/Resources/DWARF/idatest"
+File "idatest.app/idatest.dSYM/Contents/Resources/DWARF/idatest" exists? -&gt; No.
+Looking for Mach-O file "idatest.app.dSYM/Contents/Resources/DWARF/idatest"
+File "idatest.app.dSYM/Contents/Resources/DWARF/idatest" exists? -&gt; Yes.
+Looking for cpu=16777228:0, uuid=7a09f307-7503-3c0d-a182-ab552c1bf182.
+Candidate: cpu=16777228:0, uuid=7a09f307-7503-3c0d-a182-ab552c1bf182.
+Found, with architecture #0
+DWARF: Found DWARF file "idatest.app.dSYM/Contents/Resources/DWARF/idatest"
+</code></pre>
+<h2 id="debugging-dyld"><a class="header" href="#debugging-dyld">Debugging DYLD</a></h2>
+<p>IDA can also be used to debug binaries that are not user applications. For example, <strong>dyld</strong>.</p>
+<p>The ability to debug dyld is a nice advantage because it allows us to observe critical changes in the latest versions of iOS (especially regarding the shared cache) before a jailbreak is even available. We document this functionality here in the hopes it will be useful to others as well.</p>
+<p>In this example we’ll be using IDA to discover how dyld uses <a href="https://events.static.linuxfound.org/sites/events/files/slides/slides_23.pdf">ARMv8.3 Pointer Authentication</a> to perform secure symbol bindings. Start by loading the dyld binary in IDA. It is usually found here:</p>
+<pre><code>~/Library/Developer/Xcode/iOS DeviceSupport/13.4 (17E8255)/Symbols/usr/lib/dyld
+</code></pre>
+<p>The target application will be a trivial helloworld program:</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+  puts("hello, world!\n");
+  return 0;
+}
+</code></pre>
+<p>Compile and install this app on your device, then set the following fields in <strong>Debugger&gt;Process options…</strong></p>
+<p><img src="dyld1.png" alt=""></p>
+<p>Under <strong>Debugger&gt;Debugger options</strong>, enable <strong>Suspend on debugging start</strong>. This will instruct IDA to suspend the process at dyld’s entry point, before it has begun binding symbols. Now launch the process with <strong>F9</strong> - immediately the process will be suspended at <strong>__dyld_start</strong>:</p>
+<p><img src="dyld3.png" alt=""></p>
+<p>Double-click on the <strong>helloworld</strong> module to bring up its symbol list and go to the <strong>_main</strong> function:</p>
+<p><img src="dyld4.png" alt=""></p>
+<p>Note that function <strong>sub_1009CBF98</strong> is the stub for <strong>puts</strong>:</p>
+<p><img src="dyld5.png" alt=""></p>
+<p>The stub reads a value from <strong>off_109CC000</strong>, then performs a <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0801g/hgj1476202687129.html">branch with pointer authentication</a>. We can assume that at some point, dyld will fill <strong>off_109CC000</strong> with an authenticated pointer to <strong>puts</strong>. Let’s use IDA to quickly track down this logic in dyld.</p>
+<p>The iOS debugger supports watchpoints. Now would be a good time to use one:</p>
+<pre><code class="language-python">ida_dbg.add_bpt(0x1009CC000, 8, BPT_WRITE)
+</code></pre>
+<p>Resume the process and wait for dyld to trigger our watchpoint:</p>
+<p><img src="dyld6.png" alt=""></p>
+<p>The instruction <strong>STR X21 [X19]</strong> triggered the watchpoint, and note the value in X21 (BB457A81BA95ADD8) which is the authenticated pointer to <strong>puts</strong>. Where did this value come from? We can see that X21 was previously set with <strong>MOV X21, X0</strong> after a call to this function:</p>
+<pre><code>dyld3::MachOLoaded::ChainedFixupPointerOnDisk::Arm64e::signPointer
+</code></pre>
+<p>It seems like we’re on the right track. Also note that IDA was able to extract a nice stack trace despite dyld’s heavy use of PAC instructions to authenticate return addresses on the stack:</p>
+<pre><code>Address    Module  Function
+100CA5E14  dyld    ____ZNK5dyld311MachOLoaded21fixupAllChainedFixups_block_invoke
+100CA5EEC  dyld    dyld3::MachOLoaded::walkChain
+100CA5BF0  dyld    dyld3::MachOLoaded::forEachFixupInAllChains
+100CA5B50  dyld    dyld3::MachOLoaded::fixupAllChainedFixups
+100CA2210  dyld    ____ZN5dyld36Loader18applyFixupsToImage_block_invoke.68
+100CB0218  dyld    dyld3::MachOAnalyzer::withChainStarts
+100CA2004  dyld    ____ZN5dyld36Loader18applyFixupsToImage_block_invoke_3
+100CB3314  dyld    dyld3::closure::Image::forEachFixup
+100CA15EC  dyld    dyld3::Loader::applyFixupsToImage
+100CA0A00  dyld    dyld3::Loader::mapAndFixupAllImages
+100C88784  dyld    dyld::launchWithClosure
+100C86BE0  dyld    dyld::_main
+100C81228  dyld    dyldbootstrap::start
+100C81034  dyld    __dyld_start
+</code></pre>
+<p>This leads us to the following logic in the dyld-733.6 source:</p>
+<pre><code class="language-c">// authenticated bind
+newValue = (void*)(bindTargets[fixupLoc-&gt;arm64e.bind.ordinal]);
+if (newValue != 0)
+	newValue = (void*)fixupLoc-&gt;arm64e.signPointer(fixupLoc, newValue);
+</code></pre>
+<p>Here, <strong>fixupLoc</strong> (off_109CC00) and <strong>newValue</strong> (address of puts) are passed as the <strong>loc</strong> and <strong>target</strong> arguments for <strong>Arm64e::signPointer</strong>:</p>
+<pre><code class="language-c">uint64_t discriminator = authBind.diversity;
+if ( authBind.addrDiv )
+	discriminator = __builtin_ptrauth_blend_discriminator(loc, discriminator);
+switch ( authBind.key ) {
+  case 0: // IA
+    return __builtin_ptrauth_sign_unauthenticated(target, 0, discriminator);
+  case 1: // IB
+    return __builtin_ptrauth_sign_unauthenticated(target, 1, discriminator);
+  case 2: // DA
+    return __builtin_ptrauth_sign_unauthenticated(target, 2, discriminator);
+  case 3: // DB
+    return __builtin_ptrauth_sign_unauthenticated(target, 3, discriminator);
+}
+</code></pre>
+<p>Thus, the pointer to <strong>puts</strong> is signed using its destination address in helloworld:__auth_got as salt for the signing operation. This is quite clever because the salt value is subject to ASLR and therefore cannot be guessed, but at this point the executable has already been loaded into memory – so it won’t change by the time the pointer is verified in the stub.</p>
+<p>To see this in action, use <strong>F4</strong> to run to the BRAA instruction in the stub and note the values of the operands:</p>
+<p><img src="dyld7.png" alt=""> <img src="dyld8.png" alt=""></p>
+<p>The branch will use the operands to verify that the target address has not been modified after it was originally calculated by dyld. Since we haven’t done anything malicious, one more single step should take us right to <strong>puts</strong>:</p>
+<p><img src="dyld9.png" alt=""></p>
+<p>Just for fun, let’s rewind the process back to the start of the stub:</p>
+<pre><code>IDC&gt;PC = 0x1009CBF98
+</code></pre>
+<p>Then overwrite the authenticated pointer to <strong>puts</strong> with a raw pointer to <strong>printf</strong>:</p>
+<pre><code class="language-python">ida_bytes.put_qword(0x1009CC000, ida_name.get_name_ea(BADADDR, "_printf"))
+</code></pre>
+<p>Now when we step through the stub, the BRAA instruction should detect that the authenticated pointer has been modified, and it will purposefully crash the application by setting PC to an invalid address:</p>
+<p><img src="dyld10.png" alt=""></p>
+<p>Any attempt to resume execution will inevitably fail:</p>
+<p><img src="dyld11.png" alt=""></p>
+<p>It seems we now have an understanding of secure symbol bindings in dyld. Fascinating!</p>
+<h2 id="debugging-the-dyld-shared-cache"><a class="header" href="#debugging-the-dyld-shared-cache">Debugging the DYLD Shared Cache</a></h2>
+<p>This section discusses how to optimally debug system libraries in a dyld_shared_cache.</p>
+<p><code>NOTE: full support for dyld_shared_cache debugging requires IDA 7.5 SP1</code></p>
+<p>Debugging iOS system libraries is a challenge because the code is only available in the dyld cache. IDA allows you to load a library directly from the cache, but this has its own complications. A single module typically requires loading several other modules before the analysis becomes useful. Fortunately IDA is aware of these annoyances and allows you to debug such code with minimal effort.</p>
+<p>To start, consider the following sample application that uses the CryptoTokenKit framework:</p>
+<pre><code class="language-c">#import &lt;CryptoTokenKit/CryptoTokenKit.h&gt;
+
+int main(void)
+{
+  TKTokenWatcher *watcher = [[TKTokenWatcher alloc] init];
+  NSArray *tokens = [watcher tokenIDs];
+  for ( int i = 0; i &lt; [tokens count]; i++ )
+    printf("%s\n", [[tokens objectAtIndex:i] UTF8String]);
+  return 0;
+}
+</code></pre>
+<p>Assume this program has been compiled and installed on the device as <strong>ctk.app</strong>.</p>
+<p>Instead of debugging the test application, let’s try debugging the CryptoTokenKit framework itself - focusing specifically on the <strong>-[TKTokenWatcher init]</strong> method.</p>
+<h3 id="initial-analysis"><a class="header" href="#initial-analysis">Initial Analysis</a></h3>
+<p>First we’ll need access to the dyldcache that contains the CryptoTokenKit framework. The best way to obtain the cache is to extract it from the <a href="https://ipsw.me/">ipsw</a> package for your device/iOS version. This ensures that you are working with the original untouched cache that was installed on your device.</p>
+<p>When opening the cache in IDA, choose the load option <strong>Apple DYLD cache for arm64e (single module)</strong> and select the CryptoTokenKit module:</p>
+<p><img src="cache1.png" alt=""></p>
+<p>Wait for IDA to finish the initial analysis of CryptoTokenKit. Immediately we might notice that the analysis suffers because of references to unloaded code. Most notably many Objective-C methods are missing a prototype, which is unusual:</p>
+<p><img src="cache2.png" alt=""></p>
+<p>However this is expected. Modern dyld caches store all Objective-C class names and method selectors inside the libobjc module. Objective-C analysis is practically useless without these strings, so we must load the libobjc module to access them. Since a vast majority of modules depend on libobjc in such a way, it is a good idea to automate this in a script.</p>
+<p>For a quick fix, save the following idapython code as <strong>init.py</strong>:</p>
+<pre><code class="language-python"># improve functions with branches to unloaded code
+idaapi.cvar.inf.af &amp;= ~AF_ANORET
+
+def dscu_load_module(module):
+    node = idaapi.netnode()
+    node.create("$ dscu")
+    node.supset(2, module)
+    load_and_run_plugin("dscu", 1)
+
+# load libobjc, then analyze objc types
+dscu_load_module("/usr/lib/libobjc.A.dylib")
+load_and_run_plugin("objc", 1) 
+</code></pre>
+<p>Then reopen the cache with:</p>
+<pre><code>$ ida64 -Sinit.py -Oobjc:+l dyld_shared_cache_arm64e
+</code></pre>
+<p>This will tell IDA to load libobjc immediately after the database is created, then perform the Objective-C analysis once all critical info is in the database. This should make the initial analysis acceptable in most cases. In the case of CryptoTokenKit, we see that the Objective-C prototypes are now correct:</p>
+<p><img src="cache3.png" alt=""></p>
+<p>Now let’s go to the <strong>-[TKTokenWatcher init]</strong> method invoked by the <strong>ctk</strong> application:</p>
+<p><img src="cache4.png" alt=""></p>
+<p>If we right-click on the unmapped address <strong>0x1B271C01C</strong>, IDA provides two options in the context menu:</p>
+<p><img src="cache5.png" alt=""></p>
+<p>In this case the better option is <strong>Load ProVideo:__auth_stubs</strong>, which loads only the stubs from the module and properly resolves the names:</p>
+<p><img src="cache6.png" alt=""></p>
+<p>This is a common pattern in the latest arm64e dyldcaches, and it is quite convenient for us. Loading a handful of __auth_stubs sections is enough to resolve most of the calls in CryptoTokenKit, which gives us some nice analysis for <strong>-[TKTokenWatcher init]</strong> and its helper method:</p>
+<p><img src="cache7.png" alt=""> <img src="cache8.png" alt=""></p>
+<h3 id="debugger-configuration"><a class="header" href="#debugger-configuration">Debugger Configuration</a></h3>
+<p>Now that the static analysis is on par with a typical iOS binary, let’s combine it with dynamic analysis. We can debug this database by setting the following options in <strong>Debugger&gt;Process options</strong>:</p>
+<p><img src="cache9.png" alt=""></p>
+<p>Here we set the <strong>Input file</strong> field to the full path of the CryptoTokenKit module. This allows IDA to easily detect the dyldcache slide at runtime. When CryptoTokenKit is loaded into the process, IDA will compare its runtime load address to the imagebase in the current idb, then rebase the database accordingly.</p>
+<p>By default the imagebase in the idb corresponds to the first module that was loaded:</p>
+<pre><code>IDC&gt;msg("%a", get_imagebase())
+CryptoTokenKit:HEADER:00000001B8181000
+</code></pre>
+<p>Thus, it is easiest to set <strong>Input file</strong> to the module corresponding to the default imagebase.</p>
+<p>Note however that we could also use this configuration:</p>
+<p><img src="cache13.png" alt=""></p>
+<p>Provided that we update the imagebase in the idb to the base of the libobjc module:</p>
+<pre><code class="language-python">ida_nalt.set_imagebase(ida_segment.get_segm_by_name("libobjc.A:HEADER").start_ea)
+</code></pre>
+<p>This will result in the same dyld slide and should work just as well, because the the imagebase and the <strong>Input file</strong> field both correspond to the same module. This is something to keep in mind when debugging dyldcache idbs that contain multiple libraries.</p>
+<p>Now let’s try launching the debugger. Set a breakpoint at <strong>-[TKTokenWatcher initWithClient:]</strong>, use <strong>F9</strong> to launch the process, then wait for our breakpoint to be hit:</p>
+<p><img src="cache10.png" alt=""></p>
+<p>IDA was able to map our database (including CryptoTokenKit, libobjc, and the satellite __auth_stubs sections) into process memory. We can single step, resume, inspect registers, and perform any other operation that is typical of an IDA debugging session.</p>
+<h3 id="further-analysis"><a class="header" href="#further-analysis">Further Analysis</a></h3>
+<p>Note that after terminating the debugging session you can continue to load new modules from the cache. If a dyld slide has been applied to the database, new modules will be correctly loaded into the rebased address space. This did not work in previous versions of IDA.</p>
+<p>For example, after a debugging session we might notice some more unresolved calls:</p>
+<p><img src="cache11.png" alt=""></p>
+<p>IDA is aware that the address space has shifted, and it will load the new code at the correct address:</p>
+<p><img src="cache12.png" alt=""></p>
+<p>You are free to load new modules and relaunch debugging sessions indefinitely.</p>
+<h2 id="debugging-system-applications"><a class="header" href="#debugging-system-applications">Debugging System Applications</a></h2>
+<p>The previous examples used custom applications to demonstrate IDA’s debugging capabilities. In this case IDA can utilize the debugserver included in Apple’s iOS developer tools, but there are situations in which this server is not sufficient for our needs.</p>
+<p>The debugserver will refuse to debug any application that we didn’t build ourselves. To demonstrate this, try launching IDA with an empty database and use <strong>Debugger&gt;Attach&gt;Remote iOS Debugger</strong> to attach to one of the system daemons:</p>
+<p><img src="jailbreak1.png" alt=""></p>
+<p>You will likely get this error message:</p>
+<p><img src="jailbreak2.png" alt=""></p>
+<p>It is possible to install a custom version of the debugserver that can debug system processes, but this requires a jailbroken device. We document the necessary steps and IDA configuration here. The device used in this example is an iPhone 8 with iOS 13.2.2, jailbroken with checkra1n 0.10.1.</p>
+<h3 id="patching-the-debugserver"><a class="header" href="#patching-the-debugserver">Patching the debugserver</a></h3>
+<p>First we must obtain a copy of the debugserver binary from the DeveloperDiskImage.dmg:</p>
+<pre><code class="language-bash">$ export DEVELOPER=/Applications/Xcode.app/Contents/Developer
+$ export DEVTOOLS=$DEVELOPER/Platforms/iPhoneOS.platform/DeviceSupport
+$ hdiutil mount $DEVTOOLS/13.2/DeveloperDiskImage.dmg
+$ cp /Volumes/DeveloperDiskImage/usr/bin/debugserver .
+</code></pre>
+<p>Now save the following xml as <strong>entitlements.plist</strong>:</p>
+<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/ PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+	&lt;key&gt;task_for_pid-allow&lt;/key&gt; &lt;true/&gt;
+	&lt;key&gt;get-task-allow&lt;/key&gt; &lt;true/&gt;
+	&lt;key&gt;platform-application&lt;/key&gt; &lt;true/&gt;
+	&lt;key&gt;com.apple.springboard.debugapplications&lt;/key&gt; &lt;true/&gt;
+	&lt;key&gt;run-unsigned-code&lt;/key&gt; &lt;true/&gt;
+	&lt;key&gt;com.apple.system-task-ports&lt;/key&gt; &lt;true/&gt;
+&lt;/dict&gt; 
+&lt;/plist&gt;
+</code></pre>
+<p>Then use <a href="https://theapplewiki.com/wiki/Dev:Ldid">ldid</a> to codesign the server:</p>
+<pre><code>$ ldid -Sentitlements.plist debugserver
+</code></pre>
+<p>This will grant the debugserver permission to debug any application, including system apps. Now we can copy the server to the device and run it:</p>
+<pre><code>$ scp debugserver root@iphone-8:/usr/bin/
+$ ssh root@iphone-8
+iPhone-8:~ root# /usr/bin/debugserver 192.168.1.7:1234
+debugserver-@(#)PROGRAM:LLDB  PROJECT:lldb-900.3.98 for arm64.
+Listening to port 1234 for a connection from 192.168.1.7...
+</code></pre>
+<p>Note that we specified <strong>192.168.1.7</strong> which is the IP of the host machine used in this example. Be sure to replace this with the IP of your host so that the server will accept incoming connections from IDA.</p>
+<h3 id="ida-configuration"><a class="header" href="#ida-configuration">IDA Configuration</a></h3>
+<p>To enable debugging with the patched debugserver, set the following options in dbg_ios.cfg:</p>
+<pre><code class="language-c">// don't launch the debugserver. we did it manually
+AUTOLAUNCH = NO
+// your device's UUID. this is used when fetching the remote process list
+DEVICE_ID = "";
+// debugging symbols extracted by Xcode
+SYMBOL_PATH = "~/Library/Developer/Xcode/iOS DeviceSupport/13.2.2 (17B102)/Symbols";
+</code></pre>
+<p>We’re now ready to open a binary in IDA and debug it. Copy the <strong>itunesstored</strong> binary from your device, it is typically found here:</p>
+<pre><code>/System/Library/PrivateFrameworks/iTunesStore.framework/Support/itunesstored
+</code></pre>
+<p>After loading the binary use <strong>Debugger&gt;Select debugger</strong> and choose <strong>Remote iOS Debugger</strong>, then under <strong>Debugger&gt;Process options</strong> set the following fields:</p>
+<p><img src="jailbreak3.png" alt=""></p>
+<p>Since we set <strong>AUTOLAUNCH = NO</strong>, IDA now provides the <strong>Hostname</strong> and <strong>Port</strong> fields so we can specify how to connect to our patched debugserver instance.</p>
+<p>Now use <strong>Debugger&gt;Attach to process</strong> and choose <strong>itunesstored</strong> from the process list. Since we have modified the debugserver it should agree to debug the target process, allowing IDA to create a typically robust debugging environment:</p>
+<p><img src="jailbreak4.png" alt="">\</p>
+<p>Note that although we’re not using the debugserver from DeveloperDiskImage.dmg, IDA still depends on other developer tools to query the process list. We discuss how to install the DeveloperDiskImage in the <strong>Getting Started</strong> section above, but for a quick workaround you can always just specify the PID manually:</p>
+<p><img src="jailbreak5.png" alt=""></p>
+<p>Now that we’ve successfully attached to a system process, let’s do something interesting with it. Consider the method <strong>-[PurchaseOperation initWithPurchase:]</strong>. This logic seems to be invoked when a transaction is performed in the AppStore. Set a breakpoint at this method, then open the AppStore on your device and try downloading an app (it can be any app, even a free one).</p>
+<p>Immediately our breakpoint is hit, and we can start unwinding the logic that brought us here:</p>
+<p><img src="jailbreak6.png" alt=""></p>
+<p>Stepping through this function, we see many Objective-C method call sites:</p>
+<p><img src="jailbreak7.png" alt=""></p>
+<p>Instead of using <strong>F7</strong> to step into the _objc_msgSend function, we can use shortcut <strong>Shift-O</strong> to take us directly to the Objective-C method that is being invoked:</p>
+<p><img src="jailbreak8.png" alt=""></p>
+<p>We discuss the <strong>Shift-O</strong> action in detail in our <a href="https://www.hex-rays.com/wp-content/uploads/2020/05/mac_debugger_primer2.pdf">mac debugger primer</a>, but it is worth demonstrating that this action works just as well in arm64/iOS environments.</p>
+<p>It seems that we’re well on our way to reverse-engineering transactions in the AppStore. The remaining work is left as an exercise for the reader :)</p>
+<h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
+<p>Hopefully by now we’ve shown that IDA’s iOS Debugger is quite versatile. It can play by Apple’s rules when debugging on a non-jailbroken device, and it can also be configured to use an enhanced debugserver when a jailbreak is available.</p>
+<p>Also keep in mind that all previous examples in this writeup should work equally well with the patched debugserver. We encourage you to go back and try them.</p>
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\</p>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<p>IDA uses the <a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Remote-Protocol.html">Remote GDB Protocol</a> to communicate with the iOS debugserver. Thus, the best way to diagnose possible issues is to log the packets transmitted between IDA and the server. You can do this by running IDA with the <strong>-z10000</strong> command-line option:</p>
+<pre><code>$ ida64 -z10000 -L/tmp/ida.log
+</code></pre>
+<p>Often times these packets contain messages or error codes that provide clues to the issue.</p>
+<p>For more enhanced troubleshooting, you can also enable logging on the server side. Go to <strong>Debugger&gt;Debugger options&gt;Set specific options</strong> and set the <strong>Syslog flags</strong> field:</p>
+<p><img src="troubleshoot.png" alt=""></p>
+<p>This will instruct the debugserver to log details about the debugging session to the iOS system log (all valid flags are documented under the <strong>SYSLOG_FLAGS</strong> option in dbg_ios.cfg).</p>
+<p>Start collecting the iOS system log with:</p>
+<pre><code>$ ios_deploy syslog -f /tmp/sys.log
+</code></pre>
+<p>Then launch the debugger. Now both the client (/tmp/ida.log) and the server (/tmp/sys.log) will log important events in the debugger session, which will often times reveal the issue.`</p>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<p>This tutorial replaces the old iOS debugging tutorial, which is available <a href="https://www.hex-rays.com/wp-content/uploads/2019/12/ios_debugger_tutorial.pdf">here</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/debugger/tutorials/ios_debugging_coredevice/ios_debugging_coredevice.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/linuxlocal/linuxlocal.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/debugger/tutorials/ios_debugging_coredevice/ios_debugging_coredevice.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/linuxlocal/linuxlocal.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

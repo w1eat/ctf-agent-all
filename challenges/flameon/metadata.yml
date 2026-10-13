@@ -1,0 +1,26 @@
+version: beta2
+platform: unknown
+native_id: '47'
+name: FlameOn
+category: RE
+description: 'I seem to have gotten my hands on a weird copy of Super Mario World.
+  The fire flower especially seems to be acting strange. Note: this challenge is a
+  ROM hack patch (bps).'
+value: 460
+files:
+- distfiles/ctf.bps
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#FlameOn-47
+environment: {}
+capabilities: []
+attachments:
+- filename: ctf.bps
+  name: ctf.bps
+  sha256: 4ca13a2a00994add24b06927784ed8f6345f87034214e61266ec50fb3b150378
+  size: 140
+  url: https://2026.sunshinectf.org/files/56542a89d13afddc892e9254447317db/ctf.bps
+attachments_scanned: false
+state: solved
+reason: ''

@@ -1,0 +1,34 @@
+.[-s SITENAME] The sitename whose filter table should be displayed. If omitted, defaults to the current site.
+
+>Displays the [filter table](#path-filters) associated with the site.
+
+Only admins can see filter tables of other users.
+
+! Show the default (i.e., empty) filter table
+$$
+# If the site filters were not set yet, the following info will be displayed:
+$ hv filt get
+# By default all vault files are visible.
+# The admin can set up permissions to deny access
+# to some files. The user too can set up filter
+# patterns to make some files invisible. For that,
+# each site has a user-controlled filter table.
+#
+# The below table controls vault file visibility.
+# The table is scanned from the beginning to the end.
+# Lines starting with '!' hide the matching files.
+# Other lines make the matching files visible.
+# If the first line starts with '!', all files are
+# visible by default. Otherwise, all files are
+# invisible by default.
+# Example: !*.mov will hide all *.mov files.
+
+! Set site filters from the standard input:
+$ hv filt set
+/work/research/
+<Ctrl-D>
+
+! Verify the new filters:
+$$
+/work/research/
+# The files outside of /work/research/ are not visible anymore

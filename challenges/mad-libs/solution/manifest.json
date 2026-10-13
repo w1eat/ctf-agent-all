@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "current_key": "29720625de3ecc6e9cd9:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "29720625de3ecc6e9cd9:platform_confirmed",
+      "flag": "sun{f1ll_iN_th3_g0T_eNtry}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Mad Libs",
+        "category": "Pwn",
+        "description": "Fill in the blanks! Our Mad Libs game prints back whatever you type. Binary: https://sunshinectf.games/files/fbf35f/mad_libs",
+        "connection_info": "nc chal.sunshinectf.games 26001",
+        "value": 484,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Format-string vulnerability -> overwrite printf@GOT with system() via %hhn, then feed /bin/sh to get a shell and cat /ctf/flag.txt: sun{f1ll_iN_th3_g0T_eNtry} | Evidence: mad-libs is a PIE, Partial RELRO, NX, Canary binary; main (0x11c9) loops 8 times doing fgets(buf,0x100) then printf(buf), a classic format-string bug (objdump disasm shows `call 10b0` = printf with user buffer as format). ; Positional leak probing identified: arg43 = libc_base+0x2a1ca (return addr into libc) and arg47 = PIE_base+0x11c9 (code pointer), both stable across env/stack layouts (verified locally with patchelf'd binary using the supplied ldM/libcM and against the remote service). ; Provided libcM-so.6 is GLIBC 2.39; system offset 0x58740, printf@GOT = PIE_base+0x4010 (readelf -r: printf reloc at 0x4010; PLT .plt.sec 0x10b0 -> jmp [rip+0x2f56] = 0x4010). ; Built a 6x %hhn format string writing the 48-bit system() address over printf@GOT (addresses stored after the specifiers so NUL bytes don't truncate the format). After the write, the next printf('(%d) > ') resolves to system() and the following printf(user_input) becomes system(user_input). ; Sent /bin/sh at the appropriate iteration, obtained a root shell, and `cat /ctf/flag.txt` returned: sun{f1ll_iN_th3_g0T_eNtry} (also present at ./flag.txt in /ctf).",
+      "solution_steps": [
+        "反汇编 mad-libs 的 main (0x11c9)：循环 8 次 fgets(buf,0x100) 后 printf(buf)，存在格式化字符串漏洞；GOT 可写（Partial RELRO），libc/ld 由附件提供（glibc 2.39）。",
+        "用 patchelf 把解释器指向提供的 ld，libc.so.6 指向 libcM-so.6，复现远程布局；用 %N$p 定位，发现 arg43=libc+0x2a1ca、arg47=PIE+0x11c9（均可稳定用于泄漏，AT_PHDR 位置随环境变化不可靠）。",
+        "第一轮发送 \"%43$p|%47$p\"，得到 libc_base 与 PIE_base；system=libc_base+0x58740，printf@GOT=PIE_base+0x4010。",
+        "第二轮构造格式化字符串，把 printf@GOT 的 6 个字节用 %hhn 按字节升序写入（地址放在格式串之后并对齐到 8 字节边界，参数下标=8+偏移/8），从而把 printf@GOT 改成 system。",
+        "第三轮：GOT 已被改写，循环开头的 printf(\"(%d) > \") 变成 system(\"(%d) > \")，随后 printf(buf) 变成 system(buf)。发送 /bin/sh 获得 shell。",
+        "在 shell 中 cat /ctf/flag.txt 得到 sun{f1ll_iN_th3_g0T_eNtry}。"
+      ],
+      "evidence": [
+        "mad-libs is a PIE, Partial RELRO, NX, Canary binary; main (0x11c9) loops 8 times doing fgets(buf,0x100) then printf(buf), a classic format-string bug (objdump disasm shows `call 10b0` = printf with user buffer as format).",
+        "Positional leak probing identified: arg43 = libc_base+0x2a1ca (return addr into libc) and arg47 = PIE_base+0x11c9 (code pointer), both stable across env/stack layouts (verified locally with patchelf'd binary using the supplied ldM/libcM and against the remote service).",
+        "Provided libcM-so.6 is GLIBC 2.39; system offset 0x58740, printf@GOT = PIE_base+0x4010 (readelf -r: printf reloc at 0x4010; PLT .plt.sec 0x10b0 -> jmp [rip+0x2f56] = 0x4010).",
+        "Built a 6x %hhn format string writing the 48-bit system() address over printf@GOT (addresses stored after the specifiers so NUL bytes don't truncate the format). After the write, the next printf('(%d) > ') resolves to system() and the following printf(user_input) becomes system(user_input).",
+        "Sent /bin/sh at the appropriate iteration, obtained a root shell, and `cat /ctf/flag.txt` returned: sun{f1ll_iN_th3_g0T_eNtry} (also present at ./flag.txt in /ctf).",
+        "Platform confirmed the submission as CORRECT."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/29720625de3ecc6e9cd9/deepseek-deepseek-flash-5403e74e/1688d91ea7592171/exp.py",
+        ".writeup-drafts/29720625de3ecc6e9cd9/deepseek-deepseek-flash-5403e74e/4ce32f16ad78c6df/exploit.py",
+        ".writeup-drafts/29720625de3ecc6e9cd9/deepseek-deepseek-flash-5403e74e/467fc122d16714e5/exploit_remote.py",
+        ".writeup-drafts/29720625de3ecc6e9cd9/deepseek-deepseek-flash-5403e74e/a39042b005c9d09f/leak3.py"
+      ],
+      "exp_run_command": "[unsupported]",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "ddabf2e4530611faf5af239aa356650d43f6f6562a074346b955c6ede5bb77e6",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:39:42.263480+00:00",
+      "updated_at": "2026-09-27T04:39:48.252791+00:00",
+      "exp_sha256": {
+        "exp/exp.py": "1688d91ea75921712a3a51f604604760635c1aecf58f31f166340171dd7136eb",
+        "exp/exploit.py": "4ce32f16ad78c6df48a87dff9fad85a70c858a1a40b3e3df5d42a6e94b8e20d3",
+        "exp/exploit_remote.py": "467fc122d16714e510f2a8e4981bc4e1a3944e242f8af2a1763edcc2c6c76b51",
+        "exp/leak3.py": "a39042b005c9d09f7611ea7996a85f8c00bf1de4e2f2e8669c9255c4276894fa"
+      }
+    }
+  ]
+}

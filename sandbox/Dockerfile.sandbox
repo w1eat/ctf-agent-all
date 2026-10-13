@@ -1,0 +1,170 @@
+# syntax=docker/dockerfile:1.7
+# Build with: python tools/build_sandbox.py
+# The distributed image is linux/amd64. ARM64 packages use ubuntu-ports, but the
+# pinned reverse engineering and EVM binaries below are not an ARM64 build.
+FROM ubuntu:22.04
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG TARGETARCH
+ARG APT_MIRROR=http://mirrors.ustc.edu.cn
+ENV DEBIAN_FRONTEND=noninteractive \
+    TERM=xterm \
+    PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ \
+    PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cpu \
+    KERAS_BACKEND=torch \
+    GHIDRA_INSTALL_DIR=/opt/ghidra \
+    PLAYWRIGHT_BROWSERS_PATH=/opt/playwright-browsers \
+    PATH=/opt/ctf-venv/bin:/opt/slither-venv/bin:/usr/local/bin:$PATH
+
+RUN case "$TARGETARCH" in \
+      amd64) ubuntu_repo=ubuntu ;; \
+      arm64) ubuntu_repo=ubuntu-ports ;; \
+      *) echo "Unsupported apt architecture: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && printf 'deb %s/%s/ jammy main restricted universe multiverse\n\
+deb %s/%s/ jammy-updates main restricted universe multiverse\n\
+deb %s/%s/ jammy-backports main restricted universe multiverse\n\
+deb %s/%s/ jammy-security main restricted universe multiverse\n' \
+      "$APT_MIRROR" "$ubuntu_repo" "$APT_MIRROR" "$ubuntu_repo" \
+      "$APT_MIRROR" "$ubuntu_repo" "$APT_MIRROR" "$ubuntu_repo" \
+      > /etc/apt/sources.list \
+    && test "$TARGETARCH" = amd64
+
+RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "300";\nAcquire::https::Timeout "300";\n' \
+      > /etc/apt/apt.conf.d/80-ctf-network \
+    && apt-get update && apt-get install -y --no-install-recommends \
+    adb binutils binwalk bsdmainutils build-essential ca-certificates cmake \
+    curl dcfldd dnsutils exiftool ffmpeg ffuf file foremost gdb gdb-multiarch \
+    gcc-multilib git hashcat john jq libbz2-dev libc6-dev-i386 libeigen3-dev \
+    libfplll-dev libgmp-dev libhwloc-dev libjpeg-dev libmcrypt-dev libmhash-dev \
+    libmpfr-dev libssl-dev libz3-dev ltrace make ncurses-term netcat-openbsd \
+    nmap openjdk-21-jdk-headless openssl p7zip-full patchelf pngcheck \
+    pocl-opencl-icd poppler-utils python3 python3-dev python3-pip python3-venv \
+    qemu-user ruby ruby-dev sagemath sleuthkit sox sqlmap steghide \
+    strace testdisk tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng \
+    tshark unzip wget whois xfsprogs xxd zbar-tools zip zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Fixed, independently released CLI archives. GitHub publishes these SHA256s.
+RUN curl -fL --retry 3 -o /tmp/ghidra.zip \
+      https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.3_build/ghidra_11.4.3_PUBLIC_20251203.zip \
+    && echo 'b22a8baebb14339f19903c54363ba7e01781930cc43ab430539aabce0d58547a  /tmp/ghidra.zip' | sha256sum -c - \
+    && unzip -q /tmp/ghidra.zip -d /opt \
+    && mv /opt/ghidra_11.4.3_PUBLIC /opt/ghidra \
+    && rm /tmp/ghidra.zip \
+    && printf '#!/bin/sh\nexec /opt/ghidra/support/analyzeHeadless "$@"\n' > /usr/local/bin/ghidra-headless \
+    && chmod +x /usr/local/bin/ghidra-headless
+
+RUN curl -fL --retry 3 -o /tmp/jadx.zip \
+      https://github.com/skylot/jadx/releases/download/v1.5.6/jadx-1.5.6.zip \
+    && echo '545ea2be9c242511bc145755cf4bda2485ade42966e096f8b4d3da2a230e8974  /tmp/jadx.zip' | sha256sum -c - \
+    && mkdir -p /opt/jadx && unzip -q /tmp/jadx.zip -d /opt/jadx \
+    && ln -s /opt/jadx/bin/jadx /usr/local/bin/jadx \
+    && rm /tmp/jadx.zip \
+    && curl -fL --retry 3 -o /opt/apktool.jar \
+      https://github.com/iBotPeaches/Apktool/releases/download/v3.0.1/apktool_3.0.1.jar \
+    && echo 'b947b945b4bc455609ba768d071b64d9e63834079898dbaae15b67bf03bcd362  /opt/apktool.jar' | sha256sum -c - \
+    && printf '#!/bin/sh\nexec java -jar /opt/apktool.jar "$@"\n' > /usr/local/bin/apktool \
+    && chmod +x /usr/local/bin/apktool
+
+RUN curl -fL --retry 3 -o /tmp/foundry.tar.gz \
+      https://github.com/foundry-rs/foundry/releases/download/v1.8.3/foundry_v1.8.3_linux_amd64.tar.gz \
+    && echo '7ca48e6ca3cac1bce1403ca67e5bc1dc3bc1fd818199c9957c7165079c228568  /tmp/foundry.tar.gz' | sha256sum -c - \
+    && tar -xzf /tmp/foundry.tar.gz -C /usr/local/bin forge cast anvil chisel \
+    && rm /tmp/foundry.tar.gz
+
+# Fixed source commits avoid today's upstream HEAD changing an old image build.
+RUN git init -q /tmp/radare2 \
+    && git -C /tmp/radare2 remote add origin https://github.com/radareorg/radare2 \
+    && git -C /tmp/radare2 fetch -q --depth=1 origin 4eb49d5ad8c99eaecc8850a2f10bad407067c898 \
+    && git -C /tmp/radare2 checkout -q FETCH_HEAD \
+    && (cd /tmp/radare2 && bash sys/install.sh --install) \
+    && ldconfig \
+    && rm -rf /tmp/radare2
+
+RUN apt-get update && apt-get install -y --no-install-recommends libopenblas-dev imagemagick \
+    && rm -rf /var/lib/apt/lists/* \
+    && git init -q /tmp/flatter \
+    && git -C /tmp/flatter remote add origin https://github.com/keeganryan/flatter \
+    && git -C /tmp/flatter fetch -q --depth=1 origin d2b8026f29b4a69e987b15d4b240f8a5053275d3 \
+    && git -C /tmp/flatter checkout -q FETCH_HEAD \
+    && cmake -S /tmp/flatter -B /tmp/flatter/build -DCMAKE_BUILD_TYPE=Release \
+    && cmake --build /tmp/flatter/build -j4 \
+    && cmake --install /tmp/flatter/build \
+    && ldconfig \
+    && rm -rf /tmp/flatter
+
+RUN git init -q /tmp/stegseek \
+    && git -C /tmp/stegseek remote add origin https://github.com/RickdeJager/stegseek \
+    && git -C /tmp/stegseek fetch -q --depth=1 origin 58969789a5724701048d5d5510af84098cc1f1ea \
+    && git -C /tmp/stegseek checkout -q FETCH_HEAD \
+    && cmake -S /tmp/stegseek -B /tmp/stegseek/build -DCMAKE_BUILD_TYPE=Release \
+    && cmake --build /tmp/stegseek/build --target install -j4 \
+    && rm -rf /tmp/stegseek \
+    && gem install zsteg -v 0.2.14 --no-document
+
+COPY sandbox/requirements.lock /tmp/requirements.lock
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=cache,target=/root/.cache/ctf-wheels \
+    wheel=/root/.cache/ctf-wheels/torch-2.14.0+cpu-cp310-cp310-manylinux_2_28_x86_64.whl \
+    && for attempt in {1..10}; do \
+         if [ -f "$wheel" ] \
+           && echo '019463a7566401db8b1ed142026086db8fa680abda49ec41a60a8718d88e891d  '"$wheel" | sha256sum -c -; then \
+           break; \
+         fi; \
+         curl -fL -C - --connect-timeout 30 --max-time 900 \
+           --speed-time 120 --speed-limit 1024 -o "$wheel" \
+           'https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp310-cp310-manylinux_2_28_x86_64.whl' \
+         && echo '019463a7566401db8b1ed142026086db8fa680abda49ec41a60a8718d88e891d  '"$wheel" | sha256sum -c - \
+         && break; \
+         if [ "$attempt" -eq 10 ]; then exit 1; fi; \
+         sleep 2; \
+       done \
+    && /usr/bin/python3 -m venv /opt/ctf-venv \
+    && /opt/ctf-venv/bin/python -m pip install --no-deps "$wheel" \
+    && /opt/ctf-venv/bin/python -m pip install -r /tmp/requirements.lock \
+    && /opt/ctf-venv/bin/python -m pip install --no-index \
+      --find-links=/opt/ghidra/Ghidra/Features/PyGhidra/pypkg/dist pyghidra \
+    && rm /tmp/requirements.lock
+
+COPY sandbox/slither-requirements.lock /tmp/slither-requirements.lock
+RUN --mount=type=cache,target=/root/.cache/pip \
+    /usr/bin/python3 -m venv /opt/slither-venv \
+    && /opt/slither-venv/bin/python -m pip install -r /tmp/slither-requirements.lock \
+    && rm /tmp/slither-requirements.lock \
+    && ln -s /opt/slither-venv/bin/solc /usr/local/bin/solc \
+    && ln -s /opt/slither-venv/bin/solc-select /usr/local/bin/solc-select \
+    && ln -s /opt/slither-venv/bin/slither /usr/local/bin/slither
+
+RUN git init -q /opt/cado-nfs \
+    && git -C /opt/cado-nfs remote add origin https://gitlab.inria.fr/cado-nfs/cado-nfs.git \
+    && git -C /opt/cado-nfs fetch -q --depth=1 origin bfad8c720a71b9ae3efe5516e59245ccc29449fe \
+    && git -C /opt/cado-nfs checkout -q FETCH_HEAD \
+    && make -C /opt/cado-nfs -j4 \
+    && printf '#!/bin/bash\nBUILD_PARENT=/opt/cado-nfs/build\nH=$(hostname)\nif [ ! -d "$BUILD_PARENT/$H" ]; then\n  src=$(find "$BUILD_PARENT" -mindepth 1 -maxdepth 1 -type d | head -1)\n  [ -n "$src" ] && ln -sf "$src" "$BUILD_PARENT/$H"\nfi\nexec /opt/ctf-venv/bin/python /opt/cado-nfs/cado-nfs.py "$@"\n' > /usr/local/bin/cado-nfs \
+    && chmod +x /usr/local/bin/cado-nfs
+
+RUN git init -q /opt/RsaCtfTool \
+    && git -C /opt/RsaCtfTool remote add origin https://github.com/RsaCtfTool/RsaCtfTool \
+    && git -C /opt/RsaCtfTool fetch -q --depth=1 origin fb8532a54227b61f99277bd09483a3570c02c8f8 \
+    && git -C /opt/RsaCtfTool checkout -q FETCH_HEAD \
+    && /opt/ctf-venv/bin/python -m pip install --no-cache-dir --no-build-isolation --no-deps /opt/RsaCtfTool
+
+# Browser binaries and Solidity compiler are installed at build time so solving
+# basic web and EVM fixtures never downloads tools during a challenge.
+RUN /opt/ctf-venv/bin/python -m playwright install --with-deps --only-shell chromium \
+    && /opt/slither-venv/bin/solc-select install 0.8.26 \
+    && /opt/slither-venv/bin/solc-select use 0.8.26
+
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
+    PATH=/usr/lib/jvm/java-21-openjdk-amd64/bin:$PATH
+
+COPY sandbox/tool-manifest.json /opt/ctf/tool-manifest.json
+COPY sandbox/ctf-tools-check.py /usr/local/bin/ctf-tools-check
+COPY sandbox/smoke.py /opt/ctf/smoke.py
+COPY sandbox/fixtures/TestActivity.apk /opt/ctf/fixtures/TestActivity.apk
+RUN chmod +x /usr/local/bin/ctf-tools-check \
+    && ctf-tools-check --write-reference /tools.txt \
+    && python3 -m pip check
+
+WORKDIR /challenge

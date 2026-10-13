@@ -1,0 +1,6 @@
+.GROUP_NAME the name of the group to delete.
+
+>Deletes a group.
+
+!
+$$ my_group

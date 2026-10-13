@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '27'
+name: my eyes burn
+category: Forensics
+description: anon hasn't been outside in years, so he put the sun in his keyboard.
+  find the flag he types to bring it out.
+value: 398
+files:
+- distfiles/boardwriter.klc
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#my%20eyes%20burn-27
+environment: {}
+capabilities: []
+attachments:
+- filename: boardwriter.klc
+  name: boardwriter.klc
+  sha256: f69475b37af8f2a02cc0f51b37e5f009750e907aaa3534d406e2db9d550084b4
+  size: 3562
+  url: https://2026.sunshinectf.org/files/08551bf9230a878aefad5c76b94bd3a2/boardwriter.klc
+attachments_scanned: false
+state: solved
+reason: ''

@@ -1,0 +1,586 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Licensing - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="licensing"><a class="header" href="#licensing">Licensing</a></h1>
+<p>In this document, we covered the fundamentals of our licensing model—including how to activate your license based on its type, check license’s details and share them with your team members.</p>
+<p>Here, you can learn how to:</p>
+<ul>
+<li><a href="licensing.html#license-activation"><strong>Activate your licenses</strong></a><br><a href="licensing.html#named-licenses-activation">Named</a> | <a href="licensing.html#computer-licenses-activation">Computer</a> | <a href="licensing.html#floating-licenses-activation">Floating</a> | <a href="licensing.html#bulk-activation">In Bulk</a></li>
+<li><a href="licensing.html#add-servers"><strong>Add and activate servers</strong></a><br><a href="licensing.html#private-lumina-server-activation-for-admins">Lumina</a> | <a href="licensing.html#teams-server-activation-for-admins">Teams</a> | <a href="licensing.html#floating-licenses-activation">License server</a></li>
+<li><a href="licensing.html#license-details">Check license details</a> or <a href="licensing.html#license-editing">modify them</a></li>
+<li><a href="licensing.html#download-the-license-files">Download your license files</a></li>
+<li><a href="licensing.html#grant-access-to-manage-licenses">Invite team members</a></li>
+<li><a href="licensing.html#change-your-plan">Change your current plan</a> or <a href="licensing.html#renew-your-plan">renew your current plan</a></li>
+</ul>
+<h2 id="licenses-overview"><a class="header" href="#licenses-overview">Licenses overview</a></h2>
+<h3 id="license-types"><a class="header" href="#license-types">License types</a></h3>
+<p>At Hex-Rays, we offer two basic license types for IDA products, which are <strong>suitable for individual users</strong>:</p>
+<ul>
+<li><strong>Named licenses,</strong> that are assigned to specific individuals.</li>
+<li><strong>Computer licenses</strong> that are assigned to specific devices.</li>
+</ul>
+<p>There is also an additional type, called <strong>floating licenses</strong>, that allow a set number of concurrent users but are not assigned to specific individuals or devices.</p>
+<p>{% hint style=“info” %}
+Floating licenses are available only for IDA Pro and dedicated to business/organization purposes.
+{% endhint %}</p>
+<h3 id="how-many-licenses-should-i-have"><a class="header" href="#how-many-licenses-should-i-have">How many licenses should I have?</a></h3>
+<p>Beside the license for IDA product, you need also a separate active license for each server available in your subscription.</p>
+<p>The components of your subscription that require their own license:</p>
+<ul>
+<li>Base IDA license (e.g., IDA PRO Expert 4)</li>
+<li>Teams server for Teams add-on</li>
+<li>Lumina server for Lumina add-on</li>
+<li>License server for floating licenses</li>
+</ul>
+<p><strong>Example</strong>: You’ve purchased <strong>IDA PRO Expert 4 Plan</strong> with <strong>Teams</strong> and <strong>Private Lumina</strong>, along with <strong>floating</strong> type of license with 6 seats. In this case, you’ll need to activate the following four licenses:</p>
+<ol>
+<li>License server license</li>
+<li>Private Lumina server license</li>
+<li>Teams server license</li>
+<li>IDA PRO Expert 4 license</li>
+</ol>
+<h3 id="whats-a-license-file"><a class="header" href="#whats-a-license-file">What’s a license file?</a></h3>
+<p>The <code>.hexlic</code> license file contains your license ID and other data, and is required to make your IDA instance fully operative after installation (or your Lumina, Teams or License server). You can download your license files from <a href="https://my.hex-rays.com/">My Hex-Rays portal</a>, after their activation.</p>
+<p>{% hint style=“info” %}
+Once you’ve downloaded your license, it cannot be modified.
+{% endhint %}</p>
+<h2 id="license-activation"><a class="header" href="#license-activation">License activation</a></h2>
+<p>To complete the installation, you need an active IDA license with an assigned owner (for a named license) or a MAC address (for a computer/floating license). Without activation, you cannot download your license file.</p>
+<h3 id="what-is-needed-to-activate-my-license"><a class="header" href="#what-is-needed-to-activate-my-license">What is needed to activate my license?</a></h3>
+<ul>
+<li>for named licenses: the email address of the owner,</li>
+<li>for computer licenses: the MAC address of a specific device</li>
+<li>for floating licenses: the MAC address of the device where the license server will be running</li>
+</ul>
+<p>{% hint style=“info” %}
+The license type (named/computer/floating) is selected when you purchase your subscription.
+{% endhint %}</p>
+<h3 id="where-can-i-activate-my-license"><a class="header" href="#where-can-i-activate-my-license">Where can I activate my license?</a></h3>
+<p>From the <strong>License</strong> tab in <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal, you can initiate the activation process and open the <strong>License activation</strong> dialog from several locations:</p>
+<ul>
+<li>In the table, locate your license and click <strong>Activate Now</strong> (1),</li>
+<li>Click on the desired license to open its detail view, then click <strong>Activate License</strong> (2), or</li>
+<li>Select multiple licenses of the same type by ticking their checkboxes, then click <strong>Bulk Activation</strong> (3).</li>
+</ul>
+<p><img src="assets/activate-license-1.png" alt="Activate license"></p>
+<p><img src="assets/activate-license-2.png" alt="Activate license"></p>
+<p><img src="assets/activate-license-bulk-3.png" alt="Bulk Activate"></p>
+<h3 id="named-licenses-activation"><a class="header" href="#named-licenses-activation">Named licenses activation</a></h3>
+<ol>
+<li>Go to <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal and navigate to the <strong>Licenses</strong> tab.</li>
+<li>Locate the license ID you want to activate. Ensure it has the <strong>Pending activation</strong> status.</li>
+</ol>
+<p>{% hint style=“info” %}
+If you haven’t completed the KYC procedure yet, you will need to do so for accessing paid products. A <strong>Pending KYC</strong> status indicates that your verification is still in progress and must be completed before you can activate your license.
+{% endhint %}</p>
+<ol start="3">
+<li>Open the <a href="licensing.html#where-can-i-activate-my-license"><strong>License activation</strong></a> dialog, select decompilers and click <strong>Next</strong>.</li>
+<li>Assign the ownership of the license: set the email address for this IDA instance user (it can be yours) and click <strong>Activate license</strong>.</li>
+</ol>
+<p><img src="assets/license-activation-named.png" alt="Activate named license"></p>
+<p>Your license is now active.</p>
+<p>You can check the license details and modify it if needed. If all details are correct, you can <a href="licensing.html#download-the-license-files">download your license key</a>.</p>
+<h3 id="computer-licenses-activation"><a class="header" href="#computer-licenses-activation">Computer licenses activation</a></h3>
+<ol>
+<li>Go to <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal and navigate to the <strong>Licenses</strong> tab.</li>
+<li>Locate the license ID you want to activate. Ensure it has the <strong>Pending activation</strong> status.</li>
+</ol>
+<p>{% hint style=“info” %}
+If you haven’t completed the KYC procedure yet, you will need to do so for accessing paid products. A <strong>Pending KYC</strong> status indicates that your verification is still in progress and must be completed before you can activate your license.
+{% endhint %}</p>
+<ol start="3">
+<li>Open the <a href="licensing.html#where-can-i-activate-my-license"><strong>License activation</strong></a> dialog, select decompilers and click <strong>Next</strong>.</li>
+<li>Add the MAC address of the machine where this IDA instance will be installed and running (it can be yours) and click <strong>Activate license</strong>.</li>
+</ol>
+<p><img src="assets/license-activation-computer.png" alt="Activate computer license"></p>
+<p>Your license is now active.</p>
+<p>You can check the license details and modify it if needed. If all details are correct, you can <a href="licensing.html#download-the-license-files">download your license key</a>.</p>
+<h3 id="download-the-license-files"><a class="header" href="#download-the-license-files">Download the license files</a></h3>
+<p>If you are sure that all of the license details are correct, you can go ahead and download your license hexlic file. You will need it to complete the installation process.</p>
+<p>{% hint style=“warning” %}
+Downloading the license locks the configuration and prevents further edits.
+{% endhint %}</p>
+<ol>
+<li>Go to the <strong>Licenses</strong> tab in <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal.</li>
+<li>Under the <strong>Actions</strong> column, click the three dots and then <strong>Download hexlic</strong> from the dropdown menu (1), or, alternatively, in the license detail view, click <strong>Download hexlic</strong>.</li>
+</ol>
+<p><img src="assets/download-hexlic-1.png" alt="Download hexlic"></p>
+<ol start="3">
+<li>To download multiple license files at once, select the desired licenses by ticking their checkboxes, or click <strong>Select all</strong>. Then, click <strong>Download License Files</strong> (2). You’ll receive an email with a link to download all license files and a CSV.</li>
+</ol>
+<h4 id="download-the-floating-license-files"><a class="header" href="#download-the-floating-license-files">Download the floating license files</a></h4>
+<ol>
+<li>Go to the <strong>Servers</strong> tab in <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal and locate your IDA License Server Plan.</li>
+<li>Under the <strong>Actions</strong> column, click the three dots and then <strong>Download hexlic</strong> from the dropdown menu.</li>
+</ol>
+<p><img src="assets/download-floating-license-server.png" alt="Download hexlic"></p>
+<p>{% hint style=“info” %}
+In a floating license setup, you don’t need the individual hexlic files for the IDA clients installed on users’ machines.
+{% endhint %}</p>
+<p><strong>Quick alternative</strong>
+{% hint style=“success” %}</p>
+<h2 id="hcli-commands--see-hcli-docs"><a class="header" href="#hcli-commands--see-hcli-docs">HCLI Commands | <a href="https://hcli.docs.hex-rays.com/">See HCLI Docs</a></a></h2>
+<p><code>hcli license get</code>
+{% endhint %}</p>
+<h4 id="whats-next"><a class="header" href="#whats-next"><strong>What’s next?</strong></a></h4>
+<p>Now you are ready to <a href="install-ida.html#install-ida">install your IDA instance</a>.</p>
+<h3 id="floating-licenses-activation"><a class="header" href="#floating-licenses-activation">Floating licenses activation</a></h3>
+<p>To use floating licenses, you need to activate:</p>
+<ul>
+<li>A license for your license server</li>
+<li>A base IDA Pro license linked to that server</li>
+</ul>
+<p>Both licenses can be activated and linked in a single step, as described below.</p>
+<ol>
+<li>Navigate to the <strong>Licenses</strong> tab and look for your IDA license with <strong>Floating</strong> label. Ensure it has the <strong>Pending activation</strong> status.</li>
+<li>Open the <a href="licensing.html#where-can-i-activate-my-license"><strong>License activation</strong></a> dialog, select decompilers and click <strong>Next</strong>.</li>
+<li>Assign a license server. If you <a href="licensing.html#add-servers">added the license server before</a>, select the <strong>Use existing server</strong> option and then tick the server from the list. If you haven’t done it yet, you can add and activate a license server now—select <strong>Add new server</strong> option, type the MAC address and click <strong>Add</strong>.</li>
+</ol>
+<p><img src="assets/license-activation-floating.png" alt="License activation floating"></p>
+<ol start="4">
+<li>Add tags if needed, and click <strong>Activate license</strong> to finalize.</li>
+<li>Your license(s) is now active.</li>
+</ol>
+<p>You can check the license details and modify it if needed.</p>
+<p>If all details are correct, you can <a href="licensing.html#download-the-license-files">download your license key</a> and license files for the license server.</p>
+<h3 id="bulk-activation"><a class="header" href="#bulk-activation">Bulk activation</a></h3>
+<p>If you have multiple licenses of the same type (for example, ten IDA PRO Expert 2 licenses), you can activate them all in a single batch operation. All licenses activated in bulk will share the same configuration details, decompilers set, and add-ons, while allowing for unique owner email addresses and MAC addresses.</p>
+<ol>
+<li>Go to <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal and navigate to the <strong>Licenses</strong> tab.</li>
+<li>Locate the licenses you want to activate with the <strong>Pending activation</strong> status. Select all of them by ticking the checkboxes on their left side.</li>
+<li>In the top menu that appears after selection, click <strong>Bulk Activation</strong>.</li>
+</ol>
+<p><img src="assets/bulk-activation.png" alt="Bulk activate licenses"></p>
+<ol start="4">
+<li>In the new dialog, select decompilers (this action is done for all licenses in a batch) and click <strong>Next</strong>.</li>
+<li>Depending on your licenses type, assign the license user’s emails or set the MAC addresses. Optionally, you can add tags.</li>
+<li>Click <strong>Activate Licenses</strong>.</li>
+</ol>
+<p>You’ve noticed a mistake? No worries, you can still edit your selected licenses before downloading them.</p>
+<h4 id="bulk-download-the-license-files"><a class="header" href="#bulk-download-the-license-files">Bulk download the license files</a></h4>
+<ol>
+<li>In the <strong>Licenses</strong> tab, select the licenses for bulk download and click <strong>Download License Files</strong>.</li>
+<li>After confirmation, you’ll get an email with link to download all license files + CSV.</li>
+</ol>
+<h3 id="license-details"><a class="header" href="#license-details">License details</a></h3>
+<p>The License Details card provides a complete overview of the license, including assigned decompilers and users it has been shared with. <strong>You can edit access permissions and tags at any time</strong>, even for active and already downloaded licenses.<br>To open the <strong>License Details</strong> view, go to the <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal, open the <strong>License</strong> or <strong>Servers</strong> tab, and click the license you want to view.</p>
+<p><img src="assets/license-details.png" alt="License Details view"></p>
+<h3 id="license-editing"><a class="header" href="#license-editing">License editing</a></h3>
+<p>When you activate your license using one of the methods shown above, <strong>you can still make changes</strong>—such as modifying the decompiler set—<strong>as long as you have not downloaded the license file(s)</strong>. Once the license file(s) are downloaded, further modifications will no longer be possible.</p>
+<p>To edit the license:</p>
+<ol>
+<li>Go to <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal and navigate to the <strong>Licenses</strong> or <strong>Servers</strong> tab.</li>
+<li>Locate the licenses you want to edit with the <strong>Active</strong> status. Under the <strong>Actions</strong> column, click the three dots and then <strong>Edit</strong> from the dropdown menu, or alternatively, in the license detail view, click <strong>Edit</strong>. If the <strong>Edit</strong> option is not visible, it means the license has already been downloaded and can no longer be edited.</li>
+</ol>
+<p><img src="assets/edit-license.png" alt="Edit license"></p>
+<ol start="3">
+<li>Make changes and click on <strong>Next/Activate license</strong> to confirm.</li>
+</ol>
+<h2 id="server-licenses"><a class="header" href="#server-licenses">Server licenses</a></h2>
+<p>If your subscription includes a server (for Private Lumina, Teams or floating licenses), you’ll need to activate the corresponding server licenses to download the license files. To do so, make sure to add the relevant servers to your account.</p>
+<p>{% hint style=“info” %}
+You can create and activate the license server simultaneously during the <a href="licensing.html#floating-licenses-activation">IDA floating license activation</a> process.
+{% endhint %}</p>
+<h3 id="add-servers"><a class="header" href="#add-servers">Add servers</a></h3>
+<ol>
+<li>In <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal, go to the <strong>Servers</strong> tab and click <strong>+ Add server</strong>.</li>
+</ol>
+<p><img src="assets/add-server.png" alt="Add server"></p>
+<ol start="2">
+<li>Select the type of server(s) you want to add and click <strong>Next</strong>. You may add multiple servers at one go.</li>
+</ol>
+<p><img src="assets/add-servers.png" alt="Add servers dialog"></p>
+<ol start="3">
+<li>Assign MAC addresses and click <strong>Create servers</strong> to finalize.</li>
+<li>After that, your servers will appear in the <strong>Servers</strong> list with an <strong>Active</strong> status, allowing you to download the server certificates (1) and hexlic files (2).</li>
+</ol>
+<p><img src="assets/active-server-licenses.png" alt="Active server licenses"></p>
+<ol start="5">
+<li>If you are using floating licenses, you can now go ahead and activate your IDA licenses that uses the server.</li>
+</ol>
+<p>{% hint style=“info” %}
+Ensure all floating license plans associated with the license server are activated <strong>before</strong> downloading the license server hexlic file.
+{% endhint %}</p>
+<h3 id="downloading-the-server-license-files"><a class="header" href="#downloading-the-server-license-files">Downloading the server license files</a></h3>
+<p>Once all IDA PRO licenses intended for use with your floating license server have been activated, you can proceed to download the server’s hexlic file and license certificate.<br>Maintaining this order is crucial—the <strong>hexlic file contains essential details about the linked licenses</strong>, which are properly embedded only when the IDA license is associated with the specific floating license server.</p>
+<h4 id="license-server-installation-for-admins"><a class="header" href="#license-server-installation-for-admins">License server installation for admins</a></h4>
+<p>Server installation for floating licenses should be done by the administrator. Check our <a href="../admin-guide/license-server.html">Admin Guide</a> for details.</p>
+<h4 id="how-can-i-start-using-ida-as-a-floating-license-user"><a class="header" href="#how-can-i-start-using-ida-as-a-floating-license-user">How can I start using IDA as a floating license user?</a></h4>
+<p>Once your administrator installs a license server, adds particular license seats to the pool, and hands over the credentials, you are ready to <a href="install-ida.html#install-ida">install your IDA instance</a>.</p>
+<p>You don’t need to download a license file/key to your local machine while using the floating licenses server.<br><strong>New to the floating licenses?</strong> Check our <a href="../user-guide/floating-licenses.html">Floating Licenses User Guide</a>.</p>
+<p><strong>Floating licenses check-out</strong></p>
+<p>Every time you launch IDA, you’ll see the License Manager pop-up window. As long as there are free seats, you can check-out one of the available licenses and start using IDA.</p>
+<p>{% hint style=“info” %}
+Note that some of the available licenses may have different decompilers and add-ons enabled.
+{% endhint %}</p>
+<h3 id="add-ons-servers-licenses"><a class="header" href="#add-ons-servers-licenses">Add-ons servers’ licenses</a></h3>
+<h4 id="private-lumina-server-activation-for-admins"><a class="header" href="#private-lumina-server-activation-for-admins">Private Lumina server activation for admins</a></h4>
+<p>Each of our add-ons, Teams and Private Lumina, requires an active license to work properly. To proceed with Lumina installation and setup, an active server’s license is required.</p>
+<ol>
+<li><a href="licensing.html#add-servers">Add server</a> in your account (activate the license).</li>
+<li>Locate your server license on the <strong>Servers</strong> tab and download the following files:</li>
+</ol>
+<ul>
+<li>lumina server certificate (1)</li>
+<li>.hexlic file (license key) (2)</li>
+</ul>
+<p><img src="assets/download-lumina-license.png" alt="Download Lumina license files"></p>
+<p>You’ll need both files to continue with the server installation and setup.</p>
+<p><strong>Quick alternative</strong>
+{% hint style=“success” %}</p>
+<h2 id="hcli-commands--see-hcli-docs-1"><a class="header" href="#hcli-commands--see-hcli-docs-1">HCLI Commands | <a href="https://hcli.docs.hex-rays.com/">See HCLI Docs</a></a></h2>
+<p><code>hcli license get</code>
+{% endhint %}</p>
+<h4 id="private-lumina-server-installation-for-admins"><a class="header" href="#private-lumina-server-installation-for-admins">Private Lumina server installation for admins</a></h4>
+<p>Server installation for Private Lumina should be done by the administrator. Check our <a href="../admin-guide/lumina-server.html">Admin Guide</a> for details.</p>
+<h4 id="teams-server-activation-for-admins"><a class="header" href="#teams-server-activation-for-admins">Teams server activation for admins</a></h4>
+<p>Each of our add-ons, Teams and Private Lumina, requires an active license to work properly. To proceed with Teams installation and setup, an active server’s license is required.</p>
+<ol>
+<li><a href="licensing.html#add-servers">Add server</a> in your account (activate the license).</li>
+<li>Locate your server license on the <strong>Servers</strong> tab and download the following files:</li>
+</ol>
+<ul>
+<li>teams server certificate (1)</li>
+<li>.hexlic file (license key) (2)</li>
+</ul>
+<p><img src="assets/download-teams-license.png" alt="Download Teams license files"></p>
+<p>You’ll need both files to continue with the server installation and setup.</p>
+<p><strong>Quick alternative</strong>
+{% hint style=“success” %}</p>
+<h2 id="hcli-commands--see-hcli-docs-2"><a class="header" href="#hcli-commands--see-hcli-docs-2">HCLI Commands | <a href="https://hcli.docs.hex-rays.com/">See HCLI Docs</a></a></h2>
+<p><code>hcli license get</code>
+{% endhint %}</p>
+<h4 id="teams-server-installation-for-admins"><a class="header" href="#teams-server-installation-for-admins">Teams server installation for admins</a></h4>
+<p>Server installation for Teams should be done by the administrator. Check our <a href="../admin-guide/teams-server.html">Admin Guide</a> for details.</p>
+<h2 id="grant-access-to-manage-licenses"><a class="header" href="#grant-access-to-manage-licenses">Grant access to manage licenses</a></h2>
+<p>You can invite your teammates to view and activate licenses via their own My Hex-Rays account. To grant access:</p>
+<ol>
+<li>Select license(s) you want to share and click <strong>Grant Access</strong> (1).</li>
+<li>Add the email address of your teammate and click <strong>Confirm</strong> (2).</li>
+<li>Your team member will receive an email invitation to log in to the portal and access the shared licenses.</li>
+</ol>
+<p><img src="assets/grant-access.png" alt="Grant access"></p>
+<p>The <a href="licensing.html#license-details">License Details</a> view allows you to review who currently has access to the license, remove users, or grant access to new ones.</p>
+<hr>
+<p><strong>Key points</strong>:</p>
+<ul>
+<li>Once a license has been downloaded, it cannot be modified.</li>
+<li>Multiple licenses of the same type can be activated in bulk.</li>
+<li>You can grant the access to manage licenses to other teammates, while the ownership of the license remains the same.</li>
+</ul>
+<h2 id="change-your-plan"><a class="header" href="#change-your-plan">Change your plan</a></h2>
+<p>If you need additional decompilers or add-ons, you can upgrade your plan at any time through <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal.</p>
+<p>Steps to update your plan:</p>
+<ol>
+<li>Go to the Licenses tab.</li>
+<li>Find/select the IDA license plan you want to renew.</li>
+<li>Click <strong>Renew/Change plan</strong> in the top panel or in the license’s row in the table.</li>
+</ol>
+<p><img src="assets/renew-change-plan.png" alt="Renew/Change plan"></p>
+<ol start="4">
+<li>Review the plan options. You can upgrade your plan, change the license type to floating, and add seats or add-ons.</li>
+<li>Select <strong>Change plan (starts immediately)</strong> to apply the changes right after the upgrade. Click <strong>Continue to Payment</strong> to finalize.</li>
+</ol>
+<p><img src="assets/change-plan.png" alt="Review plan options"></p>
+<ol start="6">
+<li>The new plan will appear under the <strong>Licenses</strong> tab with a <em>Pending Activation</em> status. Activate the license to start using the updated plan.</li>
+</ol>
+<p>{% hint style=“info” %}</p>
+<h3 id="actions-required-after-update"><a class="header" href="#actions-required-after-update">Actions Required After Update</a></h3>
+<p>If you <strong>upgraded your plan</strong> (for example, from IDA PRO Expert 2 to IDA PRO Expert 4), you will need to <strong>activate your new license</strong> and <strong>download the new license files</strong> before you can use the updated plan.
+{% endhint %}</p>
+<h2 id="renew-your-plan"><a class="header" href="#renew-your-plan">Renew your plan</a></h2>
+<p>You can renew your subscription and, if needed, change your plan(s) in one go through <a href="https://my.hex-rays.com/">My Hex-Rays</a> portal.</p>
+<p>Steps to renew and change your plan:</p>
+<ol>
+<li>Go to the Licenses tab.</li>
+<li>Find/select the IDA license plan you want to renew.</li>
+<li>Click <strong>Renew/Change plan</strong> in the top panel or in the license’s row in the table.</li>
+</ol>
+<p><img src="assets/renew-change-plan.png" alt="Renew/Change plan"></p>
+<ol start="4">
+<li>Select subscription duration and review the plan options. You can upgrade/downgrade your plan, change the license type, and add seats or add-ons.</li>
+<li>Select one of the following options:</li>
+</ol>
+<ul>
+<li><strong>Renew (starts after current period)</strong>, if you want all changes to be applied at the renewal date, or</li>
+<li><strong>Change plan (starts immediately)</strong>, if you want the changes to take effect right away. Click <strong>Continue to Payment</strong> to finalize.</li>
+</ul>
+<p><img src="assets/renew-plan.png" alt="Review plan options"></p>
+<ol start="6">
+<li>Based on your selection, follow the appropriate scenario:</li>
+</ol>
+<ul>
+<li>a. <strong>Renewal without plan change</strong>: The subscription validity is automatically extended. Re-download the license files and save them in your usual location (You can check and change the .hexlic location via Help → License Manager…).</li>
+<li>b. <strong>Renewal with plan change</strong>: The new plan will appear under the <strong>Licenses</strong> tab with a <em>Pending Activation</em> status. You need to activate it, then download and save the new license file locally.</li>
+</ul>
+<p>{% hint style=“info” %}
+If you would like to <strong>downgrade</strong> your current plan, you can do that <strong>at your next renewal date only</strong>.
+{% endhint %}</p>
+<p>{% hint style=“info” %}</p>
+<h3 id="actions-required-after-renewal-withwithout-upgrade"><a class="header" href="#actions-required-after-renewal-withwithout-upgrade">Actions Required After Renewal With/Without Upgrade</a></h3>
+<p>If you <strong>upgraded your plan</strong> (for example, from IDA PRO Expert 2 to IDA PRO Expert 4), you will need to <strong>activate your new license</strong> and <strong>download the new license files</strong> before you can use the updated plan. If you <strong>renewed your existing plan without changes</strong>, <strong>re-download a license file</strong> to apply the extended validity period.
+{% endhint %}</p>
+<h3 id="license-renewal-and-update-faq"><a class="header" href="#license-renewal-and-update-faq">License Renewal and Update FAQ</a></h3>
+<h4 id="how-can-i-change-only-my-decompilers"><a class="header" href="#how-can-i-change-only-my-decompilers">How can I change only my decompilers?</a></h4>
+<p>If you only want to change the type of decompilers (not the number of decompilers, and without upgrading or downgrading your plan), this can be done <strong>after your current plan expires</strong>. Instead of renewing the current plan, you will need to <strong>place a new order</strong>. A new license will then be generated, and during activation you will be able to choose different decompilers.</p>
+<h4 id="how-can-i-add-more-decompilers-to-my-current-plan"><a class="header" href="#how-can-i-add-more-decompilers-to-my-current-plan">How can I add more decompilers to my current plan?</a></h4>
+<p>To add more decompilers to your active subscription, you’ll need to <strong>upgrade to a higher plan</strong> that includes the desired number of decompilers. You can upgrade your plan at any time through My Hex-Rays portal, and choose to apply the changes immediately.</p>
+<h4 id="what-changes-can-i-make-during-renewal"><a class="header" href="#what-changes-can-i-make-during-renewal">What changes can I make during renewal?</a></h4>
+<p>You can apply the following changes during renewal via My Hex-Rays portal:</p>
+<ul>
+<li>Switch to a different license type</li>
+<li>Upgrade or downgrade your plan</li>
+<li>Add optional add-ons (Teams or Lumina)</li>
+<li>Add additional seats</li>
+</ul>
+<p>Some changes, such as downgrading a plan or changing the license type from computer to named, can only take effect at the next term, not during the active subscription period.</p>
+<p>For other modifications, such as changing an active license type from named to computer, contact our <a href="mailto:sales@hex-rays.com">Sales team</a></p>
+<h4 id="what-changes-can-i-make-to-my-active-license"><a class="header" href="#what-changes-can-i-make-to-my-active-license">What changes can I make to my active license?</a></h4>
+<p>During your current subscription period, you can:</p>
+<ul>
+<li>Upgrade to a higher plan</li>
+<li>Add seats or add-ons</li>
+<li>Switch to a floating license type</li>
+</ul>
+<p>You can <strong>apply these changes immediately</strong> to your active license.</p>
+<h4 id="can-i-change-the-license-type-of-my-active-subscription-plan"><a class="header" href="#can-i-change-the-license-type-of-my-active-subscription-plan">Can I change the license type of my active subscription plan?</a></h4>
+<p>During an active subscription period, the only license type change you can make yourself via My Hex-Rays portal is switching to a floating license. Other changes (e.g., switching between named and computer licenses) are only possible at renewal for the next term, or require assistance from our <a href="mailto:sales@hex-rays.com">Sales team</a>.</p>
+<h4 id="can-i-downgrade-my-active-license"><a class="header" href="#can-i-downgrade-my-active-license">Can I downgrade my active license?</a></h4>
+<p>Downgrades are possible only for your next renewal date.</p>
+<h4 id="i-have-ida-pro-essential-and-want-to-upgrade-to-ida-pro-expert-4-how-can-i-do-this"><a class="header" href="#i-have-ida-pro-essential-and-want-to-upgrade-to-ida-pro-expert-4-how-can-i-do-this">I have IDA Pro Essential and want to upgrade to IDA Pro Expert 4. How can I do this?</a></h4>
+<p>You can upgrade your plan at any time through the Customer Portal, and choose to apply the changes immediately, or at your next renewal date. Check the details on <a href="licensing.html#change-your-plan">how to change your current plan</a>.</p>
+<h4 id="i-have-named-license-can-i-change-the-license-type-to-computer"><a class="header" href="#i-have-named-license-can-i-change-the-license-type-to-computer">I have named license, can I change the license type to computer?</a></h4>
+<p>You can change the license type (for example, from the named to computer) via customer portal only <strong>while renewing for the next term</strong>. In other words, you cannot change the license type for active subscription period. If you need to do that for some reason, contact our <a href="mailto:sales@hex-rays.com">Sales team</a>.</p>
+<h4 id="why-cant-i-renew-or-change-the-license"><a class="header" href="#why-cant-i-renew-or-change-the-license">Why can’t I renew or change the license?</a></h4>
+<p>If the Renew/Change plan option is missing or greyed out, it means the license was shared with you and bought by someone else. Only the person who purchased the license can renew or modify the plan.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../getting-started/install-ida.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../getting-started/basic-usage.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../getting-started/install-ida.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../getting-started/basic-usage.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

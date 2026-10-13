@@ -1,0 +1,2546 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Porting Guide from IDA 8.x to 9.0 - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="porting-guide-from-ida-8x-to-90"><a class="header" href="#porting-guide-from-ida-8x-to-90">Porting Guide from IDA 8.x to 9.0</a></h1>
+<p>IDA 9.0 IDAPython changes and porting guide</p>
+<p>{% hint style=“info” %}
+<strong>How to use this Porting Guide?</strong> This guide provides a comprehensive list of all changes in IDAPython API between IDA 8.4 and 9.0. Here’s how you can make the most of it:</p>
+<ul>
+<li>
+<p>Explore by module: navigate directly to a specific module and review the changes affecting it</p>
+</li>
+<li>
+<p>Jump to <a href="idapython-porting-guide-ida-9.html#alternative-examples">alternative examples</a> demonstrating how to port removed functions</p>
+</li>
+<li>
+<p>Check <a href="idapython-porting-guide-ida-9.html#how-to-examples">how-to examples</a> that demonstrate the usage of new/udpated APIs
+{% endhint %}</p>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_struct">ida_struct</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions">Removed functions:</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#removed-methods-and-members">Removed methods and members</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#member_t">member_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#struct_t">struct_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#struct_field_visitor_t">struct_field_visitor_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#udm_visitor_t">udm_visitor_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_enum">ida_enum</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-1">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#enum_member_visitor_t">enum_member_visitor_t</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_typeinf">ida_typeinf</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-2">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions">Added functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-class">Added class</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#udm_visitor_t-1">udm_visitor_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#removed-methods">Removed methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#enum_type_data_t">enum_type_data_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#callregs_t">callregs_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#enum_type_data_t-1">enum_type_data_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#func_type_data_t">func_type_data_t.</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#til_t">til_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#tinfo_t">tinfo_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#udm_t">udm_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#udtmembervec_t">udtmembervec_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-methods">Modified methods:</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#tinfo_t-1">tinfo_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_frame">ida_frame</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-3">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-1">Added functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions">Modified functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_bytes">ida_bytes</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-4">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-2">Added functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions-1">Modified functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#idc">idc</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-5">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_dirtree">ida_dirtree</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-6">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_diskio">ida_diskio</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-7">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_fpro">ida_fpro</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-3">Added functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_funcs">ida_funcs</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods-1">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#func_item_iterator_t">func_item_iterator_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_gdl">ida_gdl</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#added-classes">Added classes</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#edge_t">edge_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#edgevec_t">edgevec_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#node_ordering_t">node_ordering_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_graph">ida_graph</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-classes">Removed classes</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#node_ordering_t-1">node_ordering_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#edge_t-1">edge_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#renamed-clases">Renamed clases</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#renamed-functions">Renamed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_hexrays">ida_hexrays</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-8">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions-2">Modified functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-4">Added functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-classes-1">Added classes</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#removed-methods-1">Removed methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#vdui_t">vdui_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods-2">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#cinsn_list_t">cinsn_list_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#hexrays_hooks">Hexrays_Hooks</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#lvar_t">lvar_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#lvars_t">lvars_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#simple_graph_t">simple_graph_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#fnumber_t">fnumber_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#minsn_t">minsn_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#mba_t">mba_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#codegen_t">codegen_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-methods-1">Modified methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#hexrays_hooks-1">Hexrays_Hooks</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#valrng_t">valrng_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#stkvar_ref_t">stkvar_ref_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#mop_t">mop_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_ida">ida_ida</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#added-classes-2">Added classes</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#idbattr_valmap_t">idbattr_valmap_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#idbattr_info_t">idbattr_info_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#inf_structure-accessors">inf_structure accessors</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#replacement-examples">Replacement examples:</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#inf_structure-getters">inf_structure getters</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#inf_structure-setters">inf_structure setters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_idaapi">ida_idaapi</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-9">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_idd">ida_idd</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-5">Added functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_idp">ida_idp</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-methods-2">Removed methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#_processor_t">_processor_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#processor_t">processor_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-methods-2">Modified methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#_processor_t-1">_processor_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#idp_hooks">IDP_Hooks</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods-3">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#idb_hooks">IDB_Hooks</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-10">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_ieee">ida_ieee</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-methods-3">Removed methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#fpvalue_t">fpvalue_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_kernwin">ida_kernwin</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-11">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-function">Modified function</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#removed-classes-1">Removed classes</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#removed-methods-4">Removed methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#place_t">place_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#twinpos_t">twinpos_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#tagged_line_sections_t">tagged_line_sections_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods-4">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#tagged_line_sections_t-1">tagged_line_sections_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#chooser_base_t">chooser_base_t</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-6">Added functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_lines">ida_lines</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-12">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_moved">ida_moved</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#modified--functions">Modified functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_nalt">ida_nalt</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-13">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_netnode">ida_netnode</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions-3">Modified functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_pro">ida_pro</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-14">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-classes-3">Added classes</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#plugin_options_t">plugin_options_t</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uchar_pointer">uchar_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#ushort_pointer">ushort_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uint_pointer">uint_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#sint8_pointer">sint8_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#int8_pointer">int8_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uint8_pointer">uint8_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#int16_pointer">int16_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uint16_pointer">uint16_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#int32_pointer">int32_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uint32_pointer">uint32_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#int64_pointer">int64_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uint64_pointer">uint64_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#ssize_pointer">ssize_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#bool_pointer">bool_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#short_pointer">short_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#char_pointer">char_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#sel_pointer">sel_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#asize_pointer">asize_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#adiff_pointer">adiff_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#uval_pointer">uval_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#ea32_pointer">ea32_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#ea64_pointer">ea64_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#flags_pointer">flags_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#flags64_pointer">flags64_pointer</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#tid_pointer">tid_pointer</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#added-functions-7">Added functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_regfinder">ida_regfinder</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-15">Removed functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions-4">Modified functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods-5">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#reg_value_info_t">reg_value_info_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_registry">ida_registry</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-16">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_search">ida_search</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-functions-17">Removed functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#ida_ua">ida_ua</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#removed-function">Removed Function</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions-5">Modified functions</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#added-methods-6">Added methods</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#macro_constructor_t">macro_constructor_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#idautils">idautils</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#modified-functions-6">Modified functions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#idb-events">IDB events</a></p>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#type-information-error-codes">Type information error codes</a></p>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#alternative-examples">Alternative examples</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#del_struct_members">del_struct_members</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#get_struc_qty">get_struc_qty</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#is_special_member">is_special_member</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#get_sptr">get_sptr</a></li>
+</ul>
+</li>
+<li>
+<p><a href="idapython-porting-guide-ida-9.html#how-to-examples">How to examples</a></p>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#list-structure-members">List structure members</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#example-1">Example 1</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#example-2">Example 2</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#list-enum-members">List enum members</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#list-frame-information">List frame information</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#list-stack-variables-xrefs">List stack variables xrefs</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#create-a-structure-with-parsing">Create a structure with parsing</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#create-a-structure-member-by-member">Create a structure member by member</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#create-a-union-member-by-member">Create a union member by member</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#create-a-bitmask-enum">Create a bitmask enum</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#create-an-array">Create an array</a>
+<ul>
+<li><a href="idapython-porting-guide-ida-9.html#example-1-1">Example 1</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#example-2-1">Example 2</a></li>
+</ul>
+</li>
+<li><a href="idapython-porting-guide-ida-9.html#log-local-type-events">Log local type events</a></li>
+<li><a href="idapython-porting-guide-ida-9.html#log-frame-events">Log frame events</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>This guide provides information about what has been changed in the IDAPython API between IDA 8.4 and 9.0.</p>
+<p>The largest change is due to the removal of two modules:</p>
+<ul>
+<li><code>ida_struct</code></li>
+<li><code>ida_enum</code></li>
+</ul>
+<p>For years now, those 2 modules have been superseded by the <code>ida_typeinf</code> module, which offers similar functionality.</p>
+<p>In case you are not familiar with <a href="https://python.docs.hex-rays.com/namespaceida__typeinf.html"><code>ida_typeinf</code>’s main concepts</a>, we recommend having a look at them first.</p>
+<h2 id="ida_struct"><a class="header" href="#ida_struct">ida_struct</a></h2>
+<ol>
+<li><code>ida_struct</code> structures were accessed mostly through their index (or ID), while <code>ida_typeinf</code> adopts another approach using type names (or ordinals). Consequently, the notion of “structure index” bears less importance, and doesn’t have a direct alternative.</li>
+<li>many <code>ida_struct.get_struc_*</code> operations were accepting a <code>tid_t</code>. While the notion of <code>tid_t</code> is still present in IDA 9.0, it is not part of identifying a type anymore (a type is now identified either by its name, or its ordinal). The notion of <code>tid_t</code> is mostly used to “bind” types to data &amp; functions in the IDB. For example, calling <code>ida_nalt.get_strid(address)</code> will return you such a <code>tid_t</code>. From a <code>tid_t</code>, you can load the corresponding <code>tinfo_t</code> object by using <code>tinfo_t(tid=id)</code>.</li>
+</ol>
+<h3 id="removed-functions"><a class="header" href="#removed-functions">Removed functions:</a></h3>
+<p>The table below provides alternatives to the functions that have been removed in IDA 9.0.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>add_struc</code></td><td><code>tinfo_t.create_udt</code></td></tr>
+<tr><td><code>add_struc_member</code></td><td><code>tinfo_t.add_udm</code></td></tr>
+<tr><td><code>del_struc</code></td><td><code>del_numbered_type</code>, <code>del_named_type</code></td></tr>
+<tr><td><code>del_struc_member</code></td><td><code>tinfo_t.del_udm</code></td></tr>
+<tr><td><code>del_struc_members</code></td><td>see <a href="idapython-porting-guide-ida-9.html#del_struct_members">example</a></td></tr>
+<tr><td><code>expand_struc</code></td><td><code>tinfo_t.expand_udt</code></td></tr>
+<tr><td><code>get_best_fit_member</code></td><td><code>udt_type_data_t.get_best_fit_member</code></td></tr>
+<tr><td><code>get_first_struc_idx</code></td><td><code>til_t.numbered_types</code> (see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a>)</td></tr>
+<tr><td><code>get_innermost_member</code></td><td><code>tinfo_t.get_innermost_udm</code></td></tr>
+<tr><td><code>get_last_struc_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_max_offset</code></td><td><code>tinfo_t.get_size</code> (structures), or <code>tinfo_t.get_udt_nmembers</code> (unions)</td></tr>
+<tr><td><code>get_member</code></td><td><code>tinfo_t.get_udm</code> / <code>tinfo_t.get_udm_by_offset</code></td></tr>
+<tr><td><code>get_member_by_fullname</code></td><td><code>get_udm_by_fullname</code></td></tr>
+<tr><td><code>get_member_by_id</code></td><td><code>tinfo_t.get_udm_by_tid</code></td></tr>
+<tr><td><code>get_member_by_name</code></td><td><code>tinfo_t.get_udm</code></td></tr>
+<tr><td><code>get_member_cmt</code></td><td><code>tinfo_t.get_udm</code> + <code>udm_t.cmt</code></td></tr>
+<tr><td><code>get_member_fullname</code></td><td><code>get_tif_name</code></td></tr>
+<tr><td><code>get_member_id</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.get_udm_tid</code></td></tr>
+<tr><td><code>get_member_name</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.get_udm</code> + <code>udm_t.name</code></td></tr>
+<tr><td><code>get_member_size</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.get_udm</code> + <code>udm_t.size</code></td></tr>
+<tr><td><code>get_member_struc</code></td><td><code>get_udm_by_fullname</code></td></tr>
+<tr><td><code>get_member_tinfo</code></td><td><code>udm_t.type</code></td></tr>
+<tr><td><code>get_next_member_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_next_struc_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_or_guess_member_tinfo</code></td><td></td></tr>
+<tr><td><code>get_prev_member_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_prev_struc_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_sptr</code></td><td>see <a href="idapython-porting-guide-ida-9.html#get_sptr">example</a></td></tr>
+<tr><td><code>get_struc</code></td><td><code>tinfo_t(tid=...)</code></td></tr>
+<tr><td><code>get_struc_by_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_struc_cmt</code></td><td><code>tinfo_t.get_type_cmt</code></td></tr>
+<tr><td><code>get_struc_first_offset</code></td><td></td></tr>
+<tr><td><code>get_struc_id</code></td><td><code>get_named_type_tid</code></td></tr>
+<tr><td><code>get_struc_idx</code></td><td>see <a href="idapython-porting-guide-ida-9.html#ida_struct">notes</a></td></tr>
+<tr><td><code>get_struc_last_offset</code></td><td><code>tinfo_t.get_udt_details</code> + <code>udm_t.offset</code></td></tr>
+<tr><td><code>get_struc_name</code></td><td><code>get_tid_name</code></td></tr>
+<tr><td><code>get_struc_next_offset</code></td><td></td></tr>
+<tr><td><code>get_struc_prev_offset</code></td><td></td></tr>
+<tr><td><code>get_struc_qty</code></td><td>see <a href="idapython-porting-guide-ida-9.html#get_struc_qty">example</a></td></tr>
+<tr><td><code>get_struc_size</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.get_size</code></td></tr>
+<tr><td><code>is_anonymous_member_name</code></td><td><code>ida_frame.is_anonymous_member_name</code></td></tr>
+<tr><td><code>is_dummy_member_name</code></td><td><code>ida_frame.is_dummy_member_name</code></td></tr>
+<tr><td><code>is_member_id</code></td><td><code>idc.is_member_id</code></td></tr>
+<tr><td><code>is_special_member</code></td><td>see <a href="idapython-porting-guide-ida-9.html#is_special_member">example</a></td></tr>
+<tr><td><code>is_union</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.is_union</code></td></tr>
+<tr><td><code>is_varmember</code></td><td><code>udm_t.is_varmember</code></td></tr>
+<tr><td><code>is_varstr</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.is_varstruct</code></td></tr>
+<tr><td><code>retrieve_member_info</code></td><td></td></tr>
+<tr><td><code>save_struc</code></td><td><code>tinfo_t.save_type</code> / <code>tinfo_t.set_named_type</code> / <code>tinfo_t.set_numbered_type</code></td></tr>
+<tr><td><code>set_member_cmt</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.set_udm_cmt</code></td></tr>
+<tr><td><code>set_member_name</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.rename_udm</code></td></tr>
+<tr><td><code>set_member_tinfo</code></td><td></td></tr>
+<tr><td><code>set_member_type</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.set_udm_type</code></td></tr>
+<tr><td><code>set_struc_align</code></td><td></td></tr>
+<tr><td><code>set_struc_cmt</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.set_type_cmt</code></td></tr>
+<tr><td><code>set_struc_hidden</code></td><td></td></tr>
+<tr><td><code>set_struc_idx</code></td><td></td></tr>
+<tr><td><code>set_struc_listed</code></td><td><code>set_type_choosable</code></td></tr>
+<tr><td><code>set_struc_name</code></td><td><code>tinfo_t(tid=...)</code> + <code>tinfo_t.rename_type</code></td></tr>
+<tr><td><code>stroff_as_size</code></td><td><code>ida_typeinf.stroff_as_size</code></td></tr>
+<tr><td><code>struct_field_visitor_t</code></td><td><code>ida_typeinf.tinfo_visitor_t</code></td></tr>
+<tr><td><code>unsync_and_delete_struc</code></td><td></td></tr>
+<tr><td><code>visit_stroff_fields</code></td><td></td></tr>
+<tr><td><code>visit_stroff_udms</code></td><td><code>ida_typeinf.visit_stroff_udms</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="removed-methods-and-members"><a class="header" href="#removed-methods-and-members">Removed methods and members</a></h3>
+<h4 id="member_t"><a class="header" href="#member_t">member_t</a></h4>
+<ul>
+<li><code>by_til</code> see <code>ida_typeinf.udm_t.is_by_til</code></li>
+<li><code>eoff</code></li>
+<li><code>flag</code></li>
+<li><code>get_size</code> use <code>ida_typeinf.udm_t.size // 8</code> instead.</li>
+<li><code>get_soff</code> see <code>soff</code> below.</li>
+<li><code>has_ti</code></li>
+<li><code>has_union</code></li>
+<li><code>id</code></li>
+<li><code>is_baseclass</code> see <code>ida_typeinf.udm_t.is_baseclass</code></li>
+<li><code>is_destructor</code> see <code>ida_typeinf.udm_t.can_be_dtor</code></li>
+<li><code>is_dupname</code></li>
+<li><code>props</code></li>
+<li><code>soff</code> use <code>ida_typeinf.udm_t.offset // 8</code> instead.</li>
+<li><code>this</code></li>
+<li><code>thisown</code></li>
+<li><code>unimem</code></li>
+</ul>
+<h4 id="struct_t"><a class="header" href="#struct_t">struct_t</a></h4>
+<ul>
+<li><code>age</code></li>
+<li><code>from_til</code></li>
+<li><code>get_alignment</code></li>
+<li><code>get_last_member</code></li>
+<li><code>get_member</code></li>
+<li><code>has_union</code> see <code>ida_typeinf.tinfo_t.has_union</code></li>
+<li><code>id</code> see <code>ida_typeinf.tinfo_t.get_tid</code></li>
+<li><code>is_choosable</code></li>
+<li><code>is_copyof</code></li>
+<li><code>is_frame</code> see <code>ida_typeinf.tinfo_t.is_frame</code></li>
+<li><code>is_ghost</code></li>
+<li><code>is_hidden</code></li>
+<li><code>is_mappedto</code></li>
+<li><code>is_synced</code></li>
+<li><code>is_union</code> see <code>ida_typeinf.tinfo_t.is_union</code></li>
+<li><code>is_varstr</code> see <code>ida_typeinf.tinfo_t.is_varstruct</code></li>
+<li><code>like_union</code></li>
+<li><code>members</code></li>
+<li><code>memqty</code> see <code>ida_typeinf.tinfo_t.get_udt_nmembers</code></li>
+<li><code>ordinal</code> see <code>ida_typeinf.tinfo_t.get_ordinal</code></li>
+<li><code>props</code></li>
+<li><code>set_alignment</code></li>
+<li><code>thisown</code></li>
+</ul>
+<h4 id="struct_field_visitor_t"><a class="header" href="#struct_field_visitor_t">struct_field_visitor_t</a></h4>
+<ul>
+<li><code>visit_field</code></li>
+</ul>
+<h4 id="udm_visitor_t"><a class="header" href="#udm_visitor_t">udm_visitor_t</a></h4>
+<ul>
+<li><code>visit_udm</code></li>
+</ul>
+<h2 id="ida_enum"><a class="header" href="#ida_enum">ida_enum</a></h2>
+<h3 id="removed-functions-1"><a class="header" href="#removed-functions-1">Removed functions</a></h3>
+<p>The functions below 8.4 are removed those under 9.0 are alternatives.</p>
+<p>The idc alternatives are based on:</p>
+<ul>
+<li><code>ida_typeinf</code> module</li>
+<li><code>ida_typeinf.tinfo_t</code>, the type info class</li>
+<li><code>ida_typeinf.enum_type_data_t</code>, the enumeration type class</li>
+<li><code>ida_typeinf.edm_t</code>, the enumeration member class</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>add_enum</code></td><td><code>idc.add_enum</code></td></tr>
+<tr><td><code>add_enum_member</code></td><td><code>idc.add_enum_member</code></td></tr>
+<tr><td><code>del_enum</code></td><td><code>idc.del_enum</code></td></tr>
+<tr><td><code>del_enum_member</code></td><td><code>idc.del_enum_member</code></td></tr>
+<tr><td><code>for_all_enum_members</code></td><td></td></tr>
+<tr><td><code>get_bmask_cmt</code></td><td><code>idc.get_bmask_cmt</code></td></tr>
+<tr><td><code>get_bmask_name</code></td><td><code>idc.get_bmask_name</code></td></tr>
+<tr><td><code>get_enum</code></td><td><code>idc.get_enum</code></td></tr>
+<tr><td><code>get_enum_cmt</code></td><td><code>idc.get_enum_cmt</code></td></tr>
+<tr><td><code>get_enum_flag</code></td><td><code>idc.get_enum_flag</code></td></tr>
+<tr><td><code>get_enum_idx</code></td><td></td></tr>
+<tr><td><code>get_enum_member</code></td><td><code>idc.get_enum_member</code></td></tr>
+<tr><td><code>get_enum_member_bmask</code></td><td><code>idc.get_enum_member_bmask</code></td></tr>
+<tr><td><code>get_enum_member_by_name</code></td><td><code>idc.get_enum_member_by_name</code></td></tr>
+<tr><td><code>get_enum_member_cmt</code></td><td><code>idc.get_enum_member_cmt</code></td></tr>
+<tr><td><code>get_enum_member_enum</code></td><td><code>idc.get_enum_member_enum</code></td></tr>
+<tr><td><code>get_enum_member_name</code></td><td><code>idc.get_enum_member_name</code></td></tr>
+<tr><td><code>get_enum_member_serial</code></td><td></td></tr>
+<tr><td><code>get_enum_member_value</code></td><td><code>idc.get_enum_member_value</code></td></tr>
+<tr><td><code>get_enum_name</code></td><td><code>idc.get_enum_name</code></td></tr>
+<tr><td><code>get_enum_name2</code></td><td></td></tr>
+<tr><td><code>get_enum_qty</code></td><td></td></tr>
+<tr><td><code>get_enum_size</code></td><td><code>idc.get_enum_size</code></td></tr>
+<tr><td><code>get_enum_type_ordinal</code></td><td></td></tr>
+<tr><td><code>get_enum_width</code></td><td><code>idc.get_enum_width</code></td></tr>
+<tr><td><code>get_first_bmask</code></td><td><code>idc.get_first_bmask</code></td></tr>
+<tr><td><code>get_first_enum_member</code></td><td><code>idc.get_first_enum_member</code></td></tr>
+<tr><td><code>get_first_serial_enum_member</code></td><td></td></tr>
+<tr><td><code>get_last_bmask</code></td><td><code>idc.get_last_bmask</code></td></tr>
+<tr><td><code>get_last_enum_member</code></td><td><code>idc.get_last_enum_member</code></td></tr>
+<tr><td><code>get_last_serial_enum_member</code></td><td></td></tr>
+<tr><td><code>get_next_bmask</code></td><td><code>idc.get_next_bmask</code></td></tr>
+<tr><td><code>get_next_enum_member</code></td><td><code>idc.get_next_enum_member</code></td></tr>
+<tr><td><code>get_next_serial_enum_member</code></td><td></td></tr>
+<tr><td><code>get_prev_bmask</code></td><td><code>idc.get_prev_bmask</code></td></tr>
+<tr><td><code>get_prev_enum_member</code></td><td><code>idc.get_prev_enum_member</code></td></tr>
+<tr><td><code>get_prev_serial_enum_member</code></td><td></td></tr>
+<tr><td><code>getn_enum</code></td><td></td></tr>
+<tr><td><code>is_bf</code></td><td><code>idc.is_bf</code></td></tr>
+<tr><td><code>is_enum_fromtil</code></td><td></td></tr>
+<tr><td><code>is_enum_hidden</code></td><td></td></tr>
+<tr><td><code>is_ghost_enum</code></td><td></td></tr>
+<tr><td><code>is_one_bit_mask</code></td><td></td></tr>
+<tr><td><code>set_bmask_cmt</code></td><td><code>idc.set_bmask_cmt</code></td></tr>
+<tr><td><code>set_bmask_name</code></td><td><code>idc.set_bmask_name</code></td></tr>
+<tr><td><code>set_enum_bf</code></td><td><code>idc.set_enum_bf</code></td></tr>
+<tr><td><code>set_enum_cmt</code></td><td><code>idc.set_enum_cmt</code></td></tr>
+<tr><td><code>set_enum_flag</code></td><td><code>idc.set_enum_flag</code></td></tr>
+<tr><td><code>set_enum_fromtil</code></td><td></td></tr>
+<tr><td><code>set_enum_ghost</code></td><td></td></tr>
+<tr><td><code>set_enum_hidden</code></td><td></td></tr>
+<tr><td><code>set_enum_idx</code></td><td></td></tr>
+<tr><td><code>set_enum_member_cmt</code></td><td><code>idc.set_enum_member_cmt</code></td></tr>
+<tr><td><code>set_enum_member_name</code></td><td><code>idc.set_enum_member_name</code></td></tr>
+<tr><td><code>set_enum_name</code></td><td><code>idc.set_enum_name</code></td></tr>
+<tr><td><code>set_enum_type_ordinal</code></td><td></td></tr>
+<tr><td><code>set_enum_width</code></td><td><code>idc.set_enum_width</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="enum_member_visitor_t"><a class="header" href="#enum_member_visitor_t">enum_member_visitor_t</a></h3>
+<ul>
+<li><code>visit_enum_member</code></li>
+</ul>
+<h2 id="ida_typeinf"><a class="header" href="#ida_typeinf">ida_typeinf</a></h2>
+<h3 id="removed-functions-2"><a class="header" href="#removed-functions-2">Removed functions</a></h3>
+<ul>
+<li><code>callregs_t_regcount</code></li>
+<li><code>get_ordinal_from_idb_type</code></li>
+<li><code>is_autosync</code></li>
+<li><code>get_udm_tid</code>: use <code>tinfo_t.get_udm_tid</code> as an alternative.</li>
+<li><code>get_tinfo_tid</code>: use <code>tinfo_t.get_tid</code> as an alternative.</li>
+<li><code>tinfo_t_get_stock</code></li>
+<li><code>get_ordinal_qty</code>: use <code>ida_typeinf.get_ordinal_count</code> or <code>ida_typeinf.get_ordinal_limit</code> as alternatives.</li>
+<li><code>import_type</code>: use <code>idc.import_type</code> as an alternative.</li>
+</ul>
+<h3 id="added-functions"><a class="header" href="#added-functions">Added functions</a></h3>
+<ul>
+<li><code>detach_tinfo_t(_this: "tinfo_t") -&gt; "bool"</code></li>
+<li><code>get_tinfo_by_edm_name(tif: "tinfo_t", til: "til_t", mname: "char const *") -&gt; "ssize_t"</code></li>
+<li><code>stroff_as_size(plen: "int", tif: "tinfo_t", value: "asize_t") -&gt; "bool"</code></li>
+<li><code>visit_stroff_udms(sfv: "udm_visitor_t", path: "tid_t const *", disp: "adiff_t *", appzero: "bool") -&gt; "adiff_t *"</code></li>
+<li><code>is_one_bit_mask(mask: "uval_t") -&gt; "bool"</code></li>
+<li><code>get_idainfo_by_udm(flags: "flags64_t *", ti: "opinfo_t", set_lzero: "bool *", ap: "array_parameters_t", udm: "udm_t") -&gt; "bool"</code></li>
+</ul>
+<h3 id="added-class"><a class="header" href="#added-class">Added class</a></h3>
+<h4 id="udm_visitor_t-1"><a class="header" href="#udm_visitor_t-1">udm_visitor_t</a></h4>
+<ul>
+<li><code>visit_udm</code></li>
+</ul>
+<h3 id="removed-methods"><a class="header" href="#removed-methods">Removed methods</a></h3>
+<h4 id="enum_type_data_t"><a class="header" href="#enum_type_data_t">enum_type_data_t</a></h4>
+<ul>
+<li><code>get_constant_group</code></li>
+</ul>
+<h3 id="added-methods"><a class="header" href="#added-methods">Added methods</a></h3>
+<h4 id="callregs_t"><a class="header" href="#callregs_t">callregs_t</a></h4>
+<ul>
+<li><code>set_registers(self, kind: "callregs_t::reg_kind_t", first_reg: "int", last_reg: "int") -&gt; "void"</code></li>
+</ul>
+<h4 id="enum_type_data_t-1"><a class="header" href="#enum_type_data_t-1">enum_type_data_t</a></h4>
+<ul>
+<li><code>all_constants(self)</code></li>
+<li><code>all_groups(self, skip_trivial=False)</code></li>
+<li><code>get_constant_group(self, *args) -&gt; "PyObject *"</code></li>
+<li><code>get_max_serial(self, value: "uint64") -&gt; "uchar"</code></li>
+<li><code>get_serial(self, index: "size_t") -&gt; "uchar"</code></li>
+</ul>
+<h4 id="func_type_data_t"><a class="header" href="#func_type_data_t">func_type_data_t.</a></h4>
+<ul>
+<li><code>find_argument(self, *args) -&gt; "ssize_t"</code></li>
+</ul>
+<h4 id="til_t"><a class="header" href="#til_t">til_t</a></h4>
+<ul>
+<li><code>find_base(self, n: "char const *") -&gt; "til_t *"</code></li>
+<li><code>get_type_names(self) -&gt; "const char *"</code></li>
+</ul>
+<h4 id="tinfo_t"><a class="header" href="#tinfo_t">tinfo_t</a></h4>
+<ul>
+<li><code>detach(self) -&gt; "bool"</code></li>
+<li><code>is_punknown(self) -&gt; "bool"</code></li>
+<li><code>get_enum_nmembers(self) -&gt; "size_t"</code></li>
+<li><code>is_empty_enum(self) -&gt; "bool"</code></li>
+<li><code>get_enum_width(self) -&gt; "int"</code></li>
+<li><code>calc_enum_mask(self) -&gt; "uint64"</code></li>
+<li><code>get_edm_tid(self, idx: "size_t") -&gt; "tid_t"</code></li>
+<li><code>is_udm_by_til(self, idx: "size_t") -&gt; "bool"</code></li>
+<li><code>set_udm_by_til(self, idx: "size_t", on: "bool"=True, etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_fixed_struct(self, on: "bool"=True) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_struct_size(self, new_size: "size_t") -&gt; "tinfo_code_t"</code></li>
+<li><code>is_fixed_struct(self) -&gt; "bool"</code></li>
+<li><code>get_func_frame(self, pfn: "func_t const *") -&gt; "bool"</code></li>
+<li><code>is_frame(self) -&gt; "bool"</code></li>
+<li><code>get_frame_func(self) -&gt; "ea_t"</code></li>
+<li><code>set_enum_radix(self, radix: "int", sign: "bool", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>rename_funcarg(self, index: "size_t", name: "char const *", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_funcarg_type(self, index: "size_t", tif: "tinfo_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_func_rettype(self, tif: "tinfo_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>del_funcargs(self, idx1: "size_t", idx2: "size_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>del_funcarg(self, idx: "size_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>add_funcarg(self, farg: "funcarg_t", etf_flags: "uint"=0, idx: "ssize_t"=-1) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_func_cc(self, cc: "cm_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_funcarg_loc(self, index: "size_t", argloc: "argloc_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>set_func_retloc(self, argloc: "argloc_t", etf_flags: "uint"=0) -&gt; "tinfo_code_t"</code></li>
+<li><code>get_stkvar(self, insn: "insn_t const &amp;", x: "op_t const", v: "sval_t") -&gt; "ssize_t"</code></li>
+</ul>
+<h4 id="udm_t"><a class="header" href="#udm_t">udm_t</a></h4>
+<ul>
+<li><code>is_retaddr(self) -&gt; "bool"</code></li>
+<li><code>is_savregs(self) -&gt; "bool"</code></li>
+<li><code>is_special_member(self) -&gt; "bool"</code></li>
+<li><code>is_by_til(self) -&gt; "bool"</code></li>
+<li><code>set_retaddr(self, on: "bool"=True) -&gt; "void"</code></li>
+<li><code>set_savregs(self, on: "bool"=True) -&gt; "void</code></li>
+<li><code>set_by_til(self, on: "bool"=True) -&gt; "void"</code></li>
+</ul>
+<h4 id="udtmembervec_t"><a class="header" href="#udtmembervec_t">udtmembervec_t</a></h4>
+<ul>
+<li><code>set_fixed(self, on: "bool"=True) -&gt; "void"</code></li>
+</ul>
+<h3 id="modified-methods"><a class="header" href="#modified-methods">Modified methods:</a></h3>
+<h4 id="tinfo_t-1"><a class="header" href="#tinfo_t-1">tinfo_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>find_udm(self, udm: "udmt_t *", strmem_flags: "int") -&gt; "int"</code></td><td><code>find_udm(self, udm: "udmt_t *", strmem_flags: "int") -&gt; "int"</code></td></tr>
+<tr><td></td><td><code>find_udm(self, name: "char const *", strmem_flags: "int") -&gt; "int"</code></td></tr>
+<tr><td><code>get_type_by_edm_name(self, mname: "const char *", til: "til_t"=None) -&gt; "bool"</code></td><td><code>get_edm_by_name(self, mname: "char const *", til: "til_t"=None) -&gt; "ssize_t"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="ida_frame"><a class="header" href="#ida_frame">ida_frame</a></h2>
+<p>8.4 To access the structure of a function frame, use:</p>
+<ul>
+<li><code>get_struc() (use func_t::frame as structure ID)</code></li>
+<li><code>get_frame(const func_t *pfn)</code></li>
+<li><code>get_frame(ea_t ea)</code></li>
+</ul>
+<p>9.0 To access the structure of a function frame, use:</p>
+<ul>
+<li><code>tinfo_t::get_func_frame(const func_t *pfn)</code> as the preferred way.</li>
+<li><code>get_func_frame(tinfo_t *out, const func_t *pfn)</code></li>
+</ul>
+<h3 id="removed-functions-3"><a class="header" href="#removed-functions-3">Removed functions</a></h3>
+<ul>
+<li><code>get_stkvar</code>: see <a href="idapython-porting-guide-ida-9.html#tinfo_t">tinfo_t</a></li>
+<li><code>get_frame</code>: see <a href="idapython-porting-guide-ida-9.html#tinfo_t">tinfo_t.get-func_frame</a></li>
+<li><code>get_frame_member_by_id</code></li>
+<li><code>get_min_spd_ea</code></li>
+<li><code>delete_unreferenced_stkvars</code></li>
+<li><code>delete_wrong_stkvar_ops</code></li>
+</ul>
+<h3 id="added-functions-1"><a class="header" href="#added-functions-1">Added functions</a></h3>
+<ul>
+<li><code>get_func_frame(out: "tinfo_t",pfn: "func_t const *") -&gt; "bool"</code></li>
+<li><code>add_frame_member(pfn: "func_t const *", name: "char const *", offset: "uval_t", tif: "tinfo_t", repr: "value_repr_t"=None, etf_flags: "uint"=0) -&gt; "bool"</code></li>
+<li><code>is_anonymous_member_name(name: "char const *") -&gt; "bool"</code></li>
+<li><code>is_dummy_member_name(name: "char const *") -&gt; "bool"</code></li>
+<li><code>is_special_frame_member(tid: "tid_t") -&gt; "bool"</code></li>
+<li><code>set_frame_member_type(pfn: "func_t const *",offset: "uval_t", tif: "tinfo_t", repr: "value_repr_t"=None, etf_flags: "uint"=0) -&gt; "bool"</code></li>
+<li><code>delete_frame_members(pfn: "func_t const *",start_offset: "uval_t", end_offset: "uval_t") -&gt; "bool"</code></li>
+<li><code>calc_frame_offset(pfn: "func_t *", off: "sval_t", insn: "insn_t const *"=None, op: "op_t const *"=None) -&gt; "sval_t"</code></li>
+</ul>
+<h3 id="modified-functions"><a class="header" href="#modified-functions">Modified functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>define_stkvar(pfn: "func_t *", name: "const char *", off: "sval_t", flags: "flags64_t", ti: "const opinfo_t *", nbytes: "asize_t") -&gt; bool</code></td><td><code>define_stkvar(pfn: "func_t *", name: "char const *", off: "sval_t", tif: "tinfo_t", repr: "value_repr_t"=None) -&gt; "bool"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="ida_bytes"><a class="header" href="#ida_bytes">ida_bytes</a></h2>
+<h3 id="removed-functions-4"><a class="header" href="#removed-functions-4">Removed functions</a></h3>
+<ul>
+<li><code>free_chunck</code></li>
+<li><code>get_8bit</code></li>
+</ul>
+<h3 id="added-functions-2"><a class="header" href="#added-functions-2">Added functions</a></h3>
+<ul>
+<li><code>find_bytes(bs: typing.Union[bytes, bytearray, str], range_start: int, range_size: typing.Optional[int] = None, range_end: typing.Optional[int] = ida_idaapi.BADADDR, mask: typing.Optional[typing.Union[bytes, bytearray]] = None, flags: typing.Optional[int] = BIN_SEARCH_FORWARD | BIN_SEARCH_NOSHOW, radix: typing.Optional[int] = 16, strlit_encoding: typing.Optional[typing.Union[int, str]] = PBSENC_DEF1BPU) -&gt; int</code></li>
+<li><code>find_string(_str: str, range_start: int, range_end: typing.Optional[int] = ida_idaapi.BADADDR, range_size: typing.Optional[int] = None, strlit_encoding: typing.Optional[typing.Union[int, str]] = PBSENC_DEF1BPU, flags: typing.Optional[int] = BIN_SEARCH_FORWARD | BIN_SEARCH_NOSHOW) -&gt; int</code></li>
+</ul>
+<h3 id="modified-functions-1"><a class="header" href="#modified-functions-1">Modified functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>op_enum(ea: "ea_t", n: "int", id: "enum_t", serial: "uchar"=0) -&gt; "bool"</code></td><td><code>op_enum(ea: "ea_t", n: "int", id: "tid_t", serial: "uchar"=0) -&gt; "bool"</code></td></tr>
+<tr><td><code>get_enum_id(ea: "ea_t", n: "int") -&gt; "tid_t"</code></td><td><code>get_enum_id(ea: "ea_t", n: "int") -&gt; "enum_t"</code></td></tr>
+<tr><td><code>parse_binpat_str(out: "compiled_binpat_vec_t", ea: "ea_t", _in: "char const *", radix: "int", strlits_encoding: "int"=0) -&gt; "str"</code></td><td><code>parse_binpat_str(out: "compiled_binpat_vec_t", ea: "ea_t", _in: "char const *", radix: "int", strlits_encoding: "int"=0) -&gt; "bool"</code></td></tr>
+<tr><td><code>bin_search3(start_ea: "ea_t", end_ea: "ea_t", data: "compiled_binpat_vec_t", flags: "int) -&gt; ea_t</code></td><td><code>bin_search(start_ea: "ea_t", end_ea: "ea_t", data: "compiled_binpat_vec_t const &amp;", flags: "int") -&gt; (ea_t, size_t)</code></td></tr>
+<tr><td></td><td><code>bin_search(start_ea: "ea_t", end_ea: "ea_t", image: "uchar const *", mask: "uchar const *", len: "size_t", flags: "int") -&gt; ea_t</code></td></tr>
+<tr><td><code>get_octet2(ogen: "octet_generator_t") -&gt; "uchar_t*"</code></td><td><code>get_octet(ogen: "octet_generator_t") -&gt; "uchar_t*"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="idc"><a class="header" href="#idc">idc</a></h2>
+<h3 id="removed-functions-5"><a class="header" href="#removed-functions-5">Removed functions</a></h3>
+<ul>
+<li><code>find_text</code> see <a href="idapython-porting-guide-ida-9.html#ida_bytes">ida_bytes</a></li>
+<li><code>find_binary</code> see <a href="idapython-porting-guide-ida-9.html#ida_bytes">ida_bytes</a></li>
+</ul>
+<h2 id="ida_dirtree"><a class="header" href="#ida_dirtree">ida_dirtree</a></h2>
+<h3 id="removed-functions-6"><a class="header" href="#removed-functions-6">Removed functions</a></h3>
+<ul>
+<li><code>dirtree_cursor_root_cursor</code></li>
+<li><code>dirtree_t_errstr</code></li>
+</ul>
+<h2 id="ida_diskio"><a class="header" href="#ida_diskio">ida_diskio</a></h2>
+<h3 id="removed-functions-7"><a class="header" href="#removed-functions-7">Removed functions</a></h3>
+<ul>
+<li><code>enumerate_files2</code></li>
+<li><code>eclose</code></li>
+</ul>
+<h2 id="ida_fpro"><a class="header" href="#ida_fpro">ida_fpro</a></h2>
+<h3 id="added-functions-3"><a class="header" href="#added-functions-3">Added functions</a></h3>
+<ul>
+<li><code>qflcose(fp: "FILE *") -&gt; "int"</code></li>
+</ul>
+<h2 id="ida_funcs"><a class="header" href="#ida_funcs">ida_funcs</a></h2>
+<h3 id="added-methods-1"><a class="header" href="#added-methods-1">Added methods</a></h3>
+<h4 id="func_item_iterator_t"><a class="header" href="#func_item_iterator_t">func_item_iterator_t</a></h4>
+<ul>
+<li><code>set_ea(self, _ea: "ea_t") -&gt; "bool"</code></li>
+</ul>
+<h2 id="ida_gdl"><a class="header" href="#ida_gdl">ida_gdl</a></h2>
+<h3 id="added-classes"><a class="header" href="#added-classes">Added classes</a></h3>
+<h4 id="edge_t"><a class="header" href="#edge_t">edge_t</a></h4>
+<h4 id="edgevec_t"><a class="header" href="#edgevec_t">edgevec_t</a></h4>
+<h4 id="node_ordering_t"><a class="header" href="#node_ordering_t">node_ordering_t</a></h4>
+<ul>
+<li><code>clear(self)</code></li>
+<li><code>resize(self, n: "int") -&gt; "void"</code></li>
+<li><code>size(self) -&gt; "size_t"</code></li>
+<li><code>set(self, _node: "int", num: "int") -&gt; "void"</code></li>
+<li><code>clr(self, _node: "int") -&gt; "bool"</code></li>
+<li><code>node(self, _order: "size_t") -&gt; "int"</code></li>
+<li><code>order(self, _node: "int") -&gt; "int"</code></li>
+</ul>
+<h2 id="ida_graph"><a class="header" href="#ida_graph">ida_graph</a></h2>
+<h3 id="removed-classes"><a class="header" href="#removed-classes">Removed classes</a></h3>
+<h4 id="node_ordering_t-1"><a class="header" href="#node_ordering_t-1">node_ordering_t</a></h4>
+<p>See <a href="idapython-porting-guide-ida-9.html#ida_gdl">ida-gdl</a> <code>node_ordering_t</code> has been made an alias of <code>ida_gdl.node_ordering_t</code></p>
+<h4 id="edge_t-1"><a class="header" href="#edge_t-1">edge_t</a></h4>
+<p>See <a href="idapython-porting-guide-ida-9.html#ida_gdl">ida-gdl</a> <code>edge_t</code> has been made an alias of <code>ida_gdl.edge_t</code></p>
+<h3 id="renamed-clases"><a class="header" href="#renamed-clases">Renamed clases</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>abstract_graph_t</code></td><td><code>drawable_graph_t</code></td></tr>
+<tr><td><code>mutable_graph_t</code></td><td><code>interactive_graph_t</code></td></tr>
+</tbody>
+</table>
+</div>
+<p><code>abstract_graph_t</code> has been made an alias of <code>drawable_graph_t</code> <code>mutbale_graph_t</code> has been made an alias of <code>interactive_graph_t</code></p>
+<h3 id="renamed-functions"><a class="header" href="#renamed-functions">Renamed functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>create_mutable_graph</code></td><td><code>create_interactive_graph</code></td></tr>
+<tr><td><code>delete_mutable_graph</code></td><td><code>delete_interactive_graph</code></td></tr>
+<tr><td><code>grcode_create_mutable_graph</code></td><td><code>grcode_create_interactive_graph</code></td></tr>
+</tbody>
+</table>
+</div>
+<p><code>create_mutable_graph</code> has been made an alias of <code>create_interactive_graph</code> <code>delete_mutable_graph</code> has been made an alias of <code>delete_interactive_graph</code> <code>grcode_create_mutable_graph</code> has been made an alias of <code>grcode_create_interactive_graph</code></p>
+<h2 id="ida_hexrays"><a class="header" href="#ida_hexrays">ida_hexrays</a></h2>
+<h3 id="removed-functions-8"><a class="header" href="#removed-functions-8">Removed functions</a></h3>
+<ul>
+<li><code>get_member_type</code></li>
+<li><code>checkout_hexrays_license</code></li>
+<li><code>cinsn_t_insn_is_epilog</code></li>
+</ul>
+<h3 id="modified-functions-2"><a class="header" href="#modified-functions-2">Modified functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>save_user_labels2(func_ea: "ea_t", user_labels: "user_labels_t", func: "cfunc_t"=None) -&gt; "void"</code></td><td><code>save_user_labels(func_ea: "ea_t", user_labels: "user_labels_t", func: "cfunc_t"=None) -&gt; "void"</code></td></tr>
+<tr><td><code>restore_user_labels2(func_ea: "ea_t", func: "cfunc_t"=None) -&gt; "user_labels_t *"</code></td><td><code>restore_user_labels(func_ea: "ea_t", func: "cfunc_t"=None) -&gt; "user_labels_t *"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="added-functions-4"><a class="header" href="#added-functions-4">Added functions</a></h3>
+<ul>
+<li><code>max_vlr_value(size: "int") -&gt; "uvlr_t"</code></li>
+<li><code>min_vlr_svalue(size: "int") -&gt; "uvlr_t"</code></li>
+<li><code>max_vlr_svalue(size: "int") -&gt; "uvlr_t"</code></li>
+<li><code>is_unsigned_cmpop(cmpop: "cmpop_t") -&gt; "bool"</code></li>
+<li><code>is_signed_cmpop(cmpop: "cmpop_t") -&gt; "bool"</code></li>
+<li><code>is_cmpop_with_eq(cmpop: "cmpop_t") -&gt; "bool"</code></li>
+<li><code>is_cmpop_without_eq(cmpop: "cmpop_t") -&gt; "bool"</code></li>
+</ul>
+<h3 id="added-classes-1"><a class="header" href="#added-classes-1">Added classes</a></h3>
+<ul>
+<li><code>catchexpr_t</code></li>
+<li><code>ccatch_t</code></li>
+<li><code>ctry_t</code></li>
+<li><code>cthrow_t</code></li>
+<li><code>cblock_pos_t</code></li>
+</ul>
+<h3 id="removed-methods-1"><a class="header" href="#removed-methods-1">Removed methods</a></h3>
+<h4 id="vdui_t"><a class="header" href="#vdui_t">vdui_t</a></h4>
+<ul>
+<li><code>set_strmem_type</code></li>
+<li><code>rename_strmem</code></li>
+</ul>
+<h3 id="added-methods-2"><a class="header" href="#added-methods-2">Added methods</a></h3>
+<h4 id="cinsn_list_t"><a class="header" href="#cinsn_list_t">cinsn_list_t</a></h4>
+<ul>
+<li><code>splice(self, pos: "qlist&lt; cinsn_t &gt;::iterator", other: "cinsn_list_t", first: "qlist&lt; cinsn_t &gt;::iterator", last: "qlist&lt; cinsn_t &gt;::iterator") -&gt; "void"</code></li>
+</ul>
+<h4 id="hexrays_hooks"><a class="header" href="#hexrays_hooks">Hexrays_Hooks</a></h4>
+<ul>
+<li><code>pre_structural(self, ct: "control_graph_t *", cfunc: "cfunc_t", g: "simple_graph_t") -&gt; "int"</code></li>
+<li><code>begin_inlining(self, cdg: "codegen_t", decomp_flags: "int") -&gt; "int"</code></li>
+<li><code>inlining_func(self, cdg: "codegen_t", blk: "int", mbr: "mba_ranges_t") -&gt; "int"</code></li>
+<li><code>inlined_func(self, cdg: "codegen_t", blk: "int", mbr: "mba_ranges_t", i1: "int", i2: "int") -&gt; "int"</code></li>
+<li><code>collect_warnings(self, warnings: "qstrvec_t *", cfunc: "cfunc_t") -&gt; "int"</code></li>
+</ul>
+<h4 id="lvar_t"><a class="header" href="#lvar_t">lvar_t</a></h4>
+<ul>
+<li><code>was_scattered_arg(self) -&gt; "bool"</code></li>
+<li><code>set_scattered_arg(self) -&gt; "void"</code></li>
+<li><code>clr_scattered_arg(self) -&gt; "void"</code></li>
+</ul>
+<h4 id="lvars_t"><a class="header" href="#lvars_t">lvars_t</a></h4>
+<ul>
+<li><code>find_input_reg(self, reg: "int", _size: "int"=1) -&gt; "int"</code></li>
+</ul>
+<h4 id="simple_graph_t"><a class="header" href="#simple_graph_t">simple_graph_t</a></h4>
+<ul>
+<li><code>compute_dominators(self, domin: "array_of_node_bitset_t &amp;", post: "bool"=False) -&gt; "void"</code></li>
+<li><code>compute_immediate_dominators(self, domin: "array_of_node_bitset_t const &amp;", idomin: "intvec_t", post: "bool"=False) -&gt; "void"</code></li>
+<li><code>depth_first_preorder(self, pre: "node_ordering_t") -&gt; "int"</code></li>
+<li><code>depth_first_postorder(self, post: "node_ordering_t") -&gt; "int"</code></li>
+<li><code>begin(self) -&gt; "simple_graph_t::iterator"</code></li>
+<li><code>end(self) -&gt; "simple_graph_t::iterator"</code></li>
+<li><code>front(self) -&gt; "int"</code></li>
+<li><code>inc(self, p: "simple_graph_t::iterator &amp;", n: "int"=1) -&gt; "void"</code></li>
+<li><code>goup(self, node: "int") -&gt; "int"</code></li>
+</ul>
+<h4 id="fnumber_t"><a class="header" href="#fnumber_t">fnumber_t</a></h4>
+<ul>
+<li><code>calc_max_exp(self) -&gt; "int"</code></li>
+<li><code>is_nan(self) -&gt; "bool"</code></li>
+</ul>
+<h4 id="minsn_t"><a class="header" href="#minsn_t">minsn_t</a></h4>
+<ul>
+<li><code>was_unpaired(self) -&gt; "bool"</code></li>
+</ul>
+<h4 id="mba_t"><a class="header" href="#mba_t">mba_t</a></h4>
+<ul>
+<li><code>split_block(self, blk: "mblock_t", start_insn: "minsn_t") -&gt; "mblock_t *"</code></li>
+<li><code>inline_func(self, cdg: "codegen_t", blknum: "int", ranges: "mba_ranges_t", decomp_flags: "int"=0, inline_flags: "int"=0) -&gt; "merror_t"</code></li>
+<li><code>locate_stkpnt(self, ea: "ea_t") -&gt; "stkpnt_t const *"</code></li>
+</ul>
+<h4 id="codegen_t"><a class="header" href="#codegen_t">codegen_t</a></h4>
+<ul>
+<li><code>clear(self) -&gt; "void"</code></li>
+</ul>
+<h3 id="modified-methods-1"><a class="header" href="#modified-methods-1">Modified methods</a></h3>
+<h4 id="hexrays_hooks-1"><a class="header" href="#hexrays_hooks-1">Hexrays_Hooks</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>flowchart(self, fc: "qflow_chart_t") -&gt; "int"</code></td><td><code>flowchart(self, fc: "qflow_chart_t", mba: "mba_t") -&gt; "int"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="valrng_t"><a class="header" href="#valrng_t">valrng_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>cvt_to_cmp(self, strict: "bool") -&gt; "bool"</code></td><td><code>cvt_to_cmp(self) -&gt; "bool"</code></td></tr>
+<tr><td><code>max_value(self, size_ : "int") -&gt; "uvlr_t"</code></td><td><code>max_value(self) -&gt; "uvlr_t"</code></td></tr>
+<tr><td><code>min_svalue(self, size_: "int") -&gt; "uvlr_t"</code></td><td><code>min_svalue(self) -&gt; "uvlr_t"</code></td></tr>
+<tr><td><code>max_svalue(self, size_: "int") -&gt; "uvlr_t"</code></td><td><code>max_svalue(self) -&gt; "uvlr_t"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="stkvar_ref_t"><a class="header" href="#stkvar_ref_t">stkvar_ref_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>get_stkvar(self, p_off=None: "uval_t *") -&gt; "member_t *"</code></td><td><code>get_stkvar(self, udm: "udm_t"=None, p_off: "uval_t *"=None) -&gt; "ssize_t"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="mop_t"><a class="header" href="#mop_t">mop_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>get_stkvar(self, p_off: "uval_t *") -&gt; "member_t *"</code></td><td><code>get_stkvar(self, udm: "udm_t"=None, p_off: "uval_t *"=None) -&gt; "ssize_t"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="ida_ida"><a class="header" href="#ida_ida">ida_ida</a></h2>
+<h3 id="added-classes-2"><a class="header" href="#added-classes-2">Added classes</a></h3>
+<h4 id="idbattr_valmap_t"><a class="header" href="#idbattr_valmap_t">idbattr_valmap_t</a></h4>
+<h4 id="idbattr_info_t"><a class="header" href="#idbattr_info_t">idbattr_info_t</a></h4>
+<ul>
+<li><code>is_node_altval(self) -&gt; "bool"</code></li>
+<li><code>is_node_supval(self) -&gt; "bool"</code></li>
+<li><code>is_node_valobj(self) -&gt; "bool"</code></li>
+<li><code>is_node_blob(self) -&gt; "bool"</code></li>
+<li><code>is_node_var(self) -&gt; "bool"</code></li>
+<li><code>is_struc_field(self) -&gt; "bool"</code></li>
+<li><code>is_cstr(self) -&gt; "bool"</code></li>
+<li><code>is_qstring(self) -&gt; "bool"</code></li>
+<li><code>is_bytearray(self) -&gt; "bool"</code></li>
+<li><code>is_buf_var(self) -&gt; "bool"</code></li>
+<li><code>is_decimal(self) -&gt; "bool"</code></li>
+<li><code>is_hexadecimal(self) -&gt; "bool"</code></li>
+<li><code>is_readonly_var(self) -&gt; "bool"</code></li>
+<li><code>is_incremented(self) -&gt; "bool"</code></li>
+<li><code>is_val_mapped(self) -&gt; "bool"</code></li>
+<li><code>is_hash(self) -&gt; "bool"</code></li>
+<li><code>use_hlpstruc(self) -&gt; "bool"</code></li>
+<li><code>is_bitmap(self) -&gt; "bool"</code></li>
+<li><code>is_onoff(self) -&gt; "bool"</code></li>
+<li><code>is_scalar_var(self) -&gt; "bool"</code></li>
+<li><code>is_bitfield(self) -&gt; "bool"</code></li>
+<li><code>is_boolean(self) -&gt; "bool"</code></li>
+<li><code>has_individual_node(self) -&gt; "bool"</code></li>
+<li><code>str_true(self) -&gt; "char const *"</code></li>
+<li><code>str_false(self) -&gt; "char const *"</code></li>
+<li><code>ridx(self) -&gt; "size_t"</code></li>
+<li><code>hashname(self) -&gt; "char const *"</code></li>
+</ul>
+<h3 id="inf_structure-accessors"><a class="header" href="#inf_structure-accessors">inf_structure accessors</a></h3>
+<p>As will be shown in <a href="idapython-porting-guide-ida-9.html#removed-functions-9">ida_idaapi Removed functions</a> <code>get_inf_structure</code> has been removed. It has been replaced by the following accessors.</p>
+<h4 id="replacement-examples"><a class="header" href="#replacement-examples">Replacement examples:</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ida_idaapi.get_inf_structure().procname</code></td><td><code>ida_ida.inf_get_procname()</code></td></tr>
+<tr><td><code>ida_idaapi.get_inf_structure().max_ea</code></td><td><code>ida_ida.inf_get_max_ea()</code></td></tr>
+<tr><td><code>ida_idaapi.get_inf_structure().is_32bit()</code></td><td><code>ida_ida.inf_is_32bit_exactly()</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>The list of getters and setters is given below.</p>
+<h4 id="inf_structure-getters"><a class="header" href="#inf_structure-getters">inf_structure getters</a></h4>
+<ul>
+<li><code>inf_get_version() -&gt; "ushort"</code></li>
+<li><code>inf_get_genflags() -&gt; "ushort"</code></li>
+<li><code>inf_get_lflags() -&gt; "uint32"</code></li>
+<li><code>inf_get_app_bitness() -&gt; "uint"</code></li>
+<li><code>inf_get_database_change_count() -&gt; "uint32"</code></li>
+<li><code>inf_get_filetype() -&gt; "filetype_t"</code></li>
+<li><code>inf_get_ostype() -&gt; "ushort"</code></li>
+<li><code>inf_get_apptype() -&gt; "ushort"</code></li>
+<li><code>inf_get_asmtype() -&gt; "uchar"</code></li>
+<li><code>inf_get_specsegs() -&gt; "uchar"</code></li>
+<li><code>inf_get_af() -&gt; "uint32"</code></li>
+<li><code>inf_get_af2() -&gt; "uint32"</code></li>
+<li><code>inf_get_baseaddr() -&gt; "uval_t"</code></li>
+<li><code>inf_get_start_ss() -&gt; "sel_t"</code></li>
+<li><code>inf_get_start_cs() -&gt; "sel_t"</code></li>
+<li><code>inf_get_start_ip() -&gt; "ea_t"</code></li>
+<li><code>inf_get_start_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_start_sp() -&gt; "ea_t"</code></li>
+<li><code>inf_get_main() -&gt; "ea_t"</code></li>
+<li><code>inf_get_min_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_max_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_omin_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_omax_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_lowoff() -&gt; "ea_t"</code></li>
+<li><code>inf_get_highoff() -&gt; "ea_t"</code></li>
+<li><code>inf_get_maxref() -&gt; "uval_t"</code></li>
+<li><code>inf_get_netdelta() -&gt; "sval_t"</code></li>
+<li><code>inf_get_xrefnum() -&gt; "uchar"</code></li>
+<li><code>inf_get_type_xrefnum() -&gt; "uchar"</code></li>
+<li><code>inf_get_refcmtnum() -&gt; "uchar"</code></li>
+<li><code>inf_get_xrefflag() -&gt; "uchar"</code></li>
+<li><code>inf_get_max_autoname_len() -&gt; "ushort"</code></li>
+<li><code>inf_get_nametype() -&gt; "char"</code></li>
+<li><code>inf_get_short_demnames() -&gt; "uint32"</code></li>
+<li><code>inf_get_long_demnames() -&gt; "uint32"</code></li>
+<li><code>inf_get_demnames() -&gt; "uchar"</code></li>
+<li><code>inf_get_listnames() -&gt; "uchar"</code></li>
+<li><code>inf_get_indent() -&gt; "uchar"</code></li>
+<li><code>inf_get_cmt_indent() -&gt; "uchar"</code></li>
+<li><code>inf_get_margin() -&gt; "ushort"</code></li>
+<li><code>inf_get_lenxref() -&gt; "ushort"</code></li>
+<li><code>inf_get_outflags() -&gt; "uint32"</code></li>
+<li><code>inf_get_cmtflg() -&gt; "uchar"</code></li>
+<li><code>inf_get_limiter() -&gt; "uchar"</code></li>
+<li><code>inf_get_bin_prefix_size() -&gt; "short"</code></li>
+<li><code>inf_get_prefflag() -&gt; "uchar"</code></li>
+<li><code>inf_get_strlit_flags() -&gt; "uchar"</code></li>
+<li><code>inf_get_strlit_break() -&gt; "uchar"</code></li>
+<li><code>inf_get_strlit_zeroes() -&gt; "char"</code></li>
+<li><code>inf_get_strtype() -&gt; "int32"</code></li>
+<li><code>inf_get_strlit_sernum() -&gt; "uval_t"</code></li>
+<li><code>inf_get_datatypes() -&gt; "uval_t"</code></li>
+<li><code>inf_get_abibits() -&gt; "uint32"</code></li>
+<li><code>inf_get_appcall_options() -&gt; "uint32"</code></li>
+<li><code>inf_get_privrange_start_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_privrange_end_ea() -&gt; "ea_t"</code></li>
+<li><code>inf_get_cc_id() -&gt; "comp_t"</code></li>
+<li><code>inf_get_cc_cm() -&gt; "cm_t"</code></li>
+<li><code>inf_get_cc_size_i() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_size_b() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_size_e() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_defalign() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_size_s() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_size_l() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_size_ll() -&gt; "uchar"</code></li>
+<li><code>inf_get_cc_size_ldbl() -&gt; "uchar"</code></li>
+<li><code>inf_get_procname() -&gt; "size_t"</code></li>
+<li><code>inf_get_strlit_pref() -&gt; "size_t"</code></li>
+<li><code>inf_get_cc(out: "compiler_info_t") -&gt; "bool"</code></li>
+<li><code>inf_get_privrange(*args) -&gt; "range_t"</code></li>
+<li><code>inf_get_af_low() -&gt; "ushort"</code></li>
+<li><code>inf_get_af_high() -&gt; "ushort"</code></li>
+<li><code>inf_get_af2_low() -&gt; "ushort"</code></li>
+<li><code>inf_get_pack_mode() -&gt; "int"</code></li>
+<li><code>inf_get_demname_form() -&gt; "uchar"</code></li>
+<li><code>inf_is_auto_enabled() -&gt; "bool"</code></li>
+<li><code>inf_is_graph_view() -&gt; "bool"</code></li>
+<li><code>inf_is_32bit_or_higher() -&gt; "bool"</code></li>
+<li><code>inf_is_32bit_exactly() -&gt; "bool"</code></li>
+<li><code>inf_is_16bit() -&gt; "bool"</code></li>
+<li><code>inf_is_64bit() -&gt; "bool"</code></li>
+<li><code>inf_is_dll() -&gt; "bool"</code></li>
+<li><code>inf_is_flat_off32() -&gt; "bool"</code></li>
+<li><code>inf_is_be() -&gt; "bool"</code></li>
+<li><code>inf_is_wide_high_byte_first() -&gt; "bool"</code></li>
+<li><code>inf_is_snapshot() -&gt; "bool"</code></li>
+<li><code>inf_is_kernel_mode() -&gt; "bool"</code></li>
+<li><code>inf_is_limiter_thin() -&gt; "bool"</code></li>
+<li><code>inf_is_limiter_thick() -&gt; "bool"</code></li>
+<li><code>inf_is_limiter_empty() -&gt; "bool"</code></li>
+<li><code>inf_is_mem_aligned4() -&gt; "bool"</code></li>
+<li><code>inf_is_hard_float() -&gt; "bool"</code></li>
+<li><code>inf_abi_set_by_user() -&gt; "bool"</code></li>
+<li><code>inf_allow_non_matched_ops() -&gt; "bool"</code></li>
+<li><code>inf_allow_sigmulti() -&gt; "bool"</code></li>
+<li><code>inf_append_sigcmt() -&gt; "bool"</code></li>
+<li><code>inf_big_arg_align(*args) -&gt; "bool"</code></li>
+<li><code>inf_check_manual_ops() -&gt; "bool"</code></li>
+<li><code>inf_check_unicode_strlits() -&gt; "bool"</code></li>
+<li><code>inf_coagulate_code() -&gt; "bool"</code></li>
+<li><code>inf_coagulate_data() -&gt; "bool"</code></li>
+<li><code>inf_compress_idb() -&gt; "bool"</code></li>
+<li><code>inf_create_all_xrefs() -&gt; "bool"</code></li>
+<li><code>inf_create_func_from_call() -&gt; "bool"</code></li>
+<li><code>inf_create_func_from_ptr() -&gt; "bool"</code></li>
+<li><code>inf_create_func_tails() -&gt; "bool"</code></li>
+<li><code>inf_create_jump_tables() -&gt; "bool"</code></li>
+<li><code>inf_create_off_on_dref() -&gt; "bool"</code></li>
+<li><code>inf_create_off_using_fixup() -&gt; "bool"</code></li>
+<li><code>inf_create_strlit_on_xref() -&gt; "bool"</code></li>
+<li><code>inf_data_offset() -&gt; "bool"</code></li>
+<li><code>inf_dbg_no_store_path() -&gt; "bool"</code></li>
+<li><code>inf_decode_fpp() -&gt; "bool"</code></li>
+<li><code>inf_del_no_xref_insns() -&gt; "bool"</code></li>
+<li><code>inf_final_pass() -&gt; "bool"</code></li>
+<li><code>inf_full_sp_ana() -&gt; "bool"</code></li>
+<li><code>inf_gen_assume() -&gt; "bool"</code></li>
+<li><code>inf_gen_lzero() -&gt; "bool"</code></li>
+<li><code>inf_gen_null() -&gt; "bool"</code></li>
+<li><code>inf_gen_org() -&gt; "bool"</code></li>
+<li><code>inf_huge_arg_align(cc: cm_t) -&gt; "bool"</code></li>
+<li><code>inf_like_binary() -&gt; "bool":</code></li>
+<li><code>inf_line_pref_with_seg() -&gt; "bool"</code></li>
+<li><code>inf_loading_idc() -&gt; "bool"</code></li>
+<li><code>inf_macros_enabled() -&gt; "bool"</code></li>
+<li><code>inf_map_stkargs() -&gt; "bool"</code></li>
+<li><code>inf_mark_code() -&gt; "bool"</code></li>
+<li><code>inf_merge_strlits() -&gt; "bool"</code></li>
+<li><code>inf_no_store_user_info() -&gt; "bool"</code></li>
+<li><code>inf_noflow_to_data() -&gt; "bool"</code></li>
+<li><code>inf_noret_ana() -&gt; "bool"</code></li>
+<li><code>inf_op_offset() -&gt; "bool"</code></li>
+<li><code>inf_pack_idb() -&gt; "bool"</code></li>
+<li><code>inf_pack_stkargs(*args) -&gt; "bool"</code></li>
+<li><code>inf_prefix_show_funcoff() -&gt; "bool"</code></li>
+<li><code>inf_prefix_show_segaddr() -&gt; "bool"</code></li>
+<li><code>inf_prefix_show_stack() -&gt; "bool"</code></li>
+<li><code>inf_prefix_truncate_opcode_bytes() -&gt; "bool"</code></li>
+<li><code>inf_propagate_regargs() -&gt; "bool"</code></li>
+<li><code>inf_propagate_stkargs() -&gt; "bool"</code></li>
+<li><code>inf_readonly_idb() -&gt; "bool"</code></li>
+<li><code>inf_rename_jumpfunc() -&gt; "bool"</code></li>
+<li><code>inf_rename_nullsub() -&gt; "bool"</code></li>
+<li><code>inf_should_create_stkvars() -&gt; "bool"</code></li>
+<li><code>inf_should_trace_sp() -&gt; "bool"</code></li>
+<li><code>inf_show_all_comments() -&gt; "bool"</code></li>
+<li><code>inf_show_auto() -&gt; "bool"</code></li>
+<li><code>inf_show_hidden_funcs() -&gt; "bool"</code></li>
+<li><code>inf_show_hidden_insns() -&gt; "bool"</code></li>
+<li><code>inf_show_hidden_segms() -&gt; "bool"</code></li>
+<li><code>inf_show_line_pref() -&gt; "bool"</code></li>
+<li><code>inf_show_repeatables() -&gt; "bool"</code></li>
+<li><code>inf_show_src_linnum() -&gt; "bool"</code></li>
+<li><code>inf_show_void() -&gt; "bool"</code></li>
+<li><code>inf_show_xref_fncoff() -&gt; "bool"</code></li>
+<li><code>inf_show_xref_seg() -&gt; "bool"</code></li>
+<li><code>inf_show_xref_tmarks() -&gt; "bool"</code></li>
+<li><code>inf_show_xref_val() -&gt; "bool"</code></li>
+<li><code>inf_stack_ldbl() -&gt; "bool"</code></li>
+<li><code>inf_stack_varargs() -&gt; "bool"</code></li>
+<li><code>inf_strlit_autocmt() -&gt; "bool"</code></li>
+<li><code>inf_strlit_name_bit() -&gt; "bool"</code></li>
+<li><code>inf_strlit_names() -&gt; "bool"</code></li>
+<li><code>inf_strlit_savecase() -&gt; "bool"</code></li>
+<li><code>inf_strlit_serial_names() -&gt; "bool"</code></li>
+<li><code>inf_test_mode() -&gt; "bool"</code></li>
+<li><code>inf_trace_flow() -&gt; "bool"</code></li>
+<li><code>inf_truncate_on_del() -&gt; "bool"</code></li>
+<li><code>inf_unicode_strlits() -&gt; "bool"</code></li>
+<li><code>inf_use_allasm() -&gt; "bool"</code></li>
+<li><code>inf_use_flirt() -&gt; "bool"</code></li>
+<li><code>inf_use_gcc_layout() -&gt; "bool"</code></li>
+</ul>
+<h4 id="inf_structure-setters"><a class="header" href="#inf_structure-setters">inf_structure setters</a></h4>
+<ul>
+<li><code>inf_set_allow_non_matched_ops(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_graph_view(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_lflags(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_decode_fpp(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_32bit(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_64bit(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_dll(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_flat_off32(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_be(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_wide_high_byte_first(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_dbg_no_store_path(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_snapshot(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_pack_idb(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_compress_idb(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_kernel_mode(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_app_bitness(bitness: "uint") -&gt; "void"</code></li>
+<li><code>inf_set_database_change_count(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_filetype(_v: "filetype_t") -&gt; "bool"</code></li>
+<li><code>inf_set_ostype(_v: "ushort") -&gt; "bool"</code></li>
+<li><code>inf_set_apptype(_v: "ushort") -&gt; "bool"</code></li>
+<li><code>inf_set_asmtype(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_specsegs(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_af(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_trace_flow(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_mark_code(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_jump_tables(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_noflow_to_data(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_all_xrefs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_del_no_xref_insns(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_func_from_ptr(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_func_from_call(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_func_tails(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_should_create_stkvars(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_propagate_stkargs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_propagate_regargs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_should_trace_sp(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_full_sp_ana(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_noret_ana(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_guess_func_type(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_truncate_on_del(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_strlit_on_xref(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_check_unicode_strlits(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_off_using_fixup(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_create_off_on_dref(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_op_offset(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_data_offset(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_use_flirt(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_append_sigcmt(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_allow_sigmulti(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_hide_libfuncs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_rename_jumpfunc(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_rename_nullsub(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_coagulate_data(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_coagulate_code(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_final_pass(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_af2(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_handle_eh(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_handle_rtti(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_macros_enabled(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_merge_strlits(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_baseaddr(_v: "uval_t") -&gt; "bool"</code></li>
+<li><code>inf_set_start_ss(_v: "sel_t") -&gt; "bool"</code></li>
+<li><code>inf_set_start_cs(_v: "sel_t") -&gt; "bool"</code></li>
+<li><code>inf_set_start_ip(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_start_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_start_sp(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_main(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_min_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_max_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_omin_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_omax_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_lowoff(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_highoff(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_maxref(_v: "uval_t") -&gt; "bool"</code></li>
+<li><code>inf_set_netdelta(_v: "sval_t") -&gt; "bool"</code></li>
+<li><code>inf_set_xrefnum(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_type_xrefnum(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_refcmtnum(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_xrefflag(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_show_xref_seg(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_xref_tmarks(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_xref_fncoff(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_xref_val(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_max_autoname_len(_v: "ushort") -&gt; "bool"</code></li>
+<li><code>inf_set_nametype(_v: "char") -&gt; "bool"</code></li>
+<li><code>inf_set_short_demnames(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_long_demnames(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_demnames(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_listnames(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_indent(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cmt_indent(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_margin(_v: "ushort") -&gt; "bool"</code></li>
+<li><code>inf_set_lenxref(_v: "ushort") -&gt; "bool"</code></li>
+<li><code>inf_set_outflags(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_show_void(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_auto(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_gen_null(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_line_pref(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_line_pref_with_seg(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_gen_lzero(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_gen_org(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_gen_assume(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_gen_tryblks(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_cmtflg(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_show_repeatables(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_all_comments(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_hide_comments(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_src_linnum(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_hidden_insns(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_hidden_funcs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_show_hidden_segms(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_limiter(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_limiter_thin(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_limiter_thick(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_limiter_empty(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_bin_prefix_size(_v: "short") -&gt; "bool"</code></li>
+<li><code>inf_set_prefflag(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_prefix_show_segaddr(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_prefix_show_funcoff(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_prefix_show_stack(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_prefix_truncate_opcode_bytes(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_flags(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_names(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_name_bit(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_serial_names(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_unicode_strlits(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_autocmt(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_savecase(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_break(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_zeroes(_v: "char") -&gt; "bool"</code></li>
+<li><code>inf_set_strtype(_v: "int32") -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_sernum(_v: "uval_t") -&gt; "bool"</code></li>
+<li><code>inf_set_datatypes(_v: "uval_t") -&gt; "bool"</code></li>
+<li><code>inf_set_abibits(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_mem_aligned4(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_pack_stkargs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_big_arg_align(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_stack_ldbl(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_stack_varargs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_hard_float(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_abi_set_by_user(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_use_gcc_layout(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_map_stkargs(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_huge_arg_align(_v: "bool"=True) -&gt; "bool"</code></li>
+<li><code>inf_set_appcall_options(_v: "uint32") -&gt; "bool"</code></li>
+<li><code>inf_set_privrange_start_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_privrange_end_ea(_v: "ea_t") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_id(_v: "comp_t") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_cm(_v: "cm_t") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_i(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_b(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_e(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_defalign(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_s(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_l(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_ll(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_cc_size_ldbl(_v: "uchar") -&gt; "bool"</code></li>
+<li><code>inf_set_procname(*args) -&gt; "bool"</code></li>
+<li><code>inf_set_strlit_pref(*args) -&gt; "bool"</code></li>
+<li><code>inf_set_cc(_v: "compiler_info_t") -&gt; "bool"</code></li>
+<li><code>inf_set_privrange(_v: "range_t") -&gt; "bool"</code></li>
+<li><code>inf_set_af_low(saf: "ushort") -&gt; "void"</code></li>
+<li><code>inf_set_af_high(saf2: "ushort") -&gt; "void"</code></li>
+<li><code>inf_set_af2_low(saf: "ushort") -&gt; "void"</code></li>
+<li><code>inf_set_pack_mode(pack_mode: "int") -&gt; "int"</code></li>
+<li><code>inf_inc_database_change_count(cnt: "int"=1) -&gt; "void"</code></li>
+</ul>
+<h2 id="ida_idaapi"><a class="header" href="#ida_idaapi">ida_idaapi</a></h2>
+<h3 id="removed-functions-9"><a class="header" href="#removed-functions-9">Removed functions</a></h3>
+<ul>
+<li><code>get_inf_structure</code> see <a href="idapython-porting-guide-ida-9.html#getters">inf_structure getters</a> and <a href="idapython-porting-guide-ida-9.html#setters">inf_structure setters</a></li>
+<li><code>loader_input_t_from_linput</code></li>
+<li><code>loader_input_t_from_capsule</code></li>
+<li><code>loader_input_t_from_fp</code></li>
+</ul>
+<h2 id="ida_idd"><a class="header" href="#ida_idd">ida_idd</a></h2>
+<h3 id="added-functions-5"><a class="header" href="#added-functions-5">Added functions</a></h3>
+<ul>
+<li><code>cpu2ieee(ieee_out: "fpvalue_t *", cpu_fpval: "void const *", size: "int") -&gt; "int"</code></li>
+<li><code>ieee2cpu(cpu_fpval: "void *", ieee_out: "fpvalue_t const &amp;", size: "int") -&gt; "int"</code></li>
+</ul>
+<h2 id="ida_idp"><a class="header" href="#ida_idp">ida_idp</a></h2>
+<p>See also <a href="idapython-porting-guide-ida-9.html#idb-events">IDB events</a> below.</p>
+<h3 id="removed-methods-2"><a class="header" href="#removed-methods-2">Removed methods</a></h3>
+<h4 id="_processor_t"><a class="header" href="#_processor_t">_processor_t</a></h4>
+<ul>
+<li><code>has_realcvt</code></li>
+</ul>
+<h3 id="processor_t"><a class="header" href="#processor_t">processor_t</a></h3>
+<ul>
+<li><code>get_uFlag</code></li>
+</ul>
+<h3 id="modified-methods-2"><a class="header" href="#modified-methods-2">Modified methods</a></h3>
+<h4 id="_processor_t-1"><a class="header" href="#_processor_t-1">_processor_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>gen_stkvar_def(ctx: "outctx_t &amp;", mptr: "member_t const *", v: : "sval_t") -&gt; ssize_t</code></td><td><code>gen_stkvar_def(ctx: "outctx_t &amp;", mptr: "udm_t", v: "sval_t", tid: "tid_t") -&gt; "ssize_t"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="idp_hooks"><a class="header" href="#idp_hooks">IDP_Hooks</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ev_gen_stkvar_def(self, *args) -&gt; "int"</code></td><td><code>ev_gen_stkvar_def(self, outctx: "outctx_t *", stkvar: "udm_t", v: "sval_t", tid: "tid_t") -&gt; "int"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="added-methods-3"><a class="header" href="#added-methods-3">Added methods</a></h3>
+<h4 id="idb_hooks"><a class="header" href="#idb_hooks">IDB_Hooks</a></h4>
+<ul>
+<li><code>lt_udm_created(self, udtname: "char const *", udm: "udm_t") -&gt; "void"</code></li>
+<li><code>lt_udm_deleted(self, udtname: "char const *", udm_tid: "tid_t", udm: "udm_t") -&gt; "void"</code></li>
+<li><code>lt_udm_renamed(self, udtname: "char const *", udm: "udm_t", oldname: "char const *") -&gt; "void"</code></li>
+<li><code>lt_udm_changed(self, udtname: "char const *", udm_tid: "tid_t", udmold: "udm_t", udmnew: "udm_t") -&gt; "void"</code></li>
+<li><code>lt_udt_expanded(self, udtname: "char const *", udm_tid: "tid_t", delta: "adiff_t") -&gt; "void"</code></li>
+<li><code>frame_created(self, func_ea: "ea_t") -&gt; "void"</code></li>
+<li><code>frame_udm_created(self, func_ea: "ea_t", udm: "udm_t") -&gt; "void"</code></li>
+<li><code>frame_udm_deleted(self, func_ea: "ea_t", udm_tid: "tid_t", udm: "udm_t") -&gt; "void"</code></li>
+<li><code>frame_udm_renamed(self, func_ea: "ea_t", udm: "udm_t", oldname: "char const *") -&gt; "void"</code></li>
+<li><code>frame_udm_changed(self, func_ea: "ea_t", udm_tid: "tid_t", udmold: "udm_t", udmnew: "udm_t") -&gt; "void"</code></li>
+<li><code>frame_expanded(self, func_ea: "ea_t", udm_tid: "tid_t", delta: "adiff_t") -&gt; "void"</code></li>
+</ul>
+<h3 id="removed-functions-10"><a class="header" href="#removed-functions-10">Removed functions</a></h3>
+<p>All the _processor_t functions have been removed from ida_idp.</p>
+<h2 id="ida_ieee"><a class="header" href="#ida_ieee">ida_ieee</a></h2>
+<h3 id="removed-methods-3"><a class="header" href="#removed-methods-3">Removed methods</a></h3>
+<h4 id="fpvalue_t"><a class="header" href="#fpvalue_t">fpvalue_t</a></h4>
+<ul>
+<li><code>_get_10bytes</code></li>
+<li><code>_set_10bytes</code></li>
+</ul>
+<h2 id="ida_kernwin"><a class="header" href="#ida_kernwin">ida_kernwin</a></h2>
+<h3 id="removed-functions-11"><a class="header" href="#removed-functions-11">Removed functions</a></h3>
+<ul>
+<li><code>place_t_as_enumplace_t</code></li>
+<li><code>place_t_as_structplace_t</code></li>
+<li><code>open_enums_window</code></li>
+<li><code>open_structs_window</code></li>
+<li><code>choose_struc</code></li>
+<li><code>choose_enum(title, default_id) -&gt; "enum_t"</code></li>
+<li><code>choose_enum_by_value(title, default_id, value, nbytes) -&gt; "enum_t"</code></li>
+</ul>
+<h3 id="modified-function"><a class="header" href="#modified-function">Modified function</a></h3>
+<ul>
+<li><code>place_t_as_idaplace_t</code> has been made an alias of <code>place_t.as_idaplace_t</code></li>
+<li><code>place_t_as_simpleline_place_t</code> has been made an alias of <code>place_t.as_simpleline_place_t</code></li>
+<li><code>place_t_as_tiplace_t</code> has been made an alias of <code>place_t.as_tiplace_t</code></li>
+</ul>
+<h3 id="removed-classes-1"><a class="header" href="#removed-classes-1">Removed classes</a></h3>
+<ul>
+<li><code>enumplace_t</code></li>
+<li><code>structplace_t</code></li>
+</ul>
+<h3 id="removed-methods-4"><a class="header" href="#removed-methods-4">Removed methods</a></h3>
+<h4 id="place_t"><a class="header" href="#place_t">place_t</a></h4>
+<ul>
+<li><code>as_enumplace_t</code></li>
+<li><code>as_structplace_t</code></li>
+</ul>
+<h4 id="twinpos_t"><a class="header" href="#twinpos_t">twinpos_t</a></h4>
+<ul>
+<li><code>place_as_enumplace_t</code></li>
+<li><code>place_as_structplace_t</code></li>
+</ul>
+<h4 id="tagged_line_sections_t"><a class="header" href="#tagged_line_sections_t">tagged_line_sections_t</a></h4>
+<ul>
+<li><code>find_in</code></li>
+</ul>
+<h3 id="added-methods-4"><a class="header" href="#added-methods-4">Added methods</a></h3>
+<h4 id="tagged_line_sections_t-1"><a class="header" href="#tagged_line_sections_t-1">tagged_line_sections_t</a></h4>
+<ul>
+<li><code>nearest_before(self, range: "tagged_line_section_t", start: "cpidx_t", tag: "color_t"=0) -&gt; "tagged_line_section_t const *"</code></li>
+<li><code>nearest_after(self, range: "tagged_line_section_t", start: "cpidx_t", tag: "color_t"=0) -&gt; "tagged_line_section_t const *"</code></li>
+</ul>
+<h4 id="chooser_base_t"><a class="header" href="#chooser_base_t">chooser_base_t</a></h4>
+<ul>
+<li><code>has_widget_lifecycle(self) -&gt; "bool"</code></li>
+</ul>
+<h3 id="added-functions-6"><a class="header" href="#added-functions-6">Added functions</a></h3>
+<ul>
+<li><code>is_ida_library(path: "char *", pathsize: "size_t", handle: "void **") -&gt; "bool"</code></li>
+</ul>
+<h2 id="ida_lines"><a class="header" href="#ida_lines">ida_lines</a></h2>
+<h3 id="removed-functions-12"><a class="header" href="#removed-functions-12">Removed functions</a></h3>
+<ul>
+<li><code>set_user_defined_prefix</code></li>
+</ul>
+<h2 id="ida_moved"><a class="header" href="#ida_moved">ida_moved</a></h2>
+<h3 id="modified-functions-3"><a class="header" href="#modified-functions-3">Modified functions</a></h3>
+<ul>
+<li><code>bookmarks_t_mark</code> has been made an alias of <code>bookmarks_t.mark</code></li>
+<li><code>bookmarks_t_get_desc</code> has been made an alias of <code>bookmarks_t.get_desc</code></li>
+<li><code>bookmarks_t_find_index</code> has been made an alias of <code>bookmarks_t.find_index</code></li>
+<li><code>bookmarks_t_size</code> has been made an alias of <code>bookmarks_t.size</code></li>
+<li><code>bookmarks_t_erase</code> has been made an alias of <code>bookmarks_t.erase</code></li>
+<li><code>bookmarks_t_get_dirtree_id</code> has been made an alias of <code>bookmarks_t.get_dirtree_id</code></li>
+<li><code>bookmarks_t_get</code> has been made an alias of <code>bookmarks_t.get</code></li>
+</ul>
+<h2 id="ida_nalt"><a class="header" href="#ida_nalt">ida_nalt</a></h2>
+<h3 id="removed-functions-13"><a class="header" href="#removed-functions-13">Removed functions</a></h3>
+<ul>
+<li><code>validate_idb_names</code></li>
+</ul>
+<h2 id="ida_netnode"><a class="header" href="#ida_netnode">ida_netnode</a></h2>
+<h3 id="modified-functions-4"><a class="header" href="#modified-functions-4">Modified functions</a></h3>
+<ul>
+<li><code>netnode.exist has been made an alias of netnode.exist</code></li>
+</ul>
+<h2 id="ida_pro"><a class="header" href="#ida_pro">ida_pro</a></h2>
+<h3 id="removed-functions-14"><a class="header" href="#removed-functions-14">Removed functions</a></h3>
+<ul>
+<li><code>uchar_array_frompointer</code></li>
+<li><code>tid_array_frompointer</code></li>
+<li><code>ea_array_frompointer</code></li>
+<li><code>sel_array_frompointer</code></li>
+<li><code>int_pointer_frompointer</code></li>
+<li><code>sel_pointer_frompointer</code></li>
+<li><code>ea_pointer_frompointer</code></li>
+</ul>
+<p>See <a href="idapython-porting-guide-ida-9.html#added-classes-2">Added classes</a> below</p>
+<h3 id="added-classes-3"><a class="header" href="#added-classes-3">Added classes</a></h3>
+<h4 id="plugin_options_t"><a class="header" href="#plugin_options_t">plugin_options_t</a></h4>
+<ul>
+<li><code>erase(self, name: "char const *") -&gt; "bool"</code></li>
+</ul>
+<h4 id="uchar_pointer"><a class="header" href="#uchar_pointer">uchar_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uchar") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uchar"</code></li>
+<li><code>cast(self) -&gt; "uchar *"</code></li>
+<li><code>frompointer(t: "uchar *") -&gt; "uchar_pointer *"</code></li>
+</ul>
+<h4 id="ushort_pointer"><a class="header" href="#ushort_pointer">ushort_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "ushort") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "ushort"</code></li>
+<li><code>cast(self) -&gt; "ushort *"</code></li>
+<li><code>frompointer(t: "ushort *") -&gt; "ushort_pointer *"</code></li>
+</ul>
+<h4 id="uint_pointer"><a class="header" href="#uint_pointer">uint_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uint") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uint"</code></li>
+<li><code>cast(self) -&gt; "uint *"</code></li>
+<li><code>frompointer(t: "uint *") -&gt; "uint_pointer *"</code></li>
+</ul>
+<h4 id="sint8_pointer"><a class="header" href="#sint8_pointer">sint8_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "sint8") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "sint8"</code></li>
+<li><code>cast(self) -&gt; "sint8 *"</code></li>
+<li><code>frompointer(t: "sint8 *") -&gt; "sint8_pointer *"</code></li>
+</ul>
+<h4 id="int8_pointer"><a class="header" href="#int8_pointer">int8_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "int8") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "int8"</code></li>
+<li><code>cast(self) -&gt; "int8 *"</code></li>
+<li><code>frompointer(t: "int8 *") -&gt; "int8_pointer *"</code></li>
+</ul>
+<h4 id="uint8_pointer"><a class="header" href="#uint8_pointer">uint8_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uint8") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uint8"</code></li>
+<li><code>cast(self) -&gt; "uint8 *"</code></li>
+<li><code>frompointer(t: "uint8 *") -&gt; "uint8_pointer *"</code></li>
+</ul>
+<h4 id="int16_pointer"><a class="header" href="#int16_pointer">int16_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "int16") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "int16"</code></li>
+<li><code>cast(self) -&gt; "int16 *"</code></li>
+<li><code>frompointer(t: "int16 *") -&gt; "int16_pointer *"</code></li>
+</ul>
+<h4 id="uint16_pointer"><a class="header" href="#uint16_pointer">uint16_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uint16") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uint16"</code></li>
+<li><code>cast(self) -&gt; "uint16 *"</code></li>
+<li><code>frompointer(t: "uint16 *") -&gt; "uint16_pointer *"</code></li>
+</ul>
+<h4 id="int32_pointer"><a class="header" href="#int32_pointer">int32_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "int32") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "int32"</code></li>
+<li><code>cast(self) -&gt; "int32 *"</code></li>
+<li><code>frompointer(t: "int32 *") -&gt; "int32_pointer *"</code></li>
+</ul>
+<h4 id="uint32_pointer"><a class="header" href="#uint32_pointer">uint32_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uint32") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uint32"</code></li>
+<li><code>cast(self) -&gt; "uint32 *"</code></li>
+<li><code>frompointer(t: "uint32 *") -&gt; "uint32_pointer *"</code></li>
+</ul>
+<h4 id="int64_pointer"><a class="header" href="#int64_pointer">int64_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "int64") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "int64"</code></li>
+<li><code>cast(self) -&gt; "int64 *"</code></li>
+<li><code>frompointer(t: "int64 *") -&gt; "int64_pointer *"</code></li>
+</ul>
+<h4 id="uint64_pointer"><a class="header" href="#uint64_pointer">uint64_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uint64") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uint64"</code></li>
+<li><code>cast(self) -&gt; "uint64 *"</code></li>
+<li><code>frompointer(t: "uint64 *") -&gt; "uint64_pointer *"</code></li>
+</ul>
+<h4 id="ssize_pointer"><a class="header" href="#ssize_pointer">ssize_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "ssize_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "ssize_t"</code></li>
+<li><code>cast(self) -&gt; "ssize_t *"</code></li>
+<li><code>frompointer(t: "ssize_t *") -&gt; "ssize_pointer *"</code></li>
+</ul>
+<h4 id="bool_pointer"><a class="header" href="#bool_pointer">bool_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "bool") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "bool"</code></li>
+<li><code>cast(self) -&gt; "bool *"</code></li>
+<li><code>frompointer(t: "bool *") -&gt; "bool_pointer *"</code></li>
+</ul>
+<h4 id="short_pointer"><a class="header" href="#short_pointer">short_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "short") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "short"</code></li>
+<li><code>cast(self) -&gt; "short *"</code></li>
+<li><code>frompointer(t: "short *") -&gt; "short_pointer *"</code></li>
+</ul>
+<h4 id="char_pointer"><a class="header" href="#char_pointer">char_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "char") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "char"</code></li>
+<li><code>cast(self) -&gt; "char *"</code></li>
+<li><code>frompointer(t: "char *") -&gt; "char_pointer *"</code></li>
+</ul>
+<h4 id="sel_pointer"><a class="header" href="#sel_pointer">sel_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "sel_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "sel_t"</code></li>
+<li><code>cast(self) -&gt; "sel_t *"</code></li>
+<li><code>frompointer(t: "sel_t *") -&gt; "sel_pointer *"</code></li>
+</ul>
+<h4 id="asize_pointer"><a class="header" href="#asize_pointer">asize_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "asize_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "asize_t"</code></li>
+<li><code>cast(self) -&gt; "asize_t *"</code></li>
+<li><code>frompointer(t: "asize_t *") -&gt; "asize_pointer *"</code></li>
+</ul>
+<h4 id="adiff_pointer"><a class="header" href="#adiff_pointer">adiff_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "adiff_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "adiff_t"</code></li>
+<li><code>cast(self) -&gt; "adiff_t *"</code></li>
+<li><code>from_pointer(t: "adiff_t*") -&gt; "adiff_pointer *"</code></li>
+</ul>
+<h4 id="uval_pointer"><a class="header" href="#uval_pointer">uval_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "uval_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "uval_t"</code></li>
+<li><code>cast(self) -&gt; "uval_t *"</code></li>
+<li><code>frompointer(t: "uval_t *") -&gt; "uval_pointer *"</code></li>
+</ul>
+<h4 id="ea32_pointer"><a class="header" href="#ea32_pointer">ea32_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "ea32_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "ea32_t"</code></li>
+<li><code>cast(self) -&gt; "ea32_t *"</code></li>
+<li><code>frompointer(t: "ea32_t *") -&gt; "ea32_pointer *"</code></li>
+</ul>
+<h4 id="ea64_pointer"><a class="header" href="#ea64_pointer">ea64_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "ea64_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "ea64_t"</code></li>
+<li><code>cast(self) -&gt; "ea64_t *"</code></li>
+<li><code>frompointer(t: "ea64_t *") -&gt; "ea64_pointer *"</code></li>
+</ul>
+<h4 id="flags_pointer"><a class="header" href="#flags_pointer">flags_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "flags_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "flags_t"</code></li>
+<li><code>cast(self) -&gt; "flags_t *"</code></li>
+<li><code>frompointer(t: "flags_t *") -&gt; "flags_pointer *"</code></li>
+</ul>
+<h4 id="flags64_pointer"><a class="header" href="#flags64_pointer">flags64_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "flags64_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "flags64_t"</code></li>
+<li><code>cast(self) -&gt; "flags64_t *"</code></li>
+<li><code>frompointer(t: "flags64_t *") -&gt; "flags64_pointer *"</code></li>
+</ul>
+<h4 id="tid_pointer"><a class="header" href="#tid_pointer">tid_pointer</a></h4>
+<ul>
+<li><code>assign(self, value: "tid_t") -&gt; "void"</code></li>
+<li><code>value(self) -&gt; "tid_t"</code></li>
+<li><code>cast(self) -&gt; "tid_t *"</code></li>
+<li><code>frompointer(t: "tid_t *") -&gt; "tid_pointer *"</code></li>
+</ul>
+<h3 id="added-functions-7"><a class="header" href="#added-functions-7">Added functions</a></h3>
+<ul>
+<li><code>get_login_name() -&gt; "qstring *"</code></li>
+</ul>
+<h2 id="ida_regfinder"><a class="header" href="#ida_regfinder">ida_regfinder</a></h2>
+<h3 id="removed-functions-15"><a class="header" href="#removed-functions-15">Removed functions</a></h3>
+<ul>
+<li><code>reg_value_info_t_make_dead_end</code></li>
+<li><code>reg_value_info_t_make_aborted</code></li>
+<li><code>reg_value_info_t_make_badinsn</code></li>
+<li><code>reg_value_info_t_make_unkinsn</code></li>
+<li><code>reg_value_info_t_make_unkfunc</code></li>
+<li><code>reg_value_info_t_make_unkloop</code></li>
+<li><code>reg_value_info_t_make_unkmult</code></li>
+<li><code>reg_value_info_t_make_num</code></li>
+<li><code>reg_value_info_t_make_initial_sp</code></li>
+</ul>
+<h3 id="modified-functions-5"><a class="header" href="#modified-functions-5">Modified functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>invalidate_regfinder_cache(ea: "ea_t") -&gt; "void"</code></td><td><code>invalidate_regfinder_cache(from=BADADDR: "ea_t", to=BADADDR: "ea_t") -&gt; "void"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="added-methods-5"><a class="header" href="#added-methods-5">Added methods</a></h3>
+<h4 id="reg_value_info_t"><a class="header" href="#reg_value_info_t">reg_value_info_t</a></h4>
+<ul>
+<li><code>movt(self, r: "reg_value_info_t", insn: "insn_t const &amp;") -&gt; "void"</code></li>
+</ul>
+<h2 id="ida_registry"><a class="header" href="#ida_registry">ida_registry</a></h2>
+<h3 id="removed-functions-16"><a class="header" href="#removed-functions-16">Removed functions</a></h3>
+<ul>
+<li><code>reg_load</code></li>
+<li><code>reg_flush</code></li>
+</ul>
+<h2 id="ida_search"><a class="header" href="#ida_search">ida_search</a></h2>
+<h3 id="removed-functions-17"><a class="header" href="#removed-functions-17">Removed functions</a></h3>
+<ul>
+<li><code>find_binary</code></li>
+</ul>
+<h2 id="ida_ua"><a class="header" href="#ida_ua">ida_ua</a></h2>
+<h3 id="removed-function"><a class="header" href="#removed-function">Removed Function</a></h3>
+<ul>
+<li><code>construct_macro(insn: "insn_t *", enable: "bool", build_macro: "PyObject *") -&gt; bool (See [Modified functions](#modified-functions-4))</code></li>
+</ul>
+<h3 id="modified-functions-6"><a class="header" href="#modified-functions-6">Modified functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>construct_macro2(_this: "macro_constructor_t *", insn: "insn_t *", enable: "bool") -&gt; "bool"</code></td><td><code>construct_macro(_this: "macro_constructor_t *", insn: "insn_t *", enable: "bool") -&gt; "bool"</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="added-methods-6"><a class="header" href="#added-methods-6">Added methods</a></h3>
+<h4 id="macro_constructor_t"><a class="header" href="#macro_constructor_t">macro_constructor_t</a></h4>
+<ul>
+<li><code>construct_macro(self, insn: "insn_t", enable: "bool") -&gt; "bool"</code></li>
+</ul>
+<h2 id="idautils"><a class="header" href="#idautils">idautils</a></h2>
+<h3 id="modified-functions-7"><a class="header" href="#modified-functions-7">Modified functions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>8.4</th><th>9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Structs() -&gt; [(idx, sid, name)]</code></td><td><code>Structs() -&gt; [(ordinal, sid, name)]</code></td></tr>
+<tr><td><code>StructMembers(sid) -&gt; [(offset, name, size)]</code></td><td><code>StructMembers(sid) -&gt; [(offset_in_bytes, name, size_in_bytes)]</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="idb-events"><a class="header" href="#idb-events">IDB events</a></h2>
+<p>The following table provide a list of IDB events that have been replaced or, in some cases, removed.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Since 7</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>truc_created</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>deleting_struc</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_deleted</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>changing_struc_align</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_align_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>renaming_struc</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_renamed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>expanding_struc</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_expanded</code></td><td><code>lt_udt_expanded, frame_expanded, local_types_changed</code></td></tr>
+<tr><td><code>struc_member_created</code></td><td><code>lt_udm_created, frame_udm_created, local_types_changed</code></td></tr>
+<tr><td><code>deleting_struc_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_member_deleted</code></td><td><code>lt_udm_deleted, frame_udm_deleted, local_types_changed</code></td></tr>
+<tr><td><code>renaming_struc_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_member_renamed</code></td><td><code>lt_udm_renamed, frame_udm_renamed, local_types_changed</code></td></tr>
+<tr><td><code>changing_struc_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_member_changed</code></td><td><code>lt_udm_changed, frame_udm_changed, local_types_changed</code></td></tr>
+<tr><td><code>changing_struc_cmt</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_cmt_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_created</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>deleting_enum</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_deleted</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>renaming_enum</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_renamed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>changing_enum_bf</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_bf_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>changing_enum_cmt</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_cmt_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_member_created</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>deleting_enum_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_member_deleted</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_width_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_flag_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_ordinal_changed</code></td><td>`<strong>none</strong></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="type-information-error-codes"><a class="header" href="#type-information-error-codes">Type information error codes</a></h2>
+<p>Following is the list of error values returned by the type info module. It can also be found in <code>typeinf.hpp</code> in the IDASDK:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Error name</th><th>Val.</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>TERR_OK</strong></td><td>0</td><td>ok</td></tr>
+<tr><td><strong>TERR_STABLE</strong></td><td>1</td><td>it means no errors occurred but nothing has changed (this code is internal: should never be returned to caller) -*</td></tr>
+<tr><td><strong>TERR_SAVE_ERROR</strong></td><td>-1</td><td>failed to save</td></tr>
+<tr><td><strong>TERR_SERIALIZE</strong></td><td>-2</td><td>failed to serialize</td></tr>
+<tr><td><strong>TERR_BAD_NAME</strong></td><td>-3</td><td>name is not acceptable</td></tr>
+<tr><td><strong>TERR_BAD_ARG</strong></td><td>-4</td><td>bad argument</td></tr>
+<tr><td><strong>TERR_BAD_TYPE</strong></td><td>-5</td><td>bad type</td></tr>
+<tr><td><strong>TERR_BAD_SIZE</strong></td><td>-6</td><td>bad size</td></tr>
+<tr><td><strong>TERR_BAD_INDEX</strong></td><td>-7</td><td>bad index</td></tr>
+<tr><td><strong>TERR_BAD_ARRAY</strong></td><td>-8</td><td>arrays are forbidden as function arguments</td></tr>
+<tr><td><strong>TERR_BAD_BF</strong></td><td>-9</td><td>bitfields are forbidden as function arguments</td></tr>
+<tr><td><strong>TERR_BAD_OFFSET</strong></td><td>-10</td><td>bad member offset</td></tr>
+<tr><td><strong>TERR_BAD_UNIVAR</strong></td><td>-11</td><td>unions cannot have variable sized members</td></tr>
+<tr><td><strong>TERR_BAD_VARLAST</strong></td><td>-12</td><td>variable sized member must be the last member in the structure</td></tr>
+<tr><td><strong>TERR_OVERLAP</strong></td><td>-13</td><td>the member overlaps with other members that cannot be deleted</td></tr>
+<tr><td><strong>TERR_BAD_SUBTYPE</strong></td><td>-14</td><td>recursive structure nesting is forbidden</td></tr>
+<tr><td><strong>TERR_BAD_VALUE</strong></td><td>-15</td><td>value is not acceptable</td></tr>
+<tr><td><strong>TERR_NO_BMASK</strong></td><td>-16</td><td>bitmask is not found</td></tr>
+<tr><td><strong>TERR_BAD_BMASK</strong></td><td>-17</td><td>Bad enum member mask. The specified mask should not intersect with any existing mask in the enum. Zero masks are prohibited too</td></tr>
+<tr><td><strong>TERR_BAD_MSKVAL</strong></td><td>-18</td><td>bad bmask and value combination</td></tr>
+<tr><td><strong>TERR_BAD_REPR</strong></td><td>-19</td><td>bad or incompatible field representation</td></tr>
+<tr><td><strong>TERR_GRP_NOEMPTY</strong></td><td>-20</td><td>could not delete group mask for not empty group</td></tr>
+<tr><td><strong>TERR_DUPNAME</strong></td><td>-21</td><td>duplicate name</td></tr>
+<tr><td><strong>TERR_UNION_BF</strong></td><td>-22</td><td>unions cannot have bitfields</td></tr>
+<tr><td><strong>TERR_BAD_TAH</strong></td><td>-23</td><td>bad bits in the type attributes (TAH bits)</td></tr>
+<tr><td><strong>TERR_BAD_BASE</strong></td><td>-24</td><td>bad base class</td></tr>
+<tr><td><strong>TERR_BAD_GAP</strong></td><td>-25</td><td>bad gap</td></tr>
+<tr><td><strong>TERR_NESTED</strong></td><td>-26</td><td>recursive structure nesting is forbidden</td></tr>
+<tr><td><strong>TERR_NOT_COMPAT</strong></td><td>-27</td><td>the new type is not compatible with the old type</td></tr>
+<tr><td><strong>TERR_BAD_LAYOUT</strong></td><td>-28</td><td>failed to calculate the structure/union layout</td></tr>
+<tr><td><strong>TERR_BAD_GROUPS</strong></td><td>-29</td><td>bad group sizes for bitmask enum</td></tr>
+<tr><td><strong>TERR_BAD_SERIAL</strong></td><td>-30</td><td>enum value has too many serials</td></tr>
+<tr><td><strong>TERR_ALIEN_NAME</strong></td><td>-31</td><td>enum member name is used in another enum</td></tr>
+<tr><td><strong>TERR_STOCK</strong></td><td>-32</td><td>stock type info cannot be modified</td></tr>
+<tr><td><strong>TERR_ENUM_SIZE</strong></td><td>-33</td><td>bad enum size</td></tr>
+<tr><td><strong>TERR_NOT_IMPL</strong></td><td>-34</td><td>not implemented</td></tr>
+<tr><td><strong>TERR_TYPE_WORSE</strong></td><td>-35</td><td>the new type is worse than the old type</td></tr>
+<tr><td><strong>TERR_BAD_FX_SIZE</strong></td><td>-36</td><td>cannot extend struct beyond fixed size</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="alternative-examples"><a class="header" href="#alternative-examples">Alternative examples</a></h2>
+<p>This section gives examples of how to port some ida_struct and ida_enum functions using ida_typeinf.</p>
+<h3 id="del_struct_members"><a class="header" href="#del_struct_members">del_struct_members</a></h3>
+<p>The following code can be used as an example of how to replace ida_struct.del_struct_members.</p>
+<pre><code class="language-python">def del_struct_members(sid, offset1, offset2):
+    tif = ida_typeinf.tinfo_t()
+    if tif.get_type_by_tid(sid) and tif.is_udt():
+        udm = ida_typeinf.udm_t()
+        udm.offset = offset1 * 8
+        idx1 = tif.find_udm(udm, ida_typeinf.STRMEM_OFFSET)
+        udm = ida_typeinf.udm_t()
+        udm.offset = offset2 * 8
+        idx2 = tif.find_udm(udm, ida_typeinf.STRMEM_OFFSET)
+        return tif.del_udms(idx1, idx2)
+</code></pre>
+<h3 id="get_member_by_fullname"><a class="header" href="#get_member_by_fullname">get_member_by_fullname</a></h3>
+<p>The following code can be used as an example of how to replace ida_struct.get_member_by_fullname.</p>
+<pre><code class="language-python">def get_member_by_fullname(fullname):
+    udm = ida_typeinf.udm_t()
+    idx = ida_typeinf.get_udm_by_fullname(udm, fullname)
+    if  idx == -1:
+        return None
+    else:
+        return udm
+</code></pre>
+<h3 id="get_struc_qty"><a class="header" href="#get_struc_qty">get_struc_qty</a></h3>
+<p>The following code can be used as an example of how to replace ida_struct.get_struc_qty.</p>
+<pre><code class="language-python">def get_struc_qty():
+    count = 0
+    limit = ida_typeinf.get_ordinal_limit()
+    for i in range(1, limit):
+        tif = ida_typeinf.tinfo_t()
+        if not tif.get_numbered_type(i, ida_typeinf.BTF_STRUCT):
+            continue
+        else:
+            count += 1
+    return count
+</code></pre>
+<h3 id="is_special_member"><a class="header" href="#is_special_member">is_special_member</a></h3>
+<p>The following code can be used as an example of how to replace ida_struct.is_special_member.</p>
+<pre><code class="language-python">def is_special_member(member_id):
+    tif = ida_typeing.tinfo_t()
+    udm = ida_typeinf.udm_t()
+    if tif.get_udm_by_tid(udm, member_id) != -1:
+        return udm.is_special_member()
+    return False
+</code></pre>
+<h3 id="get_sptr"><a class="header" href="#get_sptr">get_sptr</a></h3>
+<p>The following code can be used as an example of how to replace ida_struct.get_sptr.</p>
+<pre><code class="language-python">def get_sptr(udm):
+    tif = udm.type
+    if tif.is_udt() and tif.is_struct():
+        return tif
+    else:
+        return None
+</code></pre>
+<h2 id="how-to-examples"><a class="header" href="#how-to-examples">How to examples</a></h2>
+<h3 id="list-structure-members"><a class="header" href="#list-structure-members">List structure members</a></h3>
+<h4 id="example-1"><a class="header" href="#example-1">Example 1</a></h4>
+<pre><code class="language-python">def list_enum_members(name)
+    tid = idc.get_struc_id(name)
+    if not tid == ida_idaapi.BADADDR:
+        for (offset, name, size) in idautils.StructMembers(tid):
+            print(f'Member {name} at offset {offset} of size {size}')
+</code></pre>
+<h4 id="example-2"><a class="header" href="#example-2">Example 2</a></h4>
+<pre><code class="language-python">def list_struct_members2(name):
+    til = ida_typeinf.get_idati()
+    tif = ida_typeinf.tinfo_t()
+    if not tif.get_named_type(til, name, ida_typeinf.BTF_STRUCT, True, False):
+        print(f"'{name}' is not a structure")
+    elif  tif.is_typedef():
+        print(f"'{name}' is not a (non typedefed) structure.")
+    else:
+        udt = ida_typeinf.udt_type_data_t()
+        if tif.get_udt_details(udt):
+            idx = 0
+            print(f'Listing the {name} structure {udt.size()} field names:')
+            for udm in udt:
+                print(f'Field {idx}: {udm.name}')
+                idx += 1
+        else:
+            print(f"Unable to get udt details for structure '{name}'")
+</code></pre>
+<h3 id="list-enum-members"><a class="header" href="#list-enum-members">List enum members</a></h3>
+<pre><code class="language-python">def list_enum_members(name):
+    til = ida_typeinf.get_idati()
+    tif = ida_typeinf.tinfo_t()
+    if not tif.get_named_type(til, name, ida_typeinf.BTF_ENUM, True, False):
+        print(f"'{name}' is not an enum")
+    elif tif.is_typedef():
+        print(f"'{name}' is not a (non typedefed) enum.")
+    else:
+        edt = ida_typeinf.enum_type_data_t()
+        if tif.get_enum_details(edt):
+            idx = 0
+            bitfield = ''
+            if edt.is_bf():
+                bitfield = '(bitfield)'
+            print(f"Listing the '{name}' {bitfield} enum {edt.size()} field names:")
+            for edm in edt:
+                print(f'Field {idx}: {edm.name} = {edm.value}')
+                idx += 1
+        else:
+            print(f"Unable to get udt details for enum '{name}'")
+</code></pre>
+<h3 id="list-frame-information"><a class="header" href="#list-frame-information">List frame information</a></h3>
+<pre><code class="language-python">func = ida_funcs.get_func(here())
+if func:
+    func_name = ida_funcs.get_func_name(func.start_ea)
+    frame_tif = ida_typeinf.tinfo_t()
+    if ida_frame.get_func_frame(frame_tif, func):
+        frame_udt = ida_typeinf.udt_type_data_t()
+        if frame_tif.get_udt_details(frame_udt):
+            print('List frame information:')
+            print('-----------------------')
+            print(f'{func_name} @ {func.start_ea:x} framesize {frame_tif.get_size():x}')
+            print(f'Local variable size: {func.frsize:x}')
+            print(f'Saved registers: {func.frregs:x}')
+            print(f'Argument size: {func.argsize:x}')
+            print('{')
+            idx = 0
+            for udm in frame_udt:
+                print(f'\t[{idx}] {udm.name}: soff={udm.offset//8:x} eof={udm.end()//8:x} {udm.type.dstr()}')
+                idx += 1
+            print('}')
+else:
+    print(f'{here():x} is not inside a function.')
+</code></pre>
+<h3 id="list-stack-variables-xrefs"><a class="header" href="#list-stack-variables-xrefs">List stack variables xrefs</a></h3>
+<pre><code class="language-python">func = ida_funcs.get_func(here())
+if func:
+    print(f'Function @ {func.start_ea:x}')
+
+    frame_tif = ida_typeinf.tinfo_t()
+    if ida_frame.get_func_frame(frame_tif, func):
+        print('Frame found')
+        nmembers = frame_tif.get_udt_nmembers()
+        print(f'Frame has {nmembers} members')
+
+        if nmembers &gt; 0:
+            frame_udt = ida_typeinf.udt_type_data_t()
+            if frame_tif.get_udt_details(frame_udt):
+
+                for frame_udm in frame_udt:
+                    start_off = frame_udm.begin() // 8
+                    end_off = frame_udm.end() // 8
+                    xreflist = ida_frame.xreflist_t()
+                    ida_frame.build_stkvar_xrefs(xreflist, func, start_off, end_off)
+                    size = xreflist.size()
+                    print(f'{frame_udm.name} stack variable starts @ {start_off:x}, ends @ {end_off:x}, xref size: {size}')
+
+                    for idx in range(size):
+                        match xreflist[idx].type:
+                            case ida_xref.dr_R:
+                                type = 'READ'
+                            case ida_xref.dr_W:
+                                type = 'WRITE'
+                            case _:
+                                type = 'UNK'
+                        print(f'\t[{idx}]: xref @ {xreflist[idx].ea:x} of type {type}')
+            else:
+                print('Unable to get the frame details.')
+        else:
+            print('No members found.')
+else:
+    print('No function under the cursor')
+</code></pre>
+<h3 id="create-a-structure-with-parsing"><a class="header" href="#create-a-structure-with-parsing">Create a structure with parsing</a></h3>
+<pre><code class="language-python">struct_str = """struct pcap_hdr_s {
+        uint32_t magic_number;   /* magic number */
+        uint16_t version_major;  /* major version number */
+        uint16_t version_minor;  /* minor version number */
+        int32_t  thiszone;       /* GMT to local correction */
+        uint32_t sigfigs;        /* accuracy of timestamps */
+        uint32_t snaplen;        /* max length of captured packets, in octets */
+        uint32_t network;        /* data link type */
+};"""
+tif = ida_typeinf.tinfo_t()
+if tif.get_named_type(None, 'pcap_hdr_s'):
+    ida_typeinf.del_named_type(None, 'pcap_hdr_s', ida_typeinf.NTF_TYPE)
+ida_typeinf.idc_parse_types(struct_str, 0)
+if not tif.get_named_type(None, 'pcap_hdr_s'):
+    print('Unable to retrieve pcap_hdr_s structure')
+</code></pre>
+<h3 id="create-a-structure-member-by-member"><a class="header" href="#create-a-structure-member-by-member">Create a structure member by member</a></h3>
+<pre><code class="language-python">tif = ida_typeinf.tinfo_t()
+if tif.get_named_type(None, 'pcaprec_hdr_s'):
+    ida_typeinf.del_named_type(None, 'pcaprec_hdr_s', ida_typeinf.NTF_TYPE)
+field_list = [('ts_sec', ida_typeinf.BTF_UINT32),
+             ('ts_usec', ida_typeinf.BTF_UINT32),
+             ('incl_len', ida_typeinf.BTF_UINT32),
+             ('orig_len', ida_typeinf.BTF_UINT32)]
+udt = ida_typeinf.udt_type_data_t()
+udm = ida_typeinf.udm_t()
+for (name, type) in field_list:
+    udm.name = name
+    udm.type = ida_typeinf.tinfo_t(type)
+    udt.push_back(udm)
+if tif.create_udt(udt):
+    tif.set_named_type(None, 'pcaprec_hdr_s')
+
+</code></pre>
+<h3 id="create-a-union-member-by-member"><a class="header" href="#create-a-union-member-by-member">Create a union member by member</a></h3>
+<pre><code class="language-python">tif = ida_typeinf.tinfo_t()
+if tif.get_named_type(None, 'my_union'):
+    ida_typeinf.del_named_type(None, 'my_union', ida_typeinf.NTF_TYPE)
+tif = ida_typeinf.tinfo_t()
+udt = ida_typeinf.udt_type_data_t()
+field_list = [('member1', ida_typeinf.BTF_INT32),
+              ('member2', ida_typeinf.BTF_CHAR),
+              ('member3', ida_typeinf.BTF_FLOAT)]
+udt.is_union = True
+udm = ida_typeinf.udm_t()
+for (name, type) in field_list:
+    udm.name = name
+    udm.type = ida_typeinf.tinfo_t(type)
+    udt.push_back(udm)
+tif.get_named_type(None, 'pcap_hdr_s')
+if tif.create_ptr(tif):
+    udm.name = 'header_ptr'
+    udm.type = tif
+    udt.push_back(udm)
+    tif.clear()
+    tif.create_udt(udt, ida_typeinf.BTF_UNION)
+    tif.set_named_type(None, 'my_union')
+</code></pre>
+<h3 id="create-a-bitmask-enum"><a class="header" href="#create-a-bitmask-enum">Create a bitmask enum</a></h3>
+<pre><code class="language-python">edt = ida_typeinf.enum_type_data_t()
+edm = ida_typeinf.edm_t()
+for name, value in [('field1', 1), ('field2', 2), ('field3', 4)]:
+    edm.name = name
+    edm.value = value
+    edt.push_back(edm)
+
+tif = ida_typeinf.tinfo_t()
+if tif.create_enum(edt):
+    tif.set_enum_is_bitmask(ida_typeinf.tinfo_t.ENUMBM_ON)
+    tif.set_named_type(None, 'bmenum')
+</code></pre>
+<h3 id="create-an-array"><a class="header" href="#create-an-array">Create an array</a></h3>
+<h4 id="example-1-1"><a class="header" href="#example-1-1">Example 1</a></h4>
+<pre><code class="language-python">tif = ida_typeinf.tinfo_t(ida_typeinf.BTF_INT)
+if tif.create_array(tif, 5, 0):
+    type = tif._print()
+    tif.set_named_type(None, 'my_int_array1')
+</code></pre>
+<h4 id="example-2-1"><a class="header" href="#example-2-1">Example 2</a></h4>
+<pre><code class="language-python">atd = ida_typeinf.array_type_data_t()
+atd.base = 0
+atd.nelems = 5
+atd.elem_type = ida_typeinf.tinfo_t(ida_typeinf.BTF_INT)
+tif = ida_typeinf.tinfo_t()
+if tif.create_array(atd):
+    type = tif._print()
+    tif.set_named_type(None, 'my_int_array2')
+</code></pre>
+<h3 id="log-local-type-events"><a class="header" href="#log-local-type-events">Log local type events</a></h3>
+<pre><code class="language-python">class lt_logger_hooks_t(ida_idp.IDB_Hooks):
+    def __init__(self):
+        ida_idp.IDB_Hooks.__init__(self)
+        self.inhibit_log = 0
+
+    def _format_value(self, v):
+        return str(v)
+
+    def _log(self, msg=None):
+        if self.inhibit_log &lt;= 0:
+            if msg:
+                print(f'&gt;&gt;&gt; lt_logger_hooks_f: {msg}')
+            else:
+                stack = inspect.stack()
+                frame, _, _, _, _, _ = stack[1]
+                args, _, _, values = inspect.getargvalues(frame)
+                method_name = inspect.getframeinfo(frame)[2]
+                argstrs = []
+                for arg in args[1:]:
+                    argstrs.append("%s=%s" % (arg, self._format_value(values[arg])))
+                print(f'&gt;&gt;&gt; lt_logger_hooks_t.{method_name}: {", ".join(args)}')
+        return 0
+
+    def lt_udm_created(self, udtname, udm):
+        msg = f'UDM {udm.name} has been created in UDT {udtname}'
+        return self._log(msg)
+
+    def lt_udm_deleted(self, udtname, udm_tid):
+        msg = f'UDM tid {udm_tid:x} has been deleted from {udtname}'
+        return self._log(msg)
+
+    def lt_udm_renamed(self, udtname, udm, oldname):
+        msg = f'UDM {oldname} from UDT {udtname} has been renamed to {udm.name}'
+        return self._log(msg)
+
+    def lt_udm_changed(self, udtname, udm_tid, udmold, udmnew):
+        return self._log()
+
+
+
+# Remove an existing hook on second run
+try:
+    idp_hook_stat = "un"
+    print("Local type IDB hook: checking for hook...")
+    lthook
+    print("Local type IDB hook: unhooking....")
+    idp_hook_stat2 = ""
+    lthook.unhook()
+    del lthook
+except:
+    print("local type IDB hook: not installed, installing now....")
+    idp_hook_stat = ""
+    idp_hook_stat2 = "un"
+    lthook = lt_logger_hooks_t()
+    lthook.hook()
+
+print(f'Local type IDB hook {idp_hook_stat}installed. Run the script again to {idp_hook_stat2}install')
+</code></pre>
+<h3 id="log-frame-events"><a class="header" href="#log-frame-events">Log frame events</a></h3>
+<pre><code class="language-python">class frame_logger_hooks_t(ida_idp.IDB_Hooks):
+    def __init__(self):
+        ida_idp.IDB_Hooks.__init__(self)
+        self.inhibit_log = 0
+
+    def _format_value(self, v):
+        return str(v)
+
+    def _log(self, msg=None):
+        if self.inhibit_log &lt;= 0:
+            if msg:
+                print(f'&gt;&gt;&gt; frame_logger_hooks_f: {msg}')
+            else:
+                stack = inspect.stack()
+                frame, _, _, _, _, _ = stack[1]
+                args, _, _, values = inspect.getargvalues(frame)
+                method_name = inspect.getframeinfo(frame)[2]
+                argstrs = []
+                for arg in args[1:]:
+                    argstrs.append("%s=%s" % (arg, self._format_value(values[arg])))
+                print(f'&gt;&gt;&gt; frame_logger_hooks_t.{method_name}: {", ".join(args)}')
+        return 0
+
+    def frame_udm_created(self, func_ea, udm):
+        return self._log()
+
+    def frame_udm_deleted(self, func_ea, udm_tid, udm):
+        return self._log()
+
+    def frame_udm_renamed(self, func_ea, udm, oldname):
+        return self._log()
+
+    def frame_udm_changed(self, func_ea, udm_tid, udmold, udmnew):
+        return self._log()
+
+
+
+# Remove an existing hook on second run
+try:
+    frame_idp_hook_stat = "un"
+    print("Frame IDP hook: checking for hook...")
+    framehook
+    print("Frame IDP hook: unhooking....")
+    frame_idp_hook_stat2 = ""
+    framehook.unhook()
+    del framehook
+except:
+    print("Frame IDP hook: not installed, installing now....")
+    frame_idp_hook_stat = ""
+    frame_idp_hook_stat2 = "un"
+    framehook = frame_logger_hooks_t()
+    framehook.hook()
+
+print(f'Frame IDB hook {frame_idp_hook_stat}installed. Run the script again to {frame_idp_hook_stat2}install')
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../developer-guide/idapython/how-to-create-a-plugin.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../developer-guide/idc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../developer-guide/idapython/how-to-create-a-plugin.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../developer-guide/idc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

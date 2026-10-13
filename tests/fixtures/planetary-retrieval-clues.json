@@ -1,0 +1,5 @@
+{
+  "source_trace": "trace-Planetary_Probe-deepseek-flash-20260927-131608.jsonl",
+  "verification_status": "unconfirmed",
+  "technical_terms": ["PostgreSQL", "boolean oracle", "pg_execute_server_program"]
+}

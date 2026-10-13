@@ -1,0 +1,30 @@
+.[-d] Include deleted files.
+.[-s] Search for substring instead of using a path.
+.[$NCAT_VAULT_PATH_WITH_REV...:PATH_PATTERN_OR_SUBSTRING] Vault path of file(s) to include in search or substring to search for if `-s`. If revision is not specified, defaults to current revision (`#=`). If no path is specified, defaults to the root directory of the vault.
+
+>Displays the list of the files present in the vault.
+
+The command will collect files from the vault (that match the selection)
+and display for each file:
+
+* the file path
+* the revision
+* the file size if it hasn't been deleted
+* the last commit id
+* the last action
+
+!
+$$ -d //malware/Ransomware.WannaCry
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe#1 (size 3514368 CL1/add)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.asm#2 (CL2/del)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.i64#1 (size 838724 CL1/add)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.log#2 (CL2/del)
+
+!
+$$ -s i64
+//malware/EquationGroup.GrayFish/GrayFish_9B1CA66AAB784DC5F1DFE635D8F8A904.i64#1 (size 2929035 CL1/add)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.i64#1 (size 838724 CL1/add)
+//malware/Trojan.Ransom.Petya/eefa052da01c3faa1d1f516ddfefa8ceb8a5185bb9b5368142ffdf839aea4506.i64#1 (size 4535045 CL1/add)
+//malware/Trojan.Shylock.Skype/Shylock-skype_8FBEB78B06985C3188562E2F1B82D57D.i64#1 (size 4374263 CL1/add)
+//malware/Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.i64#1 (size 319858 CL1/add)
+

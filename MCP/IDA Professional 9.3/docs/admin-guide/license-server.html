@@ -1,0 +1,518 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>License server - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="hex-rays-license-server-administrator-guide"><a class="header" href="#hex-rays-license-server-administrator-guide">Hex-Rays License Server Administrator Guide</a></h1>
+<h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>{% hint style=“info” %}
+To ensure proper functionality, we recommend that the <strong>License Server version match the IDA Pro version</strong> and that both are updated to the latest version. The 9.1 License Server has backward compatibility with the 9.0 IDA Pro version (client). However, the reverse is not supported. Ensure that the License Server version is equal to or higher than the client version to maintain compatibility.</p>
+<p>For the latest installers, visit the <a href="https://my.hex-rays.com/dashboard/download-center">Download Center</a> in My Hex-Rays portal.
+{% endhint %}</p>
+<p>This manual describes the installation, management, and interaction with a Hex-Rays License Server deployment.
+It is primarily intended for administrators, and will focus on the setup and management of the Hex-Rays License Server.</p>
+<p>While we will (at least superficially) make use of the command-line client used to access/manage the server, this manual will not offer a detailed explanation of its usage, although there is a dedicated section for <a href="#lsadm-tool-quick-guide">essential lsadm commands</a></p>
+<h2 id="lets-get-started"><a class="header" href="#lets-get-started">Let’s get started</a></h2>
+<p>The first step is to install the Hex-Rays License Server, which is the central component of the deployment.</p>
+<h1 id="installing-the-hex-rays-license-server"><a class="header" href="#installing-the-hex-rays-license-server">Installing the Hex-Rays License Server</a></h1>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<p>After your purchase of a Hex-Rays product with floating licenses, go to the <a href="https://my.hex-rays.com/dashboard/download-center/downloads">customer portal</a>, where you will find:</p>
+<ul>
+<li>an installer for the Hex-Rays License Server</li>
+<li>the installer for the product you have purchased</li>
+<li>a <code>license_server_&lt;LID&gt;.hexlic</code> (where &lt;LID&gt; is your license ID) and the certificate bundle will be available after License Server activation, under <a href="https://my.hex-rays.com/dashboard/licenses">Licenses</a> tab</li>
+</ul>
+<p>All those will be necessary, so please go ahead and download them.</p>
+<p><strong>Quick alternative</strong>
+{% hint style=“success” %}</p>
+<h2 id="hcli-commands--see-hcli-docs"><a class="header" href="#hcli-commands--see-hcli-docs">HCLI Commands | <a href="https://hcli.docs.hex-rays.com/">See HCLI Docs</a></a></h2>
+<ul>
+<li><code>hcli license get</code></li>
+<li><code>hcli download</code>
+{% endhint %}</li>
+</ul>
+<p>You will also need <code>root</code> access on the host where you will be installing the server.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<p>This chapter explains how to install the Hex-Rays License Server.</p>
+<h3 id="installing-clients"><a class="header" href="#installing-clients">Installing clients</a></h3>
+<p>The command-line client <code>lsadm</code> is bundled with the Hex-Rays License Server installer. To install both Hex-Rays License Server and <code>lsadm</code>, simply run the installer and follow the instructions.</p>
+<p>Every Hex-Rays product using floating licenses, such as IDA, is also a client of Hex-Rays License Server. For installation instructions for these products, please refer to their documentation.</p>
+<h3 id="installing-the-server"><a class="header" href="#installing-the-server">Installing the server</a></h3>
+<p>The Hex-Rays License Server can be installed on x64 Linux servers. We have tested it on Debian and Ubuntu, but other major flavors of Linux should be fine too.</p>
+<p>The installer is provided as an executable file. If needed, use <code>chmod</code> to ensure it has execute permissions.</p>
+<p>To install the server, run the Hex-Rays License Server installer as <code>root</code> and follow the instructions (the server will not require <code>root</code> permissions; only the installer does.)</p>
+<p>{% hint style=“info” %}
+If your Linux system is based on <code>systemd</code> (e.g., Debian/Ubuntu, Red-Hat, CentOS, …​), it is recommended to let the installer create systemd units so that the server will start automatically at the next reboot.
+{% endhint %}</p>
+<p>{% hint style=“info” %}
+During server installation, you’ll be prompted to create the <code>hexlicsrv.conf</code> configuration file.
+<strong>We recommend accepting the default option to create it automatically</strong>, as this file is required to run the server.
+{% endhint %}</p>
+<h3 id="activating-the-server-license"><a class="header" href="#activating-the-server-license">Activating the server license</a></h3>
+<p>In order for the Hex-Rays License Server license to be activated, it must be bound to a Host ID (an Ethernet MAC address.)
+From a command prompt, run <code>/sbin/ifconfig</code>, and lookup the "ether" address for the network interface through which the server will be accessible.</p>
+<pre><code>    &gt;/sbin/ifconfig
+    enp4s0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+            [...snipped...]
+            ether bf:e2:91:10:58:d2  txqueuelen 1000  (Ethernet)
+            [...snipped...]
+</code></pre>
+<p>In this case, our MAC address is: <code>bf:e2:91:10:58:d2</code></p>
+<p>Go to <a href="https://my.hex-rays.com">Hex-Rays customer portal</a> and <a href="../getting-started/licensing.html#license-server-activation-for-admins">activate your license for license server</a>. During that process, you will need to provide the MAC address of the device where the license server will be running. Once the activation is complete, you’ll be able to download the following files:</p>
+<ul>
+<li>license server certificate bundle</li>
+<li><code>license_server_&lt;LID&gt;.hexlic</code> (license key)</li>
+</ul>
+<p>Those need to be copied in the Hex-Rays License Server installation directory. As <code>root</code>:</p>
+<pre><code>    &gt;cd /opt/hexlicsrv
+    &gt;cp .../path/to/hexlicsrv.crt .
+    &gt;cp .../path/to/hexlicsrv.key .
+    &gt;cp .../path/to/license_server*.hexlic .
+    &gt;chown hexlicsrv:hexlicsrv hexlicsrv.crt hexlicsrv.key license_server*.hexlic
+    &gt;chmod 640 hexlicsrv.crt hexlicsrv.key license_server*.hexlic
+</code></pre>
+<h3 id="creating-the-initial-database"><a class="header" href="#creating-the-initial-database">Creating the initial database</a></h3>
+<p>At this point, the server should be ready to run.</p>
+<p>{% hint style=“caution” %}
+If your system is already in production, skip this section. Using the <code>--recreate-schema</code> option as in the example below, will re-create an empty database.
+{% endhint %}</p>
+<p>On the first install, you will need to initialize the database the server will use:</p>
+<pre><code>    &gt;sudo -u hexlicsrv ./license_server --config-file hexlicsrv.conf \
+                                        --certchain-file hexlicsrv.crt \
+                                        --privkey-file hexlicsrv.key \
+                                        --recreate-schema
+    &gt;2024-04-14 14:30:28 License Server v1.0 Hex-Rays (c) 2024
+    &gt;2024-04-14 14:30:28 Database initialized; exiting.
+</code></pre>
+<h4 id="testing-the-server"><a class="header" href="#testing-the-server">Testing the server</a></h4>
+<p>Now that the server is installed and has a database to work with, we can test that it works:</p>
+<pre><code>    &gt;sudo -u hexlicsrv ./license_server --config-file hexlicsrv.conf \
+                                        --certchain-file hexlicsrv.crt \
+                                        --privkey-file hexlicsrv.key \
+                                        --license-file license_server_&lt;LID&gt;.hexlic
+    &gt;2024-04-14 14:35:47 License Server v1.0 Hex-Rays (c) 2024
+    &gt;2024-04-14 14:35:47 Using a license with 1 seats
+    &gt;2024-04-14 14:35:47 Listening on 0.0.0.0:65434...
+</code></pre>
+<p>Good, the server appears to run! If you are observing more worrying messages than this one, please refer to the <a href="#troubleshooting">troubleshooting</a> section.</p>
+<p>At this point, you may want to either let the server run, or stop it (<code>Ctrl+C</code> will do) and restart it using systemd:</p>
+<pre><code>    &gt;systemctl restart hexlicsrv.service
+</code></pre>
+<p>…​and make sure it runs:</p>
+<pre><code>    &gt;ps aux | grep license_server
+    hexlicsrv  58246  0.0  0.0 ...
+</code></pre>
+<p>If you don’t see a running <code>license_server</code> process, please refer to the <code>systemd</code> diagnostic tools (e.g., <code>journalctl</code>) for more info.</p>
+<h2 id="management"><a class="header" href="#management">Management</a></h2>
+<p>This chapter explains in detail how to perform regular administrator tasks.</p>
+<h3 id="backup-and-restore"><a class="header" href="#backup-and-restore">Backup and restore</a></h3>
+<p>Currently, there is no dedicated procedure to back up the Hex-Rays License Server database. It can be done by temporarily stopping the Hex-Rays License Server and making a copy of the sqlite3 database. The server must be stopped only during the backup of the sqlite3 database and then can be immediately restarted.</p>
+<p>Alternatively, it is possible to use sqlite3 backup functionality to make a backup of the database.</p>
+<h3 id="upgrading-the-server"><a class="header" href="#upgrading-the-server">Upgrading the server</a></h3>
+<p>Switching to the newest versions of the Hex-Rays License Server is recommended in order for the team to benefit from its improvements and new features.</p>
+<p>The upgrade procedure consists of the following steps:</p>
+<ol>
+<li>
+<p>Stop the server. For example, if you are using <code>systemd</code> to manage the server: <code>sudo systemctl stop hexlicsrv</code></p>
+</li>
+<li>
+<p>Perform a <a href="#backup-and-restore">backup</a> of the database</p>
+</li>
+<li>
+<p>Launch the installer</p>
+</li>
+<li>
+<p>Follow the on-screen instructions</p>
+</li>
+<li>
+<p>Upgrade the database with <code>./license_server --config-file hexlicsrv.conf --upgrade-schema</code></p>
+</li>
+<li>
+<p>Restart the server. E.g., <code>sudo systemctl start hexlicsrv</code></p>
+</li>
+</ol>
+<h3 id="license-borrowing-limits"><a class="header" href="#license-borrowing-limits">License Borrowing Limits</a></h3>
+<p>The server supports limiting the maximum duration for which licenses can be borrowed using the <code>MAX_BORROW_HOURS</code> environment variable.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Example</th><th>Behavior</th></tr>
+</thead>
+<tbody>
+<tr><td><code>MAX_BORROW_HOURS=0</code> or unset</td><td>No limit (default)</td></tr>
+<tr><td><code>MAX_BORROW_HOURS=-1</code></td><td>Borrowing is completely disabled</td></tr>
+<tr><td><code>MAX_BORROW_HOURS=&lt;hours&gt;</code></td><td>Limits borrowing to the specified number of hours</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note:</strong> Changes to this environment variable require a server restart to take effect.</p>
+<h3 id="hex-rays-license-server-command-line-options"><a class="header" href="#hex-rays-license-server-command-line-options">Hex-Rays License Server command-line options</a></h3>
+<pre><code>  -p ...​ (\--port-number ...​)         Port number (default 65434)
+  -i ...​ (\--ip-address ...​)          IP address to bind to (default to any)
+  -c ...​ (\--certchain-file ...​)      TLS certificate chain file
+  -k ...​ (\--privkey-file ...​)        TLS private key file
+  -v (\--verbose)                     Verbose mode
+  (\--upgrade-schema)                 Upgrade database schema; then quit
+  -C ...​ (\--connection-string ...​)   Connection string
+  -l ...​ (\--log-file ...​)            Log file
+  -L ...​ (\--license-file ...​)        License file
+  -f ...​ (\--config-file ...​)         Config file
+  (\--recreate-schema)                Drop &amp; re-create schema; then quit **THIS WILL ERASE ALL DATA**
+</code></pre>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<p>This chapter explains how to solve typical problems with the Hex-Rays License Server.</p>
+<h3 id="connection-issues"><a class="header" href="#connection-issues">Connection issues</a></h3>
+<p>By default, the Hex-Rays License Server listens on the TCP port 65434 on all interfaces. Please ensure that this port is enabled in your firewalls.</p>
+<p>The Hex-Rays License Server uses secure TLS connections with the clients. The TLS layer requires the certificate (.crt) and private key (.key) files. Usually, they are attached to the email message with the activation information.</p>
+<h3 id="the-server-complains-about-a-world-accessible-file-and-exits"><a class="header" href="#the-server-complains-about-a-world-accessible-file-and-exits">The server complains about a "world-accessible" file, and exits</a></h3>
+<p>The following files shouldn’t be readable by everyone on the system, but only by <code>root</code> and <code>hexlicsrv</code>:</p>
+<ul>
+<li><code>hexlicsrv.conf</code>: this file file holds the connection string to the database the server will use, and might contain credentials.</li>
+<li><code>hexlicsrv.crt</code>: the certificate chain</li>
+<li><code>hexlicsrv.key</code>: the private key file</li>
+<li><code>license_server_&lt;LID&gt;.hexlic</code>: the license file</li>
+</ul>
+<p>As a precaution, the Hex-Rays License Server will refuse to start if these files are readable by unauthorized users.</p>
+<p>Please make sure they:</p>
+<ul>
+<li>have <code>hexlicsrv:hexlicsrv</code> ownership: <code>chown hexlicsrv:hexlicsrv hexlicsrv.crt hexlicsrv.key licensesrv.hexlic hexlicsrv.conf</code></li>
+<li>are not world-accessible: <code>chmod 640 hexlicsrv.crt hexlicsrv.key license_server_&lt;LID&gt;.hexlic hexlicsrv.conf</code></li>
+</ul>
+<h3 id="licensing"><a class="header" href="#licensing">Licensing</a></h3>
+<p>The licensesrv.hexlic file is tied to the MAC address of the first network interface. If they do not match, the server will not start. To change the MAC address, please contact <a href="mailto:support@hex-rays.com">support</a></p>
+<h3 id="error-failed-to-list-licenses"><a class="header" href="#error-failed-to-list-licenses">"Error: Failed to list licenses"</a></h3>
+<p>This error means that the currently installed license server license file (hexlic) content is incorrect. More precisly, the “licenses” list does not contain an entry with the following items:</p>
+<pre><code>...
+        "product_id": "IDAPRO",
+        "edition_id": "ida-pro",
+...
+</code></pre>
+<p>or that the activation end date in the same section has expired.</p>
+<p>Make sure to activate all the floating license plans owned by the license server <strong>before</strong> downloading the license server hexlic file.</p>
+<h3 id="error-stat-failed-on-hexlicsrvconf-no-such-file-or-directory"><a class="header" href="#error-stat-failed-on-hexlicsrvconf-no-such-file-or-directory">“Error: stat() failed on “hexlicsrv.conf”: No such file or directory“</a></h3>
+<p>This error occurs when the <code>hexlicsrv.conf</code> configuration file is missing.</p>
+<p>During the server installation, the user is asked whether to automatically create this configuration file for pre-configuring the server. Replying “no” will require creating the configuration file manually (which may be a bit tedious).</p>
+<p><strong>Solution:</strong><br>The simplest approach is to reinstall the server:</p>
+<ol>
+<li>Uninstall the server by executing the uninstall program in the installation directory.</li>
+<li>Re-run the installer and accept the prompt to automatically create the configuration file.</li>
+</ol>
+<h3 id="error-failed-to-initialize-the-license-manager-no-valid-license-file-could-be-found"><a class="header" href="#error-failed-to-initialize-the-license-manager-no-valid-license-file-could-be-found">"Error: Failed to initialize the license manager: No valid license file could be found"</a></h3>
+<p>This error can occur if a recent hexlic file is loaded in the version 9.0 of the license server.</p>
+<p><strong>Solution</strong>
+Make sure to download and install the latest version of the license server.</p>
+<h3 id="missing-private-key-path-when-upgrading-the-schema"><a class="header" href="#missing-private-key-path-when-upgrading-the-schema">"Missing private key path" when upgrading the schema</a></h3>
+<p>This is a known regression in the version 9.2 of the license server.</p>
+<p><strong>Solution</strong>
+Use the following command line:</p>
+<pre><code>&gt;sudo -u hexlicsrv ./license_server --config-file hexlicsrv.conf \
+                                        --certchain-file hexlicsrv.crt \
+                                        --privkey-file hexlicsrv.key \
+                                        --upgrade-schema
+</code></pre>
+<h3 id="restoring-from-backups"><a class="header" href="#restoring-from-backups">Restoring from backups</a></h3>
+<p>There are no special precautions to take: restoring the sqlite3 database from a backup should be enough.</p>
+<h2 id="lsadm-tool-quick-guide"><a class="header" href="#lsadm-tool-quick-guide">lsadm Tool Quick Guide</a></h2>
+<p>This quick manual presents the basic common commands for lsadm tool.</p>
+<p><strong>Note</strong>: Replace <code>&lt;IP_ADDRESS&gt;:&lt;PORT&gt;</code> with your actual server address and port.</p>
+<h3 id="list-all-licenses"><a class="header" href="#list-all-licenses">List All Licenses</a></h3>
+<pre><code>./lsadm -h &lt;IP_ADDRESS&gt;:&lt;PORT&gt; list
+</code></pre>
+<p>This command shows:</p>
+<ul>
+<li>Licensed products and their IDs (IDA, License server, Teams Server or Lumina Server)</li>
+<li>Add-ons/decompilers associated with each license</li>
+<li>License start and expiration dates</li>
+<li>Available and total seats</li>
+<li>License owner information</li>
+</ul>
+<h3 id="example-output-structure"><a class="header" href="#example-output-structure">Example Output Structure</a></h3>
+<pre><code>Licenses (assigned to admin@example.com, &lt;admin@example.com&gt;):
+  License:
+    License ID: 96-C43F-B0F4-96
+    Product: IDAPRO
+    Add-ons:
+      HEXX86:
+        License ID: 97-DCD8-46B5-86
+        Owner ID: 96-C43F-B0F4-96
+        Start: 2024-10-07
+        Expiration: 2025-10-07
+      &lt;snipped&gt;
+    Features:
+    Start: 2024-10-07
+    Expiration: 2025-10-07
+    Available seats: 32
+    Total seats: 35
+  License:
+    License ID: 96-E735-E78D-9B
+    Product: LICENSE_SERVER
+    Add-ons:
+    Features:
+    Start: 2024-10-08
+    Expiration: 2025-10-08
+    Available seats: 1
+    Total seats: 1
+</code></pre>
+<h2 id="check-active-and-borrowed-licenses"><a class="header" href="#check-active-and-borrowed-licenses">Check Active and Borrowed Licenses</a></h2>
+<pre><code>./lsadm -h &lt;IP_ADDRESS&gt;:&lt;PORT&gt; active
+</code></pre>
+<p>This command shows:</p>
+<ul>
+<li>currently used licenses</li>
+<li>users using those licenses (both online and borrowed)</li>
+<li>end dates for borrowed licenses</li>
+</ul>
+<h3 id="example-output-structure-1"><a class="header" href="#example-output-structure-1">Example Output Structure</a></h3>
+<pre><code>Active licenses:
+  96-C43F-B0F4-96 IDAPRO (HEXX86, HEXX64, HEXARM, HEXMIPS, HEXARM64, HEXMIPS64, HEXPPC, HEXPPC64, HEXARC, HEXRV, TEAMS, LUMINA, HEXRV64): used 3 out of 35 seat(s)
+  Expires: 2025-10-07
+  Online users: root@secrethost (192.168.0.131): 1 instance(s)
+  Borrowed by:  bob@chronos until 2025-03-14 17:10:32
+                alice@badger until 2025-10-01 00:00:00
+</code></pre>
+<h3 id="display-server-information"><a class="header" href="#display-server-information">Display Server Information</a></h3>
+<pre><code>./lsadm -h &lt;IP_ADDRESS&gt;:&lt;PORT&gt; info
+</code></pre>
+<p>This command shows:</p>
+<ul>
+<li>Server version</li>
+<li>MAC address</li>
+<li>Connected client details and session timestamp</li>
+</ul>
+<h3 id="example-output-structure-2"><a class="header" href="#example-output-structure-2">Example Output Structure</a></h3>
+<pre><code>Server info:
+  Version: v1.0
+  MAC address: AA:BB:CC:DD:EE:FF
+  Client:
+    Name: 192.168.0.104
+    Session ID: 187
+    Established: 2025-02-10 17:37:35
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../admin-guide/teams-server.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../admin-guide/hex-rays-license-server-migration-guide.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../admin-guide/teams-server.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../admin-guide/hex-rays-license-server-migration-guide.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

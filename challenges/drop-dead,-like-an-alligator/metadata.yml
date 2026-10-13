@@ -1,0 +1,28 @@
+version: beta2
+platform: unknown
+native_id: '39'
+name: Drop dead, like an alligator.
+category: BSides Orlando
+description: Or is it dead drop? I can never remember these things. I'm not wired
+  that way. Challenge sponsored by The Coding Hackers.
+value: 472
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#Drop%20dead%2C%20like%20an%20alligator.-39
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Drop%20dead%2C%20like%20an%20alligator.-39
+environment:
+  status: not_required
+  source: platform-page
+  url: https://2026.sunshinectf.org/challenges#Drop%20dead%2C%20like%20an%20alligator.-39
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment/attachments: physical dead drop at the venue; sponsor
+      The Coding Hackers (ARG/lambda/puzzles trail mined by swarm). Remote path =
+      leftover files on challenge hosts + team writeups + photos.'
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: preparing
+reason: ''

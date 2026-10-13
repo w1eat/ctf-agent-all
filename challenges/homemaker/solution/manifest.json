@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "current_key": "4a8332e1ae82dcc44c95:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "4a8332e1ae82dcc44c95:platform_confirmed",
+      "flag": "sun{the_future_is_now_today_well_wait_how_are_you_reading_this}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Homemaker",
+        "category": "Pwn",
+        "description": "A SERVANT IN EVERY HOME, BY 1975! APEX ATOMIC HOUSEHOLD INDUSTRIES, INC IS PROUD TO ANNOUNCE THE MODEL 7 HOMEMAKER DOMESTIC AUTOMATON.",
+        "connection_info": "nc sunshinectf.games 26008",
+        "value": 485,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Reverse-engineered a custom RETRO-ASCII/punch-card protocol (ESC[ len payload crc8 ESC\\), abused the 'write' command to corrupt the length field (state[0x100]) and the 'show' command to leak the stack (canary + PIE), then overflowed the stack with a ROP chain (pop rdi; ret -> system@plt) pointing rdi at '/bin/sh' stored in the writable .bss input buffer.: sun{the_future_is_now_today_well_wait_how_are_you_reading_this} | Evidence: Protocol: frames = ESC[ Lh Ll <L-byte body> <crc8> ESC\\ where body[0] is a command (1=open,2=write,3=show,4=exit,5=system echo); crc8 = MSB-first poly 0x2f. ; .text:1289 checks key == 0x1337c35f; .text:167c sets state[0x100]=0x100 on success. ; .text:174c 'write' copies len-1 bytes into stack buffer (state, rbp-0x110) after checking idx<=state[0x100]; writing 257 bytes makes state[256]=crc byte, so forcing crc==0xff sets state[0x100]=0x1ff=511. ; .text:1810 'show' emits state[0..state[0x100]-1] -> leak of canary (offset 264), saved rbp (272), return addr into main (280 = pie+0x1a9f). ; ROP: pop rdi;ret @ pie+0x12aa, ret @ pie+0x101a, system@plt @ pie+0x10c0; '/bin/sh' placed in .bss input buffer (pie+0x4864+1) via the final exit frame body.",
+      "solution_steps": [
+        "用 IDA/objdump 逆向后确认这是一个自定义帧协议（ESC[ len body crc8 ESC\\）的菜单程序，命令: 1=插入钥匙(open)、2=写(state)、3=显示(state)、4=退出、5=system(echo)。",
+        "open 需 key=0x1337c35f，成功后 state[0x100]=0x100(256)。",
+        "write 处理器把 len-1 字节拷进栈缓冲 state(rbp-0x110)，仅检查 idx<=state[0x100]；发送 257 字节的 write，使 state[256]=crc 字节，爆破数据让 crc==0xff，则 state[0x100]=0x1ff=511。",
+        "用 show 泄露 state[0..510]，得到 canary(偏移264)、saved rbp(272)、返回地址(280, =pie+0x1a9f) 从而得到 PIE 基址。",
+        "第二次 write（idx 可达511）覆盖 canary 与返回地址，布置 ROP: pop rdi;ret(pie+0x12aa) -> .bss 中 \"/bin/sh\"(pie+0x4865) -> ret(pie+0x101a, 对齐) -> system@plt(pie+0x10c0)。\" 用带 \"/bin/sh\" 的 exit 帧(命令4)将字符串写入 .bss，然后触发返回。",
+        "拿到 shell 后 cat /flag* 得到 sun{the_future_is_now_today_well_wait_how_are_you_reading_this}。"
+      ],
+      "evidence": [
+        "Protocol: frames = ESC[ Lh Ll <L-byte body> <crc8> ESC\\ where body[0] is a command (1=open,2=write,3=show,4=exit,5=system echo); crc8 = MSB-first poly 0x2f.",
+        ".text:1289 checks key == 0x1337c35f; .text:167c sets state[0x100]=0x100 on success.",
+        ".text:174c 'write' copies len-1 bytes into stack buffer (state, rbp-0x110) after checking idx<=state[0x100]; writing 257 bytes makes state[256]=crc byte, so forcing crc==0xff sets state[0x100]=0x1ff=511.",
+        ".text:1810 'show' emits state[0..state[0x100]-1] -> leak of canary (offset 264), saved rbp (272), return addr into main (280 = pie+0x1a9f).",
+        "ROP: pop rdi;ret @ pie+0x12aa, ret @ pie+0x101a, system@plt @ pie+0x10c0; '/bin/sh' placed in .bss input buffer (pie+0x4864+1) via the final exit frame body.",
+        "Local shell confirmed (uid=0) then remote run returned: sun{the_future_is_now_today_well_wait_how_are_you_reading_this} with uid=1337(homemaker).",
+        "Platform submission returned CORRECT for this exact flag."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/4a8332e1ae82dcc44c95/deepseek-deepseek-flash-5403e74e/92e27ddd58902ab8/exp.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/exp.py remote",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 exp.py remote",
+        "exit_code": 0,
+        "stdout": "[x] Opening connection to sunshinectf.games on port 26008\n[x] Opening connection to sunshinectf.games on port 26008: Trying 35.211.211.18\n[+] Opening connection to sunshinectf.games on port 26008: Done\n[*] canary  = 0x29b2ab448da24200\n[*] piebase = 0x5b9f91aee000\n\u001b[\u0001\u001b\\sun{the_future_is_now_today_well_wait_how_are_you_reading_this}\nuid=1337(homemaker) gid=1337(homemaker) groups=1337(homemaker)\n---DONE---\n\n[*] Switching to interactive mode\n[*] Closed connection to sunshinectf.games port 26008\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "846031f3b187619706eac701f8b84845d51860d4408c50e383cbd084e069590a",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:36:34.001209+00:00",
+      "updated_at": "2026-09-27T03:36:45.308666+00:00",
+      "exp_sha256": {
+        "exp/exp.py": "92e27ddd58902ab8e7d5114d8e0e786895d22d134e2cd59ac24e8dc150fe1f73"
+      }
+    }
+  ]
+}

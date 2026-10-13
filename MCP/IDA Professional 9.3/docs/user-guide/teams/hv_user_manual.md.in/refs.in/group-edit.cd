@@ -1,0 +1,9 @@
+.GROUP_NAME the name of the group.
+.USER the name of the user.
+.ADD_OR_DELETE add or delete the specified user from the group, 0 is delete, 1 is add.
+
+>Edits a group by adding or deleting users.
+
+!
+$$ "my_group" "user1" 1
+$$ "my_group" "user1" 0

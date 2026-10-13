@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "current_key": "e0121a71c0fed4647153:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "e0121a71c0fed4647153:candidate_found",
+      "flag": "sun{ctf_r_4_h00m4n5}",
+      "confirmation_source": "candidate_found",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "This Code's Got Bars!",
+        "category": "BSides Orlando",
+        "description": "1-Dimensional and Patented! (barcode challenge). HARDWARE/on-site challenge: likely a 1-D barcode printed on the BSides Orlando 2026 badge or at the venue. REMOTE-ATTEMPT GUIDANCE: search for published badge artwork/design files or high-resolution photos of the badge and any barcode on it, then decode with zbarimg/dcode (try Code39, Code128, UPC, POSTNET, ITF). Also try the badge's PCB silkscreen. Flag format sun{...}.",
+        "connection_info": "https://2026.sunshinectf.org/challenges#21",
+        "value": 50,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via OSINT on published BSides Orlando 2026 badge hardware design files + 1-D barcode decode: downloaded the public badge repo github.com/badge-gallery/bsidesorlando-2026, found a Code-128 barcode layer inside hardware/uv_art.psd (layer named 'sun{ctf_r_4_h00m4n5}.png'), flattened it and decoded it with zbarimg -> CODE-128:sun{ctf_r_4_h00m4n5}.: sun{ctf_r_4_h00m4n5} | Evidence: GitHub search surfaced repo badge-gallery/bsidesorlando-2026 (BSides Orlando badge hardware/KiCad files) matching the BSides Orlando category. ; `grep -rao 'sun{[^}]*}' .` on the repo returned sun{ctf_r_4_h00m4n5} inside hardware/uv_art.psd. ; psd-tools enumerated uv_art.psd layers: 'bsbadgeE', 'sun{ctf_r_4_h00m4n5}.png' (bbox 1191,1153,1856,1281 = wide/short barcode), 'Copper Layer', 'LED Locations'. ; Extracted that layer (665x128) -> /challenge/workspace/layer_bars.png, flattened onto white -> layer_bars_flat.png. ; `zbarimg -q --raw layer_bars_flat.png` => sun{ctf_r_4_h00m4n5}; `zbarimg layer_bars_flat.png` => CODE-128:sun{ctf_r_4_h00m4n5} (symbology explicitly reported as CODE-128, a 1-D barcode = 'got bars').",
+      "solution_steps": [
+        "在 GitHub 上搜索 BSides Orlando 2026 badge，发现公开仓库 badge-gallery/bsidesorlando-2026（含 badge 硬件 KiCad/PSD 设计文件）。",
+        "克隆仓库并全仓库 grep flag 格式，在 hardware/uv_art.psd 中发现字符串 sun{ctf_r_4_h00m4n5}。",
+        "用 psd-tools 列出 PSD 图层，发现名为 'sun{ctf_r_4_h00m4n5}.png' 的图层，其包围盒 1191,1153–1856,1281 呈宽扁状，正是 1-D 条码。",
+        "导出该图层为 layer_bars.png，透明底合成到白底得 layer_bars_flat.png。",
+        "用 zbarimg 解码：输出 CODE-128:sun{ctf_r_4_h00m4n5}，与图层名一致，确认为本题（1-Dimensional 条码）flag。"
+      ],
+      "evidence": [
+        "GitHub search surfaced repo badge-gallery/bsidesorlando-2026 (BSides Orlando badge hardware/KiCad files) matching the BSides Orlando category.",
+        "`grep -rao 'sun{[^}]*}' .` on the repo returned sun{ctf_r_4_h00m4n5} inside hardware/uv_art.psd.",
+        "psd-tools enumerated uv_art.psd layers: 'bsbadgeE', 'sun{ctf_r_4_h00m4n5}.png' (bbox 1191,1153,1856,1281 = wide/short barcode), 'Copper Layer', 'LED Locations'.",
+        "Extracted that layer (665x128) -> /challenge/workspace/layer_bars.png, flattened onto white -> layer_bars_flat.png.",
+        "`zbarimg -q --raw layer_bars_flat.png` => sun{ctf_r_4_h00m4n5}; `zbarimg layer_bars_flat.png` => CODE-128:sun{ctf_r_4_h00m4n5} (symbology explicitly reported as CODE-128, a 1-D barcode = 'got bars').",
+        "Visual inspection of the enlarged layer confirms a 1-D vertical-bar barcode pattern.",
+        "NOTE: submit_flag's browser recipe failed with \"button.challenge-button[value=\\\"{challenge_id}\\\"] does not match any elements\" (challenge page requires CTFd login); flag correctness rests on the reproducible zbarimg decode, not on that recipe."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "bash /challenge/workspace/solve.sh",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "候选 Flag 尚未进行平台验证或自动复现；此题解依据求解器记录生成。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "9011287a310e2d6fad2b70ea29b320a6aab0ed449f796e721b5195d3c8ba5e95",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T05:23:11.373780+00:00",
+      "updated_at": "2026-09-27T05:23:20.551584+00:00",
+      "exp_sha256": {}
+    },
+    {
+      "key": "e0121a71c0fed4647153:independent_quorum",
+      "flag": "sun{ctf_r_4_h00m4n5}",
+      "confirmation_source": "independent_quorum",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [
+        "deepseek/deepseek-flash",
+        "deepseek/deepseek-flash#verifier"
+      ],
+      "challenge": {
+        "name": "This Code's Got Bars!",
+        "category": "BSides Orlando",
+        "description": "1-Dimensional and Patented! (barcode challenge). HARDWARE/on-site challenge: likely a 1-D barcode printed on the BSides Orlando 2026 badge or at the venue. REMOTE-ATTEMPT GUIDANCE: search for published badge artwork/design files or high-resolution photos of the badge and any barcode on it, then decode with zbarimg/dcode (try Code39, Code128, UPC, POSTNET, ITF). Also try the badge's PCB silkscreen. Flag format sun{...}.",
+        "connection_info": "https://2026.sunshinectf.org/challenges#21",
+        "value": 50,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via OSINT on published BSides Orlando 2026 badge hardware design files + 1-D barcode decode: downloaded the public badge repo github.com/badge-gallery/bsidesorlando-2026, found a Code-128 barcode layer inside hardware/uv_art.psd (layer named 'sun{ctf_r_4_h00m4n5}.png'), flattened it and decoded it with zbarimg -> CODE-128:sun{ctf_r_4_h00m4n5}.: sun{ctf_r_4_h00m4n5} | Evidence: GitHub search surfaced repo badge-gallery/bsidesorlando-2026 (BSides Orlando badge hardware/KiCad files) matching the BSides Orlando category. ; `grep -rao 'sun{[^}]*}' .` on the repo returned sun{ctf_r_4_h00m4n5} inside hardware/uv_art.psd. ; psd-tools enumerated uv_art.psd layers: 'bsbadgeE', 'sun{ctf_r_4_h00m4n5}.png' (bbox 1191,1153,1856,1281 = wide/short barcode), 'Copper Layer', 'LED Locations'. ; Extracted that layer (665x128) -> /challenge/workspace/layer_bars.png, flattened onto white -> layer_bars_flat.png. ; `zbarimg -q --raw layer_bars_flat.png` => sun{ctf_r_4_h00m4n5}; `zbarimg layer_bars_flat.png` => CODE-128:sun{ctf_r_4_h00m4n5} (symbology explicitly reported as CODE-128, a 1-D barcode = 'got bars'). | Independently verified by deepseek/deepseek-flash, deepseek/deepseek-flash#verifier",
+      "solution_steps": [
+        "在 GitHub 上搜索 BSides Orlando 2026 badge，发现公开仓库 badge-gallery/bsidesorlando-2026（含 badge 硬件 KiCad/PSD 设计文件）。",
+        "克隆仓库并全仓库 grep flag 格式，在 hardware/uv_art.psd 中发现字符串 sun{ctf_r_4_h00m4n5}。",
+        "用 psd-tools 列出 PSD 图层，发现名为 'sun{ctf_r_4_h00m4n5}.png' 的图层，其包围盒 1191,1153–1856,1281 呈宽扁状，正是 1-D 条码。",
+        "导出该图层为 layer_bars.png，透明底合成到白底得 layer_bars_flat.png。",
+        "用 zbarimg 解码：输出 CODE-128:sun{ctf_r_4_h00m4n5}，与图层名一致，确认为本题（1-Dimensional 条码）flag。"
+      ],
+      "evidence": [
+        "GitHub search surfaced repo badge-gallery/bsidesorlando-2026 (BSides Orlando badge hardware/KiCad files) matching the BSides Orlando category.",
+        "`grep -rao 'sun{[^}]*}' .` on the repo returned sun{ctf_r_4_h00m4n5} inside hardware/uv_art.psd.",
+        "psd-tools enumerated uv_art.psd layers: 'bsbadgeE', 'sun{ctf_r_4_h00m4n5}.png' (bbox 1191,1153,1856,1281 = wide/short barcode), 'Copper Layer', 'LED Locations'.",
+        "Extracted that layer (665x128) -> /challenge/workspace/layer_bars.png, flattened onto white -> layer_bars_flat.png.",
+        "`zbarimg -q --raw layer_bars_flat.png` => sun{ctf_r_4_h00m4n5}; `zbarimg layer_bars_flat.png` => CODE-128:sun{ctf_r_4_h00m4n5} (symbology explicitly reported as CODE-128, a 1-D barcode = 'got bars').",
+        "Visual inspection of the enlarged layer confirms a 1-D vertical-bar barcode pattern.",
+        "NOTE: submit_flag's browser recipe failed with \"button.challenge-button[value=\\\"{challenge_id}\\\"] does not match any elements\" (challenge page requires CTFd login); flag correctness rests on the reproducible zbarimg decode, not on that recipe."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "bash /challenge/workspace/solve.sh",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "1022d39c29e47810de382cbd2763dd9a35382533f386bec67af615c7682f541d",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T05:23:11.373780+00:00",
+      "updated_at": "2026-09-27T05:25:20.902340+00:00",
+      "exp_sha256": {}
+    },
+    {
+      "key": "e0121a71c0fed4647153:platform_confirmed",
+      "flag": "sun{ctf_r_4_h00m4n5}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "This Code's Got Bars!",
+        "category": "BSides Orlando",
+        "description": "1-Dimensional and Patented! (barcode challenge). HARDWARE/on-site challenge: likely a 1-D barcode printed on the BSides Orlando 2026 badge or at the venue. REMOTE-ATTEMPT GUIDANCE: search for published badge artwork/design files or high-resolution photos of the badge and any barcode on it, then decode with zbarimg/dcode (try Code39, Code128, UPC, POSTNET, ITF). Also try the badge's PCB silkscreen. Flag format sun{...}.",
+        "connection_info": "https://2026.sunshinectf.org/challenges#21",
+        "value": 50,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via OSINT on published BSides Orlando 2026 badge hardware design files + 1-D barcode decode: downloaded the public badge repo github.com/badge-gallery/bsidesorlando-2026, found a Code-128 barcode layer inside hardware/uv_art.psd (layer named 'sun{ctf_r_4_h00m4n5}.png'), flattened it and decoded it with zbarimg -> CODE-128:sun{ctf_r_4_h00m4n5}.: sun{ctf_r_4_h00m4n5} | Evidence: GitHub search surfaced repo badge-gallery/bsidesorlando-2026 (BSides Orlando badge hardware/KiCad files) matching the BSides Orlando category. ; `grep -rao 'sun{[^}]*}' .` on the repo returned sun{ctf_r_4_h00m4n5} inside hardware/uv_art.psd. ; psd-tools enumerated uv_art.psd layers: 'bsbadgeE', 'sun{ctf_r_4_h00m4n5}.png' (bbox 1191,1153,1856,1281 = wide/short barcode), 'Copper Layer', 'LED Locations'. ; Extracted that layer (665x128) -> /challenge/workspace/layer_bars.png, flattened onto white -> layer_bars_flat.png. ; `zbarimg -q --raw layer_bars_flat.png` => sun{ctf_r_4_h00m4n5}; `zbarimg layer_bars_flat.png` => CODE-128:sun{ctf_r_4_h00m4n5} (symbology explicitly reported as CODE-128, a 1-D barcode = 'got bars').",
+      "solution_steps": [
+        "在 GitHub 上搜索 BSides Orlando 2026 badge，发现公开仓库 badge-gallery/bsidesorlando-2026（含 badge 硬件 KiCad/PSD 设计文件）。",
+        "克隆仓库并全仓库 grep flag 格式，在 hardware/uv_art.psd 中发现字符串 sun{ctf_r_4_h00m4n5}。",
+        "用 psd-tools 列出 PSD 图层，发现名为 'sun{ctf_r_4_h00m4n5}.png' 的图层，其包围盒 1191,1153–1856,1281 呈宽扁状，正是 1-D 条码。",
+        "导出该图层为 layer_bars.png，透明底合成到白底得 layer_bars_flat.png。",
+        "用 zbarimg 解码：输出 CODE-128:sun{ctf_r_4_h00m4n5}，与图层名一致，确认为本题（1-Dimensional 条码）flag。"
+      ],
+      "evidence": [
+        "Browser evidence shows modal alert \"Correct\" for This Code's Got Bars! (challenge id 21), card now marked \"✦ Solved\" with solve count 44, and overall counter advanced to 23/37 SOLVED. Flag was independently derived by the solver from the public BSides Orlando 2026 badge repo (zbarimg CODE-128 decode of the uv_art.psd barcode layer)."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "bash /challenge/workspace/solve.sh",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "42caf9616054646683592d19005c1b8b66458ee66dc1a0473f9e0443f76bf7cc",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T05:23:11.373780+00:00",
+      "updated_at": "2026-09-27T05:25:30.039184+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

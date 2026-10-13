@@ -1,0 +1,24 @@
+version: beta2
+platform: unknown
+native_id: '23'
+name: suntrail
+category: Forensics
+description: im lost, but you can find the way!
+value: 385
+files:
+- distfiles/suntrail.klc
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#suntrail-23
+environment: {}
+capabilities: []
+attachments:
+- filename: suntrail.klc
+  name: suntrail.klc
+  sha256: abe7590751412fe5607bacd7bfc4a3131e5c108bf2eedbbe78d438e96dc8c6ff
+  size: 419
+  url: https://2026.sunshinectf.org/files/fad61f6d8d743fb20771f16d2a009ede/suntrail.klc
+attachments_scanned: false
+state: solved
+reason: ''

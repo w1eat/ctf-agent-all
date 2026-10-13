@@ -1,0 +1,736 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Subviews - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="subviews"><a class="header" href="#subviews">Subviews</a></h1>
+<p>Subviews (also referred to as <em>windows</em>, <em>widgets</em>, or simply <em>views</em>) are an essential part of working with IDA, providing different perspectives and detailed information about the loaded binary.</p>
+<h2 id="subviews-essentials"><a class="header" href="#subviews-essentials">Subviews essentials</a></h2>
+<ul>
+<li>Some subviews are opened by default, while others can be accessed at any time via <strong>View → Open subviews</strong>.</li>
+<li>Certain subviews, (known as <em>choosers</em>) are list views, that allow you to interact with and manipulate their contents using <a href="list-viewers.html">list</a> viewer commands.</li>
+<li>All subviews windows can be moved, rearranged and docked in various parts of the IDA interface.</li>
+</ul>
+<p>The following is a list of all available subviews.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Icon</th><th>View</th><th>Access Mode</th><th>Shortcut</th></tr>
+</thead>
+<tbody>
+<tr><td><img src="assets/icons/GraphFlatView.svg" alt="Icon"></td><td><a href="#ida-view--disassembly-window">Disassembly/IDA View</a></td><td>Interactive (r/w), address-based</td><td>-</td></tr>
+<tr><td><img src="assets/icons/GraphFlatView.svg" alt="Icon"></td><td><a href="#pseudocode-window">Pseudocode</a></td><td>Interactive (r/w), address-based</td><td><kbd>F5</kbd></td></tr>
+<tr><td><img src="assets/icons/ToggleDump.svg" alt="Icon"></td><td><a href="#hex-view--hex-dump-window">Hex View</a></td><td>Interactive (r/w), address-based</td><td>-</td></tr>
+<tr><td><img src="assets/icons/AddressDetails.svg" alt="Icon"></td><td><a href="#address-details-window">Address details</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/OpenExports.svg" alt="Icon"></td><td><a href="#exports-window">Exports</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/OpenImports.svg" alt="Icon"></td><td><a href="#imports-window">Imports</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/OpenNames.svg" alt="Icon"></td><td><a href="#names-window">Names</a></td><td>Read-only chooser</td><td><kbd>Shift</kbd> + <kbd>F4</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenFunctions.svg" alt="Icon"></td><td><a href="#functions-window">Functions</a></td><td>Read-only chooser</td><td><kbd>Shift</kbd> + <kbd>F3</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenStrings.svg" alt="Icon"></td><td><a href="#strings-window">Strings</a></td><td>Read-only chooser</td><td><kbd>Shift</kbd> + <kbd>F12</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenStackVariables.svg" alt="Icon"></td><td><a href="#stack-variables-window">Stack Variables</a></td><td>Interactive (r/w)</td><td><kbd>Ctrl</kbd> + <kbd>K</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenSegments.svg" alt="Icon"></td><td><a href="#segments-window">Segments</a></td><td>Interactive (r/w)</td><td><kbd>Shift</kbd> + <kbd>F7</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenSegmentRegisters.svg" alt="Icon"></td><td><a href="#segment-registers-window">Segments Registers</a></td><td>Interactive (r/w)</td><td><kbd>Shift</kbd> + <kbd>F8</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenSelectors.svg" alt="Icon"></td><td><a href="#selectors-window">Selectors</a></td><td>Interactive (r/w)</td><td>-</td></tr>
+<tr><td><img src="assets/icons/OpenSignatures.svg" alt="Icon"></td><td><a href="#signatures-window">Signatures</a></td><td>Interactive (r/w)</td><td><kbd>Shift</kbd> + <kbd>F5</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenTypeLibraries.svg" alt="Icon"></td><td><a href="#type-libraries-window">Type libraries</a></td><td>Interactive (r/w)</td><td><kbd>Shift</kbd> + <kbd>F11</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenLocalTypes.svg" alt="Icon"></td><td><a href="#local-types-window">Local Types</a></td><td>Interactive (r/w)</td><td><kbd>Shift</kbd> + <kbd>F1</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenXrefs.svg" alt="Icon"></td><td><a href="#cross-references-window">Cross References</a></td><td>Interactive (r/w)</td><td>-</td></tr>
+<tr><td><img src="assets/icons/xref-tree.svg" alt="Icon"></td><td><a href="#cross-references-tree-window">Cross References Tree</a></td><td>Interactive (r/w)</td><td><kbd>Shift</kbd> + <kbd>X</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenCallers.svg" alt="Icon"></td><td><a href="#function-calls-window">Function calls</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/Bookmarks.svg" alt="Icon"></td><td><a href="#bookmarks-window">Bookmarks</a></td><td>Interactive (r/w)</td><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd></td></tr>
+<tr><td><img src="assets/icons/OpenNotepad.svg" alt="Icon"></td><td><a href="#notepad-window">Notepad</a></td><td>Interactive (r/w)</td><td>-</td></tr>
+<tr><td><img src="assets/icons/OpenProblems.svg" alt="Icon"></td><td><a href="#problems-window">Problems</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/PatchedBytes.svg" alt="Icon"></td><td><a href="#patched-bytes-window">Patched bytes</a></td><td>Read-only chooser</td><td><kbd>Ctrl</kbd> + <kbd>Option</kbd> + <kbd>P</kbd></td></tr>
+<tr><td>N/A</td><td><a href="#navigation-history-window">Navigation history</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/ShowUndoHistory.svg" alt="Icon"></td><td><a href="#undo-history-window">Undo history</a></td><td>Read-only chooser</td><td>-</td></tr>
+<tr><td><img src="assets/icons/GraphFlatView.svg" alt="Icon"></td><td><a href="#microcode-window">Microcode</a></td><td>Interactive</td><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F8</kbd></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="ida-view--disassembly-window"><a class="header" href="#ida-view--disassembly-window">IDA View / Disassembly window</a></h2>
+<p>{% hint style=“info” %}
+While working in the IDA/Disassembly view, the actions available under the <strong>Edit</strong>, <strong>Jump</strong> and <strong>Search</strong> menus may differ from those in other views. For more information, see <a href="menu-bar.html#view-dependent-menus">View-Dependent Menus</a>.
+{% endhint %}</p>
+<p>IDA View has three modes:</p>
+<ul>
+<li>Flat/linear mode (1)</li>
+<li>Graph mode (2)</li>
+<li>Proximity mode (3)</li>
+</ul>
+<p>IDA automatically opens one disassembly window (IDA view) at the start. If the current location is an instruction belonging to a function, then the <a href="../disassembler/graph-view.html">graph view</a> is available. You can toggle between the flat and graph view using the <kbd>Space</kbd> key. You can also switch to proximity view by zooming out to the callgraph using the <kbd>-</kbd> key.</p>
+<p><img src="assets/ida-view-modes.png" alt="IDA View modes"></p>
+<p><a href="#arrows-window">Arrows</a> on the left side of the flat mode represents the control flow. The IDA UI <a href="../disassembler/highlighting-identifiers.html">highlights</a> the current identifier.</p>
+<p><img src="assets/arrows-disassembly.png" alt="Disassembly - arrows"></p>
+<p>{% hint style=“info” %}</p>
+<h3 id="synchronized-views"><a class="header" href="#synchronized-views">Synchronized views</a></h3>
+<p>By default, the IDA View and Hex View are <strong>synchronized</strong>. Navigating in one of these views automatically updates the cursor position in the others. You can disable/enable this behavior via the context menu by selecting <strong>Synchronize with</strong>. It’s worth mentioning that any address-based view (including IDA View, Pseudocode, or Hex View) can be synchronized with another. For more information on view synchronization, see <a href="https://hex-rays.com/blog/igors-tip-of-the-week-154-synchronized-views">Igor’s Tip of the Week on synchronized views</a>.
+{% endhint %}</p>
+<h3 id="arrows-window"><a class="header" href="#arrows-window">Arrows window</a></h3>
+<p>There is a small window with arrows on the left of the disassembly. These arrows represent the execution flow, namely the branch and jump instructions. The arrow color can be:</p>
+<ul>
+<li><strong>red</strong>: means that the arrow source and destination do not belong to the same function. Usually, the branches are within functions and the red color will conspicuously represent branches from or to different functions.</li>
+<li><strong>black</strong>: the currently selected arrow. The selection is made by moving to the beginning or the end of the arrow using the Up or Down keys or left-clicking on the arrow start or the arrow end. The selection is not changed by pressing the PageUp, PageDown, Home, End keys or using the scrollbar. This allows to trace the selected arrow far away.</li>
+<li><strong>grey</strong>: all other arrows</li>
+</ul>
+<p>The arrow thickness can be:</p>
+<ul>
+<li><strong>thick</strong>: a backward arrow. Backward arrows usually represent loops. Thick arrows represent the loops in a clear and notable manner.</li>
+<li><strong>thin</strong>: forward arrows.</li>
+</ul>
+<p>Finally, the arrows can be solid or dotted:</p>
+<ul>
+<li>the <strong>dotted</strong> arrows represent conditional branches,</li>
+<li>the <strong>solid</strong> arrows represent unconditional branches.</li>
+</ul>
+<p>You can resize the arrows window using a vertical splitter or even fully hide it. If it is hidden, the arrows window will not be visible on the screen but you can reveal it by dragging the splitter to the right. IDA remembers the current arrow window size in the registry when you close the disassembly window.</p>
+<p><img src="assets/arrows.png" alt=""></p>
+<h3 id="refine-the-disassembly-results"><a class="header" href="#refine-the-disassembly-results">Refine the disassembly results</a></h3>
+<p>Use the disassembly <a href="../user-interface/menu-bar/edit/ida-view-actions.html">editing</a> commands to improve the listing.</p>
+<h3 id="set-the-anchor"><a class="header" href="#set-the-anchor">Set the anchor</a></h3>
+<p>Use <kbd>Shift</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> <kbd>←</kbd> or <kbd>Alt</kbd> + <kbd>L</kbd> to drop the anchor. If you have a mouse, you can drop the anchor with it too.</p>
+<p>A double click of the mouse is equivalent to the <kbd>Enter</kbd> key.</p>
+<h3 id="set-disassembler-options"><a class="header" href="#set-disassembler-options">Set disassembler options</a></h3>
+<p>Go to the <strong>Options → General → Disassembly</strong> to customize what information is displayed in the disassembly window.</p>
+<h2 id="pseudocode-window"><a class="header" href="#pseudocode-window">Pseudocode window</a></h2>
+<p>{% hint style=“info” %}
+While working in the Pseudocode view, the actions available under the <strong>Edit</strong>, <strong>Jump</strong> and <strong>Search</strong> menus may differ from those in other views. For more information, see <a href="menu-bar.html#view-dependent-menus">View-Dependent Menus</a>.
+{% endhint %}</p>
+<p>The Pseudocode view shows the assembly language translated into human-readable, C-like pseudocode. You can decompile the current function by <kbd>F5</kbd> shortcut, and navigate between IDA disassembly and pseudocode with <kbd>Tab</kbd>.</p>
+<p><img src="assets/pseudocode.png" alt="Pseudocode view"></p>
+<h2 id="hex-view--hex-dump-window"><a class="header" href="#hex-view--hex-dump-window">Hex View / Hex dump window</a></h2>
+<p>{% hint style=“info” %}
+While working in the Hex view, the actions available under the <strong>Edit</strong>, <strong>Jump</strong> and <strong>Search</strong> menus may differ from those in other views. For more information, see <a href="menu-bar.html#view-dependent-menus">View-Dependent Menus</a>.
+{% endhint %}</p>
+<p>Hex View shows the raw bytes of the program’s instructions or data.</p>
+<p>There are two ways of highlighting the data in the Hex Dump:</p>
+<ul>
+<li><strong>Text match highlight</strong>, which shows matches of the selected text anywhere in the views</li>
+<li><strong>Current item highlight</strong>, which shows the bytes group constituting the current item</li>
+</ul>
+<p><img src="assets/hex-view.png" alt="Hex dump view"></p>
+<h3 id="related-topics"><a class="header" href="#related-topics">Related topics</a></h3>
+<ul>
+<li>Learn the <a href="https://hex-rays.com/blog/igors-tip-of-the-week-38-hex-view">Hex View features and tricks</a></li>
+<li>Change <a href="https://hex-rays.com/blog/igors-tip-of-the-week-109-hex-view-text-encoding">Hex View encoding</a></li>
+</ul>
+<h2 id="address-details-window"><a class="header" href="#address-details-window">Address details window</a></h2>
+<p>The Address details view displays detailed information about the current address selected in the IDA View, Hex View, or Pseudocode window. It updates automatically as you change location. By default, it opens on the right side of the main IDA window and consist of the below sections:</p>
+<ul>
+<li><strong>Name</strong> assigned to address; allows you to rename location (1)</li>
+<li><strong>Flags</strong> displays low-level details associated with the address, alternatively to print internal flags action (2)</li>
+<li><strong>Data inspector</strong> displays how the bytes at the current address can be interpreted in different formats (3)</li>
+</ul>
+<p><img src="assets/address-details.png" alt="Address details view"></p>
+<h2 id="exports-window"><a class="header" href="#exports-window">Exports window</a></h2>
+<p>This view shows list of all exported symbols. The columns display the following information:</p>
+<ul>
+<li><strong>Name</strong> of the exported symbol</li>
+<li><strong>Address</strong> of the exported symbol inside the analyzed program</li>
+<li><strong>Ordinal</strong> of the exported symbol</li>
+</ul>
+<p><img src="assets/exports.png" alt="Exports view"></p>
+<p>You can use <a href="list-viewers.html">list viewer</a> commands in this window.</p>
+<h2 id="imports-window"><a class="header" href="#imports-window">Imports window</a></h2>
+<p>This view shows list of all symbols imported through dynamic linking. The columns display the following information:</p>
+<ul>
+<li><strong>Address</strong> of the imported symbol (located in virtual imports segment)</li>
+<li><strong>Ordinal</strong> of the imported symbol</li>
+<li><strong>Name</strong> of the imported symbol</li>
+<li>Shared <strong>Library</strong> name from which the symbol is imported</li>
+</ul>
+<p><img src="assets/imports.png" alt="Imports view"></p>
+<p>You can use <a href="list-viewers.html">list viewer</a> commands in this window.</p>
+<h2 id="functions-window"><a class="header" href="#functions-window">Functions window</a></h2>
+<p>{% hint style=“info” %}
+While working in the Functions view, the actions available under the <strong>Edit</strong>, <strong>Jump</strong> and <strong>Search</strong> menus may differ from those in other views. For more information, see <a href="menu-bar.html#view-dependent-menus">View-Dependent Menus</a>.
+{% endhint %}</p>
+<p>This view presents all functions in the program. Functions view is a part of IDA’s default desktop layout and displays on the left side of the screen. You can add, delete, modify functions using <a href="list-viewers.html">list</a> viewer commands.</p>
+<p><img src="assets/functions.png" alt="Functions view"></p>
+<p>Each function entry includes the following details:</p>
+<ul>
+<li><strong>Function name</strong></li>
+<li><strong>Segment</strong> that contains the function</li>
+<li>Function <strong>Start</strong> address</li>
+<li>Function <strong>Length</strong> in bytes</li>
+<li>size (in bytes) of <strong>Locals</strong> + saved registers</li>
+<li>size (in bytes) of <strong>Arguments</strong> passed to the function</li>
+</ul>
+<p>The last column of this window has the following format:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Symbol</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><code>R</code></td><td>Function <strong>Returns</strong> to the caller</td></tr>
+<tr><td><code>F</code></td><td><strong>Far</strong> function</td></tr>
+<tr><td><code>L</code></td><td><strong>Library</strong> function</td></tr>
+<tr><td><code>S</code></td><td><strong>Static</strong> function</td></tr>
+<tr><td><code>M</code></td><td><strong>Lumina</strong> function</td></tr>
+<tr><td><code>O</code></td><td><strong>Outlined</strong> function</td></tr>
+<tr><td><code>B</code></td><td>BP based frame. IDA will automatically convert all frame pointer [BP+xxx] operands to stack variables.</td></tr>
+<tr><td><code>T</code></td><td>function has <strong>Type</strong> information</td></tr>
+<tr><td><code>=</code></td><td>Frame Pointer is equal to the initial stack pointer. In this case, the frame pointer points to the bottom of the frame</td></tr>
+<tr><td><code>X</code></td><td>exception handling code; <code>c</code> stands for “catch” block, <code>u</code> means that the corresponding function is an unwind handler.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="colors-and-style-indicators"><a class="header" href="#colors-and-style-indicators">Colors and style indicators</a></h3>
+<p>Some functions in the list may appear with colored backgrounds. In most cases, these colors correspond to the legend used in the <a href="https://hex-rays.com/blog/igors-tip-of-the-week-49-navigation-band">navigation band</a>. Additional colors may be manually assigned the user via <strong>Edit function…</strong> in the context menu.</p>
+<p>Functions displayed in <strong>bold</strong> have a definitive, user-specified prototype. Some plugins may also mark functions this way. The decompiler takes such prototypes as they are, while other prototypes are considered only as a starting point during decompilation.</p>
+<h3 id="synchronize-functions-view"><a class="header" href="#synchronize-functions-view">Synchronize Functions view</a></h3>
+<p>You can automatically synchronize the function list with the active Disassembly, Pseudocode, or Hex view. To enable this, right-click in the function list and select <strong>Turn on synchronization</strong> in the context menu.</p>
+<h3 id="related-topics-1"><a class="header" href="#related-topics-1">Related topics</a></h3>
+<p>For a thorough overview of the Functions view, refer to <a href="https://hex-rays.com/blog/igors-tip-of-the-week-28-functions-list">Igor’s Tip of the Week #28</a>.</p>
+<h2 id="names-window"><a class="header" href="#names-window">Names window</a></h2>
+<p>Names view displays the list of all names existing in the database, not only function names but also instruction or data items names.</p>
+<p><img src="assets/names.png" alt="Names view"></p>
+<p>On the left side of the <strong>Name</strong> column, this view displays a small icon for each name:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Symbol</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><code>L</code></td><td>library function</td></tr>
+<tr><td><code>𝑓</code></td><td>regular function</td></tr>
+<tr><td><code>C</code></td><td>instruction</td></tr>
+<tr><td><code>A</code></td><td>string literal</td></tr>
+<tr><td><code>D</code></td><td>data</td></tr>
+<tr><td><code>I</code></td><td>imported name</td></tr>
+</tbody>
+</table>
+</div>
+<p>You can use <a href="list-viewers.html">list viewer</a> commands in this window.</p>
+<h2 id="signatures-window"><a class="header" href="#signatures-window">Signatures window</a></h2>
+<p>This view displays both applied and planned signatures, and allows you to apply new ones.</p>
+<p>For each signature, the following columns are shown:</p>
+<ul>
+<li><strong>Name</strong> of the file with the signature</li>
+<li><strong>State</strong> of the signature:
+<ul>
+<li>Planned: the signature will be applied</li>
+<li>Current: the signature is being applied</li>
+<li>Applied: the signature has been applied</li>
+</ul>
+</li>
+<li><strong>#func</strong>: number of functions found using the signature</li>
+</ul>
+<p><img src="assets/signatures.png" alt="Signatures view"></p>
+<p>In this view, you can modify the list of planned signatures and add or remove library modules to be used during disassembly. Note that <strong>applied signatures cannot be removed</strong> from the list.</p>
+<h3 id="add-signatures"><a class="header" href="#add-signatures">Add signatures</a></h3>
+<p>To add a signature to the list, right-click in the signatures view and click <strong>Apply new signature…</strong> in the context menu or press <kbd>Ins</kbd>. You will see a list of signatures that can be applied to the program being disassembled.</p>
+<p>Text version: Not all signature files will be displayed (for example, 32 bit signatures will not be shown for a 16 bit program). If you want to see the full list of signatures, select the first line of the list saying SWITCH TO FULL LIST OF SIGNATURES.</p>
+<h3 id="signature-files-location--sig-directory"><a class="header" href="#signature-files-location--sig-directory">Signature files location / SIG directory</a></h3>
+<p>Signature files reside in the subdirectories of the SIG directory. Each processor has its own subdirectory. The name of the subdirectory is equal to the name of the processor module file (z80 for z80.w32, for example). Note: IBM PC signatures are located in the SIG directory itself.</p>
+<p>{% hint style=“info” %}
+The IDASGN environment variable can be used to specify the location of the signatures directory.
+{% endhint %}</p>
+<h2 id="segments-window"><a class="header" href="#segments-window">Segments window</a></h2>
+<p>This view lists information about memory segments containing code and data.</p>
+<p><img src="assets/segments.png" alt="Segments view"></p>
+<p>Each segment is represented by a line in the list. Please note that the end address of the segment never belongs to the segment in IDA.</p>
+<p>The following columns (segment attributes) are displayed:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Attribute</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td>Name</td><td>Segment name</td></tr>
+<tr><td>Start</td><td>Virtual start address</td></tr>
+<tr><td>End</td><td>Virtual end address</td></tr>
+<tr><td>R</td><td><code>R</code>: readable, <code>.</code>: not readable, <code>?</code>: unknown</td></tr>
+<tr><td>W</td><td><code>W</code>: writable, <code>.</code>: not writable, <code>?</code>: unknown</td></tr>
+<tr><td>X</td><td><code>X</code>: executable, <code>.</code>: not executable, <code>?</code>: unknown</td></tr>
+<tr><td>D</td><td><code>D</code>: debugger only, <code>.</code>: regular</td></tr>
+<tr><td>L</td><td><code>L</code>: created by loader, <code>.</code>: no</td></tr>
+<tr><td>Align</td><td>Segment alignment</td></tr>
+<tr><td>Base</td><td>Segment base selector or address</td></tr>
+<tr><td>Type</td><td>Segment type</td></tr>
+<tr><td>Class</td><td>Segment class — <code>CODE</code>: machine code instructions <code>DATA</code>, <code>CONST</code>: initialized data segment <code>BSS</code>, <code>STACK</code>: uninitialized data segment <code>XTRN</code>: imports</td></tr>
+<tr><td>AD</td><td>Segment addressing width</td></tr>
+</tbody>
+</table>
+</div>
+<p>The rest of the columns display the default values of the segment registers for the segment.</p>
+<p>By default, the cursor is located on the current segment.</p>
+<p>You can use <a href="list-viewers.html">list viewer</a> commands in this window.</p>
+<p>In order to change the selector values, use <a href="#selectors-window">selectors</a> window.</p>
+<h3 id="add-new-segment"><a class="header" href="#add-new-segment">Add new segment</a></h3>
+<p>To add a new segment to the list, right-click in the Segments view and click <strong>Add new segment…</strong> in the context menu or press <kbd>Ins</kbd>.</p>
+<h2 id="segment-registers-window"><a class="header" href="#segment-registers-window">Segment registers window</a></h2>
+<p>This view contains segment register change points list.<br>Depending on the current processor type, you will see various segment registers such as DS, ES, SS, and potentially FS and GS.
+The <strong>Tag</strong> column indicates how each change point was created:</p>
+<ul>
+<li><code>a</code> — added automatically by IDA during autoanalysis</li>
+<li><code>u</code> — specified by the user or defined by a plugin</li>
+</ul>
+<ul>
+<li><code>a</code> — added automatically by IDA during autoanalysis</li>
+<li><code>u</code> — specified by the user or defined by a plugin</li>
+</ul>
+<p><img src="assets/segment-registers.png" alt="Segment registers view"></p>
+<p>You can use <a href="list-viewers.html">list viewer</a> commands in this window.</p>
+<h3 id="change-points-essentials"><a class="header" href="#change-points-essentials">Change points essentials</a></h3>
+<p>When IDA encounters an instruction which changes a segment register, it creates a segment register change point. So, mostly change points are maintained by IDA itself. IDA assumes that the segment registers do not change their values between change points. If you find out that IDA failed to locate a segment register change, or if you want to change a register value, you can create a change point using the Change segment register value…	command (action <code>SetSegmentRegister</code>). You can change the value of a segment register using the Set default segment register value…	command too (action <code>SetSegmentRegisterDefault</code>).</p>
+<p>IDA generates the appropriate ‘assume’ instructions for the change points if it was not disabled (Options → Assembler directives…)</p>
+<h3 id="related-topics-2"><a class="header" href="#related-topics-2">Related topics</a></h3>
+<ul>
+<li>For additional segment management options, refer to the Edit → Segments submenu.</li>
+</ul>
+<h2 id="selectors-window"><a class="header" href="#selectors-window">Selectors window</a></h2>
+<p>Here you can change the “selector to base” mapping. The selector table is used to look up the selector values when <a href="../general-concepts/segment-address-space.html">calculating</a> the addresses that are visible in the disassembly listing.</p>
+<p><img src="assets/selectors.png" alt="Selectors view"></p>
+<p>You can use <a href="list-viewers.html">list viewer</a> commands in this window:</p>
+<ul>
+<li>jump to the paragraph pointed by the selector</li>
+<li>add a new selector</li>
+<li>delete selector (if it is not used by any segment)</li>
+<li>change selector value (this leads to reanalysis of all program)</li>
+</ul>
+<ul>
+<li>jump to the paragraph pointed by the selector</li>
+<li>add a new selector</li>
+<li>delete selector (if it is not used by any segment)</li>
+<li>change selector value (this leads to reanalysis of all program)</li>
+</ul>
+<h2 id="cross-references-window"><a class="header" href="#cross-references-window">Cross references window</a></h2>
+<p>This view contains all cross references (xrefs) to the current location.
+You can use <a href="list-viewers.html">list viewer</a> commands in this window.</p>
+<h3 id="cross-reference-attributes"><a class="header" href="#cross-reference-attributes">Cross reference attributes</a></h3>
+<p>The cross reference dialog displays a list of references to the various items. Each line has the following attributes:</p>
+<ul>
+<li>
+<p><strong>Direction</strong>: Up or Down. Meaningful for program address; denotes where the reference comes from, from the lower addresses than the reference target (down) or from higher addresses (up).</p>
+</li>
+<li>
+<p><strong>Type</strong>: The following types exist:</p>
+</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>o</code></td><td>offset, the address of the item is taken</td></tr>
+<tr><td><code>r</code></td><td>read access</td></tr>
+<tr><td><code>w</code></td><td>write access</td></tr>
+<tr><td><code>t</code></td><td>textual referenced (used for manually specified operands)</td></tr>
+<tr><td><code>i</code></td><td>informational (e.g. a derived class refers to its base class)</td></tr>
+<tr><td><code>J</code></td><td>far (intersegment) jump</td></tr>
+<tr><td><code>j</code></td><td>near (intrasegment) jump</td></tr>
+<tr><td><code>P</code></td><td>far (intersegment) call</td></tr>
+<tr><td><code>p</code></td><td>near (intrasegment) call</td></tr>
+<tr><td><code>^</code></td><td>ordinary flow</td></tr>
+<tr><td><code>s</code></td><td>xref from a structure</td></tr>
+<tr><td><code>m</code></td><td>xref from a structure member</td></tr>
+<tr><td><code>k</code></td><td>xref from a stack variable</td></tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>
+<p><strong>Address</strong>:</p>
+<ul>
+<li>For ‘xrefs to’ dialogs: where the reference comes from (source)</li>
+<li>For ‘xrefs from’ dialogs: where the reference goes to (destination)</li>
+</ul>
+</li>
+<li>
+<p><strong>Text</strong>: Additional info about the cross reference</p>
+</li>
+</ul>
+<h3 id="add-cross-reference-1"><a class="header" href="#add-cross-reference-1">Add cross reference (1)</a></h3>
+<p>To add a new cross reference to the list, right-click in the xrefs view and click <strong>Add cross-reference…</strong> in the context menu or press <kbd>Ins</kbd>.<br>In the <em>Add Cross Reference</em> dialog, you should specify the <em>From</em> and <em>To</em> address, as well as the xref type.</p>
+<p><img src="assets/add-delete-xrefs.png" alt="Add/delete xrefs"></p>
+<h3 id="delete-cross-reference-2"><a class="header" href="#delete-cross-reference-2">Delete cross reference (2)</a></h3>
+<p>To remove a cross reference from the list, right-click in the xrefs view and click <strong>Delete cross-reference…</strong> in the context menu or press <kbd>Del</kbd>. If the <em>Undefine if no more xrefs</em> is checked, then the instruction at the target address will be undefined upon the deletion of the last xref.</p>
+<p>{% hint style=“info” %}
+IDA undefines instructions only if they do not start a function.
+{% endhint %}</p>
+<h3 id="related-topics-3"><a class="header" href="#related-topics-3">Related topics</a></h3>
+<ul>
+<li>For a comprehensive overview of cross-references in IDA, including both code and data xrefs, refer to <a href="https://hex-rays.com/blog/igor-tip-of-the-week-16-cross-references">Igor’s Tip of the Week #16: Cross-References</a>.</li>
+</ul>
+<h2 id="cross-references-tree-window"><a class="header" href="#cross-references-tree-window">Cross references tree window</a></h2>
+<p>The cross references tree view provides a comprehensive, textual view of inter-function code and data relationships. This non-modal widget displays both code and data references in a hierarchical tree format and is designed to complement the Xref Graph. The view shows both references <em>to</em> and <em>from</em> the current function, providing a clear overview of function call hierarchies.</p>
+<p><img src="assets/cross-ref-tree.png" alt="Cross references tree view"></p>
+<p>Key features:</p>
+<ul>
+<li><strong>Non-modal/multiple instances</strong>: You can open several windows simultaneously, each displaying different functions</li>
+<li><strong>Real-time updates</strong>: Nodes update as you navigate through the database</li>
+</ul>
+<h3 id="options"><a class="header" href="#options">Options</a></h3>
+<p>Click <strong>Options</strong> above the view to expand the available settings. Key options to be aware of:</p>
+<ul>
+<li><strong>Sync</strong>: synchronizes the current tree with the IDA View</li>
+<li><strong>Simplified view</strong>: when unchecked, displays the full function names, e.g., <code>int main(int argc, char **argv)</code></li>
+<li><strong>Allow Duplicates</strong>: when checked, shows multiple cross-references to the same function</li>
+</ul>
+<h2 id="function-calls-window"><a class="header" href="#function-calls-window">Function calls window</a></h2>
+<p>This view displays an overview of calls to and from the current function:</p>
+<ul>
+<li>All functions who call the current function are displayed at the top section of the window (1)</li>
+<li>All functions called from the current function are displayed at the bottom section of the window (2)</li>
+</ul>
+<p><img src="assets/function-calls.png" alt="Function calls view"></p>
+<p>The list is automatically refreshed when the cursor is moved to another function.</p>
+<h2 id="local-types-window"><a class="header" href="#local-types-window">Local Types window</a></h2>
+<p>{% hint style=“info” %}
+While working in the Local Types view, the actions available under the <strong>Edit</strong>, <strong>Jump</strong> and <strong>Search</strong> menus may differ from those in other views. For more information, see <a href="menu-bar.html#view-dependent-menus">View-Dependent Menus</a>.
+{% endhint %}</p>
+<p>The Local Types window serves as your central hub for managing custom data types within your IDA database. It allows you to create and edit custom types—such as structures, unions, and enumerations—and import definitions from loaded type libraries.</p>
+<p><img src="assets/local-types.png" alt="Local Types view"></p>
+<p>Each database has a local type library embedded into it. This type library (til) is used to store types that are local to the current database. They are usually created by parsing a header file.</p>
+<p>{% hint style=“info” %}
+As of IDA 9.0, the legacy <strong>Structure and Enums windows have been removed</strong> and their functionality consolidated by the Local types window. This view serves as a centralized place for all type-related actions.
+{% endhint %}</p>
+<h3 id="local-types-essentials"><a class="header" href="#local-types-essentials">Local types essentials</a></h3>
+<p>In the Local types view, you can directly manage custom data types:</p>
+<ul>
+<li>the existing types can be modified (the default hotkey is <kbd>Ctrl</kbd>+<kbd>E</kbd>, context menu <strong>Edit type…</strong>)</li>
+<li>the existing types can be deleted (the default hotkey is <kbd>Del</kbd>, context menu <strong>Delete type…</strong>)</li>
+<li>new types can be added (the default hotkey is <kbd>Ins</kbd>, context menu <strong>Add type…</strong>)</li>
+<li>multiple types can be added at once by parsing declarations (context menu <strong>Parse declarations…</strong>)</li>
+</ul>
+<p>Please note that <kbd>Ins</kbd> can be used to add many types at once. For that the user just needs to enter multiple declarations, one after another in the dialog box.</p>
+<p>However, <kbd>Ctrl</kbd> + <kbd>E</kbd> permits for editing of one type at a time. This may cause problems with complex structure types with nested types. Nested types will not be saved by <kbd>Ctrl</kbd> + <kbd>E</kbd>.</p>
+<p>If the edited type corresponds to an idb type (struct or enum), then the corresponding type will be automatically synchronized.</p>
+<p>Some types in this list are created automatically by IDA. They are copies of the types defined in the <a href="#local-types-window">Local Types</a> views. Such types are displayed in gray, as if they are disabled.</p>
+<p>Types displayed in black are considered as C level types. Read <a href="../general-concepts/assembler-level-and-c-level-types.html">more</a>.</p>
+<p>Each type in the local type library has an ordinal number and may have a name.</p>
+<p>Be careful when deleting existing types because if there are references to them, they will be invalidated.</p>
+<p>A local type can be mapped to another type. Such an operation deletes the existing type and redirects all its references to the destination type. Circular dependencies are forbidden. In the case of a user mistake, a mapped type can be deleted and recreated with the correct information.</p>
+<h3 id="related-topics-4"><a class="header" href="#related-topics-4">Related topics</a></h3>
+<ul>
+<li><a href="../types.html">Guide to Types</a></li>
+<li><a href="#type-libraries-window">Type libraries window</a></li>
+<li><a href="../general-concepts/c++-type-details.html">C++ type details</a></li>
+</ul>
+<h2 id="type-libraries-window"><a class="header" href="#type-libraries-window">Type libraries window</a></h2>
+<p><img src="assets/type-libraries.png" alt="Type libraries view"></p>
+<p>This view displays the currently loaded type libraries and allows you to load or unload them as needed.</p>
+<p>The standard type libraries contain type definitions from the standard C header supplied with compilers. Usually, IDA tries to determine the target compiler and its type libraries automatically but if it fails, this window allows you to load the appropriate type library.</p>
+<h3 id="loadingunloading-additional-libraries"><a class="header" href="#loadingunloading-additional-libraries">Loading/unloading additional libraries</a></h3>
+<p>To load new libraries, right-click in the view and click <strong>Load type library…</strong> in the context menu or press <kbd>Ins</kbd>. Analogically, use <strong>Unload type library(ies)…</strong> to remove it from the list.</p>
+<h3 id="configure-compiler-and-memory-model"><a class="header" href="#configure-compiler-and-memory-model">Configure compiler and memory model</a></h3>
+<p>Don’t forget to specify the compiler and memory model in the compiler setup (Options → Compiler…) dialog box.</p>
+<h3 id="local-types-bookmarks"><a class="header" href="#local-types-bookmarks">Local Types bookmarks</a></h3>
+<p>Check <a href="../general-concepts/various-dialog-help-messages.html#choose-marked-location">Choose marked location</a> help message.</p>
+<h2 id="strings-window"><a class="header" href="#strings-window">Strings window</a></h2>
+<p>The Strings view contains all strings in the program. However, if a range of addresses was selected before opening the window, only the selected range will be examined for strings.</p>
+<p>The columns display the following information:</p>
+<ul>
+<li><strong>Address</strong></li>
+<li><strong>Length</strong> in bytes</li>
+<li><strong>Type</strong>:
+<ul>
+<li><code>C</code> for standard 8-bit strings, or</li>
+<li><code>C16</code> for Unicode (UTF-16)</li>
+</ul>
+</li>
+<li><strong>String</strong> text</li>
+</ul>
+<p><img src="assets/strings.png" alt="Strings view"></p>
+<h3 id="strings-view-options"><a class="header" href="#strings-view-options">Strings view options</a></h3>
+<p>You can set up the list parameters by clicking <strong>Setup</strong> in the context menu.</p>
+<p>The list always contains strings defined in the program, regardless of the settings in this dialog box, but the user can ask IDA to display strings not yet explicitly defined as strings.</p>
+<p>The following parameters are available:</p>
+<h4 id="display-only-defined-strings"><a class="header" href="#display-only-defined-strings">Display only defined strings</a></h4>
+<p>If checked, IDA will display only strings explicitly marked as string items (using the convert to string (action <code>MakeStrlit</code>) command). In this case, the other checkboxes are ignored.</p>
+<h4 id="ignore-instructionsdata-definitions"><a class="header" href="#ignore-instructionsdata-definitions">Ignore instructions/data definitions</a></h4>
+<p>If checked, IDA will ignore instruction/data definitions and will try to treat them as strings. If it can build a string with the length greater than the minimal length, the string will be displayed in the list. This setting is ignored if ‘only defined strings’ is on.</p>
+<h4 id="strict-ascii-7-bit-strings"><a class="header" href="#strict-ascii-7-bit-strings">Strict ASCII (7-bit) strings</a></h4>
+<p>If checked, only strings containing exclusively 7-bit characters (8th bit must be zero) will be added to the list. Please note that the user can specify which characters are accepted in the strings by modifying the StrlitChars parameter in the <a href="../configuration/configuration-files.html">ida.cfg</a> file. This setting is ignored if ‘only defined strings’ is on.</p>
+<h4 id="allowed-string-types"><a class="header" href="#allowed-string-types">Allowed string types</a></h4>
+<p>Allows the user to specify the string types included in the list. This setting is ignored if ‘only defined strings’ is on.</p>
+<h4 id="minimal-string-length"><a class="header" href="#minimal-string-length">Minimal string length</a></h4>
+<p>The minimal length the string must have to be added to the list.</p>
+<p>{% hint style=“info” %}
+Click <strong>Rebuild…</strong> from the context menu to refresh the list after changing the options.
+{% endhint %}</p>
+<h2 id="stack-variables-window"><a class="header" href="#stack-variables-window">Stack variables window</a></h2>
+<p>The Stack view displays local variables and function parameters for the currently analyzed function. It allows you to view, create, edit, and rename stack variables for the current function. To open it:</p>
+<ul>
+<li>Go to <strong>Edit → Functions → Stack variables…</strong> or press <kbd>Ctrl</kbd> + <kbd>K</kbd></li>
+<li>Double-click or press <kbd>Enter</kbd> on a stack variable (in the Pseudocode or Disassembly/IDA View).</li>
+</ul>
+<p><img src="assets/stack-variables.png" alt="Stack variables view"></p>
+<h2 id="bookmarks-window"><a class="header" href="#bookmarks-window">Bookmarks window</a></h2>
+<p>This view displays list of all bookmarks and allows you to manage them. In IDA, bookmarks can be placed on any address in the database, so you can use them to quickly find a location.</p>
+<p><img src="assets/bookmarks.png" alt="Bookmarks view"></p>
+<p>In the IDA View, bookmarks are shown in the arrows panel. The <strong>active bookmark</strong> is highlighted in celadon and marked with a star icon. Double-clicking an active bookmark will remove it.</p>
+<p><img src="assets/active-bookmark.png" alt="Active bookmarks in the IDA View"></p>
+<h3 id="adding-bookmarks"><a class="header" href="#adding-bookmarks">Adding bookmarks</a></h3>
+<p>You can add a bookmark to the selected location from <strong>Jump → Mark position</strong> to every address-based view (IDA View, Hex View and Pseudocode), as well to the Local types view. In the opened dialog, enter the bookmark description and click <strong>OK</strong>.</p>
+<h3 id="creating-folders"><a class="header" href="#creating-folders">Creating folders</a></h3>
+<p>To organize your bookmarks into folders, select the chosen bookmarks, right-click in the view and click <strong>Create folder with items…</strong> in the context menu or press <kbd>Ins</kbd>.</p>
+<h2 id="notepad-window"><a class="header" href="#notepad-window">Notepad window</a></h2>
+<p>The Notepad window is a convenient place to store general notes related to the current database. All notes entered here are automatically saved within the database itself.</p>
+<p><img src="assets/notepad.png" alt="Notepad view"></p>
+<h3 id="common-shortcuts"><a class="header" href="#common-shortcuts">Common shortcuts</a></h3>
+<ul>
+<li><kbd>Alt</kbd> + <kbd>T</kbd> search for text</li>
+<li><kbd>Ctrl</kbd> + <kbd>T</kbd> repeat the last search</li>
+</ul>
+<h2 id="problems-window"><a class="header" href="#problems-window">Problems window</a></h2>
+<p>The Problems window contains the <a href="../general-concepts/problems-list.html">list</a> of all problems encountered by IDA during disassembling the program. You can jump to a problem by pressing <kbd>Enter</kbd>. The selected problem will be deleted from the list.</p>
+<p><img src="assets/problems.png" alt="Problems view"></p>
+<h2 id="patched-bytes-window"><a class="header" href="#patched-bytes-window">Patched bytes window</a></h2>
+<p>The Patched bytes view shows the list of the patched locations in the database. It also allows you to revert modifications selectively.</p>
+<p><img src="assets/patched-bytes.png" alt="Patched bytes view"></p>
+<h3 id="reverting-changes"><a class="header" href="#reverting-changes">Reverting changes</a></h3>
+<p>Select location(s) and click <strong>Revert…</strong> from the context menu to revert this modification.</p>
+<h3 id="patching-bytes"><a class="header" href="#patching-bytes">Patching bytes</a></h3>
+<p>You can change individual bytes via <strong>Edit → Patch program → Change byte…</strong>.</p>
+<h2 id="navigation-history-window"><a class="header" href="#navigation-history-window">Navigation history window</a></h2>
+<p>This view displays the saved navigation history. When <strong>history sharing is enabled</strong> (default setting, that can be changed under <strong>Options → General → Browser</strong>), it shows a shared history stack across multiple views (Disassembly, Pseudocode, Local Types, and Stack). Otherwise, it displays the navigation history for the currently active widget only. The <strong>bolded</strong> entry indicates the current cursor position.</p>
+<p><img src="assets/navigation-history.png" alt="Navigation history view"></p>
+<h3 id="enabledisable-history-sharing"><a class="header" href="#enabledisable-history-sharing">Enable/disable history sharing</a></h3>
+<p>History sharing is enabled by default. You can enable or disable this behavior in <strong>Options → General → Browser</strong>.</p>
+<h2 id="undo-history-window"><a class="header" href="#undo-history-window">Undo history window</a></h2>
+<p>This view shows the history of all undo actions.</p>
+<p>Double clicking on a line reverts the database to the state <strong>before</strong> the corresponding action.</p>
+<p><img src="assets/undo-history.png" alt="Undo history view"></p>
+<h3 id="truncate-history"><a class="header" href="#truncate-history">Truncate history</a></h3>
+<p>It is possible to truncate the undo history by using the corresponding context menu command <strong>Truncate history</strong>. The undo information for the selected action will be removed together with the information about all preceding actions.</p>
+<h3 id="style-indicators"><a class="header" href="#style-indicators">Style indicators</a></h3>
+<p>The redoable user actions are displayed in <em>italics</em>. The current position in the undo buffers is displayed in <strong>bold</strong>; it usually denotes the first redoable user action.</p>
+<h3 id="microcode-window"><a class="header" href="#microcode-window">Microcode window</a></h3>
+<p>The Microcode view displays the decompiler’s microcode - an intermediate form that bridges CPU-specific assembly and high-level pseudocode. It shows micro instructions organized into blocks, along with control flow transfers and use-definition chains that track how data flows through the code. You can explore microcode at different maturity levels.
+<img src="assets/microcode.png" alt="Microcode view"></p>
+<h4 id="key-features-and-interaction"><a class="header" href="#key-features-and-interaction">Key features and interaction</a></h4>
+<ul>
+<li><strong>Maturity level</strong>: Increase or decrease maturity level using <code>&gt;</code> and <code>&lt;</code> keys or via the context menu.</li>
+<li><strong>Synchronized Views</strong>: You can sync currently opened Microcode window with Disassembly, Pseudocode, or other Microcode views via the context menu.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/user-interface/desktops.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/user-interface/list-viewers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/user-interface/desktops.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/user-interface/list-viewers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

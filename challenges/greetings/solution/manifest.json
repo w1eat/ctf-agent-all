@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "current_key": "d55438f0266dcad8ea85:platform_confirmed",
+  "status": "needs_review",
+  "records": [
+    {
+      "key": "d55438f0266dcad8ea85:platform_confirmed",
+      "flag": "sun{heres_a_flag}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Greetings",
+        "category": "misc",
+        "description": "Greetings! Here's a flag! `sun{heres_a_flag}`",
+        "connection_info": "",
+        "value": 1,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "",
+      "solution_steps": [],
+      "evidence": [
+        "Challenge modal for Greetings (URL #Greetings-1) rendered an alert with strong text \"Correct\" after submitting sun{heres_a_flag}; the submission field was cleared and no failure marker appeared."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "",
+      "status": "needs_review",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "3b6792d78254a952924a925c2a91b3c49eea3a0cbd5e0c6a24f4362c3fa2e8f1",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:11:27.656409+00:00",
+      "updated_at": "2026-09-27T03:11:27.665642+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

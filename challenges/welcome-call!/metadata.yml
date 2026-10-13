@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '25'
+name: Welcome Call!
+category: Forensics
+description: Welcome to Bsides Orlando! I just got a call from the flag factory, they
+  said they were looking for their favorite flag.
+value: 435
+files:
+- distfiles/welcomecall.pcap
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#Welcome%20Call!-25
+environment: {}
+capabilities: []
+attachments:
+- filename: welcomecall.pcap
+  name: welcomecall.pcap
+  sha256: 7e0effd30dbd6fd072fe565f012c86746f9e27cd54eaa2fa942a9c5af4f2d3e6
+  size: 181952
+  url: https://2026.sunshinectf.org/files/b7eb8724249f8b6197e0ebbfd4b7acf3/welcomecall.pcap
+attachments_scanned: false
+state: needs_input
+reason: 'attachment_page_mismatch: active challenge heading does not match'

@@ -1,0 +1,12 @@
+.PASS The new password.
+.[USER] The username whose password should be changed.
+Only admins can change other users' passwords.
+If omitted, defaults to the current user.
+
+>Sets a new password for a user.
+
+!
+$$ newpw
+
+!
+$$ newpw user1

@@ -1,0 +1,13 @@
+.[-a] Revert only unchanged files.
+.[-p] The server will revert the files without transferring files.
+.[-s] Silent mode; do not output any messages.
+This options is useful if the local files are already in sync but the server has stale info about them.
+.$NCAT_VAULT_PATH...:PATH_PATTERN Vault path of file(s) to revert.
+
+>Reverts opened files to their current revisions.
+
+!
+$$ -a //
+ok reverted //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin
+ok reverted //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.asm
+ok reverted //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.log

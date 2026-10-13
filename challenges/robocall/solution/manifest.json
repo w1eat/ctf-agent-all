@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "current_key": "342174640adfa7003708:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "342174640adfa7003708:platform_confirmed",
+      "flag": "sun{you_must_be_some_sort_of_nimble_space_navigator}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "RoboCall",
+        "category": "RE",
+        "description": "Welcome to robocall! Let's see how nimbly you navigate this stack.",
+        "connection_info": "nc sunshinectf.games 26199",
+        "value": 486,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Stack depth control to read uninitialized local_20c in cancel_plan, leaking stack-resident flag chunks: sun{you_must_be_some_sort_of_nimble_space_navigator} | Evidence: Flag bytes are scattered onto the stack by place_flag() at local_2028[0x19dc - CHUNK_DEPTH[i]] for 13 chunks (CHUNK_DEPTH = 0x400,0x480,0x520,0x570,0x5a0,0x640,0x690,0x6c0,0x760,0x7b0,0x7e0,0x800,0x880). ; In cancel_plan, the second prompt parses into local_20c at rbp-0x204; if both reads are empty, raw_parse_int does not write it and raw_print_int prints the stale stack value (the flag chunk). ; Choosing menu paths so that rbp_place - rbp_cancel = 0x440 + CHUNK_DEPTH[i] aligns the leaked 4 bytes with each flag chunk; a DFS model found input sequences for all 13 depths. ; Locally verified all 13 chunks against flag.txt, then leaked remotely: sun{ you_ must _be_ some _sor t_of _nim ble_ spac e_na viga tor}",
+      "solution_steps": [
+        "Reverse engineer place_flag: it reads flag.txt and scatters 13 4-byte chunks to stack offsets 0x19dc - CHUNK_DEPTH[i] relative to its 0x2020-byte buffer.",
+        "Identify the uninitialized-variable leak in cancel_plan: local_20c (rbp-0x204) is printed before being written when both menu reads are empty.",
+        "Model frame sizes (step = sub_rsp + 0x10) and search over menu choices to achieve rbp_place - rbp_cancel = 0x440 + CHUNK_DEPTH[i] for each of the 13 chunks.",
+        "Run each crafted interaction locally against the known test flag.txt to confirm all 13 chunks match, then replay identical interactions against nc sunshinectf.games 26199 to recover the real chunks.",
+        "Submit the reconstructed flag."
+      ],
+      "evidence": [
+        "Flag bytes are scattered onto the stack by place_flag() at local_2028[0x19dc - CHUNK_DEPTH[i]] for 13 chunks (CHUNK_DEPTH = 0x400,0x480,0x520,0x570,0x5a0,0x640,0x690,0x6c0,0x760,0x7b0,0x7e0,0x800,0x880).",
+        "In cancel_plan, the second prompt parses into local_20c at rbp-0x204; if both reads are empty, raw_parse_int does not write it and raw_print_int prints the stale stack value (the flag chunk).",
+        "Choosing menu paths so that rbp_place - rbp_cancel = 0x440 + CHUNK_DEPTH[i] aligns the leaked 4 bytes with each flag chunk; a DFS model found input sequences for all 13 depths.",
+        "Locally verified all 13 chunks against flag.txt, then leaked remotely: sun{ you_ must _be_ some _sor t_of _nim ble_ spac e_na viga tor}"
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/342174640adfa7003708/deepseek-deepseek-flash-5403e74e/5a2687597c79b36a/decompiled.c",
+        ".writeup-drafts/342174640adfa7003708/deepseek-deepseek-flash-5403e74e/d778cece525bd1f3/gen.py"
+      ],
+      "exp_run_command": "[unsupported]",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "fa8685477ed9a8e37f18de5293ca77a83577427e905e0646c635c8eb223e7bd9",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:33:34.802193+00:00",
+      "updated_at": "2026-09-27T04:33:48.073569+00:00",
+      "exp_sha256": {
+        "exp/decompiled.c": "5a2687597c79b36af9cc4664022ab9fb2cfba003d722d9a9690f7f78e1c8bee4",
+        "exp/gen.py": "d778cece525bd1f395bacf93aff2a36998765b0322637558451efb6bf361d908"
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+.ID The connection to kill, as shown by the <<cmd_session-list>> command
+
+>Kills an existing connection to the Lumina server.
+
+!
+$ lc session list
+id=1 peer="127.0.0.1", user="...", license="...", e-mail="...", established="2022-09-20 16:47:07" current_query="" (0msec)
+$$ 1
+Connection killed
+$ lc session list
+No connections.

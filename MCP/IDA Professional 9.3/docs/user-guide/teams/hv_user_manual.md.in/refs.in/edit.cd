@@ -1,0 +1,19 @@
+.[-s] Silent mode; do not output any messages.
+.[-w WORKLIST_ID] The id of the worklist that the file(s) will be added to. If omitted, defaults to worklist 1.
+.$NCAT_VAULT_PATH...:PATH_PATTERN Vault path of file(s) to checkout for edit.
+
+>Opens tracked file(s) for edit, adding them to a worklist.
+
+This command is used to instruct the {hrvsrv} that we will be working
+on files, so that it knows what revision of the file(s) that work
+will be based on and so later [diff](#diff) or [resolve](#resolve)
+commands can work correctly.
+
+!
+$$ cat.i64
+ok checked out '//cat.i64' for 'edit' (worklist 1)
+
+(...do some work...)
+
+$ hv commit 1 "Analyzed 'main' function"
+ok commit #12 completed

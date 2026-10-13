@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "current_key": "4f5020980ca87658b7f8:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "4f5020980ca87658b7f8:platform_confirmed",
+      "flag": "sun{yup_issa_gem}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "NAS coal",
+        "category": "Forensics",
+        "description": "someone put coal in my gem collection :^(",
+        "connection_info": "",
+        "value": 374,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Macro/VBA analysis of the PPTM: extract ppt/vbaProject.bin, run olevba/strings to find a hard-coded Base64 'EncodedCommand', decode it (UTF-16LE PowerShell) to reveal the malware campaign value (the flag).: sun{yup_issa_gem} | Evidence: ppt/vbaProject.bin is an OLE with a single VBA module 'MediaCache' (Sub RefreshCache) containing a Base64 blob. ; olevba decoded macro: encoded = \"JABj...\" ; commandLine = \"powershell.exe -NoProfile -EncodedCommand \" & encoded ; Debug.Print commandLine ; Base64 decoded (UTF-16LE) => $campaign = 'sun{yup_issa_gem}' / $source = 'https://gem-cache.example.invalid/coal.bin' / $destination = 'coal.bin' ; Slide 5 text hint reads '>mfw olevba oneshot chall' confirming the intended olevba one-shot path. ; Platform submission page (2026.sunshinectf.org) returned alert 'Correct' for sun{yup_issa_gem}.",
+      "solution_steps": [
+        "解压 gem-collection.pptm（OOXML/ZIP），发现含宏 p ps/vbaProject.bin，即描述中的“coal”（恶意宏）。",
+        "对 ppt/vbaProject.bin 运行 olevba，得到 VBA 宏 MediaCache.RefreshCache：它把一段 Base64 作为 powershell.exe -NoProfile -EncodedCommand 拼接。",
+        "取该 Base64 解码（UTF-16LE），得到 PowerShell：$campaign = 'sun{yup_issa_gem}'；$source='https://gem-cache.example.invalid/coal.bin'；$destination='coal.bin'。",
+        "campaign 字段即 flag：sun{yup_issa_gem}。",
+        "提交平台验证通过（页面显示 Correct）。"
+      ],
+      "evidence": [
+        "ppt/vbaProject.bin is an OLE with a single VBA module 'MediaCache' (Sub RefreshCache) containing a Base64 blob.",
+        "olevba decoded macro: encoded = \"JABj...\" ; commandLine = \"powershell.exe -NoProfile -EncodedCommand \" & encoded ; Debug.Print commandLine",
+        "Base64 decoded (UTF-16LE) => $campaign = 'sun{yup_issa_gem}' / $source = 'https://gem-cache.example.invalid/coal.bin' / $destination = 'coal.bin'",
+        "Slide 5 text hint reads '>mfw olevba oneshot chall' confirming the intended olevba one-shot path.",
+        "Platform submission page (2026.sunshinectf.org) returned alert 'Correct' for sun{yup_issa_gem}."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/4f5020980ca87658b7f8/deepseek-deepseek-flash-5403e74e/4cb08398c0c85d18/solve.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 solve.py",
+        "exit_code": 0,
+        "stdout": "$campaign = 'sun{yup_issa_gem}'\r\n$source = 'https://gem-cache.example.invalid/coal.bin'\r\n$destination = 'coal.bin'\r\n[pscustomobject]@{Operation='download'; Campaign=$campaign; Source=$source; Destination=$destination}\r\n\nFLAG: sun{yup_issa_gem}\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "5a2c532f864c89d700e73a1a684fc9dba96ba380ce8bc78152d3d0063466c012",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:12:10.697642+00:00",
+      "updated_at": "2026-09-27T03:12:15.527690+00:00",
+      "exp_sha256": {
+        "exp/solve.py": "4cb08398c0c85d18ef5db3dacf54f6319bc42e3c3313d78887ad0bf0dd282bd9"
+      }
+    }
+  ]
+}

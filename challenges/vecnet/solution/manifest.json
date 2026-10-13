@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "current_key": "fc947b07699e2ace1ddb:candidate_found",
+  "status": "needs_review",
+  "records": [
+    {
+      "key": "fc947b07699e2ace1ddb:candidate_found",
+      "flag": "sun{k33p_your_emb3ddings_secur3!}",
+      "confirmation_source": "candidate_found",
+      "model_spec": "manual-recovery",
+      "run_id": "manual-recovery-20260927",
+      "verified_by": [],
+      "challenge": {
+        "name": "Vecnet",
+        "category": "misc",
+        "description": "VecNet makes use of AI embedding technologies to speed up your database needs. Get started today!",
+        "connection_info": "https://vec.web.2026.sunshinectf.games/",
+        "value": 496,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "公开 Git 历史提供 MailHog/归档线索；ChromaDB 中的规则嵌入、SHA-256 与 magic string 恢复归档密码，解密归档得到 Flag。在线重新获取并解密归档成功。",
+      "solution_steps": [
+        "从公开 Git 历史和 fetch.php 还原归档路径，并从 MailHog 邮件获得 vec2text 参数。",
+        "读取 ChromaDB VecNetDB 的 password policy embedding、SHA-256 和 magic string。",
+        "按邮件参数反演密码规则，用 Greg Roberts 的首字母和规则构造哈希掩码，命中归档密码。",
+        "解密 specs.7z 并读取 flag.txt。"
+      ],
+      "evidence": [
+        "旧本地轨迹 step 303-305 读取 VecNetDB 记录；step 307 命中 SHA-256；step 308 解密归档并读取 flag.txt。",
+        "旧本地轨迹 step 319 对 password policy embedding 的反演结果 cosine similarity 为 0.9956。",
+        "本轮从题目端点重新下载 186-byte archive 并成功解密；解密文件 SHA-256 为 531de226b28e3662ba5572972e74b62aae23c1e39edc6441b43dc9de114423a6。",
+        "用户反馈平台显示该题已解；历史提交确认因 Incorrect 页面提示未能建立提交值与平台成功记录的关联。"
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "",
+      "status": "needs_review",
+      "replay": {
+        "status": "manual",
+        "reason": "部分复现：在线重新下载并用已恢复的密码解密归档成功；密码规则反演和 hashcat 步骤仍需按 writeup 手工执行。历史平台确认提示冲突，待关联队伍提交记录。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "96c5a28e02808927e71725703c4ebac92d0e0e9971133a469a8fae1113cf2d06",
+      "planned_sha256": null,
+      "exp_sha256": {
+        "exp/recover.py": "2610a68e46b554d3cd67589fe60a0dbfaaa7f08801ec1947028010ef13940399"
+      },
+      "created_at": "2026-09-27T05:43:53.928240+00:00",
+      "updated_at": "2026-09-27T05:43:53.928240+00:00"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+.[-s SITE] Restrict to site SITE. If omitted, defaults to the current site.
+.[-u USER] Restrict to user USER. If omitted, defaults to the current user.
+.[WORKLIST_ID] Restrict to the provided worklist, defaults to showing all worklists.
+
+>Lists worklist contents.
+
+Show a list of files opened for editing, addition or deletion,
+and their associated worklist(s).
+
+!
+$$ 3
+WL 3 edit //cppobj_virtcall.i64#9
+$$ 4
+WL 4 edit //REsearch/vm2vm.exe#1
+WL 4 edit //REsearch/vm2vm.i64#1
+$$
+WL 4 edit //REsearch/vm2vm.exe#1
+WL 4 edit //REsearch/vm2vm.i64#1
+WL 3 edit //cppobj_virtcall.i64#9
+
+! Show the worklist contents of another user
+$$ -u ted
+WL 4 edit //malware/unk_2022#1/6 SITE=ted_laptop
+WL 2 copy //docs/onboarding.md#0 SITE=TEDPC
+WL 1 del  //ida64.i64#6 SITE=TEDPC
+

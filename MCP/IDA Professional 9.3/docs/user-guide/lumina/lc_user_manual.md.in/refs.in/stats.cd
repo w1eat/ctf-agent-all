@@ -1,0 +1,30 @@
+,[-u|--username|USERNAME] username(s) to operate on
+
+>Shows the numbers of functions, pushes, history records, IDBs and input files stored in the Lumina server database.
+
+!
+$$
+	Consolidated statistics from lumina_server:
+	Number of functions: 4
+	Number of pushes: 5
+	Number of history records: 6
+	Number of IDBs: 3
+	Number of input files: 3
+	---------------------------------------------
+
+! Retrieve the statistics for a list of users
+$$ -ualice,bob,russ
+	Statistics for alice:
+	Number of functions: 2
+	Number of pushes: 3
+	Number of history records: 4
+	Number of IDBs: 1
+	Number of input files: 1
+	---------------------------------------------
+	Statistics for bob:
+	Number of functions: 1
+	Number of pushes: 1
+	Number of history records: 1
+	Number of IDBs: 1
+	Number of input files: 1
+	---------------------------------------------

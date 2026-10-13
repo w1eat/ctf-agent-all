@@ -1,0 +1,29 @@
+version: beta2
+platform: unknown
+native_id: '15'
+name: Planetary Probe
+category: web
+description: The Galactic Federation has opened public access to its Planetary Probe
+  Directory, a database of known planets and their telemetry signatures. Your mission
+  is to interface with the probe console and uncover hidden data the Federation would
+  rather keep secret. The console seems minimal. No verbose errors, no detailed output
+  - just 'signal detected' or 'no signal'. Can you find a way to communicate with
+  the system, bypass its limited responses, and recover the hidden flag?
+value: 495
+files: []
+challenge_mode: remote
+connection_info: https://planetary.web.2026.sunshinectf.games/
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Planetary%20Probe-15
+environment:
+  status: unknown
+  source: remote
+  url: https://planetary.web.2026.sunshinectf.games/
+  host: planetary.web.2026.sunshinectf.games
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments: []
+attachments_scanned: true
+state: ready
+reason: ''

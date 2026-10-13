@@ -1,0 +1,355 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gooMBA - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <hr>
+<h2 id="description-hands-free-binary-deobfuscation-with-goomba"><a class="header" href="#description-hands-free-binary-deobfuscation-with-goomba">description: Hands-Free Binary Deobfuscation with gooMBA</a></h2>
+<h1 id="goomba"><a class="header" href="#goomba">gooMBA</a></h1>
+<p>At Hex-Rays SA, we are constantly looking for ways to improve the usefulness of our state-of-the-art decompiler solution. We achieve this by monitoring for new trends in anti-reversing technology, keeping up with cutting-edge research, and brainstorming ways to innovate on existing solutions.</p>
+<p>Today we are excited to introduce a new <a href="https://hex-rays.com/decompiler/"><strong>Hex-Rays decompiler</strong></a> feature, <strong>gooMBA</strong>, which should greatly simplify the workflow of reverse-engineers working with obfuscated binaries, especially those using Mixed Boolean-Arithmetic (MBA) expressions. Our solution combines algebraic and program synthesis techniques with heuristics for best-in-class performance, integrates directly into the <a href="https://hex-rays.com/decompiler/"><strong>Hex-Rays decompiler</strong></a>, and provides a bridge to an SMT-solver to prove the correctness of simplifications.</p>
+<h2 id="mba-obfuscation-overview"><a class="header" href="#mba-obfuscation-overview">MBA Obfuscation Overview</a></h2>
+<h3 id="what-is-mba"><a class="header" href="#what-is-mba">What Is MBA?</a></h3>
+<p>A Mixed Boolean-Arithmetic (MBA) expression combines arithmetic (e.g. <code>addition</code> and <code>multiplication</code>) and boolean operations (e.g. bitwise <code>OR</code>, <code>AND</code>, <code>XOR</code>) into a single expression. These expressions are often made extremely complex in order to make it difficult for reverse-engineers to determine their true meaning.</p>
+<p>For instance, here is an example of an MBA obfuscation found in a decompilation listing. Note the combination of <code>bitshift</code>, <code>addition</code>, <code>subtraction</code>, <code>multiplication</code>, <code>XOR</code>, <code>OR</code>, and <code>comparison operators</code> within one expression.</p>
+<pre><code>v1 = 715827883LL * (char)((((unsigned __int64)(-424194301LL * (a1 &gt;&gt; 4)) &gt;&gt; 35)+(-424194301LL * (a1 &gt;&gt; 4) &lt; 0)) *  a1);
+v2 = (char)(((((((unsigned  __int64)(-424194301LL * (a1 &gt;&gt; 4)) &gt;&gt; 35) + (-424194301LL * (a1  &gt;&gt; 4) &lt; 0)) * a1 - 48 * ((v1 &gt;&gt; 35) + (v1  &lt; 0))) ^ 0x28) + 111) | 0x33);
+v3 = 818089009LL * (char)(((((((unsigned  __int64)(-424194301LL * (a1 &gt;&gt; 4)) &gt;&gt; 35) + (-424194301LL * (a1  &gt;&gt; 4) &lt; 0)) * a1 - 48 * ((v1 &gt;&gt; 35) + (v1  &lt; 0))) ^ 0x28) + 111) | 0x33);
+v4 = (4 * (v2 - 21 * ((v3 &gt;&gt; 34) + (v3  &gt;&gt; 63)))) &amp; 0xF4 | 8;
+return (v4 - ((v4 / 0x81) &amp; 0x7F | ((v4 /  0x81) &lt;&lt; 7))) ^ 0xE;
+</code></pre>
+<p>For reference, the above code always returns <code>0x89</code>.</p>
+<p>MBA is also used as a name for a <em>semantics-preserving obfuscation</em> technique, which replaces simple expressions found in the source program with much more complicated MBA expressions. MBA obfuscation is called <em>semantics-preserving</em> since it only changes the syntax of the expression, not the underlying semantics — the input/output behavior of the expression should remain the same before and after.</p>
+<h3 id="why-is-mba-reversing-difficult"><a class="header" href="#why-is-mba-reversing-difficult">Why is MBA Reversing Difficult?</a></h3>
+<p>A decompiler can be thought of as a massive simplification engine — it reduces the mental load of the reverse engineer by transforming a complex binary program into a vastly simplified higher-level readable format. It partially achieves this through <em>equivalences</em>, special pattern-matching rules derived from mathematical properties such as the commutativity, distributivity, and identity. For instance, the following simplification can be performed by applying the distributive property and identity property.</p>
+<pre><code> 2a + 3(a+0) = 5a
+</code></pre>
+<p>Both boolean functions and arithmetic functions on integers are very well studied, and there is an abundance of simplification techniques and algorithms developed for each. MBA obfuscators exploit the fact that many of these equivalences and techniques break down when the two function types are <em>combined</em>. For instance, we all know that integer multiplication distributes over addition, but note that the same does not hold over the bitwise <code>XOR</code>:</p>
+<pre><code> 3·(2 ⊕ 1) = 3·3 = 9
+</code></pre>
+<pre><code> (3 ⊕ 2)·(3⊕1) = 1·2 = 2
+</code></pre>
+<p>Advanced Computer Algebra Systems (CAS) such as Sage and Mathematica allow users to simplify arithmetic expressions, but their algorithms break down when we start introducing bitwise operations into our inputs.</p>
+<p>Furthermore, although Satisfiability Modulo Theories (SMT) solvers such as z3 do often support both arithmetic and boolean operations on computer integers, they do not perform simplification — at least not for any human definition of “simplicity.” Rather, their only goal is to prove or disprove the input formula; as a result, they are useful in proving a simplification correct, but not in deriving the simplification to begin with.</p>
+<h3 id="mba-obfuscation-techniques"><a class="header" href="#mba-obfuscation-techniques">MBA Obfuscation Techniques</a></h3>
+<p>The core idea behind MBA obfuscation is that a complex, but semantically equivalent, MBA expression can be substituted for simpler expressions in the source program. For instance, one technique that can be used for MBA generation is the repeated application of simple MBA identities, such as:</p>
+<pre><code>
+x+y=(x|y)+(x&amp;y)
+
+x+y=2(x|y)-(x⊕y)
+
+x|y=(¬x|y)-¬x
+
+x-y=x+¬y+1
+</code></pre>
+<p>Many of these identities are available in the classic book <em>Hacker’s Delight</em>, but there are an effectively unbounded number of them. For instance, <em>Reichenwallner et al</em>. easily generated 1,000 distinct MBA substitutions for <code>x+y</code> alone.</p>
+<p>There are also many more sophisticated techniques that can be used for MBA generation, such as applying invertible functions and point functions. The number of invertible functions in computer integers is similarly unbounded. By simply choosing and applying any invertible function followed by its inverse, then applying rewriting rules to mix up the order of operations, an MBA generator can create extremely complex expressions effortlessly.</p>
+<h3 id="effects-of-mba-obfuscation"><a class="header" href="#effects-of-mba-obfuscation">Effects of MBA Obfuscation</a></h3>
+<p>Besides the obvious effect of making decompilation listings longer and more complex for humans to understand, there are a few other effects which this form of obfuscation can have on the binary analysis process.</p>
+<p>For instance, <em>dataflow/taint analysis</em> is a static analysis technique that can be used to automatically search for potentially exploitable parts of a program (such as an unsanitized dataflow from untrusted user input into a SQL query). MBA obfuscation can be used to complicate dataflow analysis, by introducing arbitrary unrelated variables into the MBA expression without modifying its semantics. It then becomes extremely difficult to deduce whether or not the newly introduced variable has an effect on the expression’s final value.</p>
+<p>An extreme example of this false dataflow technique is known as <em>opaque predicates</em>, whose original expressions have no semantic data inflows (i.e. they are constant). In other words, they always evaluate to a constant, regardless of their (potentially many) inputs. These opaque predicates can then be used for branching, creating false connections in the control-flow graph in addition to the dataflow graph.</p>
+<h3 id="prior-work"><a class="header" href="#prior-work">Prior Work</a></h3>
+<p>Over the years, many algorithms have been developed to simplify MBA expressions. These include pattern matching, algebraic methods, program synthesis, and machine learning methods.</p>
+<h3 id="pattern-matching"><a class="header" href="#pattern-matching">Pattern Matching</a></h3>
+<p>Since one of the core techniques involved in MBA generation is the application of rewrite rules, it seems natural to simply match and apply the same rewrite rules in the reverse direction. Indeed, this is precisely what earlier tools such as <a href="https://github.com/quarkslab/sspam">SSPAM</a> did.</p>
+<p>There are several issues with pattern matching methods. Firstly, there are a massive number of possible rewrite rules, and proprietary binary obfuscators are unlikely to reveal what rules they use. In addition, at any given moment an expression might contain multiple subexpressions that each match a pattern, and the order in which we perform these simplifications matters! Performing one simplification might prevent a more optimal simplification from appearing down the line. If we were to attempt every possible ordering of optimizations, our search space quickly becomes exponential. As a result, we considered pure pattern-matching methods to be infeasible for our purposes of simplifying complex MBA expressions.</p>
+<h3 id="algebraic-methods"><a class="header" href="#algebraic-methods">Algebraic Methods</a></h3>
+<p><a href="https://github.com/quarkslab/arybo">Arybo</a> is an example of an MBA simplifier that relies entirely on algebraic methods. It splits both inputs and outputs into their individual bits and simplifies each bit of the output individually. It’s clear that this method comes with some limitations. For a 64-bit expression, the program outputs 64 individual boolean functions, and it then becomes quite difficult for a human to combine these functions back into a single simplified expression. Notably, the built-in z3 bitvector simplifier also outputs a vector of boolean functions, since this representation is more useful for its main goal of proving whether or not a statement holds.</p>
+<p>Other algebraic algorithms for solving MBA expressions which do not split the expression into individual bits also exist. For instance, <a href="https://github.com/softsec-unh/MBA-Blast">MBA-Blast</a> and <a href="https://github.com/softsec-unh/MBA-Solver">MBA-Solver</a> use a transformation between n-bit MBA expressions and 1-bit boolean expressions. For <em>linear</em> MBAs (which we will describe in more detail later), this transformation is well-behaved, and a lookup table can trivially be used to simplify the corresponding boolean expression.</p>
+<p><a href="https://github.com/DenuvoSoftwareSolutions/SiMBA">SiMBA</a>, another algorithm published by Denuvo researchers in 2022, uses a similar approach to MBA-Blast and MBA-Solver, but additionally makes the observation that the transformation to 1-bit boolean expressions is not necessary for correctness; rather, the authors prove that it is sufficient to simply limit the domains of all input variables to 0/1. As a result, their algorithm yields much better performance; however, it’s important to note that the algorithm still relies on the algebraic structure of <em>linear</em> MBA expressions, and as a result will not work on all MBA expressions found in the wild.</p>
+<h3 id="program-synthesis"><a class="header" href="#program-synthesis">Program Synthesis</a></h3>
+<p>Program synthesis is the act of generating programs that provably fulfill some useful criteria. In the case of MBA-deobfuscation, our task is to generate simpler programs that are provably semantically equivalent to the provided obfuscated program. In short, two programs are considered semantically equivalent if they yield identical side effects and identical outputs on every possible set of inputs. For the MBA expressions we consider, the expressions have no side effects or branching, so we are just left with the requirement that the simplified expression must yield the same output for every possible set of inputs.</p>
+<p>One core observation made by synthesis-based tools such as <a href="https://github.com/RUB-SysSec/syntia">Syntia</a>, <a href="https://github.com/quarkslab/qsynthesis">QSynthesis</a>, and <a href="https://github.com/mrphrazer/msynth">msynth</a> is that for many real-world programs, the underlying semantics are relatively simple. After all, it is much more common to calculate the sum of two numbers <code>x+y</code>, than the result of say, <code>4529*(x&gt;&gt;(y^(11-~x)))</code>. Thus, for the most part, we only need to consider synthesizing relatively simple programs. To be clear, this is still a massive number of programs, but it at least makes the problem tractable.</p>
+<p>The main technique used by QSynth and msynth is an <em>offline enumerate synthesis primitive guided by top-down breadth-first search</em>. In simpler terms, these tools take advantage of precomputation, generating and storing a massive database of candidate expressions known as an <em>oracle</em>, searchable by their input/output behavior. Then, when asked to simplify a new expression, they analyze its input/output behavior and use it to perform a lookup in the oracle.</p>
+<p>Essentially, the input/output behavior of any expression is summarized by running the candidate expression with various inputs (some random, some specially chosen like <code>0</code> or <code>0xffffffff</code>), collecting the resulting outputs, and hashing them into a single number. We refer to this number as a <em>fingerprint</em>, and the oracle can be thought of as a multimap from <em>fingerprints</em> to <em>expressions</em>. The simplification is then performed by calculating the fingerprint of the expression to be simplified, then looking up the fingerprint in the oracle for simpler equivalent expressions.</p>
+<h3 id="machine-learning"><a class="header" href="#machine-learning">Machine Learning</a></h3>
+<p>Tools such as Syntia and <a href="https://aclanthology.org/2020.findings-emnlp.56/">NeuReduce</a> use machine learning and reinforcement learning techniques to search for semantically equivalent expressions on the spot. However, we found that Syntia’s success rate was quite low — only around 15% on linear MBA expressions, and NeuReduce appeared to only have been evaluated on linear MBA expressions (on which it reported a 75% success rate), which are already solvable 100% of the time through algebraic approaches such as MBA-Blast and SiMBA.</p>
+<h2 id="goals-for-goomba"><a class="header" href="#goals-for-goomba">Goals for gooMBA</a></h2>
+<p>When designing <strong>gooMBA</strong>, we had the following goals in mind:</p>
+<ul>
+<li><strong>Correctness</strong> — Obviously, a tool that outputs nonsense is useless, so we should strive to generate correct simplifications whenever feasible. When a true proof of correctness is infeasible, the tool should try to verify the results to a reasonable degree of certainty.</li>
+<li><strong>Speed</strong> — <a href="https://hex-rays.com/decompiler/"><strong>The Hex-Rays decompiler</strong></a> is well-known in the industry for its speed. Likewise, the tool should strive for the highest performance possible. However, we are obviously willing to sacrifice a couple of seconds in machine-computation time if it means saving a human analyst hours of work.</li>
+<li><strong>Integration</strong> — The decompiler plugin should be able to optionally disappear into the background. Ideally, the user should be able to forget that they are even analyzing an obfuscated program and focus only on the work at hand.</li>
+</ul>
+<h2 id="our-approach"><a class="header" href="#our-approach">Our Approach</a></h2>
+<p>Since there is no single way to generate MBA expressions, we decided to incorporate multiple deobfuscation algorithms into our final design and leave room for more in the future. Our tool, <strong>gooMBA</strong>, can be split into the following parts: microcode tree walking, simplification engine, SMT proofs of correctness, and heuristics.</p>
+<p>Below is a drawing of our overall approach:</p>
+<p><img src="gooMBA/assets/gooMBA_approach_1.png" alt=""></p>
+<p>Since we found the SMT stage to be the most time-consuming, we run several hundred random test cases on candidate simplifications before attempting a proof.</p>
+<h3 id="microcode-tree-walking"><a class="header" href="#microcode-tree-walking">Microcode Tree Walking</a></h3>
+<p>Before we can attempt simplification, we must first find potential MBA-obfuscated expressions in the binary. <a href="https://hex-rays.com/decompiler/"><strong>The Hex-Rays decompiler</strong></a> converts binaries into an intermediate form known as <em>microcode</em>, and continuously propagates variable values downward until a certain complexity limit is reached. Since MBA-expressions can be extremely complex (but notably, not so complex that they hinder performance), we increase the complexity limit when the MBA deobfuscator is invoked in order to maximize the complexity of expressions we can analyze. We then perform a simple tree-search through all expressions found in the program, starting with the most complex top-level expressions, and falling through to simpler subexpressions if they fail to simplify.</p>
+<h3 id="simplification-engine"><a class="header" href="#simplification-engine">Simplification Engine</a></h3>
+<p>Our MBA simplification engine is split into three parts, each handling a subset of MBA expressions. We refer to these three parts as the Simple Linear Algorithm, Advanced Linear Algorithm, and the Synthesis Oracle Lookup.</p>
+<p>We can think of each one of these three parts as a self-contained module: the obfuscated expression goes in one end, and a set of candidate expressions (each simpler than the obfuscated expression) comes out of the other end. At this stage, these expressions are simply guesses, and may or may not be correct.</p>
+<p>One important thing to note is that all three of our subengines are considered <em>black-box</em>, i.e. they do not care about the <em>syntactic</em> characteristics of the expression being simplified, only its <em>semantic</em> properties — i.e. how the outputs change depending on the input values.</p>
+<p><img src="gooMBA/assets/gooMBA_Simplification_Engine_1.png" alt=""></p>
+<h3 id="simple-linear-algorithm"><a class="header" href="#simple-linear-algorithm">Simple Linear Algorithm</a></h3>
+<p>One of the fastest and easiest types of expressions we can simplify are those that reduce to a linear equation, i.e.</p>
+<p><img src="gooMBA/assets/gooMBA_SLA.png" alt=""></p>
+<p>Note that constants fall under this category as well. We can simplify these easily by emulating the expression we are trying to simplify, first using zeroes for every input variable. This would tell us the value of <code>a0</code>. We can then emulate the instruction once again, this time using zeroes for every input variable except <code>x1</code>. Combined with the previously found value, this tells us the value of <code>a1</code>. We can repeat the process until we’ve obtained all the necessary coefficients. Note that the algorithm can also efficiently detect when a variable needs to be <code>zero- or sign- extended</code>; we can simply try the value <code>-1</code> for each variable and see which of the <code>zero- or sign-extended</code> versions of the linear equation matches the output value. It can be shown in this case that both checks will succeed if and only if both sign- and zero-extension are semantically acceptable.</p>
+<h3 id="advanced-linear-algorithm"><a class="header" href="#advanced-linear-algorithm">Advanced Linear Algorithm</a></h3>
+<p>Reichenwallner et al. showed that there is also a fast algorithm, namely SiMBA, to simplify <em>linear</em> <em>MBA</em> expressions, defined as those which can be written as a linear combination of bitwise expressions, i.e.</p>
+<p><img src="gooMBA/assets/gooMBA_ALA.png" alt=""></p>
+<p>Where each <code>ei(x1,...,xn)</code>is a bitwise expression. For instance, <code>2*(x&amp;y)</code> is a linear MBA expression, but neither <code>(x &amp; 0x7)</code> nor <code>(x&gt;&gt;3)</code> are linear MBA expressions, since neither <code>(x &amp; 0x7)</code> nor <code>(x &gt;&gt; 3)</code> are bitwise or can be written as the linear combination of bitwise expressions.</p>
+<p>Essentially, the algorithm works by deriving an equivalent representation consisting of linear combinations of only bitwise conjunctions, e.g. <code>4 + 2*x + 3*x + 5*(x&amp;y)</code>. Without going into too much detail, we can recall that every boolean function has a single canonical full <code>DNF</code>form (i.e. it can be written as an <code>OR</code> of <code>ANDs</code> formula), which can then be easily translated into a linear combination of conjunctions. Therefore, every linear MBA expression can be written as a linear combination of conjunctions by simply applying the aforementioned transformation to each individual bitwise function, then combining terms.</p>
+<p>Now, this linear combination of <code>ANDs</code> can be easily solved using a similar technique we described in the previous section, with the difference being that we must evaluate every possible combination of <code>0/1</code> value inputs, not just the inputs containing <code>zero or one 1-values</code>. Without going into too much detail, the coefficients can then be solved through a system of 2n linear equations of 2n variables, where each variable in the linear system represents one of the conjunctions of original variables, and each equation represents a possible <code>0/1</code> assignment to the original variables. We improve upon the algorithm proposed by Reichenwallner et al. by making further observations on the structure of the coefficients in the system and applying the forward substitution technique, yielding a simpler and faster solver.</p>
+<p>Finally, Reichenwallner et al. apply an 8-step refinement procedure to find simpler representations, involving more bitwise operations than just conjunction. We found this refinement procedure reasonable and only applied a few tweaks in our implementation.</p>
+<h3 id="synthesis-oracle-lookup"><a class="header" href="#synthesis-oracle-lookup">Synthesis Oracle Lookup</a></h3>
+<p>The algebraic engines are great for deriving constants when the expression’s semantics fulfill a certain structural quality, namely that they are equivalent to a linear combination of bitwise functions. However, we found that non-linear MBAs are also common in real-world binaries. In order to handle these cases, it is necessary to implement a more general algorithm that does not rely on algebraic properties of the input expression.</p>
+<p>QSynth (2020, David, et al.) and later msynth (2021, Blazytko, et al.) both rely on a precomputed <em>oracle</em> which contains an indexed list of expressions generated through an enumerative search procedure. These expressions are searchable by what we refer to as <em>fingerprints</em>, which can intuitively be understood as a numeric representation of a function’s <code>I/O behavior</code>.</p>
+<p>In order to generate a function fingerprint, we begin by generating <em>test cases</em>, which are assignments of possible inputs to the function. For instance, if we had three variables, a possible test case would be <code>(x=100, y=0, z=-1)</code>. Then, we feed each one of these test cases into the function being analyzed; for instance, the expression <code>"x - y + z"</code> would yield the output value <code>99</code> for the previous test case. Finally, we collect all the outputs and hash them into a single number to get the fingerprint. Now we can look up the fingerprint in the oracle and find a function that is possibly semantically equivalent to the analyzed function.</p>
+<p>Note that two functions that are indeed semantically equivalent will always yield the same fingerprints (since they will give the same outputs on the test cases). Therefore, if our oracle is exhaustive enough, it should be possible to find equivalences for many MBA-obfuscated expressions. A large precomputed oracle which can be used with goomba is available here: <a href="https://hex-rays.com/products/ida/support/freefiles/goomba-oracle.7z">https://hex-rays.com/products/ida/support/freefiles/goomba-oracle.7z</a></p>
+<p><img src="gooMBA/assets/gooMBA_SOL.png" alt=""></p>
+<h3 id="smt-proofs-of-correctness"><a class="header" href="#smt-proofs-of-correctness">SMT Proofs of Correctness</a></h3>
+<p>In order to have full confidence in the correctness of our simplifications, we feed both the simplified and original expressions into a satisfiability modulo theories (SMT) solver. Without going into too much detail, we translate IDA’s internal intermediate representation into the SMT language, then confirm that there is no value assignment that causes the two expressions to differ. (In other words, <code>a != b is UNSAT</code>.) If the proof succeeds, then we have full faith that the substitution can be performed without changing the semantics of the decompilation. We use the z3 theorem prover provided by Microsoft Research for this purpose.</p>
+<h3 id="heuristics"><a class="header" href="#heuristics">Heuristics</a></h3>
+<p>We found that invoking the SMT solver leads to unreliable performance, since the solver often times out or takes an unreasonable amount of time to prove equivalences. In order to avoid invoking the solver too often, we use heuristics at various points in our analysis. For instance, we detect whether an expression appears to be an MBA expression before trying to simplify it. In addition, every time before we invoke the SMT solver, we generate random test cases and emulate both the input and simplified expressions to ensure they return the same values. We found the latter heuristic to improve performance up to 1,000x in many cases.</p>
+<h2 id="evaluation"><a class="header" href="#evaluation">Evaluation</a></h2>
+<p>We evaluated <strong>gooMBA</strong> on the dataset of linear MBA-obfuscated expressions on MBA-Solver’s GitHub repository, an assortment of real-world examples from VirusTotal that appeared to be MBA-obfuscated, and an MBA-obfuscated sample object file from Apple’s FairPlay DRM solution. In terms of correctness, we find what we expect — <strong>gooMBA</strong>, being a combination of multiple algorithms, is able to cover more cases than each algorithm individually.</p>
+<p>In terms of performance, we find that <strong>gooMBA</strong> competes very favorably against state-of-the-art linear MBA solvers, and is able to simplify all of the 1,000 or so examples from MBA-Solver much faster than SiMBA. Note that the comparison is not strictly fair, since SiMBA accepts input expressions as a string, and <strong>gooMBA</strong> accepts them as decompilation IR; regardless, we claim that accepting decompilation IR leads to a superior user experience with less possibility for human error.</p>
+<p><img src="gooMBA/assets/gooMBA_runtime.png" alt=""></p>
+<p>Compared to msynth, the difference is even more dramatic. On the mba_challenge file provided on msynth’s GitHub repo, we measured the runtime to take around 1.87s per expression. In contrast, our equivalent algorithm took just 0.0047s to run, with the z3 proof taking 0.1s.</p>
+<h2 id="future-work"><a class="header" href="#future-work">Future Work</a></h2>
+<p>We have presented <strong>gooMBA</strong>, a deobfuscator that integrates directly into the <a href="https://hex-rays.com/decompiler/"><strong>Hex-Rays decompiler</strong></a> in <a href="https://hex-rays.com/ida-pro/"><strong>IDA Pro</strong></a>. This is a meaningful usability trait, since competing tools are typically standalone and require inputting the expression manually or interpreting obtuse outputs. However, this feature also presents some difficulties. For instance, we do not yet perform any use-def analysis or variable propagation beyond what’s already performed by the decompiler. The plugin also currently operates in a purely non-interactive manner, and we believe that adding some interactivity (e.g. allowing the user to choose from a list of simplifications, runs proofs in the background, etc.) would greatly benefit usability.</p>
+<p>Some potential areas of improvement for <strong>gooMBA</strong> are: sign extensions are not handled uniformly across all simplification strategies, point function analysis is limited, the simplification oracle is limited by necessity, and use-def analysis can be strengthened to extract expressions spread across basic blocks.</p>
+<p>Finally, it’s important to note that MBA obfuscation and deobfuscation are constantly evolving. We based our algorithm choices and implementations on the most promising research on the cutting-edge, but acknowledge that more effective solutions may appear in the future. For instance, though we found that machine learning techniques for MBA-solving have historically underperformed competing methods, machine learning seems like a good candidate for NP-hard problems such as MBA simplification, and we are watching this space for new solutions.</p>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ol>
+<li>Blazytko, Tim, et al. “Syntia: Synthesizing the semantics of obfuscated code.” 26th USENIX Security Symposium (USENIX Security 17). 2017.</li>
+<li>Blazytko, Tim, et al. “msynth.” https://github.com/mrphrazer/msynth. 2021.</li>
+<li>David, Robin, Luigi Coniglio, and Mariano Ceccato. “Qsynth-a program synthesis based approach for binary code deobfuscation.” BAR 2020 Workshop. 2020.</li>
+<li>Feng, Weijie, et al. “Neureduce: Reducing mixed boolean-arithmetic expressions by recurrent neural network.” Findings of the Association for Computational Linguistics: EMNLP 2020. 2020.</li>
+<li>Liu, Binbin, et al. “MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation.” 30th USENIX Security Symposium (USENIX Security 21). 2021.</li>
+<li>Quarkslab. “SSPAM: Symbolic Simplification with PAttern Matching.” https://github.com/quarkslab/sspam. 2016.</li>
+<li>Quarkslab. “Arybo.” https://github.com/quarkslab/arybo. 2016.</li>
+<li>Reichenwallner, Benjamin, and Peter Meerwald-Stadler. “Efficient Deobfuscation of Linear Mixed Boolean-Arithmetic Expressions.” Proceedings of the 2022 ACM Workshop on Research on offensive and defensive techniques in the context of Man At The End (MATE) attacks. 2022.</li>
+<li>Xu, Dongpeng, et al. “Boosting SMT solver performance on mixed-bitwise-arithmetic expressions.” Proceedings of the 42nd ACM SIGPLAN International Conference on Programming Language Design and Implementation. 2021.</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/decompiler/decompiler-manual/overvars.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/decompiler/decompiler-manual/failures.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/decompiler/decompiler-manual/overvars.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/decompiler/decompiler-manual/failures.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

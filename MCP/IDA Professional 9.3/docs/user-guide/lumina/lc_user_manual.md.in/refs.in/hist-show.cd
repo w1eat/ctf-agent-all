@@ -1,0 +1,196 @@
+,[-a|--additional-fields|LIST] Comma-delimited list of additional info to display (`username`, `license_name`, `license_email`, `license_id`, `func_id`, `func_ea`, `calcrel_hash`, `idb_path`, `input_hash`, `input_path`, `all`)
+,[-d|--details] Show details (diff-like) for each change
+,[--chronological] Display entries in chronological order (defaults to reverse-chronological).
+,[-m|--max-entries|NUMBER] maximum number of entries to fetch (defaults to 100)
+^common_options.cd
+
+>Queries history of changes for function(s).
+
+The following informations will be displayed for each change:
+
+* The ID of the change
+* The timestamp of the change
+* The ID of the push that contains the change
+* The name of the function at that change (+ `(*)` if it has been modified past this change)
+* optional: The username of the user that pushed this change
+* optional: The name of the license associated with the push for this change
+* optional: The email of the license associated with the push for this change
+* optional: The ID of the license associated with the push for this change
+* optional: The ID of the function
+* optional: The effective address (EA) of the function in the input file for the change
+* optional: The hash of the function
+* optional: The path of the idb file where the change came from
+* optional: The hash of the file where the change came from
+* optional: The path of the file where the change came from
+
+TIP: Wildcards can be used to facilitate the usage of options that take strings as input.
+See the [appendix](#string-patterns).
+
+! List the last 8 changes ("-m 8" specifies the number of changes to show; the default order is reverse-chronological)
+$$ -m 8
+	Change Time                Push Func name                  
+	------ ------------------- ---- ---------------------------
+	507    2022-09-15 14:48:18 5    math_things                
+	506    2022-09-15 14:48:17 4    calc_things (*)            
+	505    2022-09-15 14:48:17 4    start                      
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a
+	503    2022-09-15 14:48:16 3    display_keygen_window      
+	502    2022-09-15 14:48:15 2    fstat                      
+	501    2022-09-15 14:48:15 2    __umoddi3                  
+	500    2022-09-15 14:48:15 2    __udivdi3                  
+	# Shown 8 results (more are available...)
+
+! List changes from id 9 up to (but excluding) id 14
+$$ -r9..14
+	Change Time                Push Func name            
+	------ ------------------- ---- ---------------------
+	13     2022-09-15 14:48:05 2    AllocateBucketGroup  
+	12     2022-09-15 14:48:05 2    addr_map_find        
+	11     2022-09-15 14:48:05 2    addr_map_insert      
+	10     2022-09-15 14:48:05 2    addr_map_compare_func
+	9      2022-09-15 14:48:05 2    addr_map_free_func   
+	# Shown 5 results
+
+! List changes using multiple ranges (9..14,505..515; in this case, there were no changes after 507 in the database)
+$$ -r9..14,505..515
+	Change Time                Push Func name            
+	------ ------------------- ---- ---------------------
+	507    2022-09-15 14:48:18 5    math_things          
+	506    2022-09-15 14:48:17 4    calc_things (*)      
+	505    2022-09-15 14:48:17 4    start                
+	13     2022-09-15 14:48:05 2    AllocateBucketGroup  
+	12     2022-09-15 14:48:05 2    addr_map_find        
+	11     2022-09-15 14:48:05 2    addr_map_insert      
+	10     2022-09-15 14:48:05 2    addr_map_compare_func
+	9      2022-09-15 14:48:05 2    addr_map_free_func   
+	# Shown 8 results
+
+! Find changes from a specific idb file ("-i"), showing the function hash and ea ("-a" adds additional columns to the output)
+$$ -i C:\malware\apts\pc_keygenme_3.pe.idb -a calcrel_hash,func_ea
+	Change Time                Push Func name                   Func EA Func hash                       
+	------ ------------------- ---- --------------------------- ------- --------------------------------
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 4011e2  420A0485EDB7C6774E1822953FB785D4
+	503    2022-09-15 14:48:16 3    display_keygen_window       401099  ACA673D198FBC0DF24C20A15FF7F25CE
+	# Shown 2 results
+
+! Show the first 4 changes ("-m4") with their input file(s) (in "--chronological" order; "-a" adds an additional column)
+$$ --chronological -m 4 -a input_path
+	Change Time                Push Func name             Input path                          
+	------ ------------------- ---- --------------------- ------------------------------------
+	1      2022-09-15 14:47:44 1    .init_proc            /home/alice/work/pc_dwarf_arrays.elf
+	2      2022-09-15 14:47:44 1    _start                /home/alice/work/pc_dwarf_arrays.elf
+	3      2022-09-15 14:47:44 1    __do_global_dtors_aux /home/alice/work/pc_dwarf_arrays.elf
+	4      2022-09-15 14:47:44 1    frame_dummy           /home/alice/work/pc_dwarf_arrays.elf
+	# Shown 4 results (more are available...)
+
+! Show the last change by a user ("-u" indicates the user, "-m1" means show 1 change only, "-a" adds an additional column)
+$$ -ubob -m1 -a username
+	Change Time                Push Func name Username
+	------ ------------------- ---- --------- --------
+	502    2022-09-15 14:48:15 2    fstat     bob     
+	# Shown 1 results (more are available...)
+
+! Show up to 4 changes ("-m4") between two dates ("-t" indicates a range of "YYYY-MM-DD" dates)
+$$ -m4 -t2022-09-02..2022-12-03
+	Change Time                Push Func name                  
+	------ ------------------- ---- ---------------------------
+	507    2022-09-15 14:48:18 5    math_things                
+	506    2022-09-15 14:48:17 4    calc_things (*)            
+	505    2022-09-15 14:48:17 4    start                      
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a
+	# Shown 4 results (more are available...)
+
+! Show up to 4 changes ("-m4") between two "now"-relative dates ("-t", from 2 weeks ago to 5 minutes ago) ("-a" adds an additional column)
+$$ -m4 -t-2w..-5M -a func_id
+	Change Time                Push Func name                   Func ID
+	------ ------------------- ---- --------------------------- -------
+	507    2022-09-15 14:48:18 5    math_things                 506    
+	506    2022-09-15 14:48:17 4    calc_things (*)             506    
+	505    2022-09-15 14:48:17 4    start                       505    
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504    
+	# Shown 4 results (more are available...)
+
+! Show up to 4 changes ("-m4") between two "now"-relative dates ("-t", from 2 weeks ago to 5 minutes ago) ("-a" adds an additional column), only select the last change for each function
+$$ -m4 -t-2w..-5M -a func_id --last-change
+	Change Time                Push Func name                   Func ID
+	------ ------------------- ---- --------------------------- -------
+	507    2022-09-15 14:48:18 5    math_things                 506    
+	505    2022-09-15 14:48:17 4    start                       505    
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504    
+	503    2022-09-15 14:48:16 3    display_keygen_window       503    
+	# Shown 4 results (more are available...)
+
+! Show up to 4 changes ("-m4"), occurring after a "now"-relative date ("-t", from 6 hours ago up to now)
+$$ -m4 -t-6H
+	Change Time                Push Func name                  
+	------ ------------------- ---- ---------------------------
+	507    2022-09-15 14:48:18 5    math_things                
+	506    2022-09-15 14:48:17 4    calc_things (*)            
+	505    2022-09-15 14:48:17 4    start                      
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a
+	# Shown 4 results (more are available...)
+
+! Show changes about a specific function name ("-n")
+$$ -n print_relocinfo
+	Change Time                Push Func name      
+	------ ------------------- ---- ---------------
+	175    2022-09-15 14:48:08 2    print_relocinfo
+	# Shown 1 results
+
+! Show changes about a function name ("-n") searched by wildcard ("like:...")
+$$ -n "like:%reloc%info%"
+	Change Time                Push Func name                 
+	------ ------------------- ---- --------------------------
+	179    2022-09-15 14:48:08 2    print_reloc_information_32
+	178    2022-09-15 14:48:08 2    print_reloc_information_64
+	177    2022-09-15 14:48:08 2    print_relocinfo_32        
+	176    2022-09-15 14:48:08 2    print_relocinfo_64        
+	175    2022-09-15 14:48:08 2    print_relocinfo           
+	# Shown 5 results
+
+! Show metadata details ("--details") in changes for a function ("-n"); this particular change added a new function
+$$ -n is_location_form --details
+	Change Time                Push Func name       
+	------ ------------------- ---- ----------------
+	126    2022-09-15 14:48:07 2    is_location_form
+	      >> Score
+	      >>     - 0
+	      >>     + 1445
+	      >> Name
+	      >>     - None
+	      >>     + is_location_form
+	      >> Prototype
+	      >>     - 
+	      >>     + 0C303D08626F6F6C65616E0207
+	      >> Member @ 0x8
+	      >>     .type
+	      >>         - None
+	      >>         + 07
+	      >>     .cmt
+	      >>         - None
+	      >>         + 
+	      >>     .rptcmt
+	      >>         - None
+	      >>         + 
+	      >> Insn operands @ 0+0x3
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      >> Insn operands @ 0+0x9
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      >> Insn operands @ 0+0xf
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      >> Insn operands @ 0+0x15
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      >> Insn operands @ 0+0x1b
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      >> Insn operands @ 0+0x21
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	      >> Insn operands @ 0+0x27
+	      >>     - [<no ops repr>]
+	      >>     + [op0=0xb, op1=0x0, op2=0x0, op3=0x0, op4=0x0, op5=0x0, op6=0x0, op7=0x0]
+	# Shown 1 results

@@ -1,0 +1,11 @@
+.METHOD One of "auto", "lmerge", "rmerge", "manual", "local" or "remote".
+.$NCAT_VAULT_PATH:PATH_PATTERN Vault path of file(s) to resolve.
+
+>Resolves conflicts in a file, using the specified [strategy](#resolving-conflicts-in-a-file).
+
+After the strategy is successfully applied and the local file has
+incorporated both the "local" and "remote" changes, it will be ready
+to be committed.
+
+!
+$$ lmerge depot/file1.txt

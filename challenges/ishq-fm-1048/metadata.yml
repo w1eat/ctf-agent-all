@@ -1,0 +1,26 @@
+version: beta2
+platform: unknown
+native_id: '41'
+name: Ishq FM 104.8?
+category: BSides Orlando
+description: I thought we were in Orlando. What are we doing listening to them here
+  in Orlando? I didn't even think radio FM went that far. Challenge sponsored by The
+  Coding Hackers. (RF/hardware challenge - likely requires on-site venue)
+value: 490
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#Ishq%20FM%20104.8%3F-41
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Ishq%20FM%20104.8%3F-41
+environment:
+  status: unknown
+  source: remote
+  url: https://2026.sunshinectf.org/challenges#Ishq%20FM%20104.8%3F-41
+  host: 2026.sunshinectf.org
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments: []
+attachments_scanned: true
+state: ready
+reason: ''

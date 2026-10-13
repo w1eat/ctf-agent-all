@@ -1,0 +1,393 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Failures and troubleshooting - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="failures-and-troubleshooting"><a class="header" href="#failures-and-troubleshooting">Failures and troubleshooting</a></h1>
+<p>The following failure categories exist:</p>
+<ol>
+<li>a crash or access violation</li>
+<li><a href="failures.html#internal-errors">internal consistency check failure (interr)</a></li>
+<li><a href="failures.html#graceful-failures">graceful failure to decompile a function</a></li>
+<li>incorrect output text</li>
+<li>inefficient/unclear/suboptimal output text</li>
+</ol>
+<p>The current focus is on producing a correct output for any correct function. The decompiler should not crash, fail, or produce incorrect output for a valid input. Please file a <a href="failures.html#report">bugreport</a> if this happens.</p>
+<p>The decompiler has an extensive set of internal checks and assertions. For example, it does not produce code which dereferences a “void*” pointer. On the other hand, the produced code is not supposed to be compilable and many compilers will complain about it. This is a deliberate choice of not making the output 100% compilable because the goal is not to recompile the code but to let humans analyze it faster.</p>
+<p>The decompiler uses some C++ constructs in the output text. Their use is restricted to constructs which cannot be represented in C (the most notable example is passing structures to functions by value).</p>
+<h2 id="internal-errors"><a class="header" href="#internal-errors">Internal errors</a></h2>
+<p>When the decompiler detects an internal inconsistency, it displays a message box with the error code. It also proposes you to send the database to the hex-rays.com server:</p>
+<p><img src="assets/interr.gif" alt=""></p>
+<p>It is really difficult (almost impossible) to reproduce bugs without a sample database, so please send it to the server. To facilitate things, the decompiler saves its internal state to the database, which is really handy if the error occurs after hours and hours of decompilation.</p>
+<p>It is impossible to decompile anything after an internal error. Please reload the database, or better, restart IDA.</p>
+<h2 id="graceful-failures"><a class="header" href="#graceful-failures">Graceful failures</a></h2>
+<p>When the decompiler gracefully fails on a function, it will display one of the following messages. In general, there is no need to file a bugreport about a failure except if you see that the error message should not be displayed.</p>
+<ul>
+<li><a href="failures.html#cannot-convert-to-microcode">cannot convert to microcode</a></li>
+<li><a href="failures.html#not-enough-memory">not enough memory</a></li>
+<li><a href="failures.html#invalid-basic-block">invalid basic block</a></li>
+<li><a href="failures.html#positive-sp-value-has-been-found">positive sp value has been found</a></li>
+<li><a href="failures.html#prolog-analysis-failed">prolog analysis failed</a></li>
+<li><a href="failures.html#switch-analysis-failed">switch analysis failed</a></li>
+<li><a href="failures.html#exception-analysis-failed">exception analysis failed</a></li>
+<li><a href="failures.html#stack-frame-is-too-big">stack frame is too big</a></li>
+<li><a href="failures.html#local-variable-allocation-failed">local variable allocation failed</a></li>
+<li><a href="failures.html#id-16-bit-functions-are-not-supported">16-bit functions are not supported</a></li>
+<li><a href="failures.html#call-analysis-failed">call analysis failed</a></li>
+<li><a href="failures.html#function-frame-is-wrong">function frame is wrong</a></li>
+<li><a href="failures.html#undefined-or-illegal-type">undefined or illegal type</a></li>
+<li><a href="failures.html#inconsistent-database-information">inconsistent database information</a></li>
+<li><a href="failures.html#wrong-basic-type-sizes-in-compiler-settings">wrong basic type sizes in compiler settings</a></li>
+<li><a href="failures.html#redecompilation-has-been-required">redecompilation has been required</a></li>
+<li><a href="failures.html#could-not-compute-fpu-stack-states">could not compute fpu stack states</a></li>
+<li><a href="failures.html#max-recursion-depth-reached-during-lvar-allocation">max recursion depth reached during lvar allocation</a></li>
+<li><a href="failures.html#variables-would-overlap">variables would overlap</a></li>
+<li><a href="failures.html#partially-initialized-variable">partially initialized variable</a></li>
+<li><a href="failures.html#too-complex-function">too complex function</a></li>
+<li><a href="failures.html#no-license-available">no license available</a></li>
+<li><a href="failures.html#only-32-bit-functions-can-be-decompiled-for-the-current-database">only 32-bit functions can be decompiled for the current database</a></li>
+<li><a href="failures.html#only-64-bit-functions-can-be-decompiled-for-the-current-database">only 64-bit functions can be decompiled for the current database</a></li>
+<li><a href="failures.html#already-decompiling-a-function">already decompiling a function</a></li>
+<li><a href="failures.html#far-memory-model-is-supported-only-for-pc">far memory model is supported only for pc</a></li>
+<li><a href="failures.html#special-segments-cannot-be-decompiled">special segments cannot be decompiled</a></li>
+<li><a href="failures.html#too-big-function">too big function</a></li>
+<li><a href="failures.html#bad-input-ranges">bad input ranges</a></li>
+<li><a href="failures.html#current-architecture-is-not-supported">current architecture is not supported</a></li>
+<li><a href="failures.html#bad-instruction-in-the-delay-slot">bad instruction in the delay slot</a></li>
+</ul>
+<p>Please read the <a href="failures.html#troubleshooting">Troubleshooting</a> section about the possible actions.</p>
+<h3 id="cannot-convert-to-microcode"><a class="header" href="#cannot-convert-to-microcode">cannot convert to microcode</a></h3>
+<p>This error means that the decompiler could not translate an instruction at the specified address into microcode. Please check the instruction and its length. If it looks like a regular instruction used in the compiler generated code and its length is correct, file a bugreport.</p>
+<h3 id="not-enough-memory"><a class="header" href="#not-enough-memory">not enough memory</a></h3>
+<p>The error message is self-explanatory. While it should not happen very often, it still can be seen on functions with huge stacks. No need to report this bug. Hopefully the next version will handle functions with huge stack more efficiently.</p>
+<p>Please restart IDA after this error message.</p>
+<h3 id="invalid-basic-block"><a class="header" href="#invalid-basic-block">invalid basic block</a></h3>
+<p>This error means that at the specified address there is a basic block, which does not end properly. For example, it jumps out of the function, ends with a non-instruction, or simply contains garbage. If you can, try to correct the situation by modifying the function boundaries, creating instructions, or playing with function tails. Usually this error happens with malformed functions.</p>
+<p>If the error happens because of a call, which does not return, marking the called function as “noret” will help. If the call is indirect, adding a cross reference to a “noret” function will help too.</p>
+<p>If this error occurs on a database created by an old version of IDA, try to reanalyze the program before decompiling it. In general, it is better to use the latest version of IDA to create the databases for decompilation.</p>
+<p>Unrecognized table jumps may lead to this failure too.</p>
+<h3 id="positive-sp-value-has-been-found"><a class="header" href="#positive-sp-value-has-been-found">positive sp value has been found</a></h3>
+<p>The stack pointer at the specified address is higher than the initial stack pointer. Functions behaving so strangely cannot be decompiled. If you see that the stack pointer values are incorrect, modify them with the <strong>Alt-K (Edit, Functions, Change stack pointer)</strong> command in IDA.</p>
+<h3 id="prolog-analysis-failed"><a class="header" href="#prolog-analysis-failed">prolog analysis failed</a></h3>
+<p>Analysis of the function prolog has failed. Currently there is not much you can do but you will not see this error very often. The decompiler will try to produce code with prolog instructions rather than stopping because of this failure.</p>
+<h3 id="switch-analysis-failed"><a class="header" href="#switch-analysis-failed">switch analysis failed</a></h3>
+<p>The switch idiom (an indirect jump) at the specified address could not be analyzed. You may specify the switch idiom manually using <strong>Edit, Other, Specify switch idiom</strong>.</p>
+<p>If this error occurs on a database created by an old version of IDA, try to delete the offending instruction and recreate it. Doing so will reanalyze it and might fix the error because newer versions of IDA handle switches much better than older versions.</p>
+<h3 id="exception-analysis-failed"><a class="header" href="#exception-analysis-failed">exception analysis failed</a></h3>
+<p>This error message should not occur because the current version will happily decompile any function and just ignore any exception handlers and related code.</p>
+<h3 id="stack-frame-is-too-big"><a class="header" href="#stack-frame-is-too-big">stack frame is too big</a></h3>
+<p>Since the stack analysis requires lots of memory, the decompiler will refuse to handle any function with the unaliased stack bigger than 1 MB.</p>
+<h3 id="local-variable-allocation-failed"><a class="header" href="#local-variable-allocation-failed">local variable allocation failed</a></h3>
+<p>This error message means that the decompiler could not allocate local variables with the registers and stack locations. You will see this error message only if you have enabled HO_IGNORE_OVERLAPS in the <a href="config.html#ho_ignore_overlaps">configuration file</a>. If overlapped variables are allowed in the output, they are displayed in red.</p>
+<p>Please check the prototypes of all involved functions, including the current one. Variables types and definitions may cause this error too.</p>
+<p>Updating the function stack frame and creating correct stack variables too may help solve the problem.</p>
+<p>If you got this error after some manipulations with the function type or variable types, you may reset the information about the current function (<a href="interactive.html#edit-other-reset-decompiler-information">Edit, Other, Reset decompiler information</a>) and start afresh.</p>
+<h3 id="16-bit-functions-are-not-supported"><a class="header" href="#16-bit-functions-are-not-supported">16-bit functions are not supported</a></h3>
+<p>The message text says it all. While the decompiler itself can be fine tuned to decompile 16-bit code, this is not a priority.</p>
+<h3 id="call-analysis-failed"><a class="header" href="#call-analysis-failed">call analysis failed</a></h3>
+<p>This is the most painful error message but it is also something you can do something about. In short, this message means that the decompiler could not determine the calling convention and the call parameters. If this is a direct non-variadic call, you can fix it by specifying the callee type: just jump to the callee and hit <strong>Y</strong> to specify the type. For variadic functions too it is a good idea to specify the type, but the call analysis could still fail because the decompiler has to find out the actual number of arguments in the call. We would recommend to start by checking the stack pointer in the whole function. Get rid of any incorrect stack pointer values. Second, check the types of all called functions. If the type of a called function is wrong, it can interfere with other calls and lead to a failure. Here is a small example:</p>
+<pre><code>          push eax
+          push edx
+          push eax
+          call  f1
+          call  f2
+</code></pre>
+<p>If f1 is defined as a <strong>__stdcall</strong> function of 3 arguments, and f2 is a function of 1 argument, the call analysis will fail because we need in total 4 arguments and only 3 arguments are pushed onto the stack.</p>
+<p>If the error occurs on an indirect call, please specify the operand type (Set operand type… command; action <code>SetOpType</code>) of the call instruction. Also, <a href="/user-guide/user-interface/subviews.html#cross-references-window">adding an xref</a> to a function of the desired type from the call instruction will work. The decompiler will use the type of the referenced function.</p>
+<p>If all input types are correct and the stack pointer values are correct but the decompiler still fails, please file a bugreport.</p>
+<h3 id="function-frame-is-wrong"><a class="header" href="#function-frame-is-wrong">function frame is wrong</a></h3>
+<p>This is a rare error message. It means that something is wrong with the function stack frame. The most probable cause is that the return address area is missing in the frame or the function farness (far/near) does not match it.</p>
+<h3 id="undefined-or-illegal-type"><a class="header" href="#undefined-or-illegal-type">undefined or illegal type</a></h3>
+<p>This error can occur if a reference to a named type (a typedef) is made but the type is undefined. The most common case is when a type library (like vc6win.til) is unloaded. This may invalidate all references to all types defined in it.</p>
+<p>This error also occurs when a type definition is illegal or incorrect. To fix an undefined ordinal type, open the local types windows (Shift-F1) and redefine the missing type.</p>
+<h3 id="inconsistent-database-information"><a class="header" href="#inconsistent-database-information">inconsistent database information</a></h3>
+<p>Currently this error means that the function chunk information is incorrect. Try to redefine (delete and recreate) the function.</p>
+<h3 id="wrong-basic-type-sizes-in-compiler-settings"><a class="header" href="#wrong-basic-type-sizes-in-compiler-settings">wrong basic type sizes in compiler settings</a></h3>
+<p>Some basic type sizes are incorrect. The decompiler requires that</p>
+<ul>
+<li>sizeof(int) == 4</li>
+<li>sizeof(enum) == 4</li>
+</ul>
+<p>Please check the type sizes in the Options, Compiler dialog box and modify them if they are incorrect.</p>
+<p>Also ensure that the correct memory model is selected: “near data, near code”.</p>
+<p>Finally, the pointer size must be:</p>
+<p>for 32-bit applications use “near 32bit, far 48bit”</p>
+<p>for 64-bit applications use “64bit”.</p>
+<h3 id="redecompilation-has-been-required"><a class="header" href="#redecompilation-has-been-required">redecompilation has been required</a></h3>
+<p>This is an internal error code and should not be visible to the end user. If it still gets displayed, please file a bugreport.</p>
+<h3 id="could-not-compute-fpu-stack-states"><a class="header" href="#could-not-compute-fpu-stack-states">could not compute fpu stack states</a></h3>
+<p>The decompiler failed to trace the FPU stack pointer. Please check the called function types, this is the only thing available for the moment. We will introduce workarounds and corrective commands in the future. For more information about floating point support, please follow this <a href="fpu.html">link</a>.</p>
+<h3 id="max-recursion-depth-reached-during-lvar-allocation"><a class="header" href="#max-recursion-depth-reached-during-lvar-allocation">max recursion depth reached during lvar allocation</a></h3>
+<p>Please file a bugreport, normally this error message should not be displayed.</p>
+<h3 id="variables-would-overlap"><a class="header" href="#variables-would-overlap">variables would overlap</a></h3>
+<p>This is a variant of the <a href="failures.html#local-variable-allocation-failed">variable allocation failure</a> error. You will see this error message only if you have enabled HO_IGNORE_OVERLAPS in the <a href="config.html">configuration file</a>. If overlapped variables are allowed in the output, they are displayed in red.</p>
+<h3 id="partially-initialized-variable"><a class="header" href="#partially-initialized-variable">partially initialized variable</a></h3>
+<p>A partially initialized variable has been detected. Wrong stack trace can induce this error, please check the stack pointer.</p>
+<h3 id="too-complex-function"><a class="header" href="#too-complex-function">too complex function</a></h3>
+<p>The function is too big or too complex. Unfortunately there is nothing the user can do to avoid this error.</p>
+<h3 id="no-license-available"><a class="header" href="#no-license-available">no license available</a></h3>
+<p>IDA could not locate your decompiler license.</p>
+<h3 id="only-32-bit-functions-can-be-decompiled-for-the-current-database"><a class="header" href="#only-32-bit-functions-can-be-decompiled-for-the-current-database">only 32-bit functions can be decompiled for the current database</a></h3>
+<p>This error message will not currently be displayed.</p>
+<h3 id="only-64-bit-functions-can-be-decompiled-for-the-current-database"><a class="header" href="#only-64-bit-functions-can-be-decompiled-for-the-current-database">only 64-bit functions can be decompiled for the current database</a></h3>
+<p>IDA64 can currently decompile only 64-bit functions. To decompile 32-bit functions please use IDA32.</p>
+<h3 id="already-decompiling-a-function"><a class="header" href="#already-decompiling-a-function">already decompiling a function</a></h3>
+<p>An attempt to decompile a function while decompiling another function has been detected. Currently only one function can be decompiled at once.</p>
+<h3 id="far-memory-model-is-supported-only-for-pc"><a class="header" href="#far-memory-model-is-supported-only-for-pc">far memory model is supported only for pc</a></h3>
+<p>Please check the data and code memory models in the Options, Compiler dialog. If necessary, reset them to ‘near’ models.</p>
+<h3 id="special-segments-cannot-be-decompiled"><a class="header" href="#special-segments-cannot-be-decompiled">special segments cannot be decompiled</a></h3>
+<p>The current function belongs to a special segment (e.g. “extern” segment). Such segments do not contain any real code, they contain just pointers to imported functions. The function body is located in some other dynamic library. Therefore, there is nothing that we could decompile.</p>
+<h3 id="too-big-function"><a class="header" href="#too-big-function">too big function</a></h3>
+<p>The current function is bigger than the maximal permitted size. The maximal permitted size is specified by the <a href="config.html#MAX_FUNCSIZE">MAX_FUNCSIZE</a> configuration parameter.</p>
+<h3 id="bad-input-ranges"><a class="header" href="#bad-input-ranges">bad input ranges</a></h3>
+<p>The specified input ranges are wrong. The range vector cannot be empty. The first entry must point to an instruction. Ranges may not overlap. Ranges may not start or end in the middle of an item.</p>
+<h3 id="current-architecture-is-not-supported"><a class="header" href="#current-architecture-is-not-supported">current architecture is not supported</a></h3>
+<p>The current processor bitness, endianness, or ABI settings in the compiler options are not acceptable. See the current ABI limitations <a href="limit.html">here</a>.</p>
+<h3 id="bad-instruction-in-the-delay-slot"><a class="header" href="#bad-instruction-in-the-delay-slot">bad instruction in the delay slot</a></h3>
+<p>Branches and jumps are not allowed in a delay slot. Such instructions signal an exception and cannot be decompiled.</p>
+<h3 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h3>
+<p>When the decompiler fails, please check the following things:</p>
+<ul>
+<li><mark style="background-color:yellow;"><strong>the function boundaries</strong></mark>. There should not be any wild branches jumping out of function to nowhere. The function should end properly, with a return instruction or a jump to the beginning of another function. If it ends after a call to a non-returning function, the callee must be marked as a <strong>non-returning</strong> function.</li>
+<li><mark style="background-color:yellow;"><strong>the stack pointer values.</strong></mark> Use the <strong>Options, General, Stack pointer</strong> command to display them in a column just after the addresses in the disassembly view. If the stack pointer value is incorrect at any location of the function, the decompilation may fail. To correct the stack pointer values, use the <strong>Edit, Functions, Change stack pointer</strong> command.</li>
+<li><mark style="background-color:yellow;"><strong>the stack variables.</strong></mark> Open the stack frame window with the <strong>Edit, Functions, Stack variables…</strong> command and verify that the definitions make sense. In some cases creating a big array or a structure variable may help.</li>
+<li><mark style="background-color:yellow;"><strong>the function type.</strong></mark> The calling convention, the numbers and the types of the arguments must be correct. If the function type is not specified, the decompiler will try to deduce it. In some rare cases, it will fail. If the function expects its input in non-standard registers or returns the result in a non-standard register, you will have to inform the decompiler about it. Currently it makes a good guess about the non-standard input locations but cannot handle non-standard return locations.</li>
+<li><mark style="background-color:yellow;"><strong>the types of the called functions and referenced data items.</strong></mark> A wrong type can wreak havoc very easily. Use the <strong>F</strong> hotkey to display the type of the current item in the message window. For functions, position the cursor on the beginning and hit <strong>F</strong>. If the type is incorrect, modify it with <strong>Edit, Functions, Set function type</strong> (the hotkey is <strong>Y</strong>). This command works not only for functions but also for data and structure members.</li>
+<li>If a type refers to an <mark style="background-color:yellow;"><strong>undefined type</strong></mark>, the decompilation might fail.</li>
+<li>use a database created by <mark style="background-color:yellow;"><strong>the latest version of IDA</strong></mark>.</li>
+</ul>
+<p>In some cases the output may contain variables in red. It means that local variable allocation has failed. Please read the page about <a href="overvars.html">overlapped variables</a> for the possible corrective methods.</p>
+<p>The future versions will have more corrective commands but we have to understand what commands we need.</p>
+<h3 id="bugreports"><a class="header" href="#bugreports">Bugreports</a></h3>
+<p>To be useful, the bugreport must contain enough information to reproduce the bug. The <a href="interactive.html#help-send-database">send database</a> command is the preferred way of sending bugreports because it saves all relevant information to the database. Some bugs are impossible to reproduce without this command.</p>
+<p>The database is sent in the compressed form to save the bandwidth. An SSL connection is used for the transfer.</p>
+<p>If your database/input file is confidential and you cannot send it, try to find a similar file to illustrate the problem. Thank you.</p>
+<p>We handle your databases confidentially (as always in the past).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../user-guide/decompiler/goomba.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../user-guide/decompiler/decompiler-manual/faq.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../user-guide/decompiler/goomba.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../user-guide/decompiler/decompiler-manual/faq.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../highlight-abc7f01d.js"></script>
+        <script src="../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

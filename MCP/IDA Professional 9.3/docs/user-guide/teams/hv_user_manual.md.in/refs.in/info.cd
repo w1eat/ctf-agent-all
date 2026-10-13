@@ -1,0 +1,17 @@
+>Displays info about the vault and current session.
+
+!
+$$
+Hex-Rays Vault Server v1
+Vault time: 2022-06-29 00:13:55, up since 2022-06-28 09:40:53
+License user : Johnny Appleseed
+License email: john@appleseed.net
+License: IDAULTTL; 10 users out of 30; expires on 2023-10-13
+MAC address: 7F:A7:B3:C1:8D:79
+Vault directory: /opt/hexvault/files
+Client name: john *ADMIN*
+Client site: johnpc
+Client host: johnpc (127.0.0.1)
+Client root: /home/john/vault
+Login time : 2022-06-29 00:13:55
+Last active: 2022-06-29 00:13:55

@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "current_key": "d88f1a1c1c650207b17c:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "d88f1a1c1c650207b17c:platform_confirmed",
+      "flag": "sun{cr4ck_tHe_ciPh3r_fr33_thE_heaP}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Code Breaker",
+        "category": "Pwn",
+        "description": "CodeBreaker: enterprise-grade encrypted key-value storage. All traffic is encrypted with our proprietary cipher. Your data has never been safer.",
+        "connection_info": "nc chal.sunshinectf.games 26005",
+        "value": 488,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Reverse-engineered the proprietary cipher + heap exploitation of the CodeBreaker KV store: sun{cr4ck_tHe_ciPh3r_fr33_thE_heaP} | Evidence: Remote service sent an initial plaintext packet [len=0x0011][0x01][16 random bytes] and required a 0x02 handshake packet followed by a 0x03 verification packet. ; Reversed the custom key schedule: S[k] = rol8(T[buf[(8o+k)%32] ^ S[k]] ^ buf[3o+k], 3) over 4 outer rounds, and the stream cipher keystream[i] = T[(counter + i + S[i%16]) & 0xff]. Produced valid handshake packets so the server proceeded into the KV-store command loop. ; Found a use-after-free/double-free in the clone/free refcount logic (clone shares ptr but each entry has its own count), enabling a tcache double-free. ; Leaked the PIE base from the 0x16 info command (function pointer 0x1390 at 0x40c0), leaked the heap shift p>>12 from the freed chunk's safe-linked next pointer, then tcache-poisoned to allocate a chunk at 0x40c0 and overwrite the function pointer with system@plt (PIE+0x1150). ; The 0x15 'run' command calls [0x40c0] with attacker-controlled string, giving RCE; running 'cat flag*' on the remote returned sun{cr4ck_tHe_ciPh3r_fr33_thE_heaP}.",
+      "solution_steps": [
+        "Extract T table (256 bytes at file offset 0x2040) and reverse the key schedule from function 0x1670.",
+        "Read the initial 17-byte packet, choose 16 bytes B, send packet [0x02]+B, compute S, then send packet [0x03]+v encrypted with the stream cipher (counter 0).",
+        "Enter the KV store protocol with inbound counter=17 and outbound counter=2, decrypting/encrypting every packet.",
+        "Leak PIE base via cmd 0x16; leak heap shift via a freed chunk's encoded next pointer.",
+        "Use three clones of one buffer and repeated free/clear-key to create a 3-count tcache double free, poison next to PIE+0x40c0, and allocate a chunk there writing system@plt.",
+        "Send cmd 0x15 with 'cat flag*' to execute system() and read the flag."
+      ],
+      "evidence": [
+        "Remote service sent an initial plaintext packet [len=0x0011][0x01][16 random bytes] and required a 0x02 handshake packet followed by a 0x03 verification packet.",
+        "Reversed the custom key schedule: S[k] = rol8(T[buf[(8o+k)%32] ^ S[k]] ^ buf[3o+k], 3) over 4 outer rounds, and the stream cipher keystream[i] = T[(counter + i + S[i%16]) & 0xff]. Produced valid handshake packets so the server proceeded into the KV-store command loop.",
+        "Found a use-after-free/double-free in the clone/free refcount logic (clone shares ptr but each entry has its own count), enabling a tcache double-free.",
+        "Leaked the PIE base from the 0x16 info command (function pointer 0x1390 at 0x40c0), leaked the heap shift p>>12 from the freed chunk's safe-linked next pointer, then tcache-poisoned to allocate a chunk at 0x40c0 and overwrite the function pointer with system@plt (PIE+0x1150).",
+        "The 0x15 'run' command calls [0x40c0] with attacker-controlled string, giving RCE; running 'cat flag*' on the remote returned sun{cr4ck_tHe_ciPh3r_fr33_thE_heaP}."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/d88f1a1c1c650207b17c/deepseek-deepseek-flash-5403e74e/1497a3e0d8fb7864/solve.py",
+        ".writeup-drafts/d88f1a1c1c650207b17c/deepseek-deepseek-flash-5403e74e/d2b0ff43e7af2ae9/exploit.py"
+      ],
+      "exp_run_command": "python3 -u /challenge/workspace/exploit.py chal.sunshinectf.games 26005",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "运行命令引用的脚本不在已保存的 EXP 中，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "6e33049f7c75f8f0160a2ee941c448a350d324fb4e8d425324414338e445a2bf",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:32:47.797292+00:00",
+      "updated_at": "2026-09-27T04:32:57.572979+00:00",
+      "exp_sha256": {
+        "exp/solve.py": "1497a3e0d8fb7864bfdc5bac1216419bd4b761251337a98460c39734dcda6dee",
+        "exp/exploit.py": "d2b0ff43e7af2ae9857d53f6fad05913d1b86497b73b392ea437783b6569806a"
+      }
+    }
+  ]
+}

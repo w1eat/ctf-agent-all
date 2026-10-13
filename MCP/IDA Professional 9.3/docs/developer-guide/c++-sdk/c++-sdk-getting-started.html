@@ -1,0 +1,500 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Getting Started - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="getting-started-with-c-sdk"><a class="header" href="#getting-started-with-c-sdk">Getting started with C++ SDK</a></h1>
+<h2 id="intro"><a class="header" href="#intro">Intro</a></h2>
+<p>The IDA C++ SDK provides set of tools to interact with IDA Pro’s disassembler, allowing you to navigate, analyze, and manipulate various elements such as functions, instructions, and data. This guide is designed to accelerate your learning curve with the IDA C++ SDK and kickstart your development journey, assuming you are already familiar with IDA Pro and its basic usage.</p>
+<p>Our IDA SDK is open source and available on <a href="https://github.com/HexRaysSA/ida-sdk">GitHub</a>.</p>
+<h2 id="how-this-guide-is-structured"><a class="header" href="#how-this-guide-is-structured">How This Guide is Structured</a></h2>
+<p>First, check Basics for core concepts and commonly used variables. Next, explore our Code Snippets to see examples of commonly used functions. Once you’re comfortable with these, you can delve into more complex Examples that showcase advanced usage of the SDK.</p>
+<h2 id="c-sdk-installation"><a class="header" href="#c-sdk-installation">C++ SDK Installation</a></h2>
+<p>Download the latest version of the SDK directly from <a href="[GitHub](https://github.com/HexRaysSA/ida-sdk)">IDA SDK GitHub</a> and follow the setup instructions provided in the README.</p>
+<h2 id="basics"><a class="header" href="#basics">Basics</a></h2>
+<h3 id="common-types-and-constants"><a class="header" href="#common-types-and-constants">Common Types and Constants</a></h3>
+<p>One of the most extensivly used type is  <code>ea_t</code>, commonly used to represent an effective address (EA) within a binary.</p>
+<h3 id="common-header-files-and-namespaces"><a class="header" href="#common-header-files-and-namespaces">Common header files and namespaces</a></h3>
+<p>The IDA C++ SDK is organized into header files containing various classes and functions. Below is a short description of commonly used IDA SDK header files:</p>
+<ul>
+<li>
+<p><code>pro.h</code>: This is the first header included in the IDA project. It defines the most common types, functions, and data. It also contains compiler- and platform-related definitions.</p>
+</li>
+<li>
+<p><code>ida.hpp</code>: In this file the ‘inf’ structure is defined: it keeps all parameters of the disassembled file.</p>
+</li>
+<li>
+<p><code>idp.hpp</code>: The ‘main’ header file for IDP modules. Contains definition of the interface to IDP modules. The interface consists of 2 structures:
+processor_t - description of processor<br>asm_t       - description of assembler<br>Each IDP has one processor_t and several asm_t structures.</p>
+</li>
+<li>
+<p><code>loader.hpp</code>: Definitions of IDP, LDR, and PLUGIN module interfaces.
+This file also contains:</p>
+<ul>
+<li>functions to load files into the database</li>
+<li>functions to generate output files</li>
+<li>high level functions to work with the database (open, save, close)</li>
+</ul>
+</li>
+<li>
+<p><code>ua.hpp</code>: Functions that deal with the disassembling of program instructions. Disassembly of an instruction is made in three steps:</p>
+<ul>
+<li>analysis</li>
+<li>emulation</li>
+<li>conversion to text</li>
+</ul>
+</li>
+<li>
+<p><code>kernwin.hpp</code>: Defines the interface between the kernel and the UI. Some string processing functions are also kept in this header.</p>
+</li>
+<li>
+<p><code>idd.hpp</code>: Debugger plugin API for debugger module writers. Contains definition of the interface to IDD modules.</p>
+</li>
+<li>
+<p><code>bytes.hpp</code>: Functions and definitions used to describe and manipulate each byte of the disassembled program. Information about the byte includes associated features (comments, names, references, etc), data types (dword, qword, string literal, etc), instruction operands, status (mapped, loaded, patched, etc), among others.</p>
+</li>
+<li>
+<p><code>netnode.hpp</code>: Functions that provide the lowest level public interface to the database. Modules can use this to keep some private information in the database. A description of the concept is available in the header file itself.</p>
+</li>
+<li>
+<p><code>allins.hpp</code>: List of instructions available from all processor modules.</p>
+</li>
+<li>
+<p><code>auto.hpp</code>: Auto-analysis related functions.</p>
+</li>
+<li>
+<p><code>compress.hpp</code>: Data compression functions.</p>
+</li>
+<li>
+<p><code>config.hpp</code>: Functions that deal with configuration options and files.</p>
+</li>
+<li>
+<p><code>dbg.hpp</code>: Contains functions to control the debugging of a process.</p>
+</li>
+<li>
+<p><code>diskio.hpp</code>: File I/O functions for IDA. You should not use standard C file I/O functions in modules. Use functions from this header, pro.h, and fpro.h instead.</p>
+</li>
+<li>
+<p><code>entry.hpp</code>: Functions that deal with entry points to the program being disassembled.</p>
+</li>
+<li>
+<p><code>enum.hpp</code>: Enumeration type management (assembly level types).</p>
+</li>
+<li>
+<p><code>err.h</code>: Thread safe functions that deal with error codes.</p>
+</li>
+<li>
+<p><code>expr.hpp</code>: Functions that deal with C-like expressions, external languages, and the built-in IDC language.</p>
+</li>
+<li>
+<p><code>fixup.hpp</code>: Functions that deal with fixup (relocation) information.</p>
+</li>
+<li>
+<p><code>fpro.h</code>: System independent counterparts of file I/O functions.
+These functions do check errors but never exit even if an error occurs. They return extended error code in qerrno variable.
+NOTE: You must use these functions instead of the C standard I/O functions.</p>
+</li>
+<li>
+<p><code>frame.hpp</code>: Routines to manipulate function stack frames, stack variables, register variables and local labels.</p>
+</li>
+<li>
+<p><code>funcs.hpp</code>: Routines for working with functions within the disassembled program. This file also contains routines for working with library signatures (e.g. FLIRT).</p>
+</li>
+<li>
+<p><code>gdl.hpp</code>: Low level graph drawing operations.</p>
+</li>
+<li>
+<p><code>graph.hpp</code>: Graph view management.</p>
+</li>
+<li>
+<p><code>help.h</code>: Help subsystem. This subsystem is not used in IDP files. We put it just in case.</p>
+</li>
+<li>
+<p><code>ieee.h</code>: IEEE floating point functions.</p>
+</li>
+<li>
+<p><code>intel.hpp</code>: Header file from the IBM PC module. For information only. It will not compile because it contains references to internal files!</p>
+</li>
+<li>
+<p><code>lex.hpp</code>: Tools for parsing C-like input.</p>
+</li>
+<li>
+<p><code>lines.hpp</code>: High level functions that deal with the generation of the disassembled text lines.</p>
+</li>
+<li>
+<p><code>nalt.hpp</code>: Definitions of various information kept in netnodes. These functions should not be used directly since they are very low level.</p>
+</li>
+<li>
+<p><code>moves.hpp</code>: Functions and classes related to location history.</p>
+</li>
+<li>
+<p><code>name.hpp</code>: Functions that deal with names (setting, deleting, getting, validating, etc).</p>
+</li>
+<li>
+<p><code>offset.hpp</code>: Functions that deal with offsets.</p>
+</li>
+<li>
+<p><code>problems.hpp</code>: Functions that deal with the list of problems.</p>
+</li>
+<li>
+<p><code>prodir.h</code>: Low level functions to find files in the file system. It is better to use enumerate_files2() from diskio.hpp.</p>
+</li>
+<li>
+<p><code>pronet.h</code>: Network related functions.</p>
+</li>
+<li>
+<p><code>range.hpp</code>: Contains the definition of the ‘range_t’ class. This is a base class used by many parts of IDA, such as the ‘segment_t’ and ‘segreg_range_t’ (segment register) classes.</p>
+</li>
+<li>
+<p><code>registry.hpp</code>: Registry related functions. IDA uses the registry to store global configuration options that must persist after IDA has been closed.</p>
+</li>
+<li>
+<p><code>segment.hpp</code>: Functions that deal with program segmentation.</p>
+</li>
+<li>
+<p><code>segregs.hpp</code>: Functions that deal with the segment registers. If your processor doesn’t use segment registers, then you don’t need this file.</p>
+</li>
+<li>
+<p><code>strlist.hpp</code>: Functions that deal with the strings list.</p>
+</li>
+<li>
+<p><code>struct.hpp</code>: Structure type management (assembly level types).</p>
+</li>
+<li>
+<p><code>typeinf.hpp</code>: Describes the type information records in IDA.</p>
+</li>
+<li>
+<p><code>xref.hpp</code>: Functions that deal with cross-references.</p>
+</li>
+</ul>
+<p>{% hint style=“info” %}
+All functions usable in the modules are marked by the <strong>“ida_export”</strong> keyword.
+{% endhint %}</p>
+<p>Here are the most common namespaces to start with:</p>
+<p><code>idc</code>: This namespace provides access to IDC scripting functions via C++ SDK. It is often used for common tasks like setting comments or modifying bytes.</p>
+<p><code>idati</code>: This namespace is used for interacting with type information, such as function signatures and type definitions.</p>
+<p><code>idaapi</code>: This namespace contains core classes and functions for interacting with IDA’s API, including functions for handling UI elements, plugins, and database access.</p>
+<p><code>idamisc</code>: This namespace includes utility functions for various tasks, such as working with the address space and disassembly.</p>
+<h2 id="code-snippets"><a class="header" href="#code-snippets">Code Snippets</a></h2>
+<p>Here are common functions and examples grouped by topics:</p>
+<h2 id="part-1-addresses-and-names"><a class="header" href="#part-1-addresses-and-names">Part 1: Addresses and Names</a></h2>
+<h3 id="get-the-current-address"><a class="header" href="#get-the-current-address">Get the Current Address</a></h3>
+<pre><code class="language-cpp">ea_t ea = get_screen_ea();  // Get the current address
+printf("Current address: %llx\n", ea);
+</code></pre>
+<h3 id="jump-to-the-address"><a class="header" href="#jump-to-the-address">Jump to the address</a></h3>
+<pre><code class="language-cpp">jumpto(0x401000);  // Jump to address 0x401000
+</code></pre>
+<h3 id="get-the-minimum-and-maximum-address-in-idb"><a class="header" href="#get-the-minimum-and-maximum-address-in-idb">Get the Minimum and Maximum Address in IDB</a></h3>
+<pre><code class="language-cpp">ea_t min_ea = get_inf_attr(INF_MIN_EA);
+ea_t max_ea = get_inf_attr(INF_MAX_EA);
+</code></pre>
+<h3 id="list-all-instruction-addresses"><a class="header" href="#list-all-instruction-addresses">List All Instruction Addresses</a></h3>
+<pre><code class="language-cpp">for (ea_t ea = get_segm_by_name("CODE"); ea != BADADDR; ea = get_next_head(ea, badaddr)) {
+    printf("Instruction address: %llx\n", ea);
+}
+</code></pre>
+<h3 id="get-the-name-associated-with-a-given-address"><a class="header" href="#get-the-name-associated-with-a-given-address">Get the Name Associated with a Given Address</a></h3>
+<pre><code class="language-cpp">const char* name = get_name(0x100000da0);
+printf("Name: %s\n", name);
+</code></pre>
+<h3 id="get-the-address-associated-with-a-given-name"><a class="header" href="#get-the-address-associated-with-a-given-name">Get the Address Associated with a Given Name</a></h3>
+<pre><code class="language-cpp">ea_t address = get_name_ea(0, "_main");
+printf("Address: %llx\n", address);
+</code></pre>
+<h2 id="part-2-reading-and-writing-data"><a class="header" href="#part-2-reading-and-writing-data">Part 2: Reading and Writing Data</a></h2>
+<h3 id="reading-bytes-and-words"><a class="header" href="#reading-bytes-and-words">Reading Bytes and Words</a></h3>
+<pre><code class="language-cpp">u8 byte_value = get_byte(0x401000);  // Read a byte at address 0x401000
+u16 word_value = get_word(0x401002);  // Read a word (2 bytes) at address 0x401002
+u32 dword_value = get_dword(0x401004);  // Read a double word (4 bytes) at address 0x401004
+
+printf("Byte: %x, Word: %x, Dword: %x\n", byte_value, word_value, dword_value);
+</code></pre>
+<h3 id="writing-bytes-and-words"><a class="header" href="#writing-bytes-and-words">Writing Bytes and Words</a></h3>
+<pre><code class="language-cpp">patch_byte(0x401000, 0x90);  // Write a byte (0x90) at address 0x401000
+patch_word(0x401002, 0x9090);  // Write a word (0x9090) at address 0x401002
+patch_dword(0x401004, 0x90909090);  // Write a double word (0x90909090) at address 0x401004
+</code></pre>
+<h2 id="part-3-comments"><a class="header" href="#part-3-comments">Part 3: Comments</a></h2>
+<h3 id="add-a-regular-or-repeatable-comment"><a class="header" href="#add-a-regular-or-repeatable-comment">Add a Regular or Repeatable Comment</a></h3>
+<pre><code class="language-cpp">set_cmt(0x401000, "This is a comment", false);  // Add a regular comment at address 0x401000
+set_cmt(0x401000, "This is a repeatable comment", true);  // Add a repeatable comment at address 0x401000
+</code></pre>
+<h3 id="get-a-regular-comment"><a class="header" href="#get-a-regular-comment">Get a Regular Comment</a></h3>
+<pre><code class="language-cpp">const char* comment = get_cmt(0x401000, false);  // Get a regular comment at address 0x401000
+printf("Comment: %s\n", comment);
+</code></pre>
+<h2 id="part-4-segments"><a class="header" href="#part-4-segments">Part 4: Segments</a></h2>
+<h3 id="get-a-segment-name"><a class="header" href="#get-a-segment-name">Get a Segment Name</a></h3>
+<pre><code class="language-cpp">const char* seg_name = get_segm_name(ea);
+printf("Segment name: %s\n", seg_name);
+</code></pre>
+<h3 id="iterate-through-all-segments"><a class="header" href="#iterate-through-all-segments">Iterate Through All Segments</a></h3>
+<pre><code class="language-cpp">for (seg_t* seg = get_first_seg(); seg != nullptr; seg = get_next_seg(seg)) {
+    printf("Segment name: %s\n", get_segm_name(seg-&gt;start_ea));
+}
+</code></pre>
+<h2 id="part-5-functions"><a class="header" href="#part-5-functions">Part 5: Functions</a></h2>
+<h3 id="create-and-delete-function"><a class="header" href="#create-and-delete-function">Create and Delete Function</a></h3>
+<pre><code class="language-cpp">add_func(0x401000, 0x401050);  // Create a function starting at 0x401000 and ending at 0x401050
+del_func(0x401000);  // Delete the function at 0x401000
+</code></pre>
+<h3 id="get-the-name-of-the-function"><a class="header" href="#get-the-name-of-the-function">Get the Name of the Function</a></h3>
+<pre><code class="language-cpp">const char* func_name = get_func_name(0x401000);
+printf("Function name: %s\n", func_name);
+</code></pre>
+<h3 id="iterate-through-all-functions"><a class="header" href="#iterate-through-all-functions">Iterate Through All Functions</a></h3>
+<pre><code class="language-cpp">for (func_t* func = get_first_func(); func != nullptr; func = get_next_func(func)) {
+    printf("Function address: %llx, name: %s\n", func-&gt;start_ea, get_func_name(func-&gt;start_ea));
+}
+</code></pre>
+<h2 id="part-6-navigating-cross-references-xrefs"><a class="header" href="#part-6-navigating-cross-references-xrefs">Part 6: Navigating Cross-References (Xrefs)</a></h2>
+<h3 id="list-cross-references-to-an-address"><a class="header" href="#list-cross-references-to-an-address">List Cross-References to an Address</a></h3>
+<pre><code class="language-cpp">for (xref_t* xref = get_first_xref_to(0x401000); xref != nullptr; xref = get_next_xref_to(xref)) {
+    printf("Xref to 0x401000 from %llx\n", xref-&gt;from);
+}
+</code></pre>
+<h3 id="list-cross-references-from-an-address"><a class="header" href="#list-cross-references-from-an-address">List Cross-References from an Address</a></h3>
+<pre><code class="language-cpp">for (xref_t* xref = get_first_xref_from(0x401000); xref != nullptr; xref = get_next_xref_from(xref)) {
+    printf("Xref from 0x401000 to %llx\n", xref-&gt;to);
+}
+</code></pre>
+<h2 id="part-7-ui"><a class="header" href="#part-7-ui">Part 7: UI</a></h2>
+<h3 id="set-background-color-of-a-function"><a class="header" href="#set-background-color-of-a-function">Set Background Color of a Function</a></h3>
+<pre><code class="language-cpp">set_color(0x401000, CIC_FUNC, 0x007fff);  // Set background color for the function starting at address 0x401000
+</code></pre>
+<h3 id="display-a-custom-dialog"><a class="header" href="#display-a-custom-dialog">Display a Custom Dialog</a></h3>
+<pre><code class="language-cpp">msg("This is a custom message dialog. Good luck with learning the IDA C++ SDK!\n");
+</code></pre>
+<h2 id="complex-script-examples"><a class="header" href="#complex-script-examples">Complex Script Examples</a></h2>
+<p>If you’re comfortable with the basics, explore <a href="c++-sdk-examples.html">advanced examples</a> included in the SDK itself. These examples often leverage multiple modules to accomplish more sophisticated tasks.</p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What’s Next?</a></h2>
+<p>Explore our tutorial on <a href="how-to-create-a-plugin.html">how to create your first custom plugin</a> in IDA using C++.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../developer-guide/c++-sdk.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../https://cpp.docs.hex-rays.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../developer-guide/c++-sdk.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../https://cpp.docs.hex-rays.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

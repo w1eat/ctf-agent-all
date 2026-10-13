@@ -1,0 +1,9 @@
+.COMMIT_ID The id of the commit to amend.
+.DESCRIPTION New description of the commit.
+
+>Edits a commit description.
+
+Regular users may modify only their own commits. Admins may modify any commit.
+
+!
+$$ 42 "removed unused file, it had been wrongfully added with commit #39"

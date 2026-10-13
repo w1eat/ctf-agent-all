@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "current_key": "5c91354dede500be83a1:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "5c91354dede500be83a1:platform_confirmed",
+      "flag": "mootxico",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "ghost in the thread - 3",
+        "category": "Forensics",
+        "description": "a week ago moot went on vacation, someone leaked where, but thankfully our faithful, unpaid janitors cleaned it up. where'd moot go on vacation to? refer to ghost in the thread (1) for the challenge. no sun{} format, just the location name. Companion file: sunchan3.html (sha256 d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e, 40034 bytes).",
+        "connection_info": "https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing",
+        "value": 0,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Recovered the janitor-deleted post from the SunChan board SQLite WAL inside the GhostInTheThread forensic VM (OVA downloaded from the Google Drive link). The leak the mods cleaned up reads: 2026-08-07T15:42:19Z 'I HAVE PROOF THAT MOOT WENT TO MOOTXICO' -> the vacation location 'mootxico'. Platform confirmed 'mootxico' as Correct.: mootxico | Evidence: metadata.yml: native_id 30, name 'ghost in the thread - 3', challenge_url https://2026.sunshinectf.org/challenges#ghost%20in%20the%20thread%20-%203-30 ; Google Drive link resolves to GhostInTheThread.ova (tar, 126,945,280 B) containing GhostInTheThread-disk1.vmdk (2 GiB streamOptimized sparse extent, magic KDMV, compress=1, flags=0x30003 / has grain markers) ; Wrote a parser (vmdk2raw.py): each grain at GTE sector starts with a 12-byte marker (uint64 LBA + uint32 zlib length) then a zlib stream; decoded all 3596 non-zero grains into disk.raw (2 GiB) ; GPT disk: root ext4 partition starts at sector 135168 (mmls); fls -o 135168 disk.raw lists /var/lib/sunchan/board.sqlite (inode 65421) + board.sqlite-wal (65420) and /srv/sunchan/uploads/po/184726.pdf (892 B, PostScript) ; board.sqlite moderation_actions shows 16 posts on board 'po' deleted 2026-08-07 with reason 'off-topic or sensitive information' (ids 183901..183989); the deleted rows no longer exist in the main DB but survive in board.sqlite-wal",
+      "solution_steps": [
+        "从 Google Drive 链接下载 GhostInTheThread.ova（处理大文件的 confirm/uuid 二次确认）。",
+        "解包 OVA 得到 GhostInTheThread-disk1.vmdk（streamOptimized 稀疏盘）。7z/qemu-img 不可用，故自己写 vmdk2raw.py：按 GD/GT 定位每个 grain，grain 起始是 12 字节 marker(LBA+压缩长度)，随后是 zlib 流；逐个解压还原出 2GB 的 disk.raw。",
+        "用 mmls 解析 GPT，根 ext4 分区起始扇区 135168；用 fls/icat -o 135168 读取文件。",
+        "提取 /var/lib/sunchan/board.sqlite 及其 -wal：moderation_actions 记录了 2026-08-07 被“janitor（版主）”删除的 16 个 /po/ 帖子（post 183901..183989，理由 off-topic or sensitive information）。主库中这些行已不存在，但仍残留在 board.sqlite-wal 的页镜像里。",
+        "扫描 WAL 恢复被删正文，得到泄漏帖 2026-08-07T15:42:19Z：“I HAVE PROOF THAT MOOT WENT TO MOOTXICO”，即 moot 的度假地点为 mootxico。",
+        "在平台提交 'mootxico'（全小写）→ 页面显示 Correct，题目被标记 Solved，确认 flag。"
+      ],
+      "evidence": [
+        "metadata.yml: native_id 30, name 'ghost in the thread - 3', challenge_url https://2026.sunshinectf.org/challenges#ghost%20in%20the%20thread%20-%203-30",
+        "Google Drive link resolves to GhostInTheThread.ova (tar, 126,945,280 B) containing GhostInTheThread-disk1.vmdk (2 GiB streamOptimized sparse extent, magic KDMV, compress=1, flags=0x30003 / has grain markers)",
+        "Wrote a parser (vmdk2raw.py): each grain at GTE sector starts with a 12-byte marker (uint64 LBA + uint32 zlib length) then a zlib stream; decoded all 3596 non-zero grains into disk.raw (2 GiB)",
+        "GPT disk: root ext4 partition starts at sector 135168 (mmls); fls -o 135168 disk.raw lists /var/lib/sunchan/board.sqlite (inode 65421) + board.sqlite-wal (65420) and /srv/sunchan/uploads/po/184726.pdf (892 B, PostScript)",
+        "board.sqlite moderation_actions shows 16 posts on board 'po' deleted 2026-08-07 with reason 'off-topic or sensitive information' (ids 183901..183989); the deleted rows no longer exist in the main DB but survive in board.sqlite-wal",
+        "wal_recover.py enumerates the WAL page images and prints the deleted bodies; the only leak is 2026-08-07T15:42:19Z 'I HAVE PROOF THAT MOOT WENT TO MOOTXICO'",
+        "Platform: submitting 'mootxico' on challenge #30 returned alert 'Correct'; challenge list then showed 'ghost in the thread - 3 ✦ Solved 467 164 solves' (solved 24/37)",
+        "Note: 'Mootxico' (mixed case) was Incorrect and 'Mexico' was Incorrect; the accepted flag is the all-lowercase 'mootxico'"
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "bash /challenge/workspace/solve.sh",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "6220955f47c0f7025b7bd7665695b8ae2cc6b100e6faf3b8e1d9ae83aa3d1461",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T05:26:08.782726+00:00",
+      "updated_at": "2026-09-27T05:26:13.687918+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

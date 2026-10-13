@@ -1,0 +1,19 @@
+version: beta2
+platform: unknown
+native_id: '50'
+name: Groundhog Day
+category: web
+description: The Punxsutawney Orbital Weather Authority has been broadcasting the
+  same forecast since 1993. Every reading is fresh. Every date is always the same.
+value: 469
+files: []
+challenge_mode: remote
+connection_info: https://odyssey.web.2026.sunshinectf.games
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Groundhog%20Day-50
+environment: {}
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: solved
+reason: ''

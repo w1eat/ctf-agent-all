@@ -1,0 +1,27 @@
+.[-s] Silent mode; do not output any messages.
+.[-w WORKLIST_ID] The id of the worklist that the file(s) will be added to. If omitted, defaults to worklist 1.
+.$NCAT_VAULT_PATH...:PATH_PATTERN Vault path of file(s) to delete.
+
+>Opens tracked file(s) for deletion, adding them to a worklist.
+
+Once the worklist is committed, the file(s) won't be tracked anymore
+by the {hrvsrv}, and will be removed from the local filesystem.
+
+NOTE: That this does not remove all revisions of the file on the
+server: that is the role of the [purge](#others) command.
+
+!
+$ ls /path/to/site_rootdir/cat
+/path/to/site_rootdir/cat
+
+$$ -w2 cat
+ok checked out '//cat' for 'del' (worklist 2)
+
+$ ls /path/to/site_rootdir/cat
+/path/to/site_rootdir/cat
+
+$ hv commit 2 "Deleted 'cat'"
+ok commit #39 completed
+
+$ ls /path/to/site_rootdir/cat
+ls: cannot access '/path/to/site/rootdir/cat': No such file or directory

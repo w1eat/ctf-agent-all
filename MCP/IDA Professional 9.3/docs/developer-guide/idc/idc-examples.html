@@ -1,0 +1,3239 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Examples - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="idc-examples"><a class="header" href="#idc-examples">IDC examples</a></h1>
+<p>The following examples demonstrate the usage of native IDA scripting language in more complex scripts. Our selection illustrates how IDC can help you automate everyday tasks and speed up your learning efforts while learning IDC scripting.</p>
+<h2 id="where-can-i-find-all-the-examples"><a class="header" href="#where-can-i-find-all-the-examples">Where can I find all the examples?</a></h2>
+<p>The full library of our examples is shipped with your IDA instance in the <code>idc</code> folder.</p>
+<h2 id="before-you-start"><a class="header" href="#before-you-start">Before you start</a></h2>
+<p>Some of the examples shows below used an imports another scripts, like <code>idc.idc</code>: the file that contains IDA built-in function declarations and internal bit definitions. It is recommend to check the <code>idc</code> folder for all sample scripts.</p>
+<h2 id="how-to-run-the-examples"><a class="header" href="#how-to-run-the-examples">How to run the examples?</a></h2>
+<h3 id="load-the-script-via-file-loader"><a class="header" href="#load-the-script-via-file-loader">Load the script via File Loader</a></h3>
+<ol>
+<li>Navigate to <strong>File -&gt; Script file…</strong></li>
+<li>In the new dialog, select the <code>.idc</code> script you want to run and click <strong>Open</strong>.</li>
+</ol>
+<h3 id="load-the-script-via-script-command"><a class="header" href="#load-the-script-via-script-command">Load the script via Script command</a></h3>
+<ol>
+<li>Navigate to <strong>File -&gt; Script command…</strong>.</li>
+<li>Change the scripting language to IDC.</li>
+<li>Paste the code into <em>Please enter script body</em> field and click <strong>Run</strong>.</li>
+</ol>
+<h1 id="sample-scripts"><a class="header" href="#sample-scripts">Sample scripts</a></h1>
+<p>You can also find the scripts below in the <code>idc</code> folder inside your IDA directory.</p>
+<h2 id="analysis"><a class="header" href="#analysis">analysis</a></h2>
+<p>Sample IDC program to automate IDA.</p>
+<pre><code>//
+// Sample IDC program to automate IDA.
+//
+// IDA can be run from the command line in the batch (non-interactive) mode.
+//
+// If IDA is started with
+//
+//         ida -A -Sanalysis.idc file
+//
+// then this IDC file will be executed. It performs the following:
+//
+//   - analyzes the input file
+//   - creates the output file
+//   - exits to the operating system
+//
+// Feel free to modify this file as you wish
+// (or write your own script/plugin to automate IDA)
+//
+// Since the script calls the qexit() function at the end,
+// it can be used in the batch files (use text mode idat)
+//
+// NB: "ida -B file" is a shortcut for the command line above
+//
+
+#include &lt;idc.idc&gt;
+
+static main()
+{
+  // turn on coagulation of data in the final pass of analysis
+  set_inf_attr(INF_AF, get_inf_attr(INF_AF) | AF_DODATA | AF_FINAL);
+  // .. and plan the entire address space for the final pass
+  auto_mark_range(0, BADADDR, AU_FINAL);
+
+  msg("Waiting for the end of the auto analysis...\n");
+  auto_wait();
+
+  msg("\n\n------ Creating the output file.... --------\n");
+  auto file = get_idb_path()[0:-4] + ".asm";
+
+  auto fhandle = fopen(file, "w");
+  gen_file(OFILE_ASM, fhandle, 0, BADADDR, 0); // create the assembler file
+  msg("All done, exiting...\n");
+
+  // the following line instructs IDA to quit without saving the database
+  // process_config_directive("ABANDON_DATABASE=YES");
+
+  qexit(0); // exit to OS, error code 0 - success
+}
+</code></pre>
+<h2 id="arraytst"><a class="header" href="#arraytst">arraytst</a></h2>
+<p>Sample demonstration on how to use array manipulation functions.</p>
+<pre><code>//
+//      This example shows how to use array manipulation functions.
+//
+
+#include &lt;idc.idc&gt;
+
+#define MAXIDX  100
+
+static main() {
+  auto id,idx,code;
+
+  id = create_array("my array");
+  if ( id == -1 ) {
+    warning("Can't create array!");
+  } else {
+
+    msg("Filling array of longs...\n");
+    for ( idx=0; idx &lt; MAXIDX; idx=idx+10 )
+      set_array_long(id,idx,2*idx);
+
+    msg("Displaying array of longs...\n");
+    for ( idx=get_first_index(AR_LONG,id);
+          idx != -1;
+          idx=get_next_index(AR_LONG,id,idx) )
+      msg("%d: %d\n",idx,get_array_element(AR_LONG,id,idx));
+
+    msg("Filling array of strings...\n");
+    for ( idx=0; idx &lt; MAXIDX; idx=idx+10 )
+      set_array_string(id, idx, sprintf("This is %d-th element of array", idx));
+
+    msg("Displaying array of strings...\n");
+    for ( idx=0; idx &lt; MAXIDX; idx=idx+10 )
+      msg("%d: %s\n",idx,get_array_element(AR_STR,id,idx));
+
+  }
+
+}
+</code></pre>
+<h2 id="bds"><a class="header" href="#bds">bds</a></h2>
+<p>Sample executed when IDA detects Delphi 6-7 or BDS.</p>
+<pre><code>//
+// This file is executed when IDA detects Delphi6-7 or BDS2005-BDS2006
+// invoked from pe_bds.pat
+//
+// Feel free to modify this file as you wish.
+//
+
+#include &lt;idc.idc&gt;
+
+static main()
+{
+  // Set Delphi-Style string
+  //set_inf_attr(INF_STRTYPE,STRTYPE_LEN4);
+
+  // Set demangled names to display
+  //set_inf_attr(INF_DEMNAMES,DEMNAM_NAME);
+
+  // Set compiler to Borland
+  set_inf_attr(INF_COMPILER, COMP_BC);
+}
+
+
+// Add old borland signatures
+static bor32(ea)
+{
+  AddPlannedSig("bh32rw32");
+  AddPlannedSig("b32vcl");
+  SetOptionalSigs("bdsext/bh32cls/bh32owl/bh32ocf/b5132mfc/bh32dbe/b532cgw");
+  return ea;
+}
+
+// Add latest version of Borland Cbuilder (Embarcadero)
+static emb(ea)
+{
+  AddPlannedSig("bds8rw32");
+  AddPlannedSig("bds8vcl");
+  SetOptionalSigs("bdsboost/bds8ext");
+  return ea;
+}
+
+static has_Emb(ea)
+{
+  ea = ea &amp; 0xFFFFFFFF;
+  return ea+2 &lt; 0xFFFFFFFF
+      &amp;&amp; get_wide_byte(ea    ) == 'E'
+      &amp;&amp; get_wide_byte(ea + 1) == 'm'
+      &amp;&amp; get_wide_byte(ea + 2) == 'b';
+}
+
+// Detect the latest version of Borland Cbuilder (Embarcadero)
+static detect(ea)
+{
+  // Use version string to detect which signatures to use. Both bds08
+  // and bds10 (up to xe10) have two null bytes after the string we are
+  // testing for, which comes immediately before the argument ea.
+  //
+  // bds06: Borland C++ - Copyright 2005 Borland Corporation
+  // bds08: CodeGear C++ - Copyright 2008 Embarcadero Technologies
+  // bds10: Embarcadero RAD Studio - Copyright 2009 Embarcadero Technologies, Inc.
+
+  if ( has_Emb(ea-0x1A) || has_Emb(ea-0x20) )
+  {
+    ResetPlannedSigs();
+    emb(ea);
+  }
+  return ea;
+}
+
+</code></pre>
+<h2 id="biosdata"><a class="header" href="#biosdata">biosdata</a></h2>
+<p>Sample that makes comments to BIOS data area.</p>
+<pre><code>//
+//      This script creates a segment at paragraph 0x40 and
+//      makes comments to BIOS data area. To see mnemonical names of
+//      BIOS data area variables, please use this file:
+//
+//        - press F2 when running IDA
+//        - select this file
+//
+
+#include &lt;idc.idc&gt;
+
+//-------------------------------------------------------------------------
+static CW(off,name,cmt) {
+  auto x;
+  x = 0x400 + off;
+  create_word(x);
+  set_name(x,name);
+  set_cmt(x,cmt, 1);
+}
+
+//-------------------------------------------------------------------------
+static CD(off,name,cmt) {
+  auto x;
+  x = 0x400 + off;
+  create_dword(x);
+  set_name(x,name);
+  set_cmt(x,cmt, 1);
+}
+
+//-------------------------------------------------------------------------
+static CB(off,name,cmt) {
+  auto x;
+  x = 0x400 + off;
+  create_byte(x);
+  set_name(x,name);
+  set_cmt(x,cmt, 1);
+}
+
+//-------------------------------------------------------------------------
+static CmtBdata() {
+ CW(0x000,"com_port_1","Base I/O address of 1st serial I/O port");
+ CW(0x002,"com_port_2","Base I/O address of 2nd serial I/O port");
+ CW(0x004,"com_port_3","Base I/O address of 3rd serial I/O port");
+ CW(0x006,"com_port_4","Base I/O address of 4th serial I/O port");
+
+ CW(0x008,"prn_port_1","Base I/O address of 1st parallel I/O port");
+ CW(0x00A,"prn_port_2","Base I/O address of 2nd parallel I/O port");
+ CW(0x00C,"prn_port_3","Base I/O address of 3rd parallel I/O port");
+ CW(0x00E,"prn_port_4","Base I/O address of 4th parallel I/O port");
+
+ CW(0x010,"equip_bits",         "Equipment installed info bits\n"
+                                "15  14  13   12   11  10   9   8\n"
+                                "\\    /      game  \\       /\n"
+                                "# of print  port  # of RS-232\n"
+                                "ports 0-3   used   ports 0-4\n"
+                                "\n"
+                                "7   6    5    4    3   2   1   0\n"
+                                "\\   /    \\    /    \\   / Math  |\n"
+                                "# of   video mode  RAM    uP  no\n"
+                                "disk-  at boot up  00=16K    dsk\n"
+                                "ettes  00=EGA/VGA  01=32K   driv\n"
+                                " 1-4   01=CGA-40   10=48K   if 0\n"
+                                "if bit 10=CGA-80   11=64K\n"
+                                "0 = 1  11=MDA-80   (old PCs)\n"
+                                "\n"
+                                "Note: bit 13=modem on PC lap-tops\n"
+                                "      bit 2=mouse on MCA &amp; others");
+
+ CB(0x012,"manufactr_test",     "Manufacturing Test get_wide_byte\n"
+                                "bit 0 = 1 while in test mode\n"
+                                "MCA systems use other bits\n"
+                                "  during POST operations");
+ CW(0x013,"base_ram_size",      "Base memory size in KBytes (0-640)");
+
+ CB(0x015,"mtest_scratchpad",   "[AT] {Manufacturing test scratch pad}\n"
+                                "[Compaq Deskpro 386] previous scan code");
+ CB(0x016,"error_codes",        "[AT] {Manufacturing test scratch pad}\n"
+                                "[PS/2 Mod 30] {BIOS control flags}\n"
+                                "[Compaq Deskpro 386] keyclick loudness (00h-7Fh)");
+ CB(0x017,"keybd_flags_1",      "Keyboard flag bits\n"
+                                "  7   6   5   4    3   2   1   0\n"
+                                "ins- cap num scrl alt ctl lef rig\n"
+                                "sert --toggles--- --shifts down--");
+ CB(0x018,"keybd_flags_2",      "Keyboard flag bits\n"
+                                "   7     6     5     4   \n"
+                                "insert  caps  num  scroll\n"
+                                "------now depressed------\n"
+                                "\n"
+                                "   3     2     1     0\n"
+                                " pause  sys   left right\n"
+                                " lock request -alt-down-");
+ CB(0x019,"keybd_alt_num",      "Alt-nnn keypad workspace");
+ CW(0x01A,"keybd_q_head",       "pointer to next character in keyboard buffer");
+ CW(0x01C,"keybd_q_tail",       "pointer to first free slot in keyboard buffer");
+ CW(0x01E,"keybd_queue",        "Keyboard circular buffer");
+ make_array(0x41E, 16 );
+ CB(0x03E,"dsk_recal_stat",     "Recalibrate floppy drive bits\n"
+                                "   3       2       1       0\n"
+                                "drive-3 drive-2 drive-1 drive-0\n"
+                                "\n"
+                                "bit 7 = interrupt flag");
+ CB(0x03F,"dsk_motor_stat",     "Motor running status &amp; disk write\n"
+                                " bit 7=1 disk write in progress\n"
+                                " bits 6&amp;5 = drive selected 0 to 3\n"
+                                "    3       2       1       0\n"
+                                " drive-3 drive-2 drive-1 drive-0\n"
+                                " --------- 1=motor on-----------");
+ CB(0x040,"dsk_motor_timer",    "Motor timer, at 0, turn off motor");
+ CB(0x041,"dsk_ret_code",       "Controller return code\n"
+                                " 00h = ok\n"
+                                " 01h = bad command or parameter\n"
+                                " 02h = can't find address mark\n"
+                                " 03h = can't write, protected dsk\n"
+                                " 04h = sector not found\n"
+                                " 08h = DMA overrun\n"
+                                " 09h = DMA attempt over 64K bound\n"
+                                " 10h = bad CRC on disk read\n"
+                                " 20h = controller failure\n"
+                                " 40h = seek failure\n"
+                                " 80h = timeout, no response");
+
+ CB(0x042,"dsk_status_1",       "Status bytes-disk controller chip\n"
+                                " Note: 7 info bytes returned from\n"
+                                " controller are saved here. Refer\n"
+                                " to the NEC uPD 765 chip manual\n"
+                                " for the specific info, depending\n"
+                                " on the previous command issued.");
+ CB(0x043,"dsk_status_2",       "");
+ CB(0x044,"dsk_status_3",       "");
+ CB(0x045,"dsk_status_4",       "");
+ CB(0x046,"dsk_status_5",       "");
+ CB(0x047,"dsk_status_6",       "");
+ CB(0x048,"dsk_status_7",       "");
+
+ CB(0x049,"video_mode",         "Present display mode");
+ CW(0x04A,"video_columns",      "Number of columns");
+ CW(0x04C,"video_buf_size",     "Video buffer size in bytes\n"
+                                "  Note: size may be rounded up to\n"
+                                "  the nearest 2K boundary.  For\n"
+                                "  example, 80x25 mode=4000 bytes,\n"
+                                "  but value may be 4096.");
+ CW(0x04E,"video_pageoff",      "Video page offset of the active\n"
+                                "  page, from start of current \n"
+                                "  video segment.");
+ CW(0x050,"vid_curs_pos0",      "Cursor position page 0\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x052,"vid_curs_pos1",      "Cursor position page 1\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x054,"vid_curs_pos2",      "Cursor position page 2\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x056,"vid_curs_pos3",      "Cursor position page 3\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x058,"vid_curs_pos4",      "Cursor position page 4\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x05A,"vid_curs_pos5",      "Cursor position page 5\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x05C,"vid_curs_pos6",      "Cursor position page 6\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x05E,"vid_curs_pos7",      "Cursor position page 7\n"
+                                "  bits 15-8=row, bits 7-0=column");
+ CW(0x060,"vid_curs_mode",      "Active cursor, start &amp; end lines \n"
+                                "  bits 12 to 8 for starting line\n"
+                                "  bits 4  to 0 for ending line");
+ CB(0x062,"video_page",         "Present page");
+ CW(0x063,"video_port",         "Video controller base I/O address");
+ CB(0x065,"video_mode_reg",     "Hardware mode register bits");
+ CB(0x066,"video_color",        "Color set in CGA modes");
+ CW(0x067,"gen_use_ptr",        "General use offset pointer");
+ CW(0x069,"gen_use_seg",        "General use segment pointer");
+ CB(0x06B,"gen_int_occurd",     "Unused interrupt occurred\n"
+                                "  value holds the IRQ bit 7-0 of\n"
+                                "  the interrupt that occurred");
+ CW(0x06C,"timer_low",          "Timer, low word, cnts every 55 ms");
+ CW(0x06E,"timer_high",         "Timer, high word");
+ CB(0x070,"timer_rolled",       "Timer overflowed, set to 1 when\n"
+                                " more than 24 hours have elapsed");
+ CB(0x071,"keybd_break",        "Bit 7 set if break key depressed");
+ CW(0x072,"warm_boot_flag",     "Boot (reset) type\n"
+                                "  1234h=warm boot, no memory test       \n"
+                                "  4321h=boot &amp; save memory");
+ CB(0x074,"hdsk_status_1",      "Hard disk status\n"
+                                " 00h = ok\n"
+                                " 01h = bad command or parameter\n"
+                                " 02h = can't find address mark\n"
+                                " 03h = can't write, protected dsk\n"
+                                " 04h = sector not found\n"
+                                " 05h = reset failure\n"
+                                " 07h = activity failure\n"
+                                " 08h = DMA overrun\n"
+                                " 09h = DMA attempt over 64K bound\n"
+                                " 0Ah = bad sector flag\n"
+                                " 0Bh = removed bad track\n"
+                                " 0Dh = wrong # of sectors, format\n"
+                                " 0Eh = removed control data addr\n"
+                                "        mark\n"
+                                " 0Fh = out of limit DMA\n"
+                                "        arbitration level\n"
+                                " 10h = bad CRC or ECC, disk read\n"
+                                " 11h = bad ECC corrected data\n"
+                                " 20h = controller failure\n"
+                                " 40h = seek failure\n"
+                                " 80h = timeout, no response\n"
+                                " AAh = not ready\n"
+                                " BBh = error occurred, undefined\n"
+                                " CCh = write error, selected dsk\n"
+                                " E0h = error register = 0\n"
+                                " FFh = disk sense failure");
+ CB(0x075,"hdsk_count",         "Number of hard disk drives");
+ CB(0x076,"hdsk_head_ctrl",     "Head control (XT only)");
+ CB(0x077,"hdsk_ctrl_port",     "Hard disk control port (XT only)");
+ CB(0x078,"prn_timeout_1",      "Countdown timer waits for printer\n"
+                                "  to respond (printer 1)");
+ CB(0x079,"prn_timeout_2",      "Countdown timer waits for printer\n"
+                                "  to respond (printer 2)");
+ CB(0x07A,"prn_timeout_3",      "Countdown timer waits for printer\n"
+                                "  to respond (printer 3)");
+ CB(0x07B,"prn_timeout_4",      "Countdown timer waits for printer\n"
+                                "  to respond (printer 4)");
+ CB(0x07C,"rs232_timeout_1",    "Countdown timer waits for RS-232 (1)");
+ CB(0x07D,"rs232_timeout_2",    "Countdown timer waits for RS-232 (2)");
+ CB(0x07E,"rs232_timeout_3",    "Countdown timer waits for RS-232 (3)");
+ CB(0x07F,"rs232_timeout_4",    "Countdown timer waits for RS-232 (4)");
+ CW(0x080,"keybd_begin",        "Ptr to beginning of keybd queue");
+ CW(0x082,"keybd_end",          "Ptr to end of keyboard queue");
+ CB(0x084,"video_rows",         "Rows of characters on display - 1");
+ CW(0x085,"video_pixels",       "Number of pixels per charactr * 8");
+ CB(0x087,"video_options",      "Display adapter options\n"
+                                "  bit 7 = clear RAM\n"
+                                "  bits 6,5 = memory on adapter\n"
+                                "              00 - 64K\n"
+                                "              01 - 128K\n"
+                                "              10 - 192K\n"
+                                "              11 - 256K\n"
+                                "  bit 4 = unused\n"
+                                "  bit 3 = 0 if EGA/VGA active\n"
+                                "  bit 2 = wait for display enable\n"
+                                "  bit 1 = 1 - mono monitor\n"
+                                "        = 0 - color monitor\n"
+                                "  bit 0 = 0 - handle cursor, CGA");
+ CB(0x088,"video_switches",     "Switch setting bits from adapter\n"
+                                "  bits 7-4 = feature connector\n"
+                                "  bits 3-0 = option switches");
+ CB(0x089,"video_1_save",       "Video save area 1-EGA/VGA control\n"
+                                "  bit 7 = 200 line mode\n"
+                                "  bits 6,5 = unused\n"
+                                "  bit 4 = 400 line mode\n"
+                                "  bit 3 = no palette load\n"
+                                "  bit 2 = mono monitor\n"
+                                "  bit 1 = gray scale\n"
+                                "  bit 0 = unused");
+ CB(0x08A,"video_2_save",       "Video save area 2");
+
+ CB(0x08B,"dsk_data_rate",      "Last data rate for diskette\n"
+                                " bits 7 &amp; 6 = 00 for 500K bit/sec\n"
+                                "            = 01 for 300K bit/sec\n"
+                                "            = 10 for 250K bit/sec\n"
+                                "            = 11 for 1M bit/sec\n"
+                                " bits 5 &amp; 4 = step rate"
+                                "Rate at start of operation\n"
+                                " bits 3 &amp; 2 = 00 for 500K bit/sec\n"
+                                "            = 01 for 300K bit/sec\n"
+                                "            = 10 for 250K bit/sec\n"
+                                "            = 11 for 1M bit/sec");
+ CB(0x08C,"hdsk_status_2",      "Hard disk status");
+ CB(0x08D,"hdsk_error",         "Hard disk error");
+ CB(0x08E,"hdsk_complete",      "When the hard disk controller's\n"
+                                " task is complete, this byte is\n"
+                                " set to FFh (from interrupt 76h)");
+ CB(0x08F,"dsk_options",        "Diskette controller information\n"
+                                " bit 6 = 1 Drv 1 type determined\n"
+                                "     5 = 1 Drv 1 is multi-rate\n"
+                                "     4 = 1 Drv 1 change detect\n"
+                                "     2 = 1 Drv 0 type determined\n"
+                                "     1 = 1 Drv 0 is multi-rate\n"
+                                "     0 = 1 Drv 0 change detect");
+ CB(0x090,"dsk0_media_st",      "Media state for diskette drive 0\n"
+                                "    7      6      5      4\n"
+                                " data xfer rate  two   media\n"
+                                "  00=500K bit/s  step  known\n"
+                                "  01=300K bit/s\n"
+                                "  10=250K bit/s\n"
+                                "  11=1M bit/sec\n"
+                                "    3      2      1      0\n"
+                                " unused  -----state of drive-----\n"
+                                "         bits floppy  drive state\n"
+                                "         000=  360K in 360K, ?\n"
+                                "         001=  360K in 1.2M, ?\n"
+                                "         010=  1.2M in 1.2M, ?\n"
+                                "         011=  360K in 360K, ok\n"
+                                "         100=  360K in 1.2M, ok\n"
+                                "         101=  1.2M in 1.2M, ok\n"
+                                "         111=  720K in 720K, ok\n"
+                                "           or 1.44M in 1.44M\n"
+                                "        (state not used for 2.88)");
+ CB(0x091,"dsk1_media_st",      "Media state for diskette drive 1\n"
+                                " (see dsk0_media_st)");
+ CB(0x092,"dsk0_start_st",      "Starting state for drive 0");
+ CB(0x093,"dsk1_start_st",      "Starting state for drive 1");
+ CB(0x094,"dsk0_cylinder",      "Current track number for drive 0");
+ CB(0x095,"dsk1_cylinder",      "Current track number for drive 1");
+ CB(0x096,"keybd_flags_3",      "Special keyboard type and mode\n"
+                                " bit 7 Reading ID of keyboard\n"
+                                "     6 last char is 1st ID char\n"
+                                "     5 force num lock\n"
+                                "     4 101/102 key keyboard\n"
+                                "     3 right alt key down\n"
+                                "     2 right ctrl key down\n"
+                                "     1 E0h hidden code last\n"
+                                "     0 E1h hidden code last");
+ CB(0x097,"keybd_flags_4",      "Keyboard Flags (advanced keybd)\n"
+                                "  7      6       5     4  3 2 1 0\n"
+                                "xmit   char   Resend  Ack   \   /\n"
+                                "error was ID  Rec'd  Rec'd   LEDs");
+
+ CW(0x098,"timer_waitoff",      "Ptr offset to wait done flag");
+ CW(0x09A,"timer_waitseg",      "Ptr segment to wait done flag");
+ CW(0x09C,"timer_clk_low",      "Timer low word, 1 microsecond clk");
+ CW(0x09E,"timer_clk_high",     "Timer high word");
+ CB(0x0A0,"timer_clk_flag",     "Timer flag 00h = post acknowledgd\n"
+                                "           01h = busy\n"
+                                "           80h = posted");
+ CB(0x0A1,"lan_bytes",          "Local area network bytes (7)");
+ make_array(0x4A1, 7);
+
+ CD(0x0A8,"video_sav_tbl",      "Pointer to a save table of more\n"
+                                "pointers for the video system \n"
+                                "           SAVE TABLE\n"
+                                " offset type    pointer to\n"
+                                " ------ ---- --------------------\n"
+                                "   0     dd  Video parameters\n"
+                                "   4     dd  Parms save area\n"
+                                "   8     dd  Alpha char set\n"
+                                "  0Ch    dd  Graphics char set\n"
+                                "  10h    dd  2nd save ptr table\n"
+                                "  14h    dd  reserved (0:0)\n"
+                                "  18h    dd  reserved (0:0)\n"
+                                " \n"
+                                " 2ND SAVE TABLE (from ptr above)\n"
+                                " offset type functions &amp; pointers\n"
+                                " ------ ---- --------------------\n"
+                                "   0     dw  Bytes in this table\n"
+                                "   2     dd  Combination code tbl\n"
+                                "   6     dd  2nd alpha char set\n"
+                                "  0Ah    dd  user palette tbl\n"
+                                "  0Eh    dd  reserved (0:0)\n"
+                                "  12h    dd  reserved (0:0)\n"
+                                "  16h    dd  reserved (0:0)");
+ CW(0x0CE,"days_since1_80",     "Days since 1-Jan-1980 counter");
+ make_array(0x4AC,0xCE-0xAC);
+}
+
+//-------------------------------------------------------------------------
+static main() {
+  if ( !add_segm_ex(0x400, 0x4D0, 0x40, 0, 0, 2, ADDSEG_NOSREG) ) {
+    warning("Can't create BIOS data segment.");
+    return;
+  }
+  set_segm_name(0x400, "bdata");
+  set_segm_class(0x400, "BIOSDATA");
+  CmtBdata();
+}
+</code></pre>
+<h2 id="entrytst"><a class="header" href="#entrytst">entrytst</a></h2>
+<p>Sample that shows how to get list of entry points.</p>
+<pre><code>//
+//      This example shows how to get list of entry points.
+//
+
+#include &lt;idc.idc&gt;
+
+static main() {
+  auto i;
+  auto ord,ea;
+
+  msg("Number of entry points: %ld\n",get_entry_qty());
+  for ( i=0; ; i++ ) {
+    ord = get_entry_ordinal(i);
+    if ( ord == 0 ) break;
+    ea = get_entry(ord);
+    msg("Entry point %08lX at %08lX (%s)\n",ord,ea,Name(ea));
+  }
+}
+</code></pre>
+<h2 id="find_insn"><a class="header" href="#find_insn">find_insn</a></h2>
+<p>Script to be used with the ‘grep’ plugins.</p>
+<pre><code>#include &lt;idc.idc&gt;
+
+// This script is to be used with the 'grep' ida plugin
+// It looks for the specified instruction mnemonics and saves all matches
+
+static find_insn(mnem)
+{
+  auto ea;
+  for ( ea=get_inf_attr(INF_MIN_EA); ea != BADADDR; ea=next_head(ea, BADADDR) )
+  {
+    if ( print_insn_mnem(ea) == mnem )
+      save_match(ea, "");
+  }
+}
+</code></pre>
+<h2 id="fixuptst"><a class="header" href="#fixuptst">fixuptst</a></h2>
+<p>Sample that gets fixup information about the file.</p>
+<pre><code>//
+//      This example shows how to get fixup information about the file.
+//
+
+#include &lt;idc.idc&gt;
+
+static main() {
+  auto ea;
+  for ( ea = get_next_fixup_ea(get_inf_attr(INF_MIN_EA));
+        ea != BADADDR;
+        ea = get_next_fixup_ea(ea) ) {
+    auto type,sel,off,dis,x;
+    type = get_fixup_target_type(ea);
+    sel  = get_fixup_target_sel(ea);
+    off  = get_fixup_target_off(ea);
+    dis  = get_fixup_target_dis(ea);
+    msg("%08lX: ",ea);
+    x = type &amp; FIXUP_MASK;
+         if ( x == FIXUP_BYTE  ) msg("BYTE ");
+    else if ( x == FIXUP_OFF16 ) msg("OFF16");
+    else if ( x == FIXUP_SEG16 ) msg("SEG16");
+    else if ( x == FIXUP_PTR32 ) msg("PTR32");
+    else if ( x == FIXUP_OFF32 ) msg("OFF32");
+    else if ( x == FIXUP_PTR48 ) msg("PTR48");
+    else if ( x == FIXUP_HI8   ) msg("HI8  ");
+    else                         msg("?????");
+    msg((type &amp; FIXUP_EXTDEF) ? " EXTDEF" : " SEGDEF");
+    msg(" [%s,%X]",get_segm_name(get_segm_by_sel(sel)),off);
+    if ( type &amp; FIXUP_EXTDEF  ) msg(" (%s)",Name([sel2para(sel),off]));
+    if ( type &amp; FIXUP_SELFREL ) msg(" SELF-REL");
+    if ( type &amp; FIXUP_UNUSED  ) msg(" UNUSED");
+    msg("\n");
+  }
+}
+</code></pre>
+<h2 id="functest"><a class="header" href="#functest">functest</a></h2>
+<p>Sample that gets list of funcions.</p>
+<pre><code>//
+//      This example shows how to get list of functions.
+//
+
+#include &lt;idc.idc&gt;
+
+static main() {
+  auto ea,x;
+
+  for ( ea=get_next_func(0); ea != BADADDR; ea=get_next_func(ea) ) {
+    msg("Function at %08lX: %s",ea,get_func_name(ea));
+    x = get_func_flags(ea);
+    if ( x &amp; FUNC_NORET ) msg(" Noret");
+    if ( x &amp; FUNC_FAR   ) msg(" Far");
+    msg("\n");
+  }
+  ea = choose_func("Please choose a function");
+  msg("The user chose function at %08lX\n",ea);
+}
+
+</code></pre>
+<h2 id="kernel"><a class="header" href="#kernel">kernel</a></h2>
+<p>Sample that insert custom comments for the imported DLLs.</p>
+<pre><code>//
+//      This file show how to insert you own comments for the imported DLLs.
+//      This file inserts a comment for the kernel function #23 'LOCKSEGMENT'.
+//      You may add your own comments for other functions and DLLs.
+//      To execute this file your should choose 'Execute IDC file' command
+//      from the IDA menu. Usually the  hotkey is F2.
+//
+
+#include &lt;idc.idc&gt;
+
+static main(void)
+{
+  auto faddr;
+  auto fname;
+
+  msg("Loading comments...\n");
+  fname = sprintf("KERNEL_%ld", 23);        // build the function name
+  faddr = get_name_ea_simple(fname);             // get function address
+  if ( faddr != -1 ) {                  // if the function exists
+    update_extra_cmt(faddr,E_PREV + 0,";ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ");
+    update_extra_cmt(faddr,E_PREV + 1,"; LockSegment (2.x)");
+    update_extra_cmt(faddr,E_PREV + 2,"; ");
+    update_extra_cmt(faddr,E_PREV + 3,"; In: AX - segment to lock");
+    update_extra_cmt(faddr,E_PREV + 4,";     LockSegment function locks the specified discardable");
+    update_extra_cmt(faddr,E_PREV + 5,"; segment. The segment is locked into memory at the given");
+    update_extra_cmt(faddr,E_PREV + 6,"; address and its lock count is incremented (increased by one).");
+    update_extra_cmt(faddr,E_PREV + 7,"; Returns");
+    update_extra_cmt(faddr,E_PREV + 8,"; The return value specifies the data segment if the function is");
+    update_extra_cmt(faddr,E_PREV + 9,"; successful. It is NULL if the segment has been discarded or an");
+    update_extra_cmt(faddr,E_PREV + 10,"; error occurs.");
+  }
+  msg("Comment(s) are loaded.\n");
+}
+</code></pre>
+<h2 id="loaddef"><a class="header" href="#loaddef">loaddef</a></h2>
+<p>Sample that loads DEF file with dialog.</p>
+<pre><code>// Load a DEF file with Dialog
+// Saved the last browsed path in the Database
+
+// This file is donated by Dietrich Teickner.
+
+#include &lt;idc.idc&gt;
+
+#define	VERBOSE	1
+#define WITHSELFEDITED 1
+
+static main(void)
+{
+	auto	defFileName, defFile, w, p, modulImport;
+
+	defFileName = AskFileEx(0,"*.def","Choose a definition-file");
+	modulImport = defFileName;
+	while (1) {
+		p = strstr(modulImport,"\\");
+		if (-1 == p) break;
+		modulImport = substr(modulImport,p+1,-1);
+	};
+	p = strstr(modulImport,".");
+	if (-1 &lt; p)
+		modulImport = substr(modulImport,0,p);
+	modulImport = translate(modulImport);
+
+	if(VERBOSE)	msg("Opening definition file %s\n", defFileName);
+
+	defFile = fopen(defFileName, "rb");
+
+	if (0 != defFile)
+	{
+		auto defline, ea, bea, sea, eea, newName, oldName, badName, x, z, id;
+
+		//
+		// Process all of the DEF's in this file.
+		//
+		if(VERBOSE)	msg("Processing %s\n", defFileName);
+
+		defline = "";
+
+		do
+		{
+			defline = ReadDefLine(defFile);
+			if (strlen(defline) == 0) break;
+			w = wordn(defline,1);
+			w = translate(w);
+			if ("LIBRARY" == w) {
+				w = wordn(substr(defline,strlen(w)+1,-1),1);
+				if (strlen(w) &gt; 0) modulImport = w;
+				continue;
+			}
+			if ("EXPORTS" != w) continue;
+			if (strlen(modulImport) == 0) break;
+			sea = get_first_seg();
+			while ((-1 != sea) &amp; (get_segm_name(sea) != modulImport)) {
+				sea = get_next_seg(sea);
+			}
+			if (-1 == sea) break;
+			w = get_segm_name(sea);
+			eea = get_segm_end(sea);
+			do
+			{
+				defline = ReadDefLine(defFile);
+				if (strlen(defline) == 0) break;
+				p = strstr(defline," @");
+				if (0 &gt; p) continue;
+				w = substr(defline,p+2,-1);
+				defline = substr(defline,0,p);
+				w = wordn(w,1); /* import-number */
+				w = translate(modulImport)+"_"+w;
+				newName = w+"_"+wordn(defline,1);
+				if (WITHSELFEDITED) {
+					z = wordn(defline,1);
+					badName = z+"_"+w;
+					p = strstr(z,"@");
+					if (p != -1) {
+						x = substr(z,0,p);
+						badName = badName+" "+x+" "+w+"_"+x+" "+x+"_"+w;
+					}
+					while (substr(z,0,1) == "_") {
+						z = substr(z,1,-1);
+						badName = badName+" "+z+" "+w+"_"+z+" "+z+"_"+w;
+						if (p != -1) {
+							x = substr(x,1,-1);
+							badName = badName+" "+x+" "+w+"_"+x+" "+x+"_"+w;
+						}
+					}
+					z = " "+newName+" "+w+" "+defline+" "+badName+" ";
+				} else {
+					z = " "+newName+" "+w+" "+defline+" ";
+				}
+				x = "__imp_";
+				p = strlen(x);
+				for (ea = sea;ea &lt; eea;ea++) {
+					oldName = Name(ea);
+					if (strstr(z," "+oldName+" ") != -1) break;
+					if (strstr(oldName,x) != 0) continue;
+					if (strstr(z," "+substr(oldName,p,-1)+" ") != -1) break;
+				}
+				if (ea == eea) continue;
+				p = strstr(defline,"@");
+				if (-1 != p) {
+					z = substr(defline,p+1,-1);
+					z = wordn(z,1);
+					z = atol(z);
+					p = get_frame_args_size(ea);
+					if (p != z) {
+						set_frame_size(ea,get_frame_lvar_size(ea),get_frame_regs_size(ea),z);
+						auto_wait();
+					}
+				}
+				if (oldName != newName)	{
+					set_name(ea ,newName);
+					if(VERBOSE)	msg("--&gt; %x,%s-&gt;%s\n", ea, oldName, newName);
+				}
+			}
+			while (strlen(defline) &gt; 0);
+		}
+		while (strlen(defline) &gt; 0);
+    	fclose(defFile);
+	}
+}
+
+static wordn(c,i) {
+	auto t, l, p, s;
+	p = 0;
+	l = strlen(c);
+	t = "";
+	while (0 &lt; i) {
+		i = i-1;
+		while ((p &lt; l) &amp; (" " == substr(c,p,p+1))) p++;
+		while (p &lt; l) {
+			s = substr(c,p,++p);
+			if (s == " ") break;
+			if (i == 0) t = t + s;
+		}
+	}
+	return (t);
+}
+
+static translate(c) {
+	auto s,t;
+	s = "abcdefghijklmnopqrst";
+	t = "ABCDEFGHIJKLMNOPQRST";
+	return translate2(c,s,t);
+}
+
+static translate2(c,s,t) {
+	auto i,j,k,l;
+	l = strlen(s) - strlen(t);
+	for (i = 0;i &lt; l;i++) {
+		t = t + " ";
+	}
+	l = strlen(c);
+	for (i = 0;i &lt; l;i++) {
+		k = substr(c,i,i+1);
+		j = strstr(s,k);
+		if (0 &lt;= j) {
+			c = substr(c,0,i) + substr(t,j,j+1) + substr(c,i+1,-1);
+		}
+	}
+	return c;
+}
+
+static ReadDefLine(defFile)
+{
+	auto line, wordstr, c, delim, i, first;
+
+	delim = ""+0x0d+" "+0x09+0x0a;
+
+	do {
+
+		line = "";
+		i = 0;
+		first = 1;
+
+		do {
+			wordstr = "";
+			c = "";
+			do {
+				wordstr = wordstr + c;
+				c = fgetc(defFile);
+				if (-1 != c) {
+					i = strstr(delim,c);
+				} else i = - 2;
+			} while (-1 == i);
+			if (strlen(wordstr) &gt; 0) {
+				if (!first) line = line + " ";
+				first = 0;
+				line = line + wordstr;
+			};
+		} while (0 &lt; i);
+		if ((strlen(line) &gt; 0) &amp; (substr(line,0,1) == ";")) line = "";
+	} while ((strlen(line) == 0) &amp; (0 == i));
+	return(line);
+}
+
+static getPath(fileName) {
+	auto	pos, path;
+	path = "";
+	while (1) {
+		pos = strstr(fileName,"\\");
+		if (-1 == pos) break;
+		path = path + substr(fileName,0,pos+1);
+		fileName = substr(fileName,pos+1,-1);
+	}
+	return path;
+}
+
+static AskFileEx(forSave, ext, dialogText) {
+	auto	fileName, w, p, extArrayId, lastPath, newPath, extKey;
+	w = ext;
+	if (substr(w,0,1) == "*") w = substr(w,1,-1);
+	if (substr(w,0,1) == ".") w = substr(w,1,-1);
+/* is case-sensitive */
+	extKey = "DT#"+w;
+	extArrayId = get_array_id("DT#EXT#Array");
+	if (-1 == extArrayId)
+		extArrayId = create_array("DT#EXT#Array");
+	lastPath = get_hash_string(extArrayId,extKey);
+/* without this, we have at first only '*' as Mask, but not "*.ext". IDA 4.20 */
+	if ("" == lastPath)
+		lastPath = getPath(get_root_filename());
+	w = lastPath+"*."+w;
+	if(VERBOSE)	msg("--&gt; lastPath %s\n", w);
+	fileName = askfile(forSave,w,dialogText);
+	if (("" == fileName) | (-1 == extArrayId))
+		return fileName;
+	newPath = getPath(fileName);
+	if (("" != newPath) &amp; (lastPath != newPath))
+// Save the new path, associated with the extension in the Database
+		set_hash_string(extArrayId, extKey, newPath);
+	return fileName;
+}
+
+</code></pre>
+<h2 id="loadsym"><a class="header" href="#loadsym">loadsym</a></h2>
+<p>Sample that loads a SYM file with dialog.</p>
+<pre><code>//
+// Load a SYM file with Dialog
+// Saved the last browsed path associated with the extension in the Database
+// (use with dbg2map and mapsym)
+//
+// History:
+//
+// v1.00 - This file is originally donated by David Cattley.
+// v1.07 - Bugfix, improved interface, handles larger SegDefs
+// v1.08 - extended for save tha last used path associaded with *.sym in the current database
+//         set VAC to 0 for aktivating v1.07
+//         set VAC to 1 for sym-files from IBM/Microsoft MAPSYM for OS/2 (Loadsym V1.00)
+//
+
+#include &lt;idc.idc&gt;
+
+#define VERBOSE 1
+
+// set to version before IDA 4.30, for mapsym.exe VAC, not found any informations about the last changes
+#define VAC 1
+
+static main(void)
+{
+        auto    symFileName, symFile;
+
+        symFileName = AskFileEx(0,"*.sym","Choose the symbol-file");
+
+        if(symFileName=="")
+          { if(VERBOSE) msg("Operation cancelled by user.\n");
+            return -1; }
+
+        if(VERBOSE)     msg("Opening symbol file %s\n", symFileName);
+        symFile = fopen(symFileName, "rb");
+
+        if (0 != symFile)
+        {
+                auto nextMapDef;
+
+                //
+                // Process all of the MAPDEF's in this file.
+                //
+                // if(VERBOSE)     msg("%0.4x: ", ftell(symFile));
+                if(VERBOSE)     msg("Processing %s\n", symFileName);
+
+                nextMapDef = 0;
+
+                do
+                {
+                        nextMapDef = DoMapDef(symFile, nextMapDef);
+                }
+                while (0 != nextMapDef);
+        }
+        else
+        { if(VERBOSE) msg("Can't open symbol file:\n%s\n", symFileName);
+          return -1;
+        }
+        if(VERBOSE) msg("Symbol file has been loaded successfully.\n");
+}
+
+
+static DoMapDef(File, Position)
+{
+        auto    ppNextMap;
+
+        //
+        // Process the specified MAPDEF structure.
+        //
+        fseek(File, Position, 0);
+
+        if(VERBOSE)     msg("%0.4x: ", ftell(File));
+
+        ppNextMap = readshort(File, 0);
+
+        if (0 == ppNextMap)
+        {
+                //
+                // This is the last one!  It is special.
+                //
+                auto release, version;
+
+                release = fgetc(File);
+                version = fgetc(File);
+
+                if(VERBOSE)     msg("VERSION Next:%x Release:%x Version:%x\n",
+                                ppNextMap,
+                                release,
+                                version
+                                );
+        }
+        else
+        {
+                auto    bFlags, bReserved1, pSegEntry,
+                                cConsts, pConstDef, cSegs, ppSegDef,
+                                cbMaxSym, achModName;
+
+                auto i, nextSegDef;
+
+                bFlags = fgetc(File);
+                bReserved1 = fgetc(File);
+                pSegEntry = readshort(File, 0);
+                cConsts = readshort(File, 0);
+                pConstDef = readshort(File, 0);
+                cSegs = readshort(File, 0);
+                ppSegDef = readshort(File, 0);
+                cbMaxSym = fgetc(File);
+                achModName = ReadSymName(File);
+
+                if(VERBOSE)     msg("MAPDEF Next:%x Flags:%x Entry:%x Con:%d@%x Seg:%d@%x Max:%d Mod:%s\n",
+                                ppNextMap,
+                                bFlags,
+                                pSegEntry,
+                                cConsts, pConstDef,
+                                cSegs, ppSegDef,
+                                cbMaxSym,
+                                achModName
+                                );
+
+                //
+                // Process the SEGDEFs in this MAPDEF
+                //
+                nextSegDef = ppSegDef &lt;&lt; 4;
+
+                for (i=0; i&lt;cSegs; i=i+1)
+                {
+                        nextSegDef = DoSegDef(File, nextSegDef);
+                }
+        }
+
+        //
+        // Return the file position of the next MAPDEF
+        //
+        return (ppNextMap &lt;&lt; 4);
+}
+
+
+static DoSegDef(File, Position)
+{
+        auto    ppNextSeg, cSymbols, pSymDef,
+                        wSegNum, wReserved2, wReserved3, wReserved4,
+                        bFlags, bReserved1, ppLineDef, bReserved2,
+                        bReserved3, achSegName;
+
+        auto i, n, symPtr, segBase;
+
+        //
+        // Process the specified SEGDEF structure.
+        //
+        fseek(File, Position, 0);
+
+        if(VERBOSE)     msg("%0.4x: ", ftell(File));
+
+        ppNextSeg = readshort(File, 0);
+        cSymbols = readshort(File, 0);
+        pSymDef = readshort(File, 0);
+        wSegNum = readshort(File, 0);
+        wReserved2 = readshort(File, 0);
+        wReserved3 = readshort(File, 0);
+        wReserved4 = readshort(File, 0);
+        bFlags = fgetc(File);
+        bReserved1 = fgetc(File);
+        ppLineDef = readshort(File, 0);
+        bReserved2 = fgetc(File);
+        bReserved3 = fgetc(File);
+        achSegName = ReadSymName(File);
+
+        if (VAC) {
+          segBase = get_segm_by_sel(wSegNum);
+       // the others will access the externals, sym-files from MAPSYM contains only internals
+        } else {
+       // segBase = get_segm_by_sel(wSegNum); //fixed
+          segBase = get_first_seg();
+          for (i=wSegNum; i &gt; 1; i=i-1) { segBase = get_next_seg(segBase); }
+        }
+        if(VERBOSE)     msg("SEGDEF Next:%x Sym:(%d)@%x Flags:%x Lines:%x Seg:%s [%04x %08x]\n",
+                        ppNextSeg,
+                        cSymbols, pSymDef,
+                        bFlags,
+                        ppLineDef,
+                        achSegName, wSegNum, segBase
+                        );
+
+        //
+        // Process the symbols in this SEGDEF
+        //
+        n = 2;
+        if (!VAC) {
+       // sym-files from MAPSYM (VAC) works with unshifted pSymDef
+           pSymDef = pSymDef &lt;&lt; (bFlags &amp; 0xFE);
+           if ((bFlags &amp; 0xFE) != 0) n++;
+        }
+        for (i=0; i&lt;cSymbols; i=i+1)
+        {
+             // fseek(File, Position+pSymDef+(i*2), 0); //fixed
+                fseek(File, Position+pSymDef+(i*n), 0);
+                if (n&gt;2) symPtr = Position+(readlong(File, 0)&amp;0xFFFFFF);
+                else symPtr = Position+readshort(File, 0);
+                DoSymDef(File, symPtr, (bFlags &amp; 1), wSegNum);
+        }
+
+        //
+        //  Return the position of the next SEGDEF
+        //
+        return (ppNextSeg &lt;&lt; 4);
+}
+
+
+static DoSymDef(File, Position, Size, Segment)
+{
+        auto dwSymVal, achSymName, ea, i;
+
+        fseek(File, Position, 0);
+
+        if(VERBOSE)     msg("%0.4x: ", ftell(File));
+
+        if (0 == Size)
+                dwSymVal = readshort(File, 0);
+        else
+                dwSymVal = readlong(File, 0);
+
+        achSymName = ReadSymName(File);
+
+        //
+        // Calculate the EA of this symbols.
+        //
+        if (VAC) {
+          ea = get_segm_by_sel(Segment) + dwSymVal;
+     // sym-files from MAPSYM contains only internals
+        } else {
+       // ea = get_segm_by_sel(Segment) + dwSymVal; // fixed
+          ea = get_first_seg(); // This points to the externals ???
+          for (i=Segment; i &gt; 1; i=i-1) { ea = get_next_seg(ea); }
+          ea = ea + dwSymVal;
+        }
+
+        if(VERBOSE)     msg("SYM%d: %04x:%08x [%08x] %s\n",
+                        (16+Size*16),
+                        Segment, dwSymVal, ea,
+                        achSymName);
+
+        //
+        // Now go and name the location!
+        //
+        set_name(ea, "");
+        set_name(ea, achSymName);
+}
+
+
+static ReadSymName(symFile)
+{
+        auto i, nameLen, name;
+
+        name = "";
+        nameLen = fgetc(symFile);
+
+        for (i=0; i&lt;nameLen; i=i+1)
+        {
+                name = name + fgetc(symFile);
+        }
+
+        return(name);
+}
+
+static getPath(fileName) {
+	auto	pos, path;
+	path = "";
+	while (1) {
+		pos = strstr(fileName,"\\");
+		if (-1 == pos) break;
+		path = path + substr(fileName,0,pos+1);
+		fileName = substr(fileName,pos+1,-1);
+	}
+	return path;
+}
+
+static AskFileEx(forSave, ext, dialogText) {
+	auto	fileName, w, p, extArrayId, lastPath, newPath, extKey;
+	w = ext;
+	if (substr(w,0,1) == "*") w = substr(w,1,-1);
+	if (substr(w,0,1) == ".") w = substr(w,1,-1);
+/* is case-sensitive */
+	extKey = "DT#"+w;
+	extArrayId = get_array_id("DT#EXT#Array");
+	if (-1 == extArrayId)
+		extArrayId = create_array("DT#EXT#Array");
+	lastPath = get_hash_string(extArrayId,extKey);
+/* without this, we have at first only '*' as Mask, but not "*.ext". IDA 4.20 */
+	if ("" == lastPath)
+		lastPath = getPath(get_input_file_path());
+	w = lastPath+"*."+w;
+	if(VERBOSE)	msg("--&gt; lastPath %s\n", w);
+	fileName = askfile(forSave,w,dialogText);
+	if (("" == fileName) | (-1 == extArrayId))
+		return fileName;
+	newPath = getPath(fileName);
+	if (("" != newPath) &amp; (lastPath != newPath))
+// Save the new path, associated with the extension in the Database
+		set_hash_string(extArrayId, extKey, newPath);
+	return fileName;
+}
+
+</code></pre>
+<h2 id="marktest"><a class="header" href="#marktest">marktest</a></h2>
+<p>Sample that shows how to get list of marked positions.</p>
+<pre><code>//
+//      This example shows how to get list of marked positions.
+//
+
+#include &lt;idc.idc&gt;
+
+static main() {
+  auto x;
+
+  put_bookmark(get_screen_ea(),10,5,5,6,"Test of Mark Functions");
+  for ( x=0; x&lt;10; x++ )
+    msg("%d: %a %s\n",x,get_bookmark(x),get_bookmark_desc(x));
+}
+</code></pre>
+<h2 id="memcpy"><a class="header" href="#memcpy">memcpy</a></h2>
+<p>Sample that demonstrates how to copy memory blocks.</p>
+<pre><code>//
+//      This file demonstrates how to copy blocks of memory
+//      using IDC. To use it, press F2 and select this file.
+//      Once loaded and compiled all IDC functions stay in memory
+//      so afterwards you can copy blocks simply pressing Shift-F2
+//      and entering something like:
+//
+//              memcpy(0x30000, 0x20000, 0x100);
+//
+//      This construction copies 0x100 bytes from 0x20000 to 0x30000.
+//
+//      Also, you can delete main() function below.
+//      When you try to execute this file, you'll get an error:
+//      can find function 'main', don't pay attention.
+//      You will get memcpy() function in the memory.
+//      In this case you should create a segment youself (if nesessary).
+//
+
+#include &lt;idc.idc&gt;
+
+//------------------------------------------------------------------------
+static memcpy(to, from, size)
+{
+  auto i;
+  for ( i=0; i &lt; size; i=i+1 )
+  {
+    auto b = get_wide_byte(from);
+    patch_byte(to, b);
+    from = from + 1;
+    to = to + 1;
+  }
+}
+
+//------------------------------------------------------------------------
+static main(void)
+{
+  auto from = ask_addr(here, "Please enter the source address");
+  if ( from == BADADDR )
+    return;
+  auto to = ask_addr(BADADDR, "Please enter the target address");
+  if ( to == BADADDR )
+    return;
+  auto size = ask_long(0, "Please enter the number of bytes to copy");
+  if ( size == 0 )
+    return;
+
+  memcpy(to, from, size);
+}
+
+</code></pre>
+<h2 id="ndk"><a class="header" href="#ndk">ndk</a></h2>
+<p>Android bionic lib.</p>
+<pre><code>#include &lt;idc.idc&gt;
+
+static main()
+{
+}
+
+// Android Bionic libc
+//
+// These functions are called while loading startup signatures from
+// elf.sig to obtain the address of main.
+
+static get_main_ea(ea, got_ldr, got_off, main_off)
+{
+  auto got_ea = 0;
+
+  if ( got_off != 0 )
+  {
+    auto _ea = TRUNC(ea + got_ldr);
+    create_insn(_ea);
+    got_ea = get_first_dref_from(_ea);
+    if ( got_ea == BADADDR )
+      return BADADDR;
+    got_ea = get_wide_dword(got_ea);
+    if ( got_ea == BADADDR )
+      return BADADDR;
+    got_ea = TRUNC(got_ea + ea + got_off + 8);
+
+    ea = TRUNC(ea + main_off);
+    create_insn(ea);
+    ea = get_first_dref_from(ea);
+    if ( ea == BADADDR )
+      return BADADDR;
+
+    ea = get_wide_dword(ea);
+    if ( ea == BADADDR )
+      return BADADDR;
+  }
+
+  ea = TRUNC(got_ea + ea);
+
+  ea = get_wide_dword(ea);
+  if ( ea == BADADDR )
+    return BADADDR;
+
+  // Check that segment is executable
+  if ( (get_segm_attr(ea, SEGATTR_PERM) &amp; SEGPERM_EXEC) == 0 )
+    return BADADDR;
+
+  return ea;
+}
+
+static get_main_ea_pic(ea, got_ldr, got_off, main_off)
+{
+  return get_main_ea(ea, long(got_ldr), long(got_off), long(main_off));
+}
+
+static get_main_ea_abs(ea)
+{
+  return get_main_ea(ea, 0, 0, 0);
+}
+</code></pre>
+<h2 id="onload"><a class="header" href="#onload">onload</a></h2>
+<p>File called after a new file is loaded into IDA.</p>
+<pre><code>//
+//      This IDC file is called after a new file is loaded into IDA
+//      database.
+//      IDA calls "OnLoad" function from this file.
+//
+//      You may use this function to read extra information (such as
+//      debug information) from the input file, or for anything else.
+//
+
+#include &lt;idc.idc&gt;
+
+//      If you want to add your own processing of newly created databases,
+//      you may create a file named "userload.idc":
+//
+//      #define USERLOAD_IDC
+//      static userload(input_file,real_file,filetype) {
+//              ... your processing here ...
+//      }
+//
+
+#softinclude &lt;userload.idc&gt;
+
+// Input parameteres:
+//      input_file - name of loaded file
+//      real_file  - name of actual file that contains the input file.
+//                   usually this parameter is equal to input_file,
+//                   but is different if the input file is extracted from
+//                   an archive.
+//      filetype   - type of loaded file. See FT_.. definitions in idc.idc
+
+static OnLoad(input_file, real_file, filetype)
+{
+#ifdef USERLOAD_IDC             // if user-defined IDC file userload.idc
+                                // exists...
+  if ( userload(input_file, real_file, filetype) )
+    return;
+#endif
+  if ( filetype == FT_DRV )
+    DriverLoaded();
+//  msg("File %s is loaded into the database.\n",input_file);
+}
+
+
+//--------------------------------------------------------------------------
+//      This function is executed when a new device driver is loaded.
+//              Device drivers have extensions DRV or SYS.
+//
+// History:
+//
+// 08/12/95 20:16 by Alexey Kulentsov:
+// + Check for Device Request Block
+// + Kludge with Drv/Com supported
+// 04/01/96 04:21 by ig:
+// + 0000:0000 means end of devices chain too.
+// 16/05/96 16:01 by ig:
+// + modified to work with the new version of IDA (separate operand types)
+
+static DriverLoaded(void)
+{
+  auto x,i,base;
+  auto intr,strt;
+  auto attr,cmt;
+  auto nextbase;
+  auto DevReq;
+
+  i = 0;
+  x = get_inf_attr(INF_MIN_EA);
+  base = (x &gt;&gt; 4);   // The segment base
+
+  while ( 1 )
+  {
+    msg("Device driver block at %04X\n",x);
+
+    set_name(x, sprintf("NextDevice_%ld",i));
+    create_word(x);
+    op_num(x,0);
+    if ( get_wide_word(x) == 0xFFFF ) {
+      set_cmt(x, "The last device", 0);
+    } else {
+      nextbase = base + get_wide_word(x+2);
+      op_plain_offset(x,0,nextbase&lt;&lt;4);
+      set_cmt(x, "Offset to the next device", 0);
+    }
+
+    create_word(x+2);
+    op_num(x+2,0);
+
+    set_name(x+4, sprintf("DevAttr_%ld",i));
+    create_word(x+4);
+    op_num(x+4,0);
+    attr = get_wide_word(x+4);
+    cmt = "";
+    if ( attr &amp; (1&lt;&lt; 0) ) cmt = cmt + "stdin device\n";
+    if ( attr &amp; (1&lt;&lt; 1) ) cmt = cmt + ((attr &amp; (1&lt;&lt;15)) ? "stdout device\n" : "&gt;32M\n");
+    if ( attr &amp; (1&lt;&lt; 2) ) cmt = cmt + "stdnull device\n";
+    if ( attr &amp; (1&lt;&lt; 3) ) cmt = cmt + "clock device\n";
+    if ( attr &amp; (1&lt;&lt; 6) ) cmt = cmt + "supports logical devices\n";
+    if ( attr &amp; (1&lt;&lt;11) ) cmt = cmt + "supports open/close/RM\n";
+    if ( attr &amp; (1&lt;&lt;13) ) cmt = cmt + "non-IBM block device\n";
+    if ( attr &amp; (1&lt;&lt;14) ) cmt = cmt + "supports IOCTL\n";
+    cmt = cmt + ((attr &amp; (1&lt;&lt;15)) ? "character device" : "block device");
+    set_cmt(x+4, cmt, 0);
+
+    set_name(x+6, sprintf("Strategy_%ld",i));
+    create_word(x+6);
+    op_plain_offset(x+6,0,get_inf_attr(INF_MIN_EA));
+
+    set_name(x+8, sprintf("Interrupt_%ld",i));
+    create_word(x+8);
+    op_plain_offset(x+8, -1, get_inf_attr(INF_MIN_EA));
+
+    set_name(x+0xA, sprintf("DeviceName_%ld",i));
+    create_strlit (x+0xA,8);
+    set_cmt(x+0xA, "May be device number", 0);
+
+    strt = (base &lt;&lt; 4) + get_wide_word(x+6);
+    intr = (base &lt;&lt; 4) + get_wide_word(x+8);
+    create_insn( strt );
+    create_insn( intr );
+    auto_mark_range(strt, strt+1, AU_PROC);
+    auto_mark_range(intr, intr+1, AU_PROC );
+    set_name( strt, sprintf("Strategy_Routine_%ld",i));
+    set_name( intr, sprintf("Interrupt_Routine_%ld",i));
+    set_cmt( strt, "ES:BX -&gt; Device Request Block", 0);
+    set_cmt( intr, "Device Request Block:\n"
+             "0 db length\n"
+             "1 db unit number\n"
+             "2 db command code\n"
+             "5 d? reserved\n"
+             "0D d? command specific data", 0);
+
+    if( get_wide_byte( strt )==0x2E &amp;&amp; get_wide_word(strt+1)==0x1E89
+     &amp;&amp; get_wide_byte(strt+5)==0x2E &amp;&amp; get_wide_word(strt+6)==0x068C
+     &amp;&amp; get_wide_word(strt+3)==get_wide_word(strt+8)-2)
+    {
+     DevReq=get_wide_word(strt+3);
+     msg("DevReq at %x\n",DevReq);
+     del_items(x+DevReq);
+     del_items(x+DevReq+2);
+     create_dword(x+DevReq);
+     set_name(x+DevReq, sprintf("DevRequest_%ld",i));
+    }
+
+    if ( get_wide_word(x) == 0xFFFF ||
+       ((get_wide_byte(x)==0xE9 || get_wide_byte(x)==0xEB) &amp;&amp; i==0) ) break;
+    if ( get_wide_dword(x) == 0 ) break; // 04.01.96
+    x = (nextbase &lt;&lt; 4) + get_wide_word(x);
+    i = i + 1;
+  }
+}
+</code></pre>
+<h2 id="opertest"><a class="header" href="#opertest">opertest</a></h2>
+<p>Sample demonstrates how to use get_operand_value() function.</p>
+<pre><code>//
+//      This example shows how to use get_operand_value() function.
+//
+
+#include &lt;idc.idc&gt;
+
+static main() {
+  auto ea;
+
+  for ( ea = get_inf_attr(INF_MIN_EA); ea != BADADDR; ea=find_code(ea,1) ) {
+    auto x;
+    x = get_operand_value(ea,0);
+    if ( x != -1 ) msg("%08lX: operand 1 = %08lX\n",ea,x);
+    x = get_operand_value(ea,1);
+    if ( x != -1 ) msg("%08lX: operand 2 = %08lX\n",ea,x);
+    x = get_operand_value(ea,2);
+    if ( x != -1 ) msg("%08lX: operand 3 = %08lX\n",ea,x);
+  }
+}
+</code></pre>
+<h2 id="pilot"><a class="header" href="#pilot">pilot</a></h2>
+<p>File executed when a PalmPilot program is loaded.</p>
+<pre><code>//
+//	This file is executed when a PalmPilot program is loaded.
+//	You may customize it as you wish.
+//
+//	TODO:
+//		- decompilation of various resource types
+//		  (we don't have any information on the formats)
+//
+
+#include &lt;idc.idc&gt;
+
+//-----------------------------------------------------------------------
+//
+// Process each resource and make some routine tasks
+//
+static process_segments()
+{
+  auto ea,segname,prefix;
+
+  for ( ea=get_first_seg(); ea != BADADDR; ea=get_next_seg(ea) )
+  {
+    segname = get_segm_name(ea);
+    prefix = substr(segname,0,4);
+    if ( segname == "data0000" )
+    {
+      if ( get_wide_dword(ea) == 0xFFFFFFFF )
+      {
+        create_dword(ea);
+        set_cmt(ea,"Loader stores SysAppInfoPtr here", 0);
+      }
+      continue;
+    }
+    if ( prefix == "TRAP" )
+    {
+      create_word(ea);
+      op_hex(ea,0);
+      set_cmt(ea,"System trap function code", 0);
+      continue;
+    }
+    if ( prefix == "tSTR" )
+    {
+      create_strlit(ea,get_segm_end(ea));
+      set_cmt(ea,"String resource", 0);
+      continue;
+    }
+    if ( prefix == "tver" )
+    {
+      create_strlit(ea,get_segm_end(ea));
+      set_cmt(ea,"Version number string", 0);
+      continue;
+    }
+    if ( prefix == "tAIN" )
+    {
+      create_strlit(ea,get_segm_end(ea));
+      set_cmt(ea,"Application icon name", 0);
+      continue;
+    }
+    if ( prefix == "pref" )
+    {
+      auto flags,cmt;
+      flags = get_wide_word(ea);
+      create_word(ea); op_hex(ea,0); set_name(ea,"flags");
+#define sysAppLaunchFlagNewThread  0x0001
+#define sysAppLaunchFlagNewStack   0x0002
+#define sysAppLaunchFlagNewGlobals 0x0004
+#define sysAppLaunchFlagUIApp      0x0008
+#define sysAppLaunchFlagSubCall    0x0010
+      cmt = "";
+      if ( flags &amp; sysAppLaunchFlagNewThread ) cmt = cmt + "sysAppLaunchFlagNewThread\n";
+      if ( flags &amp; sysAppLaunchFlagNewStack  ) cmt = cmt + "sysAppLaunchFlagNewStack\n";
+      if ( flags &amp; sysAppLaunchFlagNewGlobals) cmt = cmt + "sysAppLaunchFlagNewGlobals\n";
+      if ( flags &amp; sysAppLaunchFlagUIApp     ) cmt = cmt + "sysAppLaunchFlagUIApp\n";
+      if ( flags &amp; sysAppLaunchFlagSubCall   ) cmt = cmt + "sysAppLaunchFlagSubCall";
+      set_cmt(ea,cmt, 0);
+      ea = ea + 2;
+      create_dword(ea); op_hex(ea,0); set_name(ea,"stack_size");
+      ea = ea + 4;
+      create_dword(ea); op_hex(ea,0); set_name(ea,"heap_size");
+    }
+  }
+}
+
+//-----------------------------------------------------------------------
+//
+//	Create a enumeration with system action codes
+//
+static make_actions()
+{
+  auto ename = "SysAppLaunchCmd";
+  auto id = get_named_type_tid(ename);
+  if ( id == BADADDR )
+  {
+    auto ei = enum_type_data_t();
+    ei.bte = ei.bte | BTE_UDEC;
+    ei.add_constant("sysAppLaunchCmdNormalLaunch",         0, "Normal Launch");
+    ei.add_constant("sysAppLaunchCmdFind",                 1, "Find string");
+    ei.add_constant("sysAppLaunchCmdGoTo",                 2, "Launch and go to a particular record");
+    ei.add_constant("sysAppLaunchCmdSyncNotify",           3, "Sent to apps whose databases changed\n"
+                                                              "during HotSync after the sync has\n"
+                                                              "been completed");
+    ei.add_constant("sysAppLaunchCmdTimeChange",           4, "The system time has changed");
+    ei.add_constant("sysAppLaunchCmdSystemReset",          5, "Sent after System hard resets");
+    ei.add_constant("sysAppLaunchCmdAlarmTriggered",       6, "Schedule next alarm");
+    ei.add_constant("sysAppLaunchCmdDisplayAlarm",         7, "Display given alarm dialog");
+    ei.add_constant("sysAppLaunchCmdCountryChange",        8, "The country has changed");
+    ei.add_constant("sysAppLaunchCmdSyncRequest",          9, "The \"HotSync\" button was pressed");
+    ei.add_constant("sysAppLaunchCmdSaveData",            10, "Sent to running app before\n"
+                                                              "sysAppLaunchCmdFind or other\n"
+                                                              "action codes that will cause data\n"
+                                                              "searches or manipulation");
+    ei.add_constant("sysAppLaunchCmdInitDatabase",        11, "Initialize a database; sent by\n"
+                                                              "DesktopLink server to the app whose\n"
+                                                              "creator ID matches that of the database\n"
+                                                              "created in response to the \"create db\" request");
+    ei.add_constant("sysAppLaunchCmdSyncCallApplication", 12, "Used by DesktopLink Server command\n"
+                                                              "\"call application\"");
+
+    id = create_enum_type(ename, ei, 0, TYPE_SIGN_NO_SIGN, 0, "Action codes");
+  }
+}
+
+//-----------------------------------------------------------------------
+//
+//	Create a enumeration with event codes
+//
+static make_events()
+{
+  auto ename = "events";
+  auto id = get_named_type_tid(ename);
+  if ( id == BADADDR )
+  {
+    auto ei = enum_type_data_t();
+    ei.bte = ei.bte | BTE_UDEC;
+    ei.add_constant( "nilEvent",              0);
+    ei.add_constant("penDownEvent",           1);
+    ei.add_constant("penUpEvent",             2);
+    ei.add_constant("penMoveEvent",           3);
+    ei.add_constant("keyDownEvent",           4);
+    ei.add_constant("winEnterEvent",          5);
+    ei.add_constant("winExitEvent",           6);
+    ei.add_constant("ctlEnterEvent",          7);
+    ei.add_constant("ctlExitEvent",           8);
+    ei.add_constant("ctlSelectEvent",         9);
+    ei.add_constant("ctlRepeatEvent",        10);
+    ei.add_constant("lstEnterEvent",         11);
+    ei.add_constant("lstSelectEvent",        12);
+    ei.add_constant("lstExitEvent",          13);
+    ei.add_constant("popSelectEvent",        14);
+    ei.add_constant("fldEnterEvent",         15);
+    ei.add_constant("fldHeightChangedEvent", 16);
+    ei.add_constant("fldChangedEvent",       17);
+    ei.add_constant("tblEnterEvent",         18);
+    ei.add_constant("tblSelectEvent",        19);
+    ei.add_constant("daySelectEvent",        20);
+    ei.add_constant("menuEvent",             21);
+    ei.add_constant("appStopEvent",          22);
+    ei.add_constant("frmLoadEvent",          23);
+    ei.add_constant("frmOpenEvent",          24);
+    ei.add_constant("frmGotoEvent",          25);
+    ei.add_constant("frmUpdateEvent",        26);
+    ei.add_constant("frmSaveEvent",          27);
+    ei.add_constant("frmCloseEvent",         28);
+    ei.add_constant("tblExitEvent",          29);
+    id = create_enum_type(ename, ei, 0, TYPE_SIGN_NO_SIGN, 0, "Event codes");
+  }
+}
+
+//-----------------------------------------------------------------------
+static main()
+{
+  process_segments();
+  make_actions();
+  make_events();
+}
+
+//-----------------------------------------------------------------------
+#ifdef __undefined_symbol__
+	// WE DO NOT USE IDC HOTKEYS, JUST SIMPLE KEYBOARD MACROS
+	// (see IDA.CFG, macro Alt-5 for mc68k)
+//-----------------------------------------------------------------------
+//
+//	Register Ctrl-R as a hotkey for "make offset from A5" command
+//	(not used, simple keyboard macro is used instead, see IDA.CFG)
+//
+//	There is another (manual) way to convert an operand to an offset:
+//	  - press Ctrl-R
+//	  - enter "A5BASE"
+//	  - press Enter
+//
+static setup_pilot()
+{
+  auto h0,h1;
+  h0 = "Alt-1";
+  h1 = "Alt-2";
+  add_idc_hotkey(h0,"a5offset0");
+  add_idc_hotkey(h1,"a5offset1");
+  msg("Use %s to convert the first operand to an offset from A5\n",h0);
+  msg("Use %s to convert the second operand to an offset from A5\n",h1);
+}
+
+static a5offset0(void) { op_plain_offset(get_screen_ea(),0,get_name_ea_simple("A5BASE")); }
+static a5offset1(void) { op_plain_offset(get_screen_ea(),1,get_name_ea_simple("A5BASE")); }
+
+#endif // 0
+</code></pre>
+<h2 id="renimp"><a class="header" href="#renimp">renimp</a></h2>
+<p>Script that renames imports.</p>
+<pre><code>/*
+   Rename imports.
+
+   This script renames entries of a dynamically built import table.
+   For example, from a table like this:
+
+      dd offset ntdll_NtPowerInformation
+      dd offset ntdll_NtInitiatePowerAction
+      dd offset ntdll_NtSetThreadExecutionState
+      dd offset ntdll_NtRequestWakeupLatency
+      dd offset ntdll_NtGetDevicePowerState
+      dd offset ntdll_NtIsSystemResumeAutomatic
+      dd offset ntdll_NtRequestDeviceWakeup
+      dd offset ntdll_NtCancelDeviceWakeupRequest
+      dd offset ntdll_RtlQueryRegistryValues
+
+
+   it will create a table like this:
+
+      NtPowerInformation dd offset ntdll_NtPowerInformation
+      NtInitiatePowerAction dd offset ntdll_NtInitiatePowerAction
+      NtSetThreadExecutionState dd offset ntdll_NtSetThreadExecutionState
+      NtRequestWakeupLatency dd offset ntdll_NtRequestWakeupLatency
+      NtGetDevicePowerState dd offset ntdll_NtGetDevicePowerState
+      NtIsSystemResumeAutomatic dd offset ntdll_NtIsSystemResumeAutomatic
+      NtRequestDeviceWakeup dd offset ntdll_NtRequestDeviceWakeup
+      NtCancelDeviceWakeupRequest dd offset ntdll_NtCancelDeviceWakeupRequest
+      RtlQueryRegistryValues dd offset ntdll_RtlQueryRegistryValues
+
+   Usage: select the import table and run the script.
+
+   Known problems: if the dll name contains an underscore, the function
+   names might be incorrect. Special care is taken for the ws2_32.dll but
+   other dlls will have wrong function names.
+
+*/
+
+#include &lt;idc.idc&gt;
+
+static main()
+{
+  auto ea1, ea2, idx, dllname, name;
+
+  ea1 = read_selection_start();
+  ea2 = read_selection_end();
+  if ( ea1 == BADADDR )
+  {
+    warning("Please select the import table before running the renimp script");
+    return;
+  }
+
+  auto ptrsz, DeRef;
+  auto bitness = get_segm_attr(ea1, SEGATTR_BITNESS);
+  if ( bitness == 1 )
+  {
+    ptrsz = 4;
+    DeRef = get_wide_dword;
+  }
+  else if ( bitness == 2 )
+  {
+    ptrsz = 8;
+    DeRef = get_qword;
+  }
+  else
+  {
+    warning("Unsupported segment bitness!");
+    return;
+  }
+
+  while ( ea1 &lt; ea2 )
+  {
+    name = Name(DeRef(ea1));
+    idx = strstr(name, "_");
+    dllname = substr(name, 0, idx);
+
+    // Most likely the dll name is ws2_32
+    if ( dllname == "ws2" )
+      idx = idx + 3;
+
+    // Extract the function name
+    name = substr(name, idx+1, -1);
+    if ( !set_name(ea1, name, SN_CHECK|SN_NOWARN) )
+    {
+      // failed to give a name - it could be that the name has already been
+      // used in the program. add a suffix
+      for ( idx=0; idx &lt; 99; idx++ )
+      {
+        if ( set_name(ea1, name + "_" + ltoa(idx, 10), SN_CHECK|SN_NOWARN) )
+          break;
+      }
+    }
+    ea1 = ea1 + ptrsz;
+  }
+}
+</code></pre>
+<h2 id="resource"><a class="header" href="#resource">resource</a></h2>
+<p>Sample that demonstrates how new executable format can be analyzed.</p>
+<pre><code>//
+//      This is an example how New Executable Format resources can be
+//      analyzed. In this example we analyze Version Information resource
+//      type only.
+//      It is possible to write functions to analyze other types too.
+//
+//
+
+#include &lt;idc.idc&gt;
+//-------------------------------------------------------------------
+static nextResource(ea) {       // find next resource
+  auto next;
+  auto name;
+
+  next = ea;
+  while ( (next=get_next_seg(next)) != -1 ) {
+    name = get_segm_name(next);
+    if ( substr(name,0,3) == "res" ) break;     // Yes, this is a resource
+  }
+  return next;
+}
+
+//-------------------------------------------------------------------
+static getResourceType(cmt) {
+  auto i;
+  i = strstr(cmt,"(");
+  if ( i != -1 ) {
+    i = i + 1;
+    return xtol(substr(cmt,i,i+4));     // get type of the resource
+  }
+  return 0;                             // couldn't determine rsc type
+}
+
+//-------------------------------------------------------------------
+static getResourceID(cmt) {
+  auto i;
+  i = strstr(cmt,":");
+  if ( i != -1 ) {
+    i = i + 1;
+    return long(substr(cmt,i,-1));      // get ID of the resource
+  }
+  return 0;                             // couldn't determine rsc ID
+}
+
+//-------------------------------------------------------------------
+static ResourceCursor(ea,id) {
+  msg("Cursor, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceBitmap(ea,id) {
+  msg("Bitmap, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceIcon(ea,id) {
+  msg("Icon, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceMenu(ea,id) {
+  msg("Menu, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceDbox(ea,id) {
+  msg("Dbox, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceStrT(ea,id) {
+  msg("String Table, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceFontDir(ea,id) {
+  msg("FontDir, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceFont(ea,id) {
+  msg("Font, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceAccl(ea,id) {
+  msg("Accelerator, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceData(ea,id) {
+  msg("Resource Data, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceCurDir(ea,id) {
+  msg("Cursor Dir, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceIconDir(ea,id) {
+  msg("Icon Dir, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceName(ea,id) {
+  msg("Cursor, id: %ld\n",id);
+}
+
+//-------------------------------------------------------------------
+static ResourceVersion(ea,id) {
+
+  msg("Version info, id: %ld\n",id);
+
+  ea = AnalyzeVBlock(ea,0);
+}
+
+//-------------------------------------------------------------------
+static ConvertToStr(vea,len) {
+  auto ea;
+  auto slen;
+  ea = vea;
+  for ( ea=vea; len &gt; 0; vea = ea ) {
+    while ( get_wide_byte(ea) != 0 ) ea = ea + 1;
+    ea = ea + 1;
+    slen = ea - vea;
+    create_strlit(vea,slen);
+    len = len - slen;
+  }
+}
+
+//-------------------------------------------------------------------
+static Pad32(ea) {
+  auto vea;
+  vea = (ea + 3) &amp; ~3;                  // align to 32-bit boundary
+  if ( vea != ea ) {                    // extra bytes found
+    make_array(ea,vea-ea);
+    set_cmt(ea, "Padding bytes", 0);
+  }
+  return vea;
+}
+
+//-------------------------------------------------------------------
+static AnalyzeVBlock(ea,blnum) {
+  auto key,block,vsize,x,vea,keyea;
+  auto blstart,blend;
+
+  blstart = ea;                         // save block start
+
+  block = get_wide_word(ea);
+  set_name(ea, sprintf("rscVinfoBlSize_%ld", blnum));
+  create_word(ea);
+  op_num(ea,0);
+
+  ea = ea + 2;
+  vsize = get_wide_word(ea);
+  set_name(ea, sprintf("rscVinfoValSize_%ld", blnum));
+  create_word(ea);
+  op_num(ea,0);
+
+  ea = ea + 2;
+  keyea = ea;
+  set_name(key, sprintf("rscVinfoKey_%ld", blnum));
+  key = "";
+  while ( get_wide_byte(ea) != 0 ) {
+    key = key + char(get_wide_byte(ea));
+    ea = ea + 1;
+  }
+  ea = ea + 1;
+  create_strlit(keyea,ea-keyea);
+
+  vea = Pad32(ea);
+
+  set_name(vea, sprintf("rscVinfoValue_%ld", blnum));
+
+  blend = vea + vsize;                  // find block end
+
+//  msg("At %lX key is: %s\n",keyea,key);
+
+  if      ( key == "VS_VERSION_INFO" ) {
+
+        ;       // nothing to do
+
+  } else if ( key == "VarFileInfo"     ) {
+
+        ;       // nothing to do
+
+  } else if ( key == "Translation"     ) {
+
+    for ( ea=vea; ea &lt; blend; ea=ea+4 ) {
+      auto lang,charset;
+
+      lang = get_wide_word(ea);
+      charset = get_wide_word(ea+2);
+
+        if      ( lang == 0x0401 ) lang = "Arabic";
+        else if ( lang == 0x0402 ) lang = "Bulgarian";
+        else if ( lang == 0x0403 ) lang = "Catalan";
+        else if ( lang == 0x0404 ) lang = "Traditional Chinese";
+        else if ( lang == 0x0405 ) lang = "Czech";
+        else if ( lang == 0x0406 ) lang = "Danish";
+        else if ( lang == 0x0407 ) lang = "German";
+        else if ( lang == 0x0408 ) lang = "Greek";
+        else if ( lang == 0x0409 ) lang = "U.S. English";
+        else if ( lang == 0x040A ) lang = "Castilian Spanish";
+        else if ( lang == 0x040B ) lang = "Finnish";
+        else if ( lang == 0x040C ) lang = "French";
+        else if ( lang == 0x040D ) lang = "Hebrew";
+        else if ( lang == 0x040E ) lang = "Hungarian";
+        else if ( lang == 0x040F ) lang = "Icelandic";
+        else if ( lang == 0x0410 ) lang = "Italian";
+        else if ( lang == 0x0411 ) lang = "Japanese";
+        else if ( lang == 0x0412 ) lang = "Korean";
+        else if ( lang == 0x0413 ) lang = "Dutch";
+        else if ( lang == 0x0414 ) lang = "Norwegian - Bokmal";
+        else if ( lang == 0x0415 ) lang = "Polish";
+        else if ( lang == 0x0416 ) lang = "Brazilian Portuguese";
+        else if ( lang == 0x0417 ) lang = "Rhaeto-Romanic";
+        else if ( lang == 0x0418 ) lang = "Romanian";
+        else if ( lang == 0x0419 ) lang = "Russian";
+        else if ( lang == 0x041A ) lang = "Croato-Serbian (Latin)";
+        else if ( lang == 0x041B ) lang = "Slovak";
+        else if ( lang == 0x041C ) lang = "Albanian";
+        else if ( lang == 0x041D ) lang = "Swedish";
+        else if ( lang == 0x041E ) lang = "Thai";
+        else if ( lang == 0x041F ) lang = "Turkish";
+        else if ( lang == 0x0420 ) lang = "Urdu";
+        else if ( lang == 0x0421 ) lang = "Bahasa";
+        else if ( lang == 0x0804 ) lang = "Simplified Chinese";
+        else if ( lang == 0x0807 ) lang = "Swiss German";
+        else if ( lang == 0x0809 ) lang = "U.K. English";
+        else if ( lang == 0x080A ) lang = "Mexican Spanish";
+        else if ( lang == 0x080C ) lang = "Belgian French";
+        else if ( lang == 0x0810 ) lang = "Swiss Italian";
+        else if ( lang == 0x0813 ) lang = "Belgian Dutch";
+        else if ( lang == 0x0814 ) lang = "Norwegian - Nynorsk";
+        else if ( lang == 0x0816 ) lang = "Portuguese";
+        else if ( lang == 0x081A ) lang = "Serbo-Croatian (Cyrillic)";
+        else if ( lang == 0x0C0C ) lang = "Canadian French";
+        else if ( lang == 0x100C ) lang = "Swiss French";
+
+        if      ( charset == 0    ) charset = "7-bit ASCII";
+        else if ( charset == 932  ) charset = "Windows, Japan (Shift - JIS X-0208)";
+        else if ( charset == 949  ) charset = "Windows, Korea (Shift - KSC 5601)";
+        else if ( charset == 950  ) charset = "Windows, Taiwan (GB5)";
+        else if ( charset == 1200 ) charset = "Unicode";
+        else if ( charset == 1250 ) charset = "Windows, Latin-2 (Eastern European)";
+        else if ( charset == 1251 ) charset = "Windows, Cyrillic";
+        else if ( charset == 1252 ) charset = "Windows, Multilingual";
+        else if ( charset == 1253 ) charset = "Windows, Greek";
+        else if ( charset == 1254 ) charset = "Windows, Turkish";
+        else if ( charset == 1255 ) charset = "Windows, Hebrew";
+        else if ( charset == 1256 ) charset = "Windows, Arabic";
+
+        set_cmt(ea, "Language: " + lang, 0);
+        create_word(ea);
+        op_num(ea,0);
+        set_cmt(ea+2, "Character set: " + charset, 0);
+        create_word(ea+2);
+        op_num(ea+2,0);
+
+    }
+  } else if ( key == "StringFileInfo"  ) {
+
+        ConvertToStr(vea,vsize);
+
+  } else {
+        ConvertToStr(vea,vsize);
+  }
+
+  blend = Pad32(blend);
+  update_extra_cmt(blend,E_NEXT + 0,";------------------------------------------------------");
+  blnum = (blnum+1) * 10;               // nested block number
+  while ( (blend-blstart) &lt; block ) {   // nested block exist
+    msg("Nested block at %lX\n",blend);
+    set_cmt(blend, sprintf("Nested block...%ld",blnum), 0);
+    blend = AnalyzeVBlock(blend,blnum);
+    blnum = blnum + 1;
+  }
+  return blend;
+}
+
+//-------------------------------------------------------------------
+static main(void) {
+  auto ea;
+  auto type,id;
+
+  msg("Searching for resources...\n");
+  ea = get_first_seg();
+  while ( (ea=nextResource(ea)) != -1 ) {
+    msg("Found a resource at %08lX, name: %s\n",ea,get_segm_name(ea));
+    type = getResourceType(get_extra_cmt(ea,E_PREV + 0));        // get rsc type
+    id   = getResourceID(get_extra_cmt(ea,E_PREV + 3));          // get rsc id
+    if      ( type == 0x8001 )  ResourceCursor(ea,id);
+    else if ( type == 0x8002 )  ResourceBitmap(ea,id);
+    else if ( type == 0x8003 )  ResourceIcon(ea,id);
+    else if ( type == 0x8004 )  ResourceMenu(ea,id);
+    else if ( type == 0x8005 )  ResourceDbox(ea,id);
+    else if ( type == 0x8006 )  ResourceStrT(ea,id);
+    else if ( type == 0x8007 )  ResourceFontDir(ea,id);
+    else if ( type == 0x8008 )  ResourceFont(ea,id);
+    else if ( type == 0x8009 )  ResourceAccl(ea,id);
+    else if ( type == 0x800A )  ResourceData(ea,id);
+
+    else if ( type == 0x800C )  ResourceCurDir(ea,id);
+
+    else if ( type == 0x800E )  ResourceIconDir(ea,id);
+    else if ( type == 0x800F )  ResourceName(ea,id);
+    else if ( type == 0x8010 )  ResourceVersion(ea,id);
+    else msg("Unknown resource type %04lX\n",type);
+  }
+  msg("Done.\n");
+}
+</code></pre>
+<h2 id="struct2"><a class="header" href="#struct2">struct2</a></h2>
+<p>Sample that demonstrates structure manipulation functions.</p>
+<pre><code>//
+//      This example shows how to use structure manipulation functions.
+//
+
+#include &lt;idc.idc&gt;
+
+#define MAXSTRUCT       200
+
+// Create MAXSTRUT structures.
+// Each structure will have 3 fields:
+//      - a byte array field
+//      - a word field
+//      - a structure field
+
+static main()
+{
+  auto i, idx, name, id2;
+
+  for ( i=0; i &lt; MAXSTRUCT; i++ )
+  {
+    name = sprintf("str_%03d", i);
+    idx = add_struc(-1, name, 0);               // create a structure
+    if ( idx == -1 )                            // if not ok
+    {
+      warning("Can't create structure %s, giving up",name);
+      break;
+    }
+    else
+    {
+      add_struc_member(idx,
+                     "bytemem",
+                     get_struc_size(idx),
+                     FF_DATA|FF_BYTE,
+                     -1,
+                     5*1);                      // char[5]
+      add_struc_member(idx,
+                     "wordmem",
+                     get_struc_size(idx),
+                     FF_DATA|FF_WORD,
+                     -1,
+                     1*2);                      // short
+      id2 = get_struc_id(sprintf("str_%03d",i-1));
+      if ( i != 0 ) add_struc_member(idx,
+                     "inner",
+                     get_struc_size(idx),
+                     FF_DATA|FF_STRUCT,
+                     id2,
+                     get_struc_size(id2));        // sizeof(str_...)
+      msg("Structure %s is successfully created, idx=%08lX, prev=%08lX\n",
+                                                        name, idx, id2);
+    }
+  }
+  msg("Done, total number of structures: %d\n",get_struc_qty());
+}
+</code></pre>
+<h2 id="structst"><a class="header" href="#structst">structst</a></h2>
+<p>Sample that demonstrates structure access functions.</p>
+<pre><code>//
+//      This example shows how to use structure access functions.
+//
+
+#include &lt;idc.idc&gt;
+
+// Create a simple structure
+// dump layout of all structures (including the created one)
+// dump current function's frame (if it exists)
+
+
+static dump_struct(id)
+{
+  auto m;
+  msg("Structure %s (id 0x%X):\n",get_struc_name(id), id);
+  msg("  Regular    comment: %s\n",get_struc_cmt(id,0));
+  msg("  Repeatable comment: %s\n",get_struc_cmt(id,1));
+  msg("  Size              : %d\n",get_struc_size(id));
+  msg("  Number of members : %d\n",get_member_qty(id));
+  for ( m = 0;
+        m != get_struc_size(id);
+        m = get_next_offset(id,m) ) 
+  {
+    auto mname;
+    mname = get_member_name(id,m);
+    if ( mname == "" ) 
+    {
+      msg("  Hole (%d bytes)\n",get_next_offset(id,m)-m);
+    } 
+    else 
+    {
+      auto type;
+      msg("  Member name   : %s\n",get_member_name(id,m));
+      msg("    Regular cmt : %s\n",get_member_cmt(id,m,0));
+      msg("    Rept.   cmt : %s\n",get_member_cmt(id,m,1));
+      msg("    Member size : %d\n",get_member_size(id,m));
+      type = get_member_flag(id,m) &amp; DT_TYPE;
+           if ( type == FF_BYTE     ) type = "Byte";
+      else if ( type == FF_WORD     ) type = "Word";
+      else if ( type == FF_DWORD    ) type = "Double word";
+      else if ( type == FF_QWORD    ) type = "Quadro word";
+      else if ( type == FF_TBYTE    ) type = "Ten bytes";
+      else if ( type == FF_STRLIT   ) type = "ASCII string";
+      else if ( type == FF_STRUCT   ) type = sprintf("Structure '%s'",get_struc_name(get_member_strid(id,m)));
+      else if ( type == FF_FLOAT    ) type = "Float";
+      else if ( type == FF_DOUBLE   ) type = "Double";
+      else if ( type == FF_PACKREAL ) type = "Packed Real";
+      else                            type = sprintf("Unknown type %08X",type);
+      msg("    Member type : %s",type);
+      type = get_member_flag(id,m);
+           if ( is_off0(type)  ) msg(" Offset");
+      else if ( is_char0(type) ) msg(" Character");
+      else if ( is_seg0(type)  ) msg(" Segment");
+      else if ( is_dec0(type)  ) msg(" Decimal");
+      else if ( is_hex0(type)  ) msg(" Hex");
+      else if ( is_oct0(type)  ) msg(" Octal");
+      else if ( is_bin0(type)  ) msg(" Binary");
+      msg("\n");
+    }
+  }
+}
+
+static main() {
+  auto idx,code;
+
+  idx = add_struc(-1, "str1_t", 0);     // create a structure
+  if ( idx != -1 ) {                    // if ok
+    auto id2;
+        // add member: offset from struct start 0, type - byte, 5 elements
+    add_struc_member(idx,"bytemem",0,FF_DATA|FF_BYTE,-1,5*1);
+    add_struc_member(idx,"wordmem",5,FF_DATA|FF_WORD,-1,1*2);
+    set_member_cmt(idx,0,"This is 5 element byte array",0);
+    set_member_cmt(idx,5,"This is 1 word",0);
+    id2 = add_struc(-1, "str2_t", 0); // create another structure
+    add_struc_member(id2,"first", 0,FF_DATA|FF_BYTE,-1,1*1);
+    add_struc_member(id2,"strmem",1,FF_DATA|FF_STRUCT,idx,get_struc_size(idx));
+    set_member_cmt(id2,1,"This is structure member",0);
+  }
+
+  msg("Total number of structures: %d\n",get_struc_qty());
+  auto id;
+  for ( idx=get_first_struc_idx(); idx != -1; idx=get_next_struc_idx(idx) ) {
+    id = get_struc_by_idx(idx);
+    if ( id == -1 ) error("Internal IDA error, get_struc_by_idx returned -1!");
+    dump_struct(id);
+  }
+  // dump current function's stack frame
+  id = get_func_attr(here, FUNCATTR_FRAME);
+  if ( id != -1 )
+  {
+    msg("current function frame layout:\n");
+    dump_struct(id);
+  }
+}
+</code></pre>
+<h2 id="tpdll"><a class="header" href="#tpdll">tpdll</a></h2>
+<p>Example executed when IDA detects Turbo Pascal DLL.</p>
+<pre><code>//
+// This file is executed when IDA detects Turbo Pascal DLL
+//
+
+#include &lt;idc.idc&gt;
+
+static main()
+{
+  // Set pascal type strings. Just in case
+  set_inf_attr(INF_STRTYPE, STRTYPE_PASCAL);
+
+  // System unit used protected commands so
+  // set protected mode processor
+  set_processor_type("80386p", SETPROC_USER);
+
+  auto start = get_inf_attr(INF_START_EA);
+
+  // Give pascal style name to the entry point
+  // and delete the bogus one-instruction function
+  // which was created by the startup signature
+  set_name(start, "LIBRARY");
+  del_func(start);
+
+  // Plan to create a good PROGRAM function instead of
+  // the deleted one
+  auto_mark_range(start, start+1, AU_PROC);
+
+  // Get address of the initialization subrountine
+  auto init = get_first_fcref_from(start+5);
+  set_name(init, "@__SystemInit$qv");
+
+  // Delete the bogus function which was created by the secondary
+  // startup signature.
+  del_func(init);
+
+  // Create a good initialization function
+  add_func(init);
+  set_func_flags(init, FUNC_LIB|get_func_flags(init));
+
+  // Check for presence of LibExit() function
+  auto exit = get_name_ea_simple("@__LibExit$qv");
+
+  // If we have found function then define it
+  // with FUNC_NORET attribute
+  if ( exit != BADADDR )
+  {
+    add_func(exit);
+    set_func_flags(exit, FUNC_NORET|FUNC_LIB|get_func_flags(exit));
+  }
+}
+</code></pre>
+<h2 id="tpdos"><a class="header" href="#tpdos">tpdos</a></h2>
+<p>Example executed when IDA detects Turbo Pascal DOS app.</p>
+<pre><code>//
+// This file is executed when IDA detects Turbo Pascal DOS application.
+//
+
+#include &lt;idc.idc&gt;
+
+static main()
+{
+  // Set pascal type strings. Just in case
+  set_inf_attr(INF_STRTYPE, STRTYPE_PASCAL);
+
+  auto start = get_inf_attr(INF_START_EA);
+
+  // Give pascal style name to the entry point
+  // and delete the bogus one-instruction function
+  // which was created by the startup signature
+  set_name(start,"PROGRAM");
+  del_func(start);
+
+  // Plan to create a good PROGRAM function instead of
+  // the deleted one
+  auto_mark_range(start, start+1, AU_PROC);
+
+  // Get address of the initialization subrountine
+  auto init = get_first_fcref_from(start);
+  set_name(init, "@__SystemInit$qv");
+
+  // Delete the bogus function which was created by the secondary
+  // startup signature.
+  del_func(init);
+
+  // Create a good initialization function
+  add_func(init);
+  set_func_flags(init, FUNC_LIB|get_func_flags(init));
+
+  // find sequence of
+  //      xor     cx, cx
+  //      xor     bx, bx
+  // usually Halt() starts with these instructions
+
+  auto halt = find_binary(init,1,"33 c9 33 db");
+
+  // If we have found the sequence then define Halt() function
+  // with FUNC_NORET attribute
+  if ( halt != BADADDR )
+  {
+    set_name(halt, "@Halt$q4Word");
+    add_func(halt);
+    set_func_flags(halt, FUNC_NORET|FUNC_LIB|get_func_flags(halt));
+  }
+}
+</code></pre>
+<h2 id="tpne"><a class="header" href="#tpne">tpne</a></h2>
+<p>Example executed when IDA detects Windows or DPMI app.</p>
+<pre><code>//
+// This file is executed when IDA detects Turbo Pascal Windows
+// or DPMI application.
+//
+
+#include &lt;idc.idc&gt;
+
+static main()
+{
+  // Set pascal type strings. Just in case
+  set_inf_attr(INF_STRTYPE, STRTYPE_PASCAL);
+
+  // System unit used protected commands so
+  // set protected mode processor
+  set_processor_type("80386p", SETPROC_USER);
+
+  auto start = get_inf_attr(INF_START_EA);
+
+  // Give pascal style name to the entry point
+  // and delete the bogus one-instruction function
+  // which was created by the startup signature
+  set_name(start, "PROGRAM");
+  del_func(start);
+
+  // Plan to create a good PROGRAM function instead of
+  // the deleted one
+  auto_mark_range(start, start+1, AU_PROC);
+
+  // Get address of the initialization subrountine
+  auto init = get_first_fcref_from(start+5);
+  set_name(init, "@__SystemInit$qv");
+
+  // Delete the bogus function which was created by the secondary
+  // startup signature.
+  del_func(init);
+
+  // find sequence of
+  //      xor     cx, cx
+  //      xor     bx, bx
+  // usually Halt() starts with these instructions
+
+  auto halt = find_binary(init, 1, "33 c9 33 db");
+
+  // If we have found the sequence then define Halt() function
+  // with FUNC_NORET attribute
+  if ( halt != BADADDR )
+  {
+    set_name(halt, "@Halt$q4Word");
+    add_func(halt);
+    set_func_flags(halt, FUNC_NORET|FUNC_LIB|get_func_flags(halt));
+  }
+
+  // Create a good initialization function
+  add_func(init);
+  set_func_flags(init, FUNC_LIB|get_func_flags(init));
+}
+</code></pre>
+<h2 id="xrefs"><a class="header" href="#xrefs">xrefs</a></h2>
+<p>Example shows how to use cross-reference related functions.</p>
+<pre><code>//
+//
+//      This example shows how to use cross-reference related functions.
+//      It displays xrefs to the current location.
+//
+
+#include &lt;idc.idc&gt;
+
+static main() {
+  auto ea,flag,x,y;
+  flag = 1;
+  ea = get_screen_ea();
+
+//  add_dref(ea,ea1,dr_R);         // set data reference (read)
+//  add_cref(ea,ea1,fl_CN);          // set 'call near' reference
+//  del_cref(ea,ea1,1);
+
+//
+//      Now show all reference relations between ea &amp; ea1.
+//
+  msg("\n*** Code references from " + atoa(ea) + "\n");
+  for ( x=get_first_cref_from(ea); x != BADADDR; x=get_next_cref_from(ea,x) )
+    msg(atoa(ea) + " refers to " + atoa(x) + xrefchar() + "\n");
+
+  msg("\n*** Code references to " + atoa(ea) + "\n");
+  x = ea;
+  for ( y=get_first_cref_to(x); y != BADADDR; y=get_next_cref_to(x,y) )
+    msg(atoa(x) + " is referred from " + atoa(y) + xrefchar() + "\n");
+
+  msg("\n*** Code references from " + atoa(ea) + " (only non-trivial refs)\n");
+  for ( x=get_first_fcref_from(ea); x != BADADDR; x=get_next_fcref_from(ea,x) )
+    msg(atoa(ea) + " refers to " + atoa(x) + xrefchar() + "\n");
+
+  msg("\n*** Code references to " + atoa(ea) + " (only non-trivial refs)\n");
+  x = ea;
+  for ( y=get_first_fcref_to(x); y != BADADDR; y=get_next_fcref_to(x,y) )
+    msg(atoa(x) + " is referred from " + atoa(y) + xrefchar() + "\n");
+
+  msg("\n*** Data references from " + atoa(ea) + "\n");
+  for ( x=get_first_dref_from(ea); x != BADADDR; x=get_next_dref_from(ea,x) )
+    msg(atoa(ea) + " accesses " + atoa(x) + xrefchar() + "\n");
+
+  msg("\n*** Data references to " + atoa(ea) + "\n");
+  x = ea;
+  for ( y=get_first_dref_to(x); y != BADADDR; y=get_next_dref_to(x,y) )
+    msg(atoa(x) + " is accessed from " + atoa(y) + xrefchar() + "\n");
+
+}
+
+static xrefchar()
+{
+  auto x, is_user;
+  x = get_xref_type();
+
+  is_user = (x &amp; XREF_USER) ? ", user defined)" : ")";
+
+  if ( x == fl_F )  return " (ordinary flow" + is_user;
+  if ( x == fl_CF ) return " (call far"      + is_user;
+  if ( x == fl_CN ) return " (call near"     + is_user;
+  if ( x == fl_JF ) return " (jump far"      + is_user;
+  if ( x == fl_JN ) return " (jump near"     + is_user;
+  if ( x == dr_O  ) return " (offset"        + is_user;
+  if ( x == dr_W  ) return " (write)"        + is_user;
+  if ( x == dr_R  ) return " (read"          + is_user;
+  if ( x == dr_T  ) return " (textual"       + is_user;
+  return "(?)";
+}
+</code></pre>
+<h1 id="other-sample-scripts"><a class="header" href="#other-sample-scripts">Other sample scripts</a></h1>
+<h2 id="batch-analysis"><a class="header" href="#batch-analysis">Batch analysis</a></h2>
+<p>This program forces the IDA Disassembler in “batch” analysis mode if it is started in the following way : ida -Sanalysis.idc file.</p>
+<pre><code>static main() {
+  auto x,y;
+
+  Message("Waiting for the end of auto analys...\n");
+  Wait();
+
+  x = SegStart(BeginEA());
+  y = SegEnd(BeginEA());
+  Message("Analysing area %08X - %08X...\n",x,y);
+  AnalyseArea(x,y);
+  Wait();		// wait for code segment analysis to finish
+
+  Message("\n\n------ Creating output file.... --------\n");
+  WriteTxt("ida.out",0,0xFFFFFFFF);
+  Message("All done, exiting...\n");
+  Exit(0);				// exit to OS, error code 0 - success
+}
+</code></pre>
+<h2 id="device-driver-analysis"><a class="header" href="#device-driver-analysis">Device driver analysis</a></h2>
+<p>This program is automatically executed when a new device driver is loaded.</p>
+<pre><code>//
+//      This file is executed when a new device driver is loaded.
+//              Device drivers have extensions DRV or SYS.
+//
+
+#include &lt;idc.idc&gt;
+
+static main(void) {
+  auto x,i,base;
+  auto intr,strt;
+  auto attr,cmt;
+  auto nextbase;
+  auto DevReq;
+
+  i = 0;
+  x = MinEA();
+  base = (x &gt;&gt; 4);   // The segment base
+
+  while ( 1 ) {
+    Message("Device driver block at %04X\n",x);
+
+    MakeName(x,form("NextDevice_%ld",i));
+    MakeWord(x);
+    OpNumber(x,0);
+    if ( Word(x) == 0xFFFF ) {
+      MakeComm(x,"The last device");
+    } else {
+      nextbase = base + Word(x+2);
+      OpOff(x,0,[nextbase,0]);
+      MakeComm(x,"Offset to the next device");
+    }
+
+    MakeWord(x+2);
+    OpNumber(x+2,0);
+
+    MakeName(x+4,form("DevAttr_%ld",i));
+    MakeWord(x+4);
+    OpNumber(x+4,0);
+    attr = Word(x+4);
+    cmt = "";
+    if ( attr &amp; (132M\n");
+    if ( attr &amp; (1 Device Request Block");
+    MakeComm( intr, "Device Request Block:\n"
+          "0 db length\n"
+      "1 db unit number\n"
+      "2 db command code\n"
+      "5 d? reserved\n"
+      "0D d? command specific data");
+
+    if( Byte( strt )==0x2E &amp;&amp; Word(strt+1)==0x1E89
+     &amp;&amp; Byte(strt+5)==0x2E &amp;&amp; Word(strt+6)==0x068C
+     &amp;&amp; Word(strt+3)==Word(strt+8)-2)
+    {
+     DevReq=Word(strt+3);
+     Message("DevReq at %x\n",DevReq);
+     MakeUnkn(x+DevReq,0);MakeUnkn(x+DevReq+2,0);
+     MakeDword(x+DevReq);MakeName(x+DevReq,form("DevRequest_%ld",i));
+    }
+
+    if ( Word(x) == 0xFFFF ||
+       ((Byte(x)==0xE9 || Byte(x)==0xEB) &amp;&amp; i==0) ) break;
+    if ( Dword(x) == 0 ) break;	// 04.01.96
+    x = [ nextbase, Word(x) ];
+    i = i + 1;
+  }
+}
+          
+</code></pre>
+<h2 id="new-file-format-definition"><a class="header" href="#new-file-format-definition">New file format definition</a></h2>
+<pre><code>//
+//	This is an example how New Executable Format resources can be
+//	analysed. In this example we analyse Version Information resource
+//      type only.
+
+//-------------------------------------------------------------------
+static nextResource(ea) {	// find next resource
+  auto next;
+  auto name;
+
+  next = ea;
+  while ( (next=NextSeg(next)) != -1 ) {
+    name = SegName(next);
+    if ( substr(name,0,3) == "res" ) break;	// Yes, this is a resource
+  }
+  return next;
+}
+
+//-------------------------------------------------------------------
+static getResourceType(cmt) {
+  auto i;
+  i = strstr(cmt,"(");
+  if ( i != -1 ) {
+    i = i + 1;
+    return xtol(substr(cmt,i,i+4));	// get type of the resource
+  }
+  return 0;				// couldn't determine rsc type
+}
+
+//-------------------------------------------------------------------
+static getResourceID(cmt) {
+  auto i;
+  i = strstr(cmt,":");
+  if ( i != -1 ) {
+    i = i + 1;
+    return long(substr(cmt,i,-1));	// get ID of the resource
+  }
+  return 0;				// couldn't determine rsc ID
+}
+
+//-------------------------------------------------------------------
+static ResourceCursor(ea,id) {
+  Message(form("Cursor, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceBitmap(ea,id) {
+  Message(form("Bitmap, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceIcon(ea,id) {
+  Message(form("Icon, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceMenu(ea,id) {
+  Message(form("Menu, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceDbox(ea,id) {
+  Message(form("Dbox, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceStrT(ea,id) {
+  Message(form("String Table, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceFontDir(ea,id) {
+  Message(form("FontDir, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceFont(ea,id) {
+  Message(form("Font, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceAccl(ea,id) {
+  Message(form("Accelerator, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceData(ea,id) {
+  Message(form("Resource Data, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceCurDir(ea,id) {
+  Message(form("Cursor Dir, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceIconDir(ea,id) {
+  Message(form("Icon Dir, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceName(ea,id) {
+  Message(form("Cursor, id: %ld\n",id));
+}
+
+//-------------------------------------------------------------------
+static ResourceVersion(ea,id) {
+
+  Message(form("Version info, id: %ld\n",id));
+
+  ea = AnalyseVBlock(ea,0);
+}
+
+//-------------------------------------------------------------------
+static ConvertToStr(vea,len) {
+  auto ea;
+  auto slen;
+  ea = vea;
+  for ( ea=vea; len &gt; 0; vea = ea ) {
+    while ( Byte(ea) != 0 ) ea = ea + 1;
+    ea = ea + 1;
+    slen = ea - vea;
+    MakeStr(vea,slen);
+    len = len - slen;
+  }
+}
+
+//-------------------------------------------------------------------
+static Pad32(ea) {
+  auto vea;
+  vea = (ea + 3) &amp; ~3;			// align to 32-bit boundary
+  if ( vea != ea ) {			// extra bytes found
+    MakeArray(ea,vea-ea);
+    MakeComm(ea,"Padding bytes");
+  }
+  return vea;
+}
+
+//-------------------------------------------------------------------
+static AnalyseVBlock(ea,blnum) {
+  auto key,block,vsize,x,vea,keyea;
+  auto blstart,blend;
+
+  blstart = ea;				// save block start
+
+  block = Word(ea);
+  MakeName(ea,form("rscVinfoBlSize_%ld",blnum));
+  MakeWord(ea);
+  OpNumber(ea,0);
+
+  ea = ea + 2;
+  vsize = Word(ea);
+  MakeName(ea,form("rscVinfoValSize_%ld",blnum));
+  MakeWord(ea);
+  OpNumber(ea,0);
+
+  ea = ea + 2;
+  keyea = ea;
+  MakeName(key,form("rscVinfoKey_%ld",blnum));
+  key = "";
+  while ( Byte(ea) != 0 ) {
+    key = key + char(Byte(ea));
+    ea = ea + 1;
+  }
+  ea = ea + 1;
+  MakeStr(keyea,ea-keyea);
+
+  vea = Pad32(ea);
+
+  MakeName(vea, form("rscVinfoValue_%ld",blnum));
+
+  blend = vea + vsize;			// find block end
+
+//  Message(form("At %lX key is: ",keyea) + key + "\n");
+
+  if      ( key == "VS_VERSION_INFO" ) {
+
+  	;	// nothing to do
+
+  } else if ( key == "VarFileInfo"     ) {
+
+  	;	// nothing to do
+
+  } else if ( key == "Translation"     ) {
+
+    for ( ea=vea; ea 
+        
+</code></pre>
+<h2 id="structures-manipulation"><a class="header" href="#structures-manipulation">Structures manipulation</a></h2>
+<p>This program demonstrates basic structure manipulation.</p>
+<pre><code>#include &lt;idc.idc&gt;
+
+static main() {
+  auto idx;
+
+  for ( idx=GetFirstStrucIdx(); idx != -1; idx=GetNextStrucIdx(idx) ) {
+    auto id,m;
+    id = GetStrucId(idx);
+    if ( id == -1 ) Fatal("Internal IDA error, GetStrucId returned -1!");
+    Message("Structure %s:\n",GetStrucName(id));
+    Message("  Regular    comment: %s\n",GetStrucComment(id,0));
+    Message("  Repeatable comment: %s\n",GetStrucComment(id,1));
+    Message("  Size              : %d\n",GetStrucSize(id));
+    Message("  Number of members : %d\n",GetMemberQty(id));
+    for ( m = 0;
+	  m != GetStrucSize(id);
+	  m = GetStrucNextOff(id,m) ) {
+      auto mname;
+      mname = GetMemberName(id,m);
+      if ( mname == "" ) {
+        Message("  Hole (%d bytes)\n",GetStrucNextOff(id,m)-m);
+      } else {
+        auto type;
+        Message("  Member name   : %s\n",GetMemberName(id,m));
+        Message("    Regular cmt : %s\n",GetMemberComment(id,m,0));
+        Message("    Rept.   cmt : %s\n",GetMemberComment(id,m,1));
+        Message("    Member size : %d\n",GetMemberSize(id,m));
+	type = GetMemberFlag(id,m) &amp; DT_TYPE;
+	     if ( type == FF_BYTE     ) type = "Byte";
+	else if ( type == FF_WORD     ) type = "Word";
+	else if ( type == FF_DWRD     ) type = "Double word";
+	else if ( type == FF_QWRD     ) type = "Quadro word";
+	else if ( type == FF_TBYT     ) type = "Ten bytes";
+	else if ( type == FF_ASCI     ) type = "ASCII string";
+	else if ( type == FF_STRU     ) type = form("Structure '%s'",GetStrucName(GetMemberStrId(id,m)));
+	else if ( type == FF_XTRN     ) type = "Unknown external?!"; // should not happen
+	else if ( type == FF_FLOAT    ) type = "Float";
+	else if ( type == FF_DOUBLE   ) type = "Double";
+	else if ( type == FF_PACKREAL ) type = "Packed Real";
+	else				type = form("Unknown type %08X",type);
+	Message("    Member type : %s",type);
+	type = GetMemberFlag(id,m);
+	     if ( isOff0(type)  ) Message(" Offset");
+	else if ( isChar0(type) ) Message(" Character");
+	else if ( isSeg0(type)  ) Message(" Segment");
+	else if ( isDec0(type)  ) Message(" Decimal");
+	else if ( isHex0(type)  ) Message(" Hex");
+	else if ( isOct0(type)  ) Message(" Octal");
+	else if ( isBin0(type)  ) Message(" Binary");
+	Message("\n");
+      }
+    }
+  }
+  Message("Total number of structures: %d\n",GetStrucQty());
+}
+</code></pre>
+<h2 id="vxd-analysis"><a class="header" href="#vxd-analysis">VxD analysis</a></h2>
+<p>This program is automatically executed when a new VxD is loaded.</p>
+<pre><code>static Describe(ddb,i) {
+  auto next,x,y;
+
+  x = ddb;
+  MakeDword(x);
+  MakeComm (x,form("Next_%ld",i));
+  next = Dword(x);
+  if ( next != 0 ) OpOffset(x,0);
+  x = x + 4;
+
+  MakeWord(x);
+  MakeName(x,form("SDK_Version_%ld",i));
+  OpNum   (x);
+  x = x + 2;
+
+  MakeWord(x);
+  MakeName(x,form("Req_Device_Number_%ld",i));
+  OpNum   (x);
+  x = x + 2;
+
+  MakeByte(x);
+  MakeName(x,form("Dev_Major_Version_%ld",i));
+  OpNum(x);
+  MakeComm(x,"Major device number");
+  x = x + 1;
+
+  MakeByte(x);
+  MakeName(x,form("Dev_Minor_Version_%ld",i));
+  OpNum   (x);
+  MakeComm(x,"Minor device number");
+  x = x + 1;
+
+  MakeWord(x);
+  MakeName(x,form("Flags_%ld",i));
+  OpNum   (x);
+  MakeComm(x,"Flags for init calls complete");
+  x = x + 2;
+
+  MakeStr (x,8);
+  MakeName(x,form("Name_%ld",i));
+  MakeComm(x,"Device name");
+  x = x + 8;
+
+  MakeDword(x);
+  MakeName(x,form("Init_Order_%ld",i));
+  OpNum   (x);
+  MakeComm(x,"Initialization Order");
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("Control_Proc_%ld",i));
+  OpOffset(x,0);
+  MakeComm(x,"Offset of control procedure");
+  MakeCode( Dword(x) );
+  MakeName( Dword(x), form("Control_%ld",i) );
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("V86_API_Proc_%ld",i));
+  MakeComm(x,"Offset of API procedure (or 0)");
+  y = Dword(x);
+  if ( y != 0 ) {
+    OpOffset(x,0);
+    MakeCode( y );
+    MakeName( y, form("V86_%ld",i) );
+  }
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("PM_API_Proc_%ld",i));
+  MakeComm(x,"Offset of API procedure (or 0)");
+  y = Dword(x);
+  if ( y != 0 ) {
+    OpOffset(x,0);
+    MakeCode( y );
+    MakeName( y, form("PM_%ld",i) );
+  }
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("V86_API_CSIP_%ld",i));
+  MakeComm(x,"CS:IP of API entry point");
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("PM_API_CSIP_%ld",i));
+  MakeComm(x,"CS:IP of API entry point");
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("Reference_Data_%ld",i));
+  MakeComm(x,"Reference data from real mode");
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("Service_Table_Ptr_%ld",i));
+  MakeComm(x,"Pointer to service table");
+  y = Dword(x);
+  if ( y != 0 ) {
+    OpOffset(x,0);
+    MakeName( y, form("Service_Table_%ld",i) );
+    MakeDword(y);
+    MakeArray( y, Dword(x+4) );
+  }
+  x = x + 4;
+
+  MakeDword(x);
+  MakeName(x,form("Service_Size_%ld",i));
+  MakeComm(x,"Number of services");
+  x = x + 4;
+
+  return next;
+}
+
+//-----------------------------------------------------------------------
+static main() {
+  auto ea;
+  auto i;
+
+  i  = 0;
+  ea = ScreenEA();
+  while ( GetFlags(ea) != 0 ) {	// While ea points to valid address
+    ea = Describe(ea,i);
+    if ( ea == 0 ) break;
+    i = i + 1;
+  }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../https://idc.docs.hex-rays.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../developer-guide/idc/idc-examples/analyzing-encrypted-code.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../https://idc.docs.hex-rays.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../developer-guide/idc/idc-examples/analyzing-encrypted-code.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

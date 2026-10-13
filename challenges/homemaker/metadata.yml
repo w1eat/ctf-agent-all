@@ -1,0 +1,34 @@
+version: beta2
+platform: unknown
+native_id: '14'
+name: Homemaker
+category: Pwn
+description: 'A SERVANT IN EVERY HOME, BY 1975! APEX ATOMIC HOUSEHOLD INDUSTRIES MODEL
+  7 HOMEMAKER domestic automaton, powered by punch cards. Files: homemaker (sha256
+  a1e9c187ae8f8521eb179d562b0c3a50e8391cd41fa30c8083b2d47d809774e4, 14472 bytes).
+  nc sunshinectf.games 26008'
+value: 485
+files:
+- distfiles/homemaker
+challenge_mode: hybrid
+connection_info: nc sunshinectf.games 26008
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Homemaker-14
+environment:
+  status: unknown
+  source: remote
+  url: ''
+  host: sunshinectf.games
+  port: 26008
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- name: homemaker
+  sha256: a1e9c187ae8f8521eb179d562b0c3a50e8391cd41fa30c8083b2d47d809774e4
+  size: 14472
+  target: a[href="https://sunshinectf.games/files/41a9ef/homemaker"]
+  url: https://sunshinectf.games/files/41a9ef/homemaker
+attachments_scanned: true
+state: solved
+reason: ''

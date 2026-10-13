@@ -1,0 +1,28 @@
+.[-f] Force sync. This will force a download of the files, even when
+the server thinks the client has the desired revision. This is a
+dangerous operation: any modification made to local files will be
+lost.
+.[-p] The server will perform sync without really transferring
+files. This options is useful if the local files are already in sync
+but the server has stale info about them.
+.[-s] Silent mode; do not output any messages.
+.[@COMMIT_ID] Sync to state right after `COMMIT_ID` was committed, cannot be used with `=REVISION`.
+.[$NCAT_VAULT_PATH_WITH_REV...:PATH_PATTERN] Vault path of file(s) to sync, if path is omitted, defaults to current directory, if no revision is specified, defaults to last revision available on vault (`#^`).
+
+>Downloads the requested revisions of the files from the server, and
+stores them on the local filesystem.
+
+NOTE: If no paths are provided, all files from the server will be retrieved.
+
+Requires that a site to be currently selected.
+
+! Sync all
+$$
+
+! Sync only the specified subtree
+$$ -f //work/ds1_10
+
+! Sync a file to specific revision
+$$ //malware/Trojan.Shylock.Skype/D57D.i64#1
+ok synced //malware/Trojan.Shylock.Skype/D57D.i64#1 (4374263 bytes)
+ok sync completed

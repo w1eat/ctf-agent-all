@@ -1,0 +1,105 @@
+,[-s|--silent] Do not ask for confirmation before deleting history
+^common_options.cd
+
+>Deletes history and metadata for functions.
+
+! Display the last 10 changes, with their input file(s) and function ID(s)
+$ show -m10 -a input_path
+	Change Time                Push Func name                   Func ID Input path                       
+	------ ------------------- ---- --------------------------- ------- ---------------------------------
+	507    2022-09-15 14:48:18 5    math_things                 506     /home/alice/work/pc_math_b_64.elf
+	506    2022-09-15 14:48:17 4    calc_things (*)             506     /home/alice/work/pc_math_a_64.elf
+	505    2022-09-15 14:48:17 4    start                       505     /home/alice/work/pc_math_a_64.elf
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504     C:\malware\apts\pc_keygenme_3.pe 
+	503    2022-09-15 14:48:16 3    display_keygen_window       503     C:\malware\apts\pc_keygenme_3.pe 
+	502    2022-09-15 14:48:15 2    fstat                       502     /Users/bob/idbs/pc_dwarfdump.elf 
+	501    2022-09-15 14:48:15 2    __umoddi3                   501     /Users/bob/idbs/pc_dwarfdump.elf 
+	500    2022-09-15 14:48:15 2    __udivdi3                   500     /Users/bob/idbs/pc_dwarfdump.elf 
+	499    2022-09-15 14:48:14 2    dwarf_get_ADDR_name         499     /Users/bob/idbs/pc_dwarfdump.elf 
+	498    2022-09-15 14:48:14 2    dwarf_get_FRAME_name        498     /Users/bob/idbs/pc_dwarfdump.elf 
+	# Shown 10 results (more are available...)
+
+! Delete all changes for functions matching a pattern
+$$ -s -n like:%dwarf%
+	267 entries deleted from history
+
+$ hist show -m10 -a input_path,func_id
+	Change Time                Push Func name                   Func ID Input path                       
+	------ ------------------- ---- --------------------------- ------- ---------------------------------
+	507    2022-09-15 14:48:18 5    math_things                 506     /home/alice/work/pc_math_b_64.elf
+	506    2022-09-15 14:48:17 4    calc_things (*)             506     /home/alice/work/pc_math_a_64.elf
+	505    2022-09-15 14:48:17 4    start                       505     /home/alice/work/pc_math_a_64.elf
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a 504     C:\malware\apts\pc_keygenme_3.pe 
+	503    2022-09-15 14:48:16 3    display_keygen_window       503     C:\malware\apts\pc_keygenme_3.pe 
+	502    2022-09-15 14:48:15 2    fstat                       502     /Users/bob/idbs/pc_dwarfdump.elf 
+	501    2022-09-15 14:48:15 2    __umoddi3                   501     /Users/bob/idbs/pc_dwarfdump.elf 
+	500    2022-09-15 14:48:15 2    __udivdi3                   500     /Users/bob/idbs/pc_dwarfdump.elf 
+	474    2022-09-15 14:48:14 2    free_macro_stack            474     /Users/bob/idbs/pc_dwarfdump.elf 
+	468    2022-09-15 14:48:14 2    print_line_detail           468     /Users/bob/idbs/pc_dwarfdump.elf 
+	# Shown 10 results (more are available...)
+
+! Delete all changes stemming from a specific file
+$$ -s -f/Users/bob/idbs/pc_dwarfdump.elf
+	228 entries deleted from history
+
+! List the changes from pushes 1 to 5 (not included), showing their input file(s)
+$ lc show -p1..5 -a input_path
+	Change Time                Push Func name                   Input path                          
+	------ ------------------- ---- --------------------------- ------------------------------------
+	506    2022-09-15 14:48:17 4    math_things                 /home/alice/work/pc_math_a_64.elf   
+	505    2022-09-15 14:48:17 4    start                       /home/alice/work/pc_math_a_64.elf   
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a C:\malware\apts\pc_keygenme_3.pe    
+	503    2022-09-15 14:48:16 3    display_keygen_window       C:\malware\apts\pc_keygenme_3.pe    
+	7      2022-09-15 14:47:44 1    __do_global_ctors_aux       /home/alice/work/pc_dwarf_arrays.elf
+	6      2022-09-15 14:47:44 1    __libc_csu_init             /home/alice/work/pc_dwarf_arrays.elf
+	5      2022-09-15 14:47:44 1    main                        /home/alice/work/pc_dwarf_arrays.elf
+	4      2022-09-15 14:47:44 1    frame_dummy                 /home/alice/work/pc_dwarf_arrays.elf
+	3      2022-09-15 14:47:44 1    __do_global_dtors_aux       /home/alice/work/pc_dwarf_arrays.elf
+	2      2022-09-15 14:47:44 1    _start                      /home/alice/work/pc_dwarf_arrays.elf
+	1      2022-09-15 14:47:44 1    .init_proc                  /home/alice/work/pc_dwarf_arrays.elf
+	# Shown 11 results
+
+! Delete one single change
+$$ -s -r505..506
+	1 entries deleted from history
+
+! Delete all the changes from push 1
+$$ -s -p 1..2
+	7 entries deleted from history
+
+$ hist show -a username
+	Change Time                Push Func name                   Username
+	------ ------------------- ---- --------------------------- --------
+	507    2022-09-15 14:48:18 5    math_things                 alice   
+	506    2022-09-15 14:48:17 4    calc_things (*)             alice   
+	504    2022-09-15 14:48:16 3    keygen_window_dialog_proc_a damian  
+	503    2022-09-15 14:48:16 3    display_keygen_window       damian  
+	# Shown 4 results
+
+! Delete all changes by a user
+$$ -s -udamian
+	2 entries deleted from history
+
+$ hist show -a func_id
+	Change Time                Push Func name       Func ID
+	------ ------------------- ---- --------------- -------
+	507    2022-09-15 14:48:18 5    math_things     506    
+	506    2022-09-15 14:48:17 4    calc_things (*) 506    
+	# Shown 2 results
+
+! Delete the last change for a function
+$$ -s --func math_things --last-change
+	1 entries deleted from history
+
+$ hist show -a func_id
+	Change Time                Push Func name   Func ID
+	------ ------------------- ---- ----------- -------
+	506    2022-09-15 14:48:17 4    calc_things 506    
+	# Shown 1 results
+
+! Delete all remaining changes for a function by name
+$$ -s --func calc_things
+	1 entries deleted from history
+
+$ hist show
+	# Shown 0 results

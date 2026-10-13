@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "current_key": "3e34c838b77ac806aa35:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "3e34c838b77ac806aa35:platform_confirmed",
+      "flag": "sun{c00kie_jar_0verfl0w_ev1cts_the_chief}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "CookieCorp",
+        "category": "web",
+        "description": "\"A Better Cookie for a Brighter Tomorrow!\" Welcome to CookieCorp, the Space Age's finest custom-cookie fabrication service.",
+        "connection_info": "https://tomorrow.web.2026.sunshinectf.games",
+        "value": 488,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Cookie overflow / identity spoofing in CookieCorp web challenge: sun{c00kie_jar_0verfl0w_ev1cts_the_chief} | Evidence: Live target https://tomorrow.web.2026.sunshinectf.games/recipe/5d52f3d1c6608c63e1210612 returned the Chief's Golden Seal with the reward <div class=\"flag\">sun{c00kie_jar_0verfl0w_ev1cts_the_chief}</div> ; Re-verified with curl using the saved session cookie (gd_sess.txt) ; Platform confirmed the submission as CORRECT",
+      "solution_steps": [
+        "Register a baker account to obtain a session cookie",
+        "Create a recipe with 300 ingredients, exploiting the cookie/ingredient overflow so that an injected 'role=chief' attribute survives into the reviewer context",
+        "Submit the recipe for review so the automated Quality Inspector loads it (overflow evicts the ordinary role cookie and the injected 'role=chief' takes effect)",
+        "Once the batch is stamped with the Chief's Golden Seal, the reward flag is rendered on the recipe page"
+      ],
+      "evidence": [
+        "Live target https://tomorrow.web.2026.sunshinectf.games/recipe/5d52f3d1c6608c63e1210612 returned the Chief's Golden Seal with the reward <div class=\"flag\">sun{c00kie_jar_0verfl0w_ev1cts_the_chief}</div>",
+        "Re-verified with curl using the saved session cookie (gd_sess.txt)",
+        "Platform confirmed the submission as CORRECT"
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "python3 /challenge/workspace/golden.py",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "ef6f739d5b48a37ab80d36760011274cb5af59d12b2a5a8c22a552ae61100879",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:32:46.272255+00:00",
+      "updated_at": "2026-09-27T04:32:51.942926+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

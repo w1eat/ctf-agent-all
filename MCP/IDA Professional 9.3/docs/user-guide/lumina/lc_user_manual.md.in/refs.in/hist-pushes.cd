@@ -1,0 +1,61 @@
+,[-a|--additional-fields|LIST] Comma-delimited list of additional info to display (`license_name`, `license_email`, `license_id`, `all`)
+,[-t|--time-range|TIMESTAMP] timestamp
+,[-u|--username|USERNAME] username(s) to operate on
+,[-l|--license-id|LICENSE] license ID (XX-XXXX-XXXX-XX format) to operate on
+,[-m|--max-entries|NUMBER] maximum number of entries to operate on (defaults to 100)
+,[--chronological] Display entries in chronological order (defaults to reverse-chronological).
+
+>Shows pushes to the Lumina server.
+
+!
+$$
+	Push ID Time                User name IDB path                                
+	------- ------------------- --------- ----------------------------------------
+	5       2022-09-15 14:48:18 alice     /home/alice/work/pc_math_b_64.elf.i64   
+	4       2022-09-15 14:48:17 alice     /home/alice/work/pc_math_a_64.elf.i64   
+	3       2022-09-15 14:48:16 damian    C:\malware\apts\pc_keygenme_3.pe.idb    
+	2       2022-09-15 14:48:05 bob       /Users/bob/idbs/pc_dwarfdump.elf.idb    
+	1       2022-09-15 14:47:44 alice     /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 5 results
+
+! List all pushes from a specific license ID
+$$ -l BB-0B0B-AC8E-01 -a license_email
+	Push ID Time                User name License email IDB path                            
+	------- ------------------- --------- ------------- ------------------------------------
+	2       2022-09-15 14:48:05 bob       bob@acme.com  /Users/bob/idbs/pc_dwarfdump.elf.idb
+	# Shown 1 results
+
+! List all pushes from licenses with IDs matching a pattern ("-a" adds an additional column)
+$$ -l like:AA-% -a license_id
+	Push ID Time                User name License ID      IDB path                                
+	------- ------------------- --------- --------------- ----------------------------------------
+	5       2022-09-15 14:48:18 alice     AA-A11C-AC8E-01 /home/alice/work/pc_math_b_64.elf.i64   
+	4       2022-09-15 14:48:17 alice     AA-A11C-AC8E-01 /home/alice/work/pc_math_a_64.elf.i64   
+	1       2022-09-15 14:47:44 alice     AA-A11C-AC8E-01 /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 3 results
+
+! Show the first push
+$$ --chronological -m 1
+	Push ID Time                User name IDB path                                
+	------- ------------------- --------- ----------------------------------------
+	1       2022-09-15 14:47:44 alice     /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 1 results (more are available...)
+
+! List all pushes between two timestamps
+$$ -t"2022-09-07 10:20:00..2022-12-31"
+	Push ID Time                User name IDB path                                
+	------- ------------------- --------- ----------------------------------------
+	5       2022-09-15 14:48:18 alice     /home/alice/work/pc_math_b_64.elf.i64   
+	4       2022-09-15 14:48:17 alice     /home/alice/work/pc_math_a_64.elf.i64   
+	3       2022-09-15 14:48:16 damian    C:\malware\apts\pc_keygenme_3.pe.idb    
+	2       2022-09-15 14:48:05 bob       /Users/bob/idbs/pc_dwarfdump.elf.idb    
+	1       2022-09-15 14:47:44 alice     /home/alice/work/pc_dwarf_arrays.elf.idb
+	# Shown 5 results
+
+! List all pushes from two users ("-a" adds an additional column)
+$$ -u"bob damian" -a"license_name license_id"
+	Push ID Time                User name License name License ID      IDB path                            
+	------- ------------------- --------- ------------ --------------- ------------------------------------
+	3       2022-09-15 14:48:16 damian    Damian       DD-DA81-A000-01 C:\malware\apts\pc_keygenme_3.pe.idb
+	2       2022-09-15 14:48:05 bob       Bob          BB-0B0B-AC8E-01 /Users/bob/idbs/pc_dwarfdump.elf.idb
+	# Shown 2 results

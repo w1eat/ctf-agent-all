@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "current_key": "46250b561d5b9f167cc7:platform_confirmed",
+  "status": "needs_review",
+  "records": [
+    {
+      "key": "46250b561d5b9f167cc7:platform_confirmed",
+      "flag": "sun{fr4gm3nt3d_r3fl3ct10ns_1n_th3_futur3}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "SiteCheck",
+        "category": "web",
+        "description": "Welcome to SiteCheck, the SkyCity fleet's favorite web-diagnostics service since 2062! Enlist for a free inspector account and put any website through its paces: our autonomous inspection drone flies out to the address you provide, clocks how long the page takes to load, tallies how many files it pulls down, and beams back a crisp viewport snapshot - all without you lifting a finger. Kick the tires on the future of web monitoring. The drone politely refuses to inspect internal or local addresses. Safety first! https://spaceship.web.2026.sunshinectf.games",
+        "connection_info": "https://spaceship.web.2026.sunshinectf.games",
+        "value": 0,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "",
+      "solution_steps": [],
+      "evidence": [
+        "Modal shows alert 'Correct' under the SiteCheck dialog (#SiteCheck-10) after submitting the exact string sun{fr4gm3nt3d_r3fl3ct10ns_1n_th3_futur3}; scoreboard counter advanced to 27/37 SOLVED."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "",
+      "status": "needs_review",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "fa30b5b7067071531a672f8080a31093405ef7016b8764a620f390d803d5cf72",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T05:52:42.546153+00:00",
+      "updated_at": "2026-09-27T05:52:42.556313+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

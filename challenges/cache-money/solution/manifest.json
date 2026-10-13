@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "current_key": "c7c4e6d30b8c8ffd4784:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "c7c4e6d30b8c8ffd4784:platform_confirmed",
+      "flag": "sun{s4fe_l1nk1ng_w0nt_s4ve_y0ur_tc4che}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Cache Money",
+        "category": "Pwn",
+        "description": "The arcade's credit manager tracks every wallet in the house. The books haven't been audited in years, so help yourself.",
+        "connection_info": "nc chal.sunshinectf.games 26004",
+        "value": 485,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Heap UAF + tcache double-free on glibc 2.39 (cache-money, no PIE, partial RELRO): sun{s4fe_l1nk1ng_w0nt_s4ve_y0ur_tc4che} | Evidence: Withdraw prints ledger bytes -> unsorted bin fd/bk leak gives libc base (offset 0x203b20) ; Transfer bug frees source ledger but copies the (freed) pointer into destination -> use-after-free read/write ; Withdraw on the dangling wallet leaks the safe-linking-encoded fd = chunk>>12 -> heap leak ; Clearing the freed chunk's tcache key (offset +8) bypasses the glibc tcache double-free check ; Second transfer frees the same chunk again; poison its fd to 0x4040C0(.bss wallets) -> next malloc returns the wallet table",
+      "solution_steps": [
+        "Analyze cache-money: menu heap manager, wallet struct {name[16]; balance; ledger*; size; active}",
+        "Vuln: transfer frees src->ledger then sets dst->ledger = src->ledger (freed pointer) => UAF + repeatable double-free",
+        "Leak libc: fill tcache 0x110 with 7 frees, then free an 8th 0x100 ledger into unsorted bin and read its fd via withdraw",
+        "Leak heap: transfer a 0x80 ledger into an empty 0x90 tcache bin and read the safe-linking-encoded fd",
+        "Bypass tcache double-free: deposit zeros over the freed chunk's fd/key through the dangling wallet",
+        "Poison tcache fd = wal_table ^ (chunk>>12); two opens return attacker-chosen addresses",
+        "Point one allocation at 0x4040C0 (wallets), forge wallet[0] with ledger=0x404040 (strtol@GOT), size=8",
+        "deposit(p64(system)) writes system into strtol@GOT; next menu option '/bin/sh' triggers system -> RCE",
+        "Run id / cat /flag* /ctf/flag.txt on remote to read the flag"
+      ],
+      "evidence": [
+        "Withdraw prints ledger bytes -> unsorted bin fd/bk leak gives libc base (offset 0x203b20)",
+        "Transfer bug frees source ledger but copies the (freed) pointer into destination -> use-after-free read/write",
+        "Withdraw on the dangling wallet leaks the safe-linking-encoded fd = chunk>>12 -> heap leak",
+        "Clearing the freed chunk's tcache key (offset +8) bypasses the glibc tcache double-free check",
+        "Second transfer frees the same chunk again; poison its fd to 0x4040C0(.bss wallets) -> next malloc returns the wallet table",
+        "Craft a fake wallet with ledger = strtol@GOT (0x404040) and size 8",
+        "Deposit system address into strtol@GOT, then feed '/bin/sh' as the menu option so strtol() becomes system()",
+        "Shell as uid=1337(cache_money); `id` and reading the flag printed sun{s4fe_l1nk1ng_w0nt_s4ve_y0ur_tc4che}; /ctf/flag.txt present"
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/c7c4e6d30b8c8ffd4784/deepseek-deepseek-flash-5403e74e/d47bd5a44e9c9ac9/cm/exp_sync.py"
+      ],
+      "exp_run_command": "[unsupported]",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "6f58f46f17c8568f3b3539faed414ae22d7e03d526abd972568639d8d08dcf18",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:39:17.298801+00:00",
+      "updated_at": "2026-09-27T04:39:25.284864+00:00",
+      "exp_sha256": {
+        "exp/cm/exp_sync.py": "d47bd5a44e9c9ac951b0b97d53ee5e62e34d8a23cd27bd389d75300499506bb9"
+      }
+    }
+  ]
+}

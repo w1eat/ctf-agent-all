@@ -1,0 +1,29 @@
+version: beta2
+platform: unknown
+native_id: '36'
+name: A Hardy Mystery
+category: BSides Orlando
+description: Someone from the future went into the past, and made a mess of the conference!
+  Instead of sane challenges that make sense, we have hardware tomfoolery. Solve the
+  mystery. Challenge sponsored by The Coding Hackers.
+value: 460
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#A%20Hardy%20Mystery-36
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#A%20Hardy%20Mystery-36
+environment:
+  status: not_required
+  source: platform-page
+  url: https://2026.sunshinectf.org/challenges#A%20Hardy%20Mystery-36
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment/attachments: on-site Hardy Boys books + printed message;
+      flag has NO braces. Remote path = author @solarbonite blog + team writeups +
+      day-2 photos.'
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: preparing
+reason: ''

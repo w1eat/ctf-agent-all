@@ -1,0 +1,1220 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hex-Rays Vault’s visual client user manual - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="hex-rays-vaults-visual-client-user-manual"><a class="header" href="#hex-rays-vaults-visual-client-user-manual">Hex-Rays Vault’s visual client user manual</a></h1>
+<h2 id="about-this-manual"><a class="header" href="#about-this-manual">About this manual</a></h2>
+<p>This user guide provides information about HVUI, the Hex-Rays Vault visual client.</p>
+<p>HVUI is provided in addition to the command-line client, HV.</p>
+<p>This manual assumes that the reader has an understanding of the <a href="#ida-teams-general-concepts">IDA Teams general concepts</a>.</p>
+<p>NOTE: Although Hex-Rays Vault will host any file you want, its primary use-case is to allow users to keep a history, and allow collaborative work on, IDA databases (i.e., <code>.idb</code> and <code>.i64</code> files.) Throughout this manual, we will be using the terms “idbs” and “files” interchangeably.</p>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h2>
+<p>In order to function, HVUI will need to connect to a Hex-Rays Vault server.</p>
+<p>This guide assumes that such a server is running, accessible, and an account is available:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Connection attributes</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>Host</td><td>vaultserver</td></tr>
+<tr><td>Port</td><td>65433</td></tr>
+<tr><td>User name</td><td>joe</td></tr>
+<tr><td>User password</td><td>secret</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="starting-hvui"><a class="header" href="#starting-hvui">Starting HVUI</a></h3>
+<p>The first time the user starts the application, credentials will need to be input:</p>
+<p><img src="images/hvui/getting_started/credentials.png" alt="Credentials"></p>
+<p>NOTE: Checking the checkbox at the bottom of the form, will cause
+HVUI to store credentials <a href="#the-registry">in the registry</a>,
+password(s) will be stored in <a href="#passwords-storage-in-the-oss-keychain">the OS’s keychain</a>.</p>
+<p>If this is the first time a login is performed from this machine,
+the user will have to specify a directory where files will be locally
+stored:</p>
+<p><img src="images/hvui/getting_started/fill_site_info.png" alt="Provide site information"></p>
+<p>This will <a href="#what-is-a-site">a site</a> (that is, a mapping of the server
+files on the local disk) for use on this computer.</p>
+<p>After accepting the dialog, you will be presented with the main view:</p>
+<p><img src="images/hvui/getting_started/first_encounter.png" alt="Main view"></p>
+<!-- TODO Add a brief introduction of widgets (w/ pointers to the actual, longer doc. -->
+<h3 id="getting-the-latest-revision"><a class="header" href="#getting-the-latest-revision">Getting the latest revision</a></h3>
+<p>The widget now shows what files are available.</p>
+<p>Notice the <code>#0/1</code> suffixes: it means we currently have revision
+number 0 (i.e., no revision at all) of those files.</p>
+<p>Let’s sync those files to their latest revision, from the server:</p>
+<p><img src="images/hvui/getting_started/get_latest_revision.png" alt="Sync to latest"></p>
+<p>And the files are now up-to-date:</p>
+<p><img src="images/hvui/getting_started/vault_files_after_sync.png" alt="After syncing to latest revision"></p>
+<h2 id="working-with-files"><a class="header" href="#working-with-files">Working with files</a></h2>
+<p>In the previous chapter, we have introduced <a href="#getting-the-latest-revision">the notion of “syncing to the latest revision”.</a></p>
+<p>This chapter will go a bit further, and introduce the most common,
+day-to-day operations users will want to perform on their files.</p>
+<h3 id="what-are-worklists-and-commits"><a class="header" href="#what-are-worklists-and-commits">What are worklists, and commits?</a></h3>
+<p>Any work done in HVUI will involve worklists, and commits.</p>
+<h4 id="worklist"><a class="header" href="#worklist">Worklist</a></h4>
+<p>A worklist holds files that have been</p>
+<ul>
+<li>modified,</li>
+<li>marked for addition or</li>
+<li>deletion,</li>
+<li>…​</li>
+</ul>
+<p>Those modifications are local to the user’s site. They will only be made available for everyone after the user commits the worklist.</p>
+<h4 id="commit"><a class="header" href="#commit">Commit</a></h4>
+<p>Once a worklist is committed, it becomes a commit, and makes its modifications available for everyone.</p>
+<p>In comparison to a worklist, a commit holds “published” modifications, and any user syncing to that commit will benefit from those.</p>
+<p>Let’s look at a concrete example illustrating worklists and commits: adding a file to the Hex-Rays Vault!</p>
+<h3 id="adding-files-to-the-vault"><a class="header" href="#adding-files-to-the-vault">Adding files to the vault</a></h3>
+<p>From the “Local files” widget, I can add a file that is not yet present in the Hex-Rays Vault server:</p>
+<p><img src="images/hvui/working_with_files/adding_local_file.png" alt="Adding a local file"></p>
+<p>That file will now be added to the current worklist (one will be created if needed):</p>
+<p><img src="images/hvui/working_with_files/local_file_added_wl.png" alt="Local file marked for addition"></p>
+<p>For this new file to become available for everyone, the user will need to “commit” the worklist:</p>
+<p><img src="images/hvui/working_with_files/commit_wl.png" alt="Committing a {wl}"></p>
+<p>Once the worklist is committed, it becomes a commit, and the modifications are then available for everyone:</p>
+<p><img src="images/hvui/working_with_files/commits_after_joe_s_first_commit.png" alt="Commits"></p>
+<p>TIP: Notice how our commit isn’t the first one in the system: another user submitted a commit before us — it’s that commit that added the files we’ve seen <a href="#getting-started">in the getting-started portion of this guide.</a></p>
+<h3 id="modifying-files"><a class="header" href="#modifying-files">Modifying files</a></h3>
+<p>When working on a file, a user must first check it out for modification:</p>
+<p><img src="images/hvui/working_with_files/checkout_for_edit.png" alt="Check out for modification"></p>
+<p>Just like with the adding, the file will now show in a worklist:</p>
+<p><img src="images/hvui/working_with_files/file_checked_out_wl.png" alt="File checked out for modification"></p>
+<p>…​and just like with the adding, whatever modification you make to the file, will only be visible to coworkers after committing that worklist.</p>
+<h3 id="committing"><a class="header" href="#committing">Committing</a></h3>
+<p>Files that have been checked out (e.g. for modification) or opened for adding will go into a worklist until they are committed, which then turns the worklist into a commit. A worklist can be committed to make its changes available to other users: right-click, commit</p>
+<p><img src="images/hvui/working_with_files/commit_wl_edit.png" alt="Committing a {wl}"></p>
+<p>The worklist becomes a commit:</p>
+<p><img src="images/hvui/working_with_files/commits_after_edit_commit.png" alt="Commits"></p>
+<p>…​and the worklist is gone:</p>
+<p><img src="images/hvui/working_with_files/worklists_after_edit_commit.png" alt="Worklists"></p>
+<h3 id="synchronizing-files"><a class="header" href="#synchronizing-files">Synchronizing files</a></h3>
+<p>To fetch the latest set of the changes (changes/additions/deletions), use <a href="#getting-the-latest-revision">“Get latest revision”</a>.</p>
+<h3 id="viewing-the-history-of-a-file"><a class="header" href="#viewing-the-history-of-a-file">Viewing the history of a file</a></h3>
+<p>To get an overview of all of the changes made to a file: right-click, File history</p>
+<p><img src="images/hvui/working_with_files/file_history_pp.png" alt="File history"></p>
+<p><img src="images/hvui/working_with_files/file_history_widget.png" alt="{widget_label_history}"></p>
+<p>From the “History of …​” widget, you can view any revision of a file.</p>
+<p><img src="images/hvui/working_with_files/file_history_widget_open_rev.png" alt="Open revision"></p>
+<p>It’s also possible to synchronize files to older revisions, from this widget.</p>
+<p><img src="images/hvui/working_with_files/file_history_widget_sync_to_rev.png" alt="Sync to revision"></p>
+<p>When asked to do that, HVUI will retrieve that older revision of the file from the server. This is what will now be present on your filesystem.</p>
+<p>Notice how the file now shows as ‘outdated’:</p>
+<p><img src="images/hvui/working_with_files/outdated_after_get_revision_x.png" alt="File is marked as outdated"></p>
+<h3 id="opening-files"><a class="header" href="#opening-files">Opening files</a></h3>
+<p>On many widgets, it’s possible to view/open a file. If the file
+extension has a corresponding association it will be used to open the
+file.</p>
+<h4 id="file-associations"><a class="header" href="#file-associations">File associations</a></h4>
+<p>Out-of-the-box, HVUI associates <code>.i64</code> files with IDA.
+In addition to that, it provides a default “fallback” <code>"*"</code> association that will cause matching files to be opened in IDA.</p>
+<p>Users can specify their file extension associations via a form available from the View menu.</p>
+<p><img src="images/hvui/working_with_files/files_associations_form.png" alt="File extension associations"></p>
+<h3 id="deleting-files"><a class="header" href="#deleting-files">Deleting files</a></h3>
+<p>Files can be removed from the server (if they have become unnecessary for example): right-click, delete.</p>
+<p><img src="images/hvui/working_with_files/checkout_for_delete.png" alt="Checkout for delete"></p>
+<p>Just like other file actions, the change (deletion) needs to be
+committed for its effects to be visible on the server.</p>
+<h3 id="reverting-changes-to-files"><a class="header" href="#reverting-changes-to-files">Reverting changes to files</a></h3>
+<p>To revert unwanted changes to a file: right-click, Revert</p>
+<p><img src="images/hvui/working_with_files/revert.png" alt="Reverting a file"></p>
+<p>It is also possible to use “Revert if unchanged” to only revert
+files that were checked out without actual changes.
+This is especially useful when used on a selection of files or
+a directory.</p>
+<h3 id="renaming-and-moving-files-or-folders"><a class="header" href="#renaming-and-moving-files-or-folders">Renaming and Moving Files or Folders</a></h3>
+<p>One may wish to rename and/or move around files/folders in their workspace,
+for that “Checkout for move/rename…” can be used.</p>
+<p><img src="images/hvui/working_with_files/rename_pp.png" alt="Renaming a directory"></p>
+<p><img src="images/hvui/working_with_files/rename_dialog.png" alt="Renaming a directory"></p>
+<h3 id="copying-files-or-folders"><a class="header" href="#copying-files-or-folders">Copying Files or Folders</a></h3>
+<p>{hvui_app} provides an action to copy files or directories easily.
+Use “Checkout for copy…”.</p>
+<p><img src="images/hvui/working_with_files/copy_pp.png" alt="Copying a file"></p>
+<p><img src="images/hvui/working_with_files/copy_dialog.png" alt="Copying a file"></p>
+<h3 id="finding-a-file-in-the-vault"><a class="header" href="#finding-a-file-in-the-vault">Finding a file in the vault</a></h3>
+<p>When a vault contains a lot of files, manually searching for a file
+in the directory tree becomes inefficient.
+To help you locate files easily, you can use the
+<a href="#find-in-vault">Find in vault…​</a> action.</p>
+<p><img src="images/hvui/working_with_files/find_in_vault_pp.png" alt=""></p>
+<p><img src="images/hvui/working_with_files/find_in_vault_dialog.png" alt=""></p>
+<p><img src="images/hvui/working_with_files/find_in_vault_result.png" alt=""></p>
+<p>You can navigate between the search results by using <a href="#next-search-result">Next search result</a> and <a href="#previous-search-result">Previous search result</a>, located next to <a href="#find-in-vault">Find in vault…​</a> both in the toolbar, and in the “Search” menu.</p>
+<h3 id="font-styles"><a class="header" href="#font-styles">Font styles</a></h3>
+<p>As you may have noticed by now, files are shown with different font styles in different circumstances.</p>
+<p>A gray font denotes a file that is not in the vault. It has been added or renamed and not yet commited.</p>
+<p>A <strong>bold</strong> font means that this file is being worked on, or has been changed.</p>
+<p>An <em>italic</em> font means that it’s not the latest version of this file.</p>
+<p>Some combinations are possible, for example a file being resolved (not latest version and being worked on) will have a bold and italic font style. The combination gray (not in vault) and italic (not latest version) is for example not possible.</p>
+<!-- TODO: it would be nice to have a table with all file icons and their meanings -->
+<h2 id="inspecting-changes"><a class="header" href="#inspecting-changes">Inspecting changes</a></h2>
+<p>After having done some reverse-engineering work on an IDA database, it is
+possible to view those changes in a special mode in IDA:
+right-click, and choose the diff action:</p>
+<p><img src="images/hvui/diffing_and_merging/open_ida_for_diff.png" alt="Opening IDA for diff"></p>
+<p>Here a new instance of IDA will be launched in a special “diff” mode:</p>
+<p><img src="images/hvui/diffing_and_merging/ida_in_diff_mode.png" alt="IDA in “diff” mode"></p>
+<h3 id="idas-diff-mode"><a class="header" href="#idas-diff-mode">IDA’s diff mode</a></h3>
+<p>This new IDA mode lets the user compare two databases, in a traditional “diff”
+fashion: essentially a two-panel window, showing the unmodified file on the
+left and the version with your changes on the right.</p>
+<h4 id="the-progress-widget"><a class="header" href="#the-progress-widget">The “Progress” widget</a></h4>
+<p><img src="images/hvui/diffing_and_merging/ida_in_diff_mode_diff_progress.png" alt="Diff progress"></p>
+<p>Represents the current <a href="#using-ida-as-a-diffing-tool">step</a> in the diff process.</p>
+<h4 id="the-left-panel"><a class="header" href="#the-left-panel">The left panel</a></h4>
+<p><img src="images/hvui/diffing_and_merging/ida_in_diff_mode_left_panel.png" alt="The left panel"></p>
+<p>Shows the “untouched” version of the database (i.e., the one without
+your changes)</p>
+<h4 id="the-right-panel"><a class="header" href="#the-right-panel">The right panel</a></h4>
+<p><img src="images/hvui/diffing_and_merging/ida_in_diff_mode_right_panel.png" alt="The right panel"></p>
+<p>Shows your version of the database (i.e., featuring your changes)</p>
+<h4 id="diff-region-details"><a class="header" href="#diff-region-details">Diff region details</a></h4>
+<p><img src="images/hvui/diffing_and_merging/ida_in_diff_mode_panel_details.png" alt="The details area"></p>
+<p>Notice how both panels have a little area at the bottom, that is
+labeled “Details”.</p>
+<p>Details are available on certain steps of the diffing process, and
+provide additional information about the change that is currently
+displayed.</p>
+<h4 id="the-diffing-toolbar"><a class="header" href="#the-diffing-toolbar">The “diffing” toolbar</a></h4>
+<p><img src="images/hvui/diffing_and_merging/ida_in_diff_mode_toolbar.png" alt="The diff toolbar"></p>
+<p>The actions in the toolbar are:</p>
+<ul>
+<li>Previous chunk</li>
+<li>Center chunk</li>
+<li>Next chunk</li>
+<li>Proceed to the next step</li>
+<li>Toggle ‘Details’</li>
+</ul>
+<p>Using actions in the toolbar, you can now iterate through the
+differences between the two databases, with each change shown in
+context as if viewed through a normal IDA window.</p>
+<p>The ability to view changes in context was a major factor in the
+decision to use IDA itself as the diffing/merging tool for
+IDA Teams.</p>
+<h5 id="diff-mode-idas-toolbar-actions"><a class="header" href="#diff-mode-idas-toolbar-actions">Diff mode IDA’s toolbar actions</a></h5>
+<h6 id="previous-chunk"><a class="header" href="#previous-chunk">Previous chunk</a></h6>
+<p>Move to the previous change</p>
+<h6 id="center-chunk"><a class="header" href="#center-chunk">Center chunk</a></h6>
+<p>Re-center the panels to show the current chunk (useful if you
+navigated around to get more context)</p>
+<h6 id="next-chunk"><a class="header" href="#next-chunk">Next chunk</a></h6>
+<p>Move to the next change</p>
+<h6 id="proceed-to-the-next-step"><a class="header" href="#proceed-to-the-next-step">Proceed to the next step</a></h6>
+<p>Move to the next <a href="#using-ida-as-a-diffing-tool">step</a> in the diffing process.</p>
+<h6 id="toggle-details"><a class="header" href="#toggle-details">Toggle ‘Details’</a></h6>
+<p>Toggle the visibility of the “Details” widgets in the various panels
+(note that some steps do not provide details, so even if the “Details”
+are requested, they might not be currently visible.)</p>
+<h3 id="terminology"><a class="header" href="#terminology">Terminology</a></h3>
+<p>It is important to note the difference between the terms “diff” and
+“merge”.</p>
+<p>This document will sometimes use the two terms interchangeably. This
+is because to IDA, a diff is just a specialized merge. Both diffing
+and merging are handled by IDA’s “merge mode”, which involves up to 3
+databases, one of which <em>can</em> be modified to contain the result of the
+merge.</p>
+<p>A diff is simply a merge operation that involves only 2 databases,
+neither of which are modified.</p>
+<p>This is why often times you will see the term “merge” used in the
+context of a diff. In this case “merge” is referring to IDA’s “merge
+mode”, rather than the process of merging multiple databases together
+into a combined database.</p>
+<h3 id="using-ida-as-a-diffing-tool"><a class="header" href="#using-ida-as-a-diffing-tool">Using IDA as a diffing tool</a></h3>
+<p>We must stress the fact that performing a merge between two IDA
+databases is quite different than performing a merge between, say, two
+text files. A change in a chunk of text file will not have an impact
+over another chunk.</p>
+<p>IDA databases are not so simple. A change in one place in an idb will
+often have an impact on another place. For example, if a structure
+<code>mystruct</code> changed between two databases, it will have an impact not
+only on the name of the structure, but on cross-references to
+structure members, function prototypes, etc.</p>
+<p>This is why IDA’s merge mode is split into a strict series of “steps”:</p>
+<p><img src="images/hvui/diffing_and_merging/merge_progress_steps.png" alt="Progress steps"></p>
+<p>Within a single step it is possible to go forward &amp; backward between
+different chunks. But because of possible inter-dependencies between
+steps, it is not possible to move backwards between steps, you can
+only go forward:</p>
+<p><img src="images/hvui/diffing_and_merging/apply_button.png" alt="Apply changes button"></p>
+<p>Since IDA’s diff mode is just a variation of its merge mode, diffing
+databases is also subject to this sequential application of steps in
+order to view certain bits of information. That is why, in some steps
+(e.g., the “Disassembly/Items”) IDA might not report some changes
+that were performed at another level.</p>
+<p>For instance, if a user marked a function as <code>noret</code>, the listings
+that will be shown in “Disassembly/Items” step, will not advertise
+that there was a change at that place (even though the <code>"Attributes: noreturn"</code> is visible in the left-hand listing), only the changes to
+the instructions (and data, …) are visible in the current step:</p>
+<p><img src="images/hvui/diffing_caveat/listings_noret_not_visible.png" alt="noret attribute missing"></p>
+<p>The change will, however, be visible at a later step (i.e.,
+“Functions/Registry”):</p>
+<p><img src="images/hvui/diffing_caveat/functions_noret_visible.png" alt="noret attribute visible"></p>
+<p>NOTE: The changes applied during the “diff” process are only
+temporary. Exiting IDA (at any moment) will not alter the
+files being compared.</p>
+<h3 id="merging-concurrent-modifications-conflicts"><a class="header" href="#merging-concurrent-modifications-conflicts">Merging concurrent modifications (conflicts)</a></h3>
+<p>As with any collaborative tool, it may happen that two coworkers
+work on the same dataset (e.g., IDA database), and make
+modifications to the same areas, resulting in “conflicts”.
+Conflicts must be “resolved” prior to committing.</p>
+<p><img src="images/hvui/diffing_and_merging/worklists_pending_resolve.png" alt="File in worklist requiring resolve"></p>
+<p>To do that, right-click and pick one of the “resolve” options:</p>
+<p><img src="images/hvui/diffing_and_merging/resolve_pp.png" alt="The different resolve options"></p>
+<p>IDA Teams provides <a href="#resolving-conflicts-in-a-file">the following merge strategies.</a></p>
+<h4 id="interactive-merging"><a class="header" href="#interactive-merging">Interactive merging</a></h4>
+<p>If the option that was chosen (e.g., <a href="#interactive-merge-mode">Interactive merge mode</a>)
+requires user interaction due to conflicts, IDA will show in 3-pane “merge” mode.</p>
+<p><img src="images/hvui/diffing_and_merging/ida_interactive_merge.png" alt="IDA in interactive merge mode"></p>
+<p>When a conflict is encountered, you’ll have the ability to pick, for
+all conflicts, which change should be kept (yours, or the other).
+Every time you pick a change (and thus resolve a conflict), IDA
+will proceed with the merging, applying all the non-conflicting
+changes it can, until the next conflict - if any.
+When all conflicts are resolved, you can leave IDA, and the new
+resulting file is ready to be submitted.</p>
+<h2 id="general-concepts"><a class="header" href="#general-concepts">General concepts</a></h2>
+<h3 id="collaboration-in-the-reverse-engineering-field"><a class="header" href="#collaboration-in-the-reverse-engineering-field">Collaboration in the reverse-engineering field</a></h3>
+<p>Over the years, a trend has been emerging in the field of reverse-engineering: a
+need to enable collaboration between different (teams of) individuals and share
+their work with one another.</p>
+<p>In order to achieve that, different groups of people have come up with different
+strategies, the most common ones being:</p>
+<ul>
+<li>“live” propagation of changes from one IDA session, to other sessions (this
+requires all IDA instances are either directly connected, or talk to a server,
+at all time)</li>
+<li>extracting some of the important bits of work done on an <code>.idb</code>, and applying
+those to another one – in fact, we at Hex-Rays have also been providing a
+tool that enables this type of workflow:
+<a href="https://hex-rays.com/products/ida/lumina/">the lumina server</a>.</li>
+</ul>
+<p>While those solutions have interesting properties, they also typically suffer
+from significant drawbacks as well:</p>
+<ul>
+<li>they might require a live connection at all times in order to work,</li>
+<li>there is no way to make sure many supposedly-synced IDA sessions are indeed
+working with exactly the same data,</li>
+<li>the information that’s extracted isn’t complete enough,</li>
+<li>…</li>
+</ul>
+<p>So we took a step back and looked at how things are done in other places, and in
+particular in the field of software engineering, where collaboration over a
+piece of software is typically achieved by using
+<a href="#revision-control-for-reverse-engineering-projects">revision control</a>.</p>
+<p>That is why one of the key features of IDA Teams, is software
+engineering-inspired revision control, <em>applied to reverse-engineering</em>.</p>
+<p>NOTE: Plans for IDA Teams span well beyond just revision control, but this was
+our first, significant milestone.</p>
+<h3 id="revision-control-for-reverse-engineering-projects"><a class="header" href="#revision-control-for-reverse-engineering-projects">Revision control for reverse-engineering projects</a></h3>
+<p>The general concepts behind IDA Teams revision control, are essentially the same
+as those behind many other revision control systems, and uses a client-server
+architecture.</p>
+<ul>
+<li>On the server-side, we will find a new component: the
+<a href="#the-vault_server">vault server</a></li>
+<li>On the client side, we will find that an IDA Teams installation now install a
+few additional binaries: a pair of <a href="#The-clients">clients</a> to connect to the
+server</li>
+</ul>
+<h4 id="the-vault_server"><a class="header" href="#the-vault_server">The vault_server</a></h4>
+<p>The server, called <code>vault_server</code>, maintains a ledger of operations that were
+performed on the files that it hosts: modifications, added files, deleted files,
+…</p>
+<p>It should be made available to all members of a team destined to work on common
+projects.</p>
+<p>The server comes with its own installer, and an “admin guide” explaining how to
+tune the installation &amp; perform common tasks.</p>
+<h4 id="the-clients"><a class="header" href="#the-clients">The clients</a></h4>
+<p>On the client-side, IDA Teams will consist of an IDA installer, to be installed
+on each user’s computer.</p>
+<p>In addition to the regular IDA binaries, that new installer will also place two
+clients to connect to the vault_server:</p>
+<ul>
+<li><code>hv</code>: a command-line interface client</li>
+<li><code>hvui</code>: a visual client</li>
+</ul>
+<p>Users interact with the server using those tools, which lets them get a good
+view over who contributed what, and offer functionality for organizing their
+work in the most efficient way possible.</p>
+<h5 id="online-vs-offline"><a class="header" href="#online-vs-offline">Online vs Offline</a></h5>
+<p>Users have all the freedom to organize their work the way they see fit: they
+don’t have to be connected at all times, and will only need to be able to
+connect to the server when it is time to publish their changes so they are
+available for others to benefit from.</p>
+<h3 id="resolving-conflicts-in-a-file"><a class="header" href="#resolving-conflicts-in-a-file">Resolving conflicts in a file</a></h3>
+<p>When a user needs to commit changes made to a file, but that same file has
+received other modifications (likely from other users) in the meantime, it is
+necessary to first “merge” the two sets of modifications together.</p>
+<p>When the two sets of modifications do not overlap, merging is trivial</p>
+<ul>
+<li>at least conceptually. But when they do overlap, they produce conflict(s).</li>
+</ul>
+<p>Since IDA Teams focuses on collaboration over IDA database files, the rest of
+this section will focus on the different strategies that are available for
+resolving conflicts among those.</p>
+<p>IDA Teams comes with multiple strategies to help in conflict resolution of IDA
+database files:</p>
+<h4 id="auto-resolve-if-no-conflicts"><a class="header" href="#auto-resolve-if-no-conflicts">Auto-resolve (if no conflicts)</a></h4>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform all merging
+automatically.</p>
+<p>If any conflict is discovered, bail out of the merge process, and don’t modify
+the local database.</p>
+<h4 id="auto-resolve-prefer-local"><a class="header" href="#auto-resolve-prefer-local">Auto-resolve, prefer local</a></h4>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform all merging
+automatically.</p>
+<p>If a conflict is discovered, assume that the “local” change (i.e., the current
+user’s change) is the correct one, and apply that.</p>
+<p>Once all merging is done and conflicts are resolved, write those to the local
+database and exit IDA</p>
+<h4 id="auto-resolve-prefer-remote"><a class="header" href="#auto-resolve-prefer-remote">Auto-resolve, prefer remote</a></h4>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform all merging
+automatically.</p>
+<p>If a conflict is discovered, assume that the “remote” change (i.e., the change
+made by another user) is the correct one, and apply that.</p>
+<p>Once all merging is done and conflicts are resolved, write those to the local
+database and exit IDA</p>
+<h4 id="interactive-merge-mode"><a class="header" href="#interactive-merge-mode">Interactive merge mode</a></h4>
+<p>Manual merge mode.</p>
+<p>This will launch IDA in an interactive, 3-pane mode, allowing the user to decide
+how to resolve each conflict.</p>
+<p>Once all merging is done and conflicts are resolved, exit IDA and write the
+changes to the local database.</p>
+<h4 id="use-local-discard-remote"><a class="header" href="#use-local-discard-remote">Use local, discard remote</a></h4>
+<p>Select the local database, ignoring all changes in the remote database.</p>
+<p>No IDA process is run.</p>
+<h4 id="use-remote-discard-local"><a class="header" href="#use-remote-discard-local">Use remote, discard local</a></h4>
+<p>Select the remote database, ignoring all changes in the local database.</p>
+<p>No IDA process is run.</p>
+<h3 id="what-is-a-site"><a class="header" href="#what-is-a-site">What is a “site”?</a></h3>
+<p>A site represents a mapping of the server files to the local filesystem.
+Normally each computer has a site associated with it.
+A site has the following attributes:</p>
+<ul>
+<li>A site name</li>
+<li>A host name</li>
+<li>The path to a folder on the filesystem (a.k.a., “root directory”)</li>
+<li>Path filters (optional)</li>
+</ul>
+<p><img src="images/hv_user_manual/site_details.png" alt="site details"></p>
+<h4 id="root-directory"><a class="header" href="#root-directory">Root directory</a></h4>
+<p>The root directory is the essential attribute of a site. It denotes
+where all files from the vault server will be mapped to the local disk.
+Everything inside the root directory can potentially be uploaded to the vault
+server and shared with other team members.</p>
+<p>The vault server cannot manage files located outside the root directory.
+However, this limitation is straightforward to overcome: create a symbolic
+link (or, on Windows, a junction point) from the root directory to the directory
+of your choice. This will make the target of the symbolic link visible as part
+of the root directory.</p>
+<p>The vault server keeps track of each site’s state: what files have been
+downloaded to the local disk, what files have been checked out for editing, etc.
+This simplifies the housekeeping tasks, especially for big repositories
+with millions of files. Even for them, downloading the latest files
+or reconciling the local disk with the server, are almost instantaneous.</p>
+<p>The host name is a security feature that prevents from using a site on a wrong
+computer. Since the server keeps track of the files downloaded to
+each site, using a wrong site may lead to an inconsistent mapping between the
+server and local disk. However, if the user does not want this protection, it is
+possible to erase the host name in the site definition.</p>
+<p>Sites can be edited from the “Sites” view.</p>
+<h4 id="path-filters"><a class="header" href="#path-filters">Path filters</a></h4>
+<p>By default all server files are visible, but for servers that manage
+gigabytes of data this can be problematic: it may be undesirable
+for users to download all files to their local computer.</p>
+<p>Site filters provide a mechanism that lets users restrict the set of
+files their IDA Teams client works with.
+Users who want to work on some specific projects can set a filter that
+restricts the visibility only to selected subdirectories.</p>
+<p>Each site has its own filters, that con be modified at any
+time. Filters do not directly affect any files on the local disk, or
+on the server: they are strictly about visibility.</p>
+<p>WARNING: Site filters are meant simplify a user’s life by
+letting them focus on specific projects. Since they can be modified by
+users, they should <em>not</em> be considered a security measure: that would
+be the role of the permissions system, which can only be managed by
+vault_server administrators.</p>
+<p>NOTE: The purpose of site filters is to create a subset of the full
+set of files provided by the server. Site filters don’t directly
+affect what locally-available files (i.e., present in the site’s
+rootdir, but not tracked by the server) are visible by IDA Teams
+clients.</p>
+<p>There is another mechanism to specify what files should not be added to the vault.
+See <a href="#hvignore-and-.hvignore-files"><code>.hvignore</code></a> for more info.</p>
+<h5 id="examples"><a class="header" href="#examples">Examples</a></h5>
+<p><strong>An empty filter</strong></p>
+<pre><code>$ cat empty_filter.txt
+$
+</code></pre>
+<p><strong>Hide all files, except those in <code>malware/</code></strong></p>
+<pre><code>$ cat only_malware.txt
+malware/
+$
+</code></pre>
+<p><strong>Show all files, except those from the pentesting team</strong></p>
+<pre><code>$ cat hide_pentest.txt
+!pentesting/
+$
+</code></pre>
+<p><strong>Show all files but those from the pentesting team, except their produced documents</strong></p>
+<pre><code>$ cat hide_pentest_but_docs.txt
+!pentesting/
+pentesting/research_docs/
+$
+</code></pre>
+<h3 id="hvignore-and-hvignore-files"><a class="header" href="#hvignore-and-hvignore-files"><code>hvignore</code> (and <code>.hvignore</code>) files</a></h3>
+<p>IDA Teams comes with a mechanism that lets users specify what files
+should be ignored when adding files from their local machines to the vault_server.</p>
+<h4 id="the-main-hvignore-file-pathtoinstall-dirhvignore"><a class="header" href="#the-main-hvignore-file-pathtoinstall-dirhvignore">The main <code>hvignore</code> file (<code>path/to/install-dir/hvignore</code>)</a></h4>
+<p>In IDA Teams’ install directory, you will find the “main”
+<code>hvignore</code> file, that is pre-populated with a list of files that you
+would typically not want to add to the vault_server, such as <code>.bak</code> backup
+files and unpacked IDA database files: <code>.id0</code>, <code>.nam</code>, etc…</p>
+<p>The syntax for <code>hvignore</code> is very close to that of <code>.gitignore</code>
+files.</p>
+<h4 id="additional-hvignore-files"><a class="header" href="#additional-hvignore-files">Additional <code>.hvignore</code> files</a></h4>
+<p>In addition to that file, you can have <code>.hvignore</code> file (notice the
+<code>.</code> - dot) placed in your <a href="#what-is-a-site">site</a>’s directory structure.</p>
+<p>When found, those files’ contents will be appended to the
+main file’s contents.</p>
+<h3 id="the-registry"><a class="header" href="#the-registry">The registry</a></h3>
+<p>On Microsoft Windows, IDA Teams will store certain bits of information in the
+registry (host name, user name, site name.)</p>
+<p>On macOS and Linux, it will use a pseudo-registry file, located at
+<code>$HOME/.idapro/hvui.reg</code>.</p>
+<h3 id="passwords-storage-in-the-oss-keychain"><a class="header" href="#passwords-storage-in-the-oss-keychain">Passwords storage in the OS’s keychain</a></h3>
+<p>While hosts, user names &amp; <a href="#what-is-a-site">site names</a> are persisted to the
+<a href="#the-registry">registry</a>, passwords are stored securely in the operating
+system’s keychain.</p>
+<ul>
+<li>On Windows, the Windows Credential Store is used (therefore requiring Windows
+7 or newer)</li>
+<li>On macOS, the macOS Keychain is used</li>
+<li>On Linux, the “Secret service” is used (through <code>libsecret-1</code>)</li>
+</ul>
+<h3 id="managing-permissions-on-a-vault"><a class="header" href="#managing-permissions-on-a-vault">Managing permissions on a vault</a></h3>
+<p>The vault_server includes a way to restrict the access of users and groups to
+the data stored in the vault_server.</p>
+<p>The permission file is a text file that contains the permission table. The file
+consists of lines that grant or deny access to certain path patterns in the
+vault. The syntax for an entry is the following:</p>
+<p><code>grant/deny group/user NAME PERMISSION VAULT_PATH_PATTERN</code></p>
+<p>Possible <code>PERMISSION</code> values are: <code>list</code>, <code>read</code> and <code>write</code>. <code>read</code> includes
+<code>list</code>, <code>write</code> includes <code>read</code> (and thus also includes <code>list</code>).</p>
+<p>Example of a permission file:</p>
+<pre><code># deny everything to everyone. no need to specify it explicitly,
+# it is the default for a non-empty permission table:
+# deny  user *      list  //*
+
+deny  user *      list  //secret/   # nobody can see //secret. this line is superfluous
+                                    # because everything is denied by default.
+grant user hughes write //secret/   # but hughes can write to secret and its subdirs
+grant user john   read  //secret/   # and john can read the entire directory.
+deny  user *      list  //secret/supersecret # supersecret is not visible to anyone
+grant user hughes write //secret/supersecret # but hughes can modify it (john cannot)
+grant user *      write //local_files/ # everyone can work with 'local_files'
+deny group remote list //local_files/  # except that the 'remote' group cannot see 'local_files'
+</code></pre>
+<p>An empty permission table means that no permissions are enforced rendering all
+files accessible by everyone. As soon as a non-empty permission table is
+specified, all access is denied to everyone by default.</p>
+<p>Path patterns may refer to (yet) unexisting files. Users and groups too may
+refer to unexisting users and groups.</p>
+<p>The order of the permission file is important as the last lines will take
+precedence over the preceding lines (if there are conflicts).</p>
+<p>Admins are not affected by the permission table, they are granted all access.</p>
+<p>To install a new permission table, use <a href="#managing-permissions">perm set</a>.</p>
+<p>The current permissions can be retrieved using
+<a href="#managing-permissions">perm get</a>.</p>
+<h2 id="tour-of-hvuis-widgets"><a class="header" href="#tour-of-hvuis-widgets">Tour of hvui’s widgets</a></h2>
+<h3 id="vault-files"><a class="header" href="#vault-files">Vault files</a></h3>
+<p>The “Vault files” widget represents the data that’s available on the server.</p>
+<p><img src="images/hvui/widgets_and_menus/widget_vault_files.png" alt="Vault files"></p>
+<p>Since its contents can be very similar to what is shown in
+<a href="#local-files">the “Local files”</a> (depending on whether user’s site is using
+<a href="#path-filters">site filters</a> or not), it has been given differentiating
+background color, in the hope of not confusing it with that other widget.</p>
+<h4 id="actions"><a class="header" href="#actions">Actions</a></h4>
+<!-- FIXME: Do we want such context menu shots for all widgets? -->
+<p><img src="images/hvui/widgets_and_menus/widget_vault_files_context_menu.png" alt="A typical context menu for “Vault files”"></p>
+<ul>
+<li><a href="#get-the-latest-revision">Get the latest revision</a></li>
+<li><a href="#scan-and-commit">Scan and commit</a></li>
+<li><a href="#checkout-for-edit">Checkout for edit</a></li>
+<li><a href="#add-to-vault">Add to vault</a></li>
+<li><a href="#checkout-for-delete">Checkout for delete</a></li>
+<li><a href="#checkout-for-move-rename">Checkout for move/rename…​</a></li>
+<li><a href="#checkout-for-copy">Checkout for copy…​</a></li>
+<li><a href="#revert">Revert…​</a></li>
+<li><a href="#revert-if-unchanged">Revert if unchanged</a></li>
+<li><a href="#open">Open</a></li>
+<li><a href="#auto-resolve-if-no-conflicts">Auto resolve (if no conflicts)…​</a></li>
+<li><a href="#auto-resolve-prefer-local">Auto resolve, prefer local…​</a></li>
+<li><a href="#auto-resolve-prefer-remote">Auto resolve, prefer remote…​</a></li>
+<li><a href="#interactive-merging">Interactive merge</a></li>
+<li><a href="#use-local-discard-remote">Use local, discard remote…​</a></li>
+<li><a href="#use-remote-discard-local">Use remote, discard local…​</a></li>
+<li><a href="#diff-against-the-local-file">Diff against the local file</a></li>
+<li><a href="#diff-against-previous-revision">Diff against previous revision</a></li>
+<li><a href="#file-history">File history</a></li>
+<li><a href="#find-in-vault">Find in vault…​</a></li>
+<li><a href="#next-search-result">Next search result</a></li>
+<li><a href="#previous-search-result">Previous search result</a></li>
+<li><a href="#refresh">Refresh</a></li>
+<li><a href="#show-deleted-files">Show deleted files</a></li>
+<li><a href="#show-in-vault-files-show-in-local-files">Show in Vault files/Show in Local files</a></li>
+</ul>
+<h3 id="local-files"><a class="header" href="#local-files">Local files</a></h3>
+<p>The “Local files” widget represents the data that’s available on the local disk.</p>
+<p><img src="images/hvui/widgets_and_menus/widget_local_files.png" alt="Local files"></p>
+<p>The root of the tree starts at the <a href="#what-is-a-site">site’s workdir</a>.</p>
+<p>Note that this widget honors the <a href="#hvignore-and-.hvignore-files"><code>hvignore</code></a>
+file that’s placed in the installation directory next to <code>hvui</code>, and also any
+<code>.hvignore</code> file found in the directory structure.</p>
+<h4 id="actions-1"><a class="header" href="#actions-1">Actions</a></h4>
+<ul>
+<li><a href="#getting-the-latest-revision">Get the latest revision</a></li>
+<li><a href="#scan-and-commit">Scan and commit</a></li>
+<li><a href="#checkout-for-edit">Checkout for edit</a></li>
+<li><a href="#add-to-vault">Add to vault</a></li>
+<li><a href="#checkout-for-delete">Checkout for delete</a></li>
+<li><a href="#checkout-for-move-rename">Checkout for move/rename…​</a></li>
+<li><a href="#checkout-for-copy">Checkout for copy…​</a></li>
+<li><a href="#revert">Revert…​</a></li>
+<li><a href="#revert-if-unchanged">Revert if unchanged</a></li>
+<li><a href="#open">Open</a></li>
+<li><a href="#open-the-containing-folder">Open the containing folder</a> // local only</li>
+<li><a href="#auto-resolve-if-no-conflicts">Auto resolve (if no conflicts)…​</a></li>
+<li><a href="#auto-resolve-prefer-local">Auto resolve, prefer local…​</a></li>
+<li><a href="#auto-resolve-prefer-remote">Auto resolve, prefer remote…​</a></li>
+<li><a href="#interactive-merge-mode">Interactive merge</a></li>
+<li><a href="#use-local-discard-remote">Use local, discard remote…​</a></li>
+<li><a href="#use-remote-discard-local">Use remote, discard local…​</a></li>
+<li><a href="#diff-against-the-local-file">Diff against the local file</a></li>
+<li><a href="#diff-against-previous-revision">Diff against previous revision</a></li>
+<li><a href="#file-history">File history</a></li>
+<li><a href="#find-in-vault">Find in vault…​</a></li>
+<li><a href="#next-search-result">Next search result</a></li>
+<li><a href="#previous-search-result">Previous search result</a></li>
+<li><a href="#refresh">Refresh</a></li>
+<li><a href="#show-deleted-files">Show deleted files</a></li>
+<li><a href="#show-in-vault-files-show-in-local-files">Show in Vault files/Show in Local files</a></li>
+</ul>
+<h3 id="worklists"><a class="header" href="#worklists">Worklists</a></h3>
+<p><img src="images/hvui/widgets_and_menus/widget_worklists.png" alt="Worklists"></p>
+<p>The “Worklists” widget groups all the modifications that are still pending (and are thus not yet visible to other users)</p>
+<p>Those changes are grouped by “Worklist” (i.e., topic). A typical worklist will hold files that are related, and will be made available to all once a worklist is <a href="#commit">committed</a>.</p>
+<p>It is possible to move file(s) from a worklist to another, by “drag &amp; drop”’ing them, “cut &amp; paste”’ing them, or using the <a href="#migrate-to-another-worklist">Migrate to another worklist…​</a> action.</p>
+<p>By default, this widget will only show the current user’s worklists, but can be made to show everyone’s worklists, in read-only mode: the current user will still only be able to modify (or commit) his/her own worklists.</p>
+<h4 id="actions-2"><a class="header" href="#actions-2">Actions</a></h4>
+<ul>
+<li><a href="#open">Open</a></li>
+<li><a href="#commit">Commit…​</a></li>
+<li><a href="#add-new-worklist">Add new worklist…​</a></li>
+<li><a href="#edit-worklist">Edit worklist…​</a></li>
+<li><a href="#revert">Revert…​</a></li>
+<li><a href="#revert-if-unchanged">Revert if unchanged</a></li>
+<li><a href="#delete-worklist">Delete worklist…​</a></li>
+<li><a href="#view-worklist">View worklist…​</a></li>
+<li><a href="#auto-resolve-if-no-conflicts">Auto resolve (if no conflicts)…​</a></li>
+<li><a href="#auto-resolve-prefer-local">Auto resolve, prefer local…​</a></li>
+<li><a href="#auto-resolve-prefer-remote">Auto resolve, prefer remote…​</a></li>
+<li><a href="#interactive-merge">Interactive merge</a></li>
+<li><a href="#use-local-discard-remote">Use local, discard remote…​</a></li>
+<li><a href="#use-remote-discard-local">Use remote, discard local…​</a></li>
+<li><a href="#diff-against-the-local-file">Diff against the local file</a></li>
+<li><a href="#migrate-to-another-worklist">Migrate to another worklist…​</a></li>
+<li><a href="#file-history">File history</a></li>
+<li><a href="#refresh">Refresh</a></li>
+<li><a href="#show-other-users-worklists">Show other users’ worklists</a></li>
+</ul>
+<h3 id="commits"><a class="header" href="#commits">Commits</a></h3>
+<p><img src="images/hvui/widgets_and_menus/widget_commits.png" alt="Commits"></p>
+<p>The “commits” widget shows a list of previous commits
+made to the server, in a concise and condensed way.</p>
+<p>It is possible to request <a href="#commit">a detailed view</a> for any entry in that list.</p>
+<p>NOTE: The amount of entries displayed by this widget can be configured
+through the “Options” dialog.</p>
+<h4 id="actions-3"><a class="header" href="#actions-3">Actions</a></h4>
+<ul>
+<li><a href="#details-on-commits-widget">Details…​ (on “Commits” widget)</a></li>
+<li><a href="#sync-to-this-revision">Sync to this revision</a></li>
+</ul>
+<h4 id="commit-1"><a class="header" href="#commit-1">Commit</a></h4>
+<p><img src="images/hvui/widgets_and_menus/widget_commit.png" alt="Commit"></p>
+<p>Using <a href="#commits">the “commits” widget</a>, it is
+possible to inspect what changes were previously submitted to
+the vault in a particular commit.</p>
+<h5 id="actions-4"><a class="header" href="#actions-4">Actions</a></h5>
+<ul>
+<li><a href="#open-this-revision">Open this revision</a></li>
+<li><a href="#sync-to-this-revision">Sync to this revision</a></li>
+<li><a href="#diff-against-previous-revision">Diff against previous revision</a></li>
+<li><a href="#checkout-for-copy">Checkout for copy…​</a></li>
+<li><a href="#file-history">File history</a></li>
+</ul>
+<h3 id="sites"><a class="header" href="#sites">Sites</a></h3>
+<p><img src="images/hvui/widgets_and_menus/widget_sites.png" alt="Sites"></p>
+<p>The “Sites” widget provides the ability for a user (or an admin) to administrate
+users’ <a href="#what-is-a-site">site</a>s.</p>
+<p>Non-admin users will only be able to modify their own site(s), while an admin
+will have the ability to do so for all users’ sites.</p>
+<p>If you find yourself using more than one site on any specific machine, you will
+likely have to resort to the <a href="#use-this-site">Use this site…​</a> to switch between
+them.</p>
+<h4 id="actions-5"><a class="header" href="#actions-5">Actions</a></h4>
+<ul>
+<li><a href="#add-new-site">Add new site…​</a></li>
+<li><a href="#edit-site">Edit site…​</a></li>
+<li><a href="#delete-site">Delete site…​</a></li>
+<li><a href="#use-this-site">Use this site…​</a></li>
+</ul>
+<h3 id="users"><a class="header" href="#users">Users</a></h3>
+<p><img src="images/hvui/widgets_and_menus/widget_users.png" alt="Users"></p>
+<p>The “Users” widget lists all knows users of the Hex-Rays Vault server.</p>
+<p>Non-admin users have the possibility to change their password.</p>
+<p>Users with administrator rights will, in addition, be able to add,
+remove, modify users - and modify anyone’s password.</p>
+<h4 id="actions-6"><a class="header" href="#actions-6">Actions</a></h4>
+<ul>
+<li><a href="#add-new-user">Add new user…​</a></li>
+<li><a href="#edit-user">Edit user…​</a></li>
+<li><a href="#delete-user">Delete user…​</a></li>
+<li><a href="#set-password">Set password…​</a></li>
+</ul>
+<h3 id="log-window"><a class="header" href="#log-window">Log window</a></h3>
+<p><img src="images/hvui/widgets_and_menus/widget_log.png" alt="Log window"></p>
+<p>The logging area is helpful in providing feedback about different
+types of events:</p>
+<ul>
+<li>Details of successful operations</li>
+<li>Connection state (logins, logout’s, network issues, …)</li>
+<li>…other various bits of information that the program deems
+relevant for the user to know</li>
+</ul>
+<h4 id="actions-7"><a class="header" href="#actions-7">Actions</a></h4>
+<p>The logging area provides typical text-manipulating functions
+(copying, searching, …) as well as the ability to turn timestamps
+on/off.</p>
+<h3 id="file-history"><a class="header" href="#file-history">File history</a></h3>
+<p><img src="images/hvui/widgets_and_menus/widget_file_history.png" alt="File history"></p>
+<p>The “File history” widget shows all changes ever commited to a single
+file.</p>
+<h4 id="actions-8"><a class="header" href="#actions-8">Actions</a></h4>
+<ul>
+<li><a href="#open-this-revision">Open this revision</a></li>
+<li><a href="#sync-to-this-revision">Sync to this revision</a></li>
+<li><a href="#checkout-for-copy">Checkout for copy…​</a></li>
+<li><a href="#details-on-commits-widget">Details…​ (on “Commits” widget)</a></li>
+<li><a href="#diff-against-previous-revision">Diff against previous revision</a></li>
+<li><a href="#diff-against">Diff against…​</a></li>
+</ul>
+<h3 id="user-interface-actions"><a class="header" href="#user-interface-actions">User interface actions</a></h3>
+<p>The following is a list of actions, available in hvui. Note that most actions
+are “contextualized” in the sense that they require certain conditions to be
+met, in order to work:</p>
+<ul>
+<li>the widget being operated on,</li>
+<li>whether or not a selection is available,</li>
+<li>the state of the selected file(s),</li>
+<li>…​</li>
+</ul>
+<p>All actions are available from the toplevel menubar’s submenus. Those whose
+operating conditions are not met, will appear disabled.</p>
+<p>NOTE: Contrary to the toplevel menubar’s submenus, context menus (AKA: popup
+menus, right-click menus, …​) will not feature actions that are disabled. Those
+menus are created on-the-fly, and it’s best not to pollute them with unnecessary
+noise.</p>
+<h4 id="get-the-latest-revision"><a class="header" href="#get-the-latest-revision">Get the latest revision</a></h4>
+<p>Sync the selected file(s) (or the entire server contents), to the latest
+revision.</p>
+<p>This effectively updates all local copies of the files, except for those that
+are currently opened for edition, addition or deletion: those will be left
+untouched in order to not risk losing user modifications made to them.</p>
+<h4 id="commit-2"><a class="header" href="#commit-2">Commit…​</a></h4>
+<p>Prompts the user for a commit description, and submits the files that are part
+of the current worklist, to the server.</p>
+<p>Once successfully committed, a worklist will disappear and a new entry will be
+added to the list of <a href="#commits">commits</a>.</p>
+<p>Committed changes (modifications, additions and deletions) are available for all
+users that can access those files.</p>
+<h4 id="scan-and-commit"><a class="header" href="#scan-and-commit">Scan and commit</a></h4>
+<p>Scan the selected files/folders (or the entire
+<a href="#root-directory">root directory</a>), and create a worklist with all changes that
+were found: files that have been added, removed, modified, …​</p>
+<p>Unless you explicitly tell it not to (by checking the “Do not show this dialog
+anymore” checkbox), this action will first offer the possibility to refine what
+exactly the scan should be looking for:</p>
+<p><img src="images/hvui/actions/scan_and_commit_options.png" alt="Scan and commit options"></p>
+<p>Spotting new or deleted files is fairly straightforward, but when it comes to
+existing files, hvui will also perform a <code>md5</code> checksum comparison.</p>
+<p>If differences are found, hvui will prepare a new worklist with those.</p>
+<p>This is especially useful if one had to work on some files while no connection
+to the server was available (e.g., on a plane).</p>
+<p>The files found will be filtered by <a href="#hvignore-and-.hvignore-files">hvignore</a>.</p>
+<h4 id="details-on-commits-widget"><a class="header" href="#details-on-commits-widget">Details…​ (on “Commits” widget)</a></h4>
+<p>Opens a detailed view of the commit details, including a list of the files that
+were modified:</p>
+<p><img src="images/hvui/widgets_and_menus/widget_commit.png" alt="Commit"></p>
+<h4 id="sync-to-this-revision"><a class="header" href="#sync-to-this-revision">Sync to this revision</a></h4>
+<p>Retrieve the specified revision from the server, and replace the local file with
+it.</p>
+<h4 id="diff-against-previous-revision"><a class="header" href="#diff-against-previous-revision">Diff against previous revision</a></h4>
+<p>For each selected file, perform a diff of the selected file, against its
+previous revision.</p>
+<p>NOTE: If a file is opened and has been modified, those yet-unsubmitted
+modifications will not be part of the diff: only those between the two recorded
+revisions, will be visible.</p>
+<h4 id="diff-against"><a class="header" href="#diff-against">Diff against…​</a></h4>
+<p>A more powerful version of <a href="#diff-against-previous-revision">diff</a>, that lets
+the user pick for each “side” of the diff:</p>
+<ul>
+<li>either the current revision, any revision number, or to the local file on disk</li>
+<li>the path to the file (it is therefore possible to diff entirely unrelated
+files together)</li>
+</ul>
+<h4 id="checkout-for-edit"><a class="header" href="#checkout-for-edit">Checkout for edit</a></h4>
+<p>Informs the server that we will be working on those files in the near future.</p>
+<!-- TODO checked-out files could go into the current worklist as opposed to a fixed worklist id -->
+<p>They will be added to the worklist number 1 (which will be created if it doesn’t
+exist), and will turn <a href="#font-styles">bold</a>, to draw attention to them.</p>
+<h4 id="add-to-vault"><a class="header" href="#add-to-vault">Add to vault</a></h4>
+<p>Informs the server that we wish to add the selected file(s) to the list of files
+managed by the server.</p>
+<p>They will be added to the worklist number 1 (which will be created if it doesn’t
+exist), and will turn <a href="#font-styles">bold</a>, to draw attention to them.</p>
+<p>The files selected will be filtered by
+<a href="#hvignore-and-.hvignore-files">hvignore</a>.</p>
+<h4 id="checkout-for-delete"><a class="header" href="#checkout-for-delete">Checkout for delete</a></h4>
+<p>Informs the server that we wish to delete the selected file(s) from the list of
+files managed by the server.</p>
+<p>They will be added to the worklist number 1 (which will be created if it doesn’t
+exist), and will turn <a href="#font-styles">bold</a>, to draw attention to them.</p>
+<h4 id="checkout-for-moverename"><a class="header" href="#checkout-for-moverename">Checkout for move/rename…​</a></h4>
+<p>For each selected file (or directory), prompt the user for a new name to rename
+to.</p>
+<p>This is the equivalent of executing <a href="#checkout-for-copy"></a>, followed by
+<a href="#checkout-for-delete"></a>.</p>
+<h4 id="checkout-for-copy"><a class="header" href="#checkout-for-copy">Checkout for copy…​</a></h4>
+<p>For each selected file or directory, prompt the user for a new name to create a
+copy into.</p>
+<p>The copied files will be added to the worklist number 1 (which will be created
+if it doesn’t exist).</p>
+<h4 id="open-this-revision"><a class="header" href="#open-this-revision">Open this revision</a></h4>
+<p>For each selected file, launch the <a href="#file-associations">associated application.</a></p>
+<p>NOTE: The file is retrieved from the server, and downloaded into a temporary
+location. It is cleaned after the application exits.</p>
+<h4 id="file-history-1"><a class="header" href="#file-history-1">File history</a></h4>
+<p>For each selected file, open a <a href="#file-history"></a> widget showing the list of
+modifications that were made to the file.</p>
+<h4 id="revert"><a class="header" href="#revert">Revert…​</a></h4>
+<p>Reverts the selection - that is: remove from the worklist(s), and restore the
+current revision from the server.</p>
+<p>NOTE: This action will lose all changes made to the selected file(s), and thus
+will first prompt for confirmation.</p>
+<p>See also <a href="#revert-if-unchanged"></a></p>
+<h4 id="revert-if-unchanged"><a class="header" href="#revert-if-unchanged">Revert if unchanged</a></h4>
+<p>A “safe” version of <a href="#revert"></a>, that will first verify if files have been
+modified, before reverting them.</p>
+<p>Files that have not been modified, will be reverted. Those that have been, will
+remain untouched.</p>
+<p>Since this is a safe operation (in the sense that no data can be lost), this
+action will not ask for confirmation.</p>
+<p>See also <a href="#revert"></a></p>
+<h4 id="open"><a class="header" href="#open">Open</a></h4>
+<p>For each entry in the selection, launch the
+<a href="#file-associations">associated “View” application.</a></p>
+<p>If no association is present for a specific file extension (or if the file does
+not have an extension), the default <code>*</code> association will be used.</p>
+<h4 id="open-the-containing-folder"><a class="header" href="#open-the-containing-folder">Open the containing folder</a></h4>
+<p>For each folder in the selection, asks the OS to open a file browser at the
+corresponding place.</p>
+<p>What file browser is opened, depends on the OS’s settings.</p>
+<h4 id="resolve-actions"><a class="header" href="#resolve-actions">Resolve actions</a></h4>
+<p>hvui comes with many strategies to resolve files:</p>
+<ul>
+<li><a href="#auto-resolve-if-no-conflicts">Auto resolve (if no conflicts)…​</a></li>
+<li><a href="#auto-resolve-prefer-local">Auto resolve, prefer local…​</a></li>
+<li><a href="#auto-resolve-prefer-remote">Auto resolve, prefer remote…​</a></li>
+<li><a href="#interactive-merge">Interactive merge</a></li>
+<li><a href="#use-local-discard-remote">Use local, discard remote…​</a></li>
+<li><a href="#use-remote-discard-local">Use remote, discard local…​</a></li>
+</ul>
+<p>However, hvui only knows how to handle a successful merge operation when IDA is
+used. Consequently, only the last 2 operations will be available for
+non-<code>.idb</code>/<code>.i64</code> files.</p>
+<h5 id="resolve-actions-prolog"><a class="header" href="#resolve-actions-prolog">Resolve actions prolog</a></h5>
+<p>The first thing that happens is that the last revision of the file is retrieved
+from the server (and stored in a temporary location).</p>
+<p>Then (for all but <a href="#use-local-discard-remote"></a> and
+<a href="#use-remote-discard-local"></a>) IDA will be launched in a special mode, and with
+different set of parameters that depend on the exact nature of the operation.</p>
+<h5 id="auto-resolve-if-no-conflicts-1"><a class="header" href="#auto-resolve-if-no-conflicts-1">Auto resolve (if no conflicts)…​</a></h5>
+<p>Perform <a href="#resolve-actions">the “resolve actions” prolog</a>, then launch IDA
+non-interactively: IDA will attempt merging the changes made to the local file
+with those that were made to the last revision of the file, and succeed if no
+conflicting changes were found.</p>
+<p>This is a safe operation in the sense that, should there be any conflict, it
+will not touch the local file.</p>
+<h5 id="auto-resolve-prefer-local-1"><a class="header" href="#auto-resolve-prefer-local-1">Auto resolve, prefer local…​</a></h5>
+<p>Perform <a href="#resolve-actions">the “resolve actions” prolog</a>, then launch IDA
+non-interactively: IDA will merge the changes made to the local file with those
+that were made to the last revision of the file. Each time a conflict is found,
+automatically pick the local change.</p>
+<h5 id="auto-resolve-prefer-remote-1"><a class="header" href="#auto-resolve-prefer-remote-1">Auto resolve, prefer remote…​</a></h5>
+<p>Perform <a href="#resolve-actions">the “resolve actions” prolog</a>, then launch IDA
+non-interactively: IDA will merge the changes made to the local file with those
+that were made to the last revision of the file. Each time a conflict is found,
+automatically pick the other change.</p>
+<h5 id="interactive-merge"><a class="header" href="#interactive-merge">Interactive merge</a></h5>
+<p>Perform <a href="#resolve-actions">the “resolve actions” prolog</a>, then launch IDA
+interactively: the user will be presented with a 3-panel IDA instance, where it
+will be possible to manually pick either the local, or the remote change, for
+each conflict.</p>
+<p>Once the user is done and exits IDA saving the resulting database, the file will
+be considered resolved.</p>
+<h5 id="use-local-discard-remote-1"><a class="header" href="#use-local-discard-remote-1">Use local, discard remote…​</a></h5>
+<p>Perform <a href="#resolve-actions">the “resolve actions” prolog</a>, then just
+consider that our local version of the file is the correct one.</p>
+<h5 id="use-remote-discard-local-1"><a class="header" href="#use-remote-discard-local-1">Use remote, discard local…​</a></h5>
+<p>Perform <a href="#resolve-actions">the “resolve actions” prolog</a>, then replace
+the local version of the file with the other one.</p>
+<h4 id="diff-against-the-local-file"><a class="header" href="#diff-against-the-local-file">Diff against the local file</a></h4>
+<p>Retrieve the specified file(s) from the server (and store them in a temporary
+location), then launch the <a href="#file-associations">associated “Diff” application</a>
+to compare them against their local versions.</p>
+<h4 id="find-in-vault"><a class="header" href="#find-in-vault">Find in vault…​</a></h4>
+<p>Prompt the user for a pattern/substring to be looking for, and queries the
+server.</p>
+<p>If a match is found, it will be selected in the <a href="#vault-files">vault files</a>
+widget. It is then possible to move
+<a href="#next-search-result">forward</a>/<a href="#previous-search-result">backward</a> in the search
+results.</p>
+<h4 id="next-search-result"><a class="header" href="#next-search-result">Next search result</a></h4>
+<p>Move forward in the result set of a <a href="#find-in-vault">find</a> operation.</p>
+<h4 id="previous-search-result"><a class="header" href="#previous-search-result">Previous search result</a></h4>
+<p>Move backward in the result set of a <a href="#find-in-vault">find</a> operation.</p>
+<h4 id="refresh"><a class="header" href="#refresh">Refresh</a></h4>
+<p>Clears the local caches of all the data that was retrieved from the local
+filesystem &amp; the Hex-Rays Vault server, and force a refresh of all widgets.</p>
+<h4 id="show-in-vault-filesshow-in-local-files"><a class="header" href="#show-in-vault-filesshow-in-local-files">Show in Vault files/Show in Local files</a></h4>
+<p>Find the corresponding selection in the other view, select it, and give focus to
+that view.</p>
+<p>This is helpful to navigate between <a href="#vault-files">vault files</a> and
+<a href="#local-files">local files</a>.</p>
+<h4 id="show-deleted-files"><a class="header" href="#show-deleted-files">Show deleted files</a></h4>
+<p>Toggle the visibility of files that have been deleted.</p>
+<p>When a file is deleted in revision <code>#N</code>, its revisions up to <code>#N-1</code> are still
+kept on the server (but not visible by default.)</p>
+<p>This offers the opportunity to view (and possibly resurrect) such deleted files.</p>
+<h4 id="add-new-site"><a class="header" href="#add-new-site">Add new site…​</a></h4>
+<p>Create a new site.</p>
+<p>While logged in as a non-administrator, you won’t have the choice but to
+associate the site to the current user. However, when logged in as an
+administrator, it is necessary to provide the user’s name as well.</p>
+<h4 id="edit-site"><a class="header" href="#edit-site">Edit site…​</a></h4>
+<p>Offers the ability to modify the following properties of a site:</p>
+<ul>
+<li>Its root directory</li>
+<li>The client’s host</li>
+<li>Optional site filters</li>
+</ul>
+<h4 id="delete-site"><a class="header" href="#delete-site">Delete site…​</a></h4>
+<p>Delete the selected site (after prompting for confirmation.)</p>
+<p>Naturally, deleting a site will also delete the worklists that were associated
+with that site. The commits that were made from that site will not be deleted.</p>
+<h4 id="use-this-site"><a class="header" href="#use-this-site">Use this site…​</a></h4>
+<p>Have hvui switch to the selected site.</p>
+<p>This can be useful if you have more than one site on your machine.</p>
+<p>Switching to a site requires that the client host matches that of the current
+machine, and that the site belongs to the user who’s currently logged-in.</p>
+<h4 id="add-new-user"><a class="header" href="#add-new-user">Add new user…​</a></h4>
+<p>Prompts the administrator for various bits of information about the user: login,
+real name, license ID, password, …​ and registers that information on the
+server.</p>
+<h4 id="edit-user"><a class="header" href="#edit-user">Edit user…​</a></h4>
+<p>Lets an administrator change all information about a particular user, with the
+exception of their login (immutable) and password (use
+<a href="#set-password">the dedicated action</a> to do that.)</p>
+<h4 id="delete-user"><a class="header" href="#delete-user">Delete user…​</a></h4>
+<p>Asks the administrator for confirmation, then deletes the user from the server.</p>
+<p>Deleting a user also deletes the worklists that belonged to the user. The
+commits made by that user won’t be impacted.</p>
+<h4 id="set-password"><a class="header" href="#set-password">Set password…​</a></h4>
+<p>Prompts for a new password (and its confirmation), and applies the changes on
+the server.</p>
+<h4 id="add-new-worklist"><a class="header" href="#add-new-worklist">Add new worklist…​</a></h4>
+<p>Prompts the user for a brief worklist description (which can remain empty at
+this point), and create a new, empty worklist.</p>
+<h4 id="edit-worklist"><a class="header" href="#edit-worklist">Edit worklist…​</a></h4>
+<p>Shows worklist details, and offers to edit its description.</p>
+<p>This action can only be performed on worklists that belong to the current user.</p>
+<h4 id="view-worklist"><a class="header" href="#view-worklist">View worklist…​</a></h4>
+<p>Shows other users’ worklists details, in read-only mode.</p>
+<h4 id="delete-worklist"><a class="header" href="#delete-worklist">Delete worklist…​</a></h4>
+<p>Prompts for confirmation, and deletes the worklist.</p>
+<p>All modifications (including additions &amp; deletions of files), will be
+abandoned/reverted.</p>
+<h4 id="migrate-to-another-worklist"><a class="header" href="#migrate-to-another-worklist">Migrate to another worklist…​</a></h4>
+<p>Lets the user pick another one of his pending worklists (or, alternatively,
+create a new one), then moves the files to that worklist.</p>
+<h4 id="show-other-users-worklists"><a class="header" href="#show-other-users-worklists">Show other users’ worklists</a></h4>
+<p>Toggle between the two following states:</p>
+<ol>
+<li>show this user’s worklists on this site,</li>
+<li>show all worklists (from all users, and on all sites)</li>
+</ol>
+<h2 id="miscellaneous-information"><a class="header" href="#miscellaneous-information">Miscellaneous information</a></h2>
+<h3 id="simplified-site-creation-on-first-connection"><a class="header" href="#simplified-site-creation-on-first-connection">Simplified site creation on first connection</a></h3>
+<p>In order to do any meaningful work in hvui, a user must be using
+<a href="#what-is-a-site">a site</a>.</p>
+<p>To make it easier to get started using hvui, the first time a user connects to
+the Hex-Rays Vault server, the application will propose a
+<a href="#getting-started">a simplified site creation dialog</a>, that will query only the
+“root directory”.</p>
+<p>The rest of the site attributes will be guessed (or generated):</p>
+<ul>
+<li>the host name will be retrieved automatically from the system</li>
+<li>the user name is known since the user just logged in</li>
+<li>the site name will be generated from the <code>user name</code> + <code>host name</code></li>
+</ul>
+<p>It is of course still possible to alter that site later, through the
+<a href="#sites">“Sites”</a> widget.</p>
+<h3 id="technical-information"><a class="header" href="#technical-information">Technical information</a></h3>
+<p>HVUI stores certain bits of information in the registry:</p>
+<ul>
+<li>On Windows, this will be located under
+<code>\HKEY_CURRENT_USER\Software\Hex-Rays\HVUI</code></li>
+<li>On Unix systems, HVUI will use a file-backed registry, located at
+<code>$HOME/.idapro/hvui.reg</code></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/teams/hv_user_manual.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/lumina.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/teams/hv_user_manual.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/lumina.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

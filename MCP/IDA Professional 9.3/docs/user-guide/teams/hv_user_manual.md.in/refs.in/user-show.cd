@@ -1,0 +1,16 @@
+.USERNAME The username of the user to display.
+
+>Displays the full details of a specific user.
+
+The following details will be displayed:
+
+* the timestamp of when the user was last active
+* the username, with a `*` next to it if the user has admin privileges
+* the license id of the user
+* the full name of the user
+* the email address of the user
+* notes about the user
+
+!
+$$ johndoe
+2022-06-27     johndoe      99-9999-9999-99 John doe <johndoe@doe.net> NOTES

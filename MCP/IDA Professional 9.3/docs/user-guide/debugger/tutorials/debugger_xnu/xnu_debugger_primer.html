@@ -1,0 +1,677 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Debugging the XNU Kernel with IDA Pro - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="debugging-the-xnu-kernel-with-ida-pro"><a class="header" href="#debugging-the-xnu-kernel-with-ida-pro">Debugging the XNU Kernel with IDA Pro</a></h1>
+<p><em>Copyright 2019 Hex-Rays SA</em></p>
+<h2 id="purpose"><a class="header" href="#purpose">Purpose <a href="#purpose" id="purpose"></a></a></h2>
+<p>IDA 7.3 introduces the Remote XNU Debugger. It is designed to communicate with the GDB stub included with popular virtualization tools, namely VMWare Fusion (for OSX) and Corellium (for iOS). The debugger allows you to observe the Darwin kernel as it is running, while at the same time utilising the full power of IDA’s analysis capabilities. It works equally well on Mac, Windows, and Linux.</p>
+<p>This writeup is intended to quickly get you familiar with debugger, as well as offer some hints to make the experience as smooth as possible.</p>
+<h2 id="debugging-osx-with-vmware"><a class="header" href="#debugging-osx-with-vmware">Debugging OSX with VMWare <a href="#debugging-osx-with-vmware" id="debugging-osx-with-vmware"></a></a></h2>
+<p>To get started with debugging OSX, we will perform a simple experiment. This is the same experiment outlined in <a href="https://geosn0w.github.io/Debugging-macOS-Kernel-For-Fun">this great writeup by GeoSn0w</a>, but we will be performing the equivalent in IDA - which we hope you’ll find is much simpler.</p>
+<p>Begin with the following setup:</p>
+<ol>
+<li>
+<p>create an OSX virtual machine with <a href="https://www.vmware.com/products/fusion.html">VMWare Fusion</a>. in this example the virtual machine is OSX 10.13.6, but the experiment should work with any recent OSX version.</p>
+</li>
+<li>
+<p>open Terminal in the VM and enable some basic XNU debugging options:</p>
+<pre><code class="language-bash">$ sudo nvram boot-args="slide=0 debug=0x100 keepsyms=1"
+</code></pre>
+</li>
+<li>
+<p>shut down the VM and add the following line to the <a href="https://vmguru.com/2017/02/how-to-correctly-modify-the-vmx-file-in-vmware-fusion-8-x/">.vmx file</a>:</p>
+<pre><code class="language-c">debugStub.listen.guest64 = "TRUE"
+</code></pre>
+</li>
+<li>
+<p>power on the virtual machine, open Terminal, and run this command:</p>
+<pre><code> $ uname -v
+ Darwin Kernel Version 17.7.0 ... root:xnu-4570.71.17~1/RELEASE_X86_64	
+</code></pre>
+<p>Let’s use IDA to modify this version string.</p>
+</li>
+</ol>
+<p>Launch IDA, and when prompted with the window <strong>IDA: Quick start</strong>, choose <strong>Go</strong> to start with an empty database. Then go to menu <strong>Debugger&gt;Attach&gt;Remote XNU Debugger</strong> and set the following options:</p>
+<p><img src="vmware_setup.png" alt=""></p>
+<p>Click OK, then select <strong>&lt;attach to the process started on target&gt;</strong>, and wait for IDA to attach. This step might take a few seconds (later we’ll discuss how to speed things up). Once attached, the target is usually suspended in machine_idle:</p>
+<p><img src="vmware_idle.png" alt=""></p>
+<p>IDA should have printed the message <strong>FFFFFF8000200000: process kernel has started</strong>, meaning it successfully detected the kernel image in memory. Now let’s find the version string. Conveniently, the string appears in the kernel’s symbol table, so we can simply use shortcut <strong>G</strong> and enter the name <strong>_version</strong> to jump right to it:</p>
+<p><img src="vmware_version.png" alt=""></p>
+<p>Use IDAPython to overwrite the bytes at this address:</p>
+<pre><code class="language-python">idaapi.dbg_write_memory(0xFFFFFF8000AF6A00, "IDAPRO")
+</code></pre>
+<p>Resume the process and allow the VM to run freely. Go back to Terminal in the VM and run the same command as before:</p>
+<pre><code>$ uname -v
+IDAPRO Kernel Version 17.7.0 ... root:xnu-4570.71.17~1/RELEASE_X86_64
+</code></pre>
+<p>The output should look almost the same, except <strong>Darwin</strong> has been replaced with <strong>IDAPRO</strong>. So, we have modified kernel memory without breaking anything! You can continue to explore memory, set breakpoints, pause and resume the OS as you desire.</p>
+<h2 id="using-the-kdk"><a class="header" href="#using-the-kdk">Using the KDK <a href="#using-the-kdk" id="using-the-kdk"></a></a></h2>
+<p>If you have installed a <a href="https://developer.apple.com/download/more/?q=Kernel%20Debug%20Kit">Kernel Development Kit</a> from Apple, you can set <strong>KDK_PATH</strong> in dbg_xnu.cfg to enable DWARF debugging:</p>
+<pre><code class="language-c">KDK_PATH = "/Library/Developer/KDKs/KDK_10.13.6_17G4015.kdk";
+</code></pre>
+<p>Even if there is no KDK available for your OSX version, you can still utilise the KDK_PATH option in IDA to speed up debugging. For example, in the experiment above we could have done the following:</p>
+<ol>
+<li>
+<p>make your own KDK directory:</p>
+<pre><code class="language-bash">$ mkdir ~/MyKDK
+</code></pre>
+</li>
+<li>
+<p>copy the kernelcache from your VM:</p>
+<pre><code class="language-bash">$ scp user@vm:/System/Library/PrelinkedKernels/prelinkedkernel ~/MyKDK
+</code></pre>
+</li>
+<li>
+<p>decompress the kernelcache:</p>
+<pre><code class="language-bash">$ kextcache -c ~/MyKDK/prelinkedkernel -uncompressed
+</code></pre>
+</li>
+<li>
+<p>set KDK_PATH in dbg_xnu.cfg:</p>
+<pre><code class="language-c">KDK_PATH = "~/MyKDK";
+</code></pre>
+</li>
+</ol>
+<p>Now whenever IDA needs to extract information from the kernel or kexts, it will parse the kernelcache file on disk instead of parsing the images in memory. This should be noticeably faster.</p>
+<h2 id="debugging-a-development-kernel"><a class="header" href="#debugging-a-development-kernel">Debugging a Development Kernel <a href="#debugging-a-development-kernel" id="debugging-a-development-kernel"></a></a></h2>
+<p>Our next goal is to use the KDK to create a rich database that can be used to debug XNU in greater detail. In this example we will debug the development kernel included in the Apple KDK. Let’s open this file in IDA:</p>
+<pre><code class="language-bash">$ export KDK=/Library/Developer/KDKs/KDK_10.13.6_17G4015.kdk
+$ export KERNELS=$KDK/System/Library/Kernels
+$ ida64 -okernel.i64 $KERNELS/kernel.development
+</code></pre>
+<p>Wait for IDA to load the DWARF info and complete the autoanalysis. This may take a few minutes, but we only need to do it once.</p>
+<p>While we wait, we can prepare the virtual machine to use the development kernel instead of the release kernel that is shipped with OSX (Note: System Integrity Protection must now be disabled in the VM). Open Terminal in the VM and run the following commands:</p>
+<ol>
+<li>
+<p>copy the development kernel from the KDK:</p>
+<pre><code class="language-bash">$ sudo scp user@host:"\$KERNELS/kernel.development" /System/Library/Kernels/
+</code></pre>
+</li>
+<li>
+<p>reconstruct the kernelcache:</p>
+<pre><code class="language-bash">$ sudo kextcache -i /
+</code></pre>
+</li>
+<li>
+<p>reboot:</p>
+<pre><code class="language-bash">$ sudo shutdown -r now
+</code></pre>
+</li>
+<li>
+<p>after rebooting, check that the development kernel was properly installed:</p>
+<pre><code> $ uname -v
+ ... root:xnu-4570.71.17~1/DEVELOPMENT_X86_64
+</code></pre>
+</li>
+</ol>
+<p>The VM is now ready for debugging.</p>
+<h3 id="ida-configuration"><a class="header" href="#ida-configuration">IDA Configuration</a></h3>
+<p>Return to IDA and use <strong>Debugger&gt;Select debugger</strong> to select <strong>Remote XNU Debugger</strong>. Then open <strong>Debugger&gt;Process options</strong> and set the following fields:</p>
+<p><img src="vmware_options2.png" alt=""></p>
+<p>Now go to <strong>Debugger&gt;Debugger options&gt;Set specific options</strong> and make sure the <strong>KDK path</strong> field is set:</p>
+<p><img src="vmware_specific.png" alt=""></p>
+<p>You can ignore the other options for now, and press OK.</p>
+<h3 id="assembly-level-debugging--dwarf"><a class="header" href="#assembly-level-debugging--dwarf">Assembly-Level Debugging + DWARF</a></h3>
+<p>IDA supports source-level debugging for the XNU Kernel. However for demonstration purposes we will focus on assembly-level debugging, while taking advantage of source-level DWARF information like local variables. This is a bit more stable, and is still quite useful.</p>
+<p>Before attaching the debugger, open <strong>Options&gt;Source paths…</strong> and un-check the checkbox:</p>
+<p><img src="vmware_srcpaths.png" alt=""></p>
+<p>Then click <strong>Apply</strong>. This will prevent IDA from complaining when it can’t find a source file.</p>
+<p>Finally, select <strong>Debugger&gt;Attach to process&gt;attach to the process started on target</strong>. After attaching, jump to function <strong>dofileread</strong>, and use <strong>F2</strong> to set a breakpoint. Resume the debugger and and wait for the breakpoint to be hit (typically it will be hit right away, if not try simply running a terminal command in the guest). Once XNU hits our breakpoint, open <strong>Debugger&gt;Debugger windows&gt;Locals:</strong></p>
+<p><img src="vmware_dofileread.png" alt=""></p>
+<p>We can now perform detailed instruction-level debugging with the assistance of DWARF. You can continue to single step, set breakpoints, and inspect or modify local variables just like any other IDA debugger.</p>
+<h2 id="kext-debugging"><a class="header" href="#kext-debugging">KEXT Debugging <a href="#kext-debugging" id="kext-debugging"></a></a></h2>
+<p>IDA also supports debugging kext binaries. To demonstrate this, we will debug <strong>IONetworkingFamily</strong>, a submodule of IOKit that is typically shipped with the KDK. Begin by opening the binary in IDA:</p>
+<pre><code class="language-sh">$ export KEXTS=$KDK/System/Library/Extensions
+$ ida64 -onet.i64 $KEXTS/IONetworkingFamily.kext/Contents/MacOS/IONetworkingFamily
+</code></pre>
+<p>Select <strong>Remote XNU Debugger</strong> from the debugger menu. Then in <strong>Debugger&gt;Process options</strong>, set:</p>
+<p><img src="vmware_options3.png" alt=""></p>
+<p>Note that we provide the bundle ID of the kext (com.apple.iokit.IONetworkingFamily) as the <strong>Input file</strong> field. This allows the debugger to easily identify the target kext at runtime.</p>
+<p>Also note that loading all kexts in kernel memory can be a slow operation, which is why it is disabled by default. Open <strong>Debugger&gt;Debugger options&gt;Set specific options</strong> and ensure the <strong>KDK path</strong> field is set, then set the <strong>KEXT Debugging</strong> option to <strong>KDK only</strong>:</p>
+<p><img src="vmware_kexts.png" alt=""></p>
+<p>This tells the debugger to only load kexts that are present in the KDK. Since the KDK binaries are on the local filesystem, IDA can parse the kexts in a negligible amount of time - which is ideal since we’re really only interested in IONetworkingFamily.</p>
+<p>Now power on your VM and allow it to boot up. Once it is running idle, attach the debugger. Immediately IDA should detect the kernel and all relevant kexts in memory, including IONetworkingFamily:</p>
+<p><img src="vmware_idle3.png" alt=""></p>
+<p>Double-click to bring up the debug names for this module, and search for <strong>IONetworkInterface::if_ioctl</strong>:</p>
+<p><img src="vmware_ionames.png" alt=""></p>
+<p>Now set a breakpoint at this function and resume the OS. Typically the breakpoint will be hit right away, but if it isn’t try performing an action that requires a network interface (for instance, performing a google search). Once execution breaks in the kext we can use the database to debug it in detail:</p>
+<p><img src="vmware_ioctl.png" alt=""></p>
+<h2 id="debugging-a-prelinked-kernelcache"><a class="header" href="#debugging-a-prelinked-kernelcache">Debugging a Prelinked Kernelcache <a href="#debugging-a-prelinked-kernelcache" id="debugging-a-prelinked-kernelcache"></a></a></h2>
+<p>For simplicity, all of the examples up until now have dealt with a subset of the kernel, but it is also possible to load a complete prelinked kernelcache in IDA and debug it. Naturally, we have some suggestions for this.</p>
+<h3 id="extending-the-kdk"><a class="header" href="#extending-the-kdk">Extending the KDK</a></h3>
+<p>If you’re interested in debugging the entire prelinked kernel, the biggest concern is speed. IDA must create a detailed and accurate depiction of kernel memory, which could contain hundreds of kext modules. If we’re not careful, this can be slow.</p>
+<p>Fortunately there is an easy solution. Try the following:</p>
+<ol>
+<li>
+<p>create a writable copy of Apple’s KDK:</p>
+<pre><code class="language-bash">$ cp -r /Library/Developer/KDKs/KDK_10.13.6_17G4015.kdk ~/MyKDK
+</code></pre>
+</li>
+<li>
+<p>copy the kernelcache from your VM to the new KDK:</p>
+<pre><code class="language-bash">$ scp user@vm:/System/Library/PrelinkedKernels/prelinkedkernel ~/MyKDK
+</code></pre>
+</li>
+<li>
+<p>decompress the kernelcache:</p>
+<pre><code class="language-bash">$ kextcache -c ~/MyKDK/prelinkedkernel -uncompressed
+</code></pre>
+</li>
+</ol>
+<p>Now IDA can use both the KDK and the kernelcache to extract debugging information for almost any kext at runtime. This should be fast.</p>
+<h3 id="loading-the-kernelcache"><a class="header" href="#loading-the-kernelcache">Loading the Kernelcache</a></h3>
+<p>When loading a kernelcache, IDA now offers more load options:</p>
+<p><img src="vmware_kcache.png" alt=""></p>
+<p>In this example we want to load everything, so choose the <strong>kernel + all kexts</strong> option and wait for IDA to load all the subfiles and finish the autoanalysis. This will take a while but there’s no way around it, it’s a lot of code.</p>
+<p><strong>IMPORTANT NOTE:</strong> Try to avoid saving the IDA database file in the KDK directory. It is important to keep irrelevant files out of the KDK since they might slow down IDA’s KDK parsing algorithm.</p>
+<p>Now we might want to improve the static analysis by loading DWARF info from the KDK. In IDA 7.3 the dwarf plugin supports batch-loading all DWARF info from a KDK into a kernelcache database. Currently this feature must be invoked manually, so we have provided <a href="https://www.hex-rays.com/products/ida/support/tutorials/kdk_utils.py">this script</a> to make it easier.</p>
+<p>Copy kdk_utils.py to the plugins directory of your IDA installation. This plugin will create a new menu <strong>Edit&gt;Other&gt;KDK utils</strong>, with two new menu actions:</p>
+<ul>
+<li><strong>Load KDK:</strong> This action will automatically detect all matching DWARF files in a given KDK, then apply the DWARF info to the subfiles in the database (including the kernel itself).</li>
+<li><strong>Load DWARF for a prelinked KEXT:</strong> This action is useful if you have DWARF info for a prelinked kext that is not included in Apple’s KDK. For a given DWARF file, the action will find a matching kext in the database and apply the DWARF info to this subfile.</li>
+</ul>
+<p>Try opening <strong>Edit&gt;Other&gt;KDK utils&gt;Load KDK</strong> and provide the KDK path:</p>
+<p><img src="vmware_kdk_utils.png" alt=""></p>
+<p>Wait for IDA to scan the KDK for matching DWARF files and load them. This operation can also take a while, but it’s worth it for all the extra structures, prototypes, and names that are added to the database. In the end we have a very detailed database that we are ready to use for debugging.</p>
+<p>Now open <strong>Debugger&gt;Process options</strong> and set the following options:</p>
+<p><img src="vmware_options2.png" alt=""></p>
+<p>Then open <strong>Debugger&gt;Debugger options&gt;Set specific options</strong> and set the following fields:</p>
+<p><img src="vmware_specific2.png" alt=""></p>
+<p>Note that we set the <strong>KEXT Debugging</strong> option to <strong>all</strong>. This tells the debugger to detect every kext that has been loaded into memory and add it to the Modules list, including any non-prelinked kexts (there are likely only a handful of them, so it doesn’t hurt).</p>
+<p>Finally, power on the VM and attach to it with <strong>Debugger&gt;Attach to process&gt;attach to the process started on target</strong>. IDA should be able to quickly generate modules for the kernel and all loaded kexts:</p>
+<p><img src="vmware_all.png" alt=""></p>
+<p>You are now free to explore the entire running kernel! Try performing any of the previous demos in this writeup. They should work about the same, but now they are all possible with one single database.</p>
+<h3 id="kernel-aslr--rebasing"><a class="header" href="#kernel-aslr--rebasing">Kernel ASLR + Rebasing</a></h3>
+<p>It is worth noting that rebasing has been heavily improved in IDA 7.3. Even large databases like the one we just created can now be rebased in just a few seconds. Previous IDA versions would take quite a bit longer. Thus, IDA should be able to quickly handle kernel ASLR, even when working with prelinked kernelcaches.</p>
+<h2 id="debugging-the-osx-kernel-entry-point"><a class="header" href="#debugging-the-osx-kernel-entry-point">Debugging the OSX Kernel Entry Point <a href="#debugging-the-osx-kernel-entry-point" id="debugging-the-osx-kernel-entry-point"></a></a></h2>
+<p>In this example we demonstrate how to gain control of the OS as early as possible. This task requires very specific steps, and we document them here. Before we begin, we must make an important note about a limitation in VMWare’s GDB stub.</p>
+<h3 id="physical-memory"><a class="header" href="#physical-memory">Physical Memory</a></h3>
+<p>Currently VMWare’s 64-bit GDB stub does not allow us to debug the kernel entry point in physical memory. According to VMWare’s support team, the correct approach is to use the 32-bit stub to debug the first few instructions of the kernel, then switch to a separate debugger connected to the 64-bit stub once the kernel switches to 64-bit addressing.</p>
+<p>Since IDA’s XNU debugger does not support 32-bit debugging, this approach is not really feasible (and it’s not very practical anyway).</p>
+<h3 id="workaround"><a class="header" href="#workaround">Workaround</a></h3>
+<p>Rather than add support for the 32-bit stub just to handle a few instructions, the official approach in IDA is to break at the first function executed in virtual memory (<strong>i386_init</strong>). This allows us to gain control of the OS while it is still in the early stages of initialization, which should be enough for most use cases.</p>
+<p>Here’s how you can do it:</p>
+<ol>
+<li>
+<p>Disable ALSR for the kernel. Open Terminal in the VM and run the following command:</p>
+<pre><code class="language-bash">sudo nvram boot-args="slide=0"
+</code></pre>
+<p>Then power off the VM.</p>
+</li>
+<li>
+<p>Add this line to the .vmx file:</p>
+<pre><code class="language-c">debugStub.hideBreakpoints = "TRUE"
+</code></pre>
+<p>This ensures that hardware breakpoints are enabled in the GDB stub. For most versions of VMWare, TRUE is the default value, but it’s better to be safe.</p>
+</li>
+<li>
+<p>Also add this line to the .vmx file:</p>
+<pre><code class="language-c">monitor.debugOnStartGuest64 = "TRUE"
+</code></pre>
+<p>This will tell VMWare to suspend the OS before it boots.</p>
+</li>
+<li>
+<p>Power on the VM. It will remain suspended until we attach the debugger.</p>
+</li>
+<li>
+<p>Load a kernel binary in IDA, and set the following XNU debugger options:</p>
+<p><img src="vmware_entry_options.png" alt=""></p>
+<p>Note that we un-checked the <strong>Debug UEFI</strong> option. This option is explained in detail in the <a href="xnu_debugger_primer.html#uefi-debugging">UEFI Debugging</a> section, but for now just ensure it is disabled. This will prevent IDA from doing any unnecessary work.</p>
+</li>
+<li>
+<p>Attach the debugger. The VM will be suspended in the firmware before the boot sequence has begun:</p>
+<p><img src="vmware_entry_attach.png" alt=""></p>
+</li>
+<li>
+<p>Now jump to the function <strong>_i386_init</strong> and set a hardware breakpoint at this location:</p>
+<pre><code class="language-python">idaapi.add_bpt(here(), 1, BPT_EXEC)
+</code></pre>
+<p>We must use a hardware breakpoint because the kernel has not been loaded and the address is not yet valid. This is why steps 1 and 2 were important. It ensures the stub can set a breakpoint at a deterministic address, without trying to write to memory.</p>
+</li>
+<li>
+<p>Resume the OS, and wait for our breakpoint to be hit:</p>
+<p><img src="vmware_i386_init.png" alt=""></p>
+<p>IDA should detect that execution has reached the kernel and load the kernel module on-the-fly. You can now continue to debug the kernel normally.</p>
+</li>
+</ol>
+<h2 id="uefi-debugging"><a class="header" href="#uefi-debugging">UEFI Debugging <a href="#uefi-debugging" id="uefi-debugging"></a></a></h2>
+<p>It is possible to debug the EFI firmware of a VMWare Fusion guest. This gives us the unique opportunity to debug the OSX bootloader. Here’s how it can be easily done in IDA:</p>
+<p>First copy the bootloader executable from your VM:</p>
+<pre><code class="language-bash">$ scp user@vm:/System/Library/CoreServices/boot.efi .
+</code></pre>
+<p>Now shut down the VM and add this line to the .vmx file:</p>
+<pre><code class="language-c">monitor.debugOnStartGuest64 = "TRUE"
+</code></pre>
+<p>Load the boot.efi binary in IDA, open <strong>Debugger&gt;Debugger options</strong>, check <strong>Suspend on library load/unload</strong>, and set <strong>Event condition</strong> to:</p>
+<pre><code class="language-c">get_event_id() == LIB_LOADED &amp;&amp; get_event_module_name() == "boot"
+</code></pre>
+<p>This will suspend the OS just before the bootloader entry point is invoked. <strong>Note:</strong> For some older versions of OSX, the bootloader will be named “boot.sys”. You can check the name under the <strong>.debug</strong> section of the executable.</p>
+<p>Now select <strong>Remote XNU Debugger</strong> from the Debugger menu, and set the following fields in <strong>Debugger&gt;Process options</strong>:</p>
+<p><img src="vmware_options.png" alt=""></p>
+<p>We’re now ready to start debugging the bootloader. Power on the VM (note that the VM is unresponsive since it is suspended), and attach to it with <strong>Debugger&gt;Attach to process</strong>. After attaching IDA will try to detect the <strong>EFI_BOOT_SERVICES</strong> table. You should see the debugger print something like this to the console:</p>
+<pre><code>7FFD7430: EFI_BOOT_SERVICES
+</code></pre>
+<p>Now resume the process. You should see many UEFI drivers being loaded, until eventually boot.efi is loaded and IDA suspends the process:</p>
+<p><img src="vmware_boot.png" alt=""></p>
+<p>At this point, the bootloader entry point function is about to be invoked. Jump to <strong>_ModuleEntryPoint</strong> in boot.efi and press F4. We can now step through boot.efi:</p>
+<p><img src="vmware_boot_entry.png" alt=""></p>
+<h3 id="getmemorymap"><a class="header" href="#getmemorymap">GetMemoryMap</a></h3>
+<p>To facilitate UEFI debugging, IDA provides an IDC helper function: <strong>xnu_get_efi_memory_map</strong>. This function will invoke <strong>EFI_BOOT_SERVICES.GetMemoryMap</strong> in the guest OS and return an array of <strong>EFI_MEMORY_DESCRIPTOR</strong> objects:</p>
+<pre><code>IDC&gt;extern map;
+IDC&gt;map = xnu_get_efi_memory_map();
+IDC&gt;map.size
+     35.       23h          43o
+IDC&gt;map[4]
+object
+	Attribute: 0xFi64
+	NumberOfPages: 0x30B6i64
+	PhysicalStart: 0x200000i64
+	Type: "EfiLoaderData"
+	VirtualStart: 0x0i64
+IDC&gt;map[27]
+object
+	Attribute: 0x800000000000000Fi64
+	NumberOfPages: 0x20i64
+	PhysicalStart: 0x7FF09000i64
+	Type: "EfiRuntimeServicesCode"
+	VirtualStart: 0x0i64
+	
+</code></pre>
+<p>This function can be invoked at any point during firmware debugging.</p>
+<h2 id="uefi-debugging--dwarf"><a class="header" href="#uefi-debugging--dwarf">UEFI Debugging + DWARF <a href="#uefi-debugging-dwarf" id="uefi-debugging-dwarf"></a></a></h2>
+<p>If you build your own EFI apps or drivers on OSX, you can use IDA to debug the source code.</p>
+<p>In this example we will debug a sample EFI application. On OSX the convention is to build EFI apps in the Mach-O format, then convert the file to PE .efi with the <strong>mtoc</strong> utility. In this example, assume we have an EFI build on our OSX virtual machine that contains the following files in the ~/TestApp directory:</p>
+<ul>
+<li><strong>TestApp.efi</strong> - the EFI application that will be run</li>
+<li><strong>TestApp.dll</strong> - the original Mach-O binary</li>
+<li><strong>TestApp.dll.dSYM</strong> - DWARF info for the app</li>
+<li><strong>TestApp.c</strong> - source code for the app</li>
+</ul>
+<p>Here’s how we can debug this application in IDA:</p>
+<ol>
+<li>
+<p>On your host machine, create a directory that will mirror the directory on the VM:</p>
+<pre><code class="language-bash">mkdir ~/TestApp
+</code></pre>
+</li>
+<li>
+<p>Copy the efi, macho, dSYM, and c files from your VM:</p>
+<pre><code>scp -r vmuser@vm:TestApp/TestApp.* ~/TestApp
+</code></pre>
+</li>
+<li>
+<p>Open the TestApp.efi binary in IDA, and wait for IDA to analyze it.</p>
+<p>Note that you can improve the disassembly by loading the DWARF file from TestApp.dll.dSYM. You can do this with <strong>Edit&gt;Plugins&gt;Load DWARF file</strong>, or you can load it programatically from IDAPython:</p>
+<pre><code class="language-python">path = "~/TestApp/TestApp.dll.dSYM/Contents/Resources/DWARF/TestApp.dll"
+node = idaapi.netnode()
+node.create("$ dwarf_params")
+node.supset(1, os.path.expanduser(path))
+idaapi.load_and_run_plugin("dwarf", 3)
+</code></pre>
+</li>
+<li>
+<p>Select <strong>Remote XNU Debugger</strong> from the debugger menu, and set the following fields in <strong>Debugger&gt;Process options</strong>:</p>
+<p><img src="vmware_testapp_options.png" alt=""></p>
+</li>
+<li>
+<p>In <strong>Debugger&gt;Debugger options</strong>, enable <strong>Suspend on library load/unload</strong> and set the <strong>Event condition</strong> field to:</p>
+<pre><code class="language-c">get_event_id() == LIB_LOADED &amp;&amp; get_event_module_name() == "TestApp"
+</code></pre>
+</li>
+<li>
+<p>In <strong>Debugger&gt;Debugger options&gt;Set specific options</strong>, set the following fields:</p>
+<p><img src="vmware_testapp_specific.png" alt=""></p>
+<p>Note that we must enable the <strong>Debug UEFI</strong> option, and set the <strong>UEFI symbols</strong> option so the debugger can find DWARF info for the EFI app at runtime.</p>
+</li>
+<li>
+<p>If the usernames on the host and VM are different, we will need a source path mapping:</p>
+<pre><code class="language-python">idaapi.add_path_mapping("/Users/vmuser/TestApp", "/Users/hostuser/TestApp")
+</code></pre>
+</li>
+<li>
+<p>Reboot the VM and enter the EFI Shell</p>
+</li>
+<li>
+<p>Attach the debugger. After attaching IDA will detect the firmware images that have already been loaded:</p>
+<p><img src="vmware_testapp_attach.png" alt=""></p>
+</li>
+<li>
+<p>Resume the OS and launch TestApp from the EFI Shell prompt:</p>
+<pre><code>Shell&gt;fs1:\Users\vmuser\TestApp\TestApp.efi
+</code></pre>
+<p>At this point IDA will detect that the target app has been loaded, and suspend the process just before the entry point of TestApp.efi (because of step 5).</p>
+</li>
+<li>
+<p>Now we can set a breakpoint somewhere in TestApp.efi and resume the OS. The debugger will be able to load source file and local variable information from TestApp.dll.dSYM:</p>
+<p><img src="vmware_testapp_debug.png" alt=""></p>
+<p><strong>IMPORTANT NOTE</strong>: You must wait until TestApp has been loaded into memory before setting any breakpoints. If you add a breakpoint in the database before attaching the debugger, IDA might not set the breakpoint at the correct address. This is a limitation in IDA that we must work around for now.</p>
+</li>
+</ol>
+<h2 id="debugging-ios-with-corellium"><a class="header" href="#debugging-ios-with-corellium">Debugging iOS with Corellium <a href="#debugging-ios-with-corellium" id="debugging-ios-with-corellium"></a></a></h2>
+<p>IDA can also debug the iOS kernel, provided you have access to a virtual iOS device from <a href="https://corellium.com/">Corellium</a>.</p>
+<p>To get started with debugging iOS, we will perform a simple experiment to patch kernel memory. The device used in this example is a virtual iPhone XS with iOS 12.1.4, but it should work with any model or iOS version that Corellium supports. Begin by powering on your device and allow it to boot up. In the Corellium UI, look for the line labeled <strong>SSH</strong> under <strong>Advanced options</strong>:</p>
+<p><img src="corellium_ssh.png" alt=""></p>
+<p>Ensure you can connect to the device by running this command over ssh:</p>
+<pre><code>$ ssh root@10.11.1.3 uname -v
+Darwin Kernel Version 18.2.0 ... root:xnu-4903.242.2~1/RELEASE_ARM64_T8020
+</code></pre>
+<p>We will use IDA to patch this version string.</p>
+<p>Now launch IDA, and when prompted with the window <strong>IDA: Quick start</strong>, choose <strong>Go</strong> to start with an empty database and open <strong>Debugger&gt;Attach&gt;Remote XNU Debugger</strong>. In the Corellium UI, find the hostname:port used by the kernel GDB stub. It should be specified in the line labeled <strong>kernel gdb</strong>:</p>
+<p><img src="corellium_oneline.png" alt=""></p>
+<p>And set the <strong>Hostname</strong> and <strong>Port</strong> fields in IDA’s application setup window:</p>
+<p><img src="corellium_options.png" alt=""></p>
+<p>Now click on <strong>Debug options&gt;Set specific options</strong>, and for the <strong>Configuration</strong> dropdown menu, be sure to select <strong>Corellium-ARM64</strong>:</p>
+<p><img src="corellium_cfg.png" alt=""></p>
+<p>You can ignore the other config options for now, and click OK.</p>
+<p>Click OK again, and wait for IDA to establish a connection to Corellium’s GDB stub (this may take a few seconds). Then select <strong>&lt;attach to the process started on target&gt;</strong> and wait for IDA to attach. This might take several seconds (we will address this later), but for now simply wait for IDA to perform the initial setup.</p>
+<p>If IDA could detect the kernel, it should appear in the Modules list:</p>
+<p><img src="corellium_attach.png" alt=""></p>
+<p>and the kernel version will be printed to the console:</p>
+<pre><code>FFFFFFF007029FD7: detected Darwin Kernel Version 18.2.0 ...
+</code></pre>
+<p>Navigate to this address and use IDAPython to overwrite the string:</p>
+<p><img src="corellium_version.png" alt=""></p>
+<pre><code class="language-python">idaapi.dbg_write_memory(0xFFFFFFF007029FD7, "IDAPRO")
+</code></pre>
+<p>Resume the OS, and try running the same command as before:</p>
+<pre><code>$ ssh root@10.11.1.3 uname -v
+IDAPRO Kernel Version 18.2.0 ... root:xnu-4903.242.2~1/RELEASE_ARM64_T8020
+</code></pre>
+<p>If we could successfully write to kernel memory, <strong>IDAPRO</strong> should appear in the output.</p>
+<h2 id="creating-a-kdk-for-ios"><a class="header" href="#creating-a-kdk-for-ios">Creating a KDK for iOS <a href="#creating-a-kdk-for-ios" id="creating-a-kdk-for-ios"></a></a></h2>
+<p>Typically a Kernel Development Kit is not available for iOS devices, but we can still utilise the KDK_PATH option in IDA to achieve faster debugging. In the example above, the initial attach can be slow because IDA must parse the kernel image in memory (which can be especially slow if the kernel has a symbol table).</p>
+<p>Here’s how you can speed things up:</p>
+<ol>
+<li>
+<p>create the KDK directory:</p>
+<pre><code class="language-bash">$ mkdir ~/iPhoneKDK
+</code></pre>
+</li>
+<li>
+<p>copy the kernelcache from the virtual device:</p>
+<pre><code class="language-bash">$ scp root@ip:/System/Library/Caches/com.apple.kernelcaches/kernelcache /tmp
+</code></pre>
+</li>
+<li>
+<p>uncompress the kernelcache with <a href="https://github.com/malus-security/iExtractor/tree/master/tools/lzssdec">lzssdec</a>:</p>
+<pre><code class="language-bash">$ lzssdec -o OFF &lt; /tmp/kernelcache &gt; ~/iPhoneKDK/kernelcache
+</code></pre>
+</li>
+<li>
+<p>set KDK_PATH in dbg_xnu.cfg:</p>
+<pre><code class="language-c">KDK_PATH = "~/iPhoneKDK";
+</code></pre>
+</li>
+</ol>
+<p>Now whenever the debugger must extract information from the kernel, it will parse the local file on disk. This should be noticeably faster, especially if the device is hosted by Corellium’s web service.</p>
+<h2 id="debugging-the-ios-kernel-entry-point"><a class="header" href="#debugging-the-ios-kernel-entry-point">Debugging the iOS Kernel Entry Point <a href="#debugging-the-ios-kernel-entry-point" id="debugging-the-ios-kernel-entry-point"></a></a></h2>
+<p>Corellium allows us to debug the first few instructions of kernel initialization. This can be very useful if we want to gain control of the OS as early as possible. In the Corellium UI, power on your device with the <strong>Start device paused</strong> option:</p>
+<p><img src="corellium_power.png" alt=""></p>
+<p>Now start IDA with an empty database and attach to the suspended VM:</p>
+<p><img src="corellium_entry.png" alt=""></p>
+<p>From the XNU source, this is likely the <strong>_start</strong> symbol in osfmk/arm64/start.s, which simply branches to <strong>start_first_cpu</strong>. After stepping over this branch:</p>
+<p><img src="corellium_first_cpu.png" alt=""></p>
+<p>Press shortcut <strong>P</strong> to analyze <strong>start_first_cpu</strong>. This is where the kernel performs its initial setup (note that the value in X0 is a pointer to the boot_args structure). This function is interesting because it is responsible for switching the kernel to 64-bit virtual addressing. Typically the switch happens when this function sets X30 to a virtual address, then performs a <strong>RET</strong>:</p>
+<p><img src="corellium_ret.png" alt=""></p>
+<p>Use F4 to run to this RET instruction. In this example X30 will now point to virtual address <strong>0xFFFFFFF007B84474</strong>. After single stepping once more, we end up in <strong>arm_init</strong> in virtual memory:</p>
+<p><img src="corellium_arm_init.png" alt=""></p>
+<p>After this single step, IDA detected that execution reached the kernel’s virtual address space and automatically initialized the debugging environment. In this case a message will be printed to the console:</p>
+<pre><code>FFFFFFF007004000: process kernel has started
+</code></pre>
+<p>This signifies that IDA successfully detected the kernel base and created a new module in the Modules list. If the kernel has a symbol table, debug names will be available. Also note that PC now points inside the segment <strong>__TEXT_EXEC:__text</strong> instead of <strong>MEMORY</strong>, because the debugger parsed the kernel’s load commands to generate proper debug segments.</p>
+<p>Now that we know the address of <strong>arm_init</strong>, we can streamline this task:</p>
+<ol>
+<li>
+<p>power on the device with <strong>Start device paused</strong></p>
+</li>
+<li>
+<p>attach to the paused VM</p>
+</li>
+<li>
+<p>set a hardware breakpoint at <strong>arm_init</strong>:</p>
+<pre><code class="language-python">idaapi.add_bpt(0xFFFFFFF007B84474, 1, BPT_EXEC)
+</code></pre>
+</li>
+<li>
+<p>resume, and wait for the breakpoint to be hit</p>
+</li>
+</ol>
+<p>This gives us a quick way to break at the first instruction executed in virtual memory. You can continue debugging iOS as normal.</p>
+<h2 id="known-issues-and-limitations"><a class="header" href="#known-issues-and-limitations">Known Issues and Limitations <a href="#known-issues-and-limitations" id="known-issues-and-limitations"></a></a></h2>
+<p>Here is a list of known shortcomings in the XNU Debugger. Eventually we will address all of them, but it is unlikely we will resolve all of them by the next release. If any of the following topics are important to you, please let us know by sending an email to support@hex-rays.com. Issues with vocal support from our users are automatically prioritised.</p>
+<h3 id="iboot-debugging"><a class="header" href="#iboot-debugging">iBoot debugging</a></h3>
+<p>Debugging the iOS firmware/bootloader is not yet supported. An On-Premise Corellium box is required for this functionality, so we will only implement it if there is significant demand.</p>
+<h3 id="32-bit-xnu"><a class="header" href="#32-bit-xnu">32-bit XNU</a></h3>
+<p>The XNU Debugger does not support debugging 32-bit XNU. Since pure 32-bit OSes are quite outdated it is unlikely we will support them unless there is exceptional demand.</p>
+<h3 id="kdp"><a class="header" href="#kdp">KDP</a></h3>
+<p>The XNU Debugger relies on the Remote GDB Protocol, and currently Apple’s Kernel Debugging Protocol (KDP) is not supported. It is possible to add KDP support to IDA in the future.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/debugger/tutorials/debugger_windows_local/debugger_windows_local.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/remote_debugging/remote-debugging-with-ida-pro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/debugger/tutorials/debugger_windows_local/debugger_windows_local.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/remote_debugging/remote-debugging-with-ida-pro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

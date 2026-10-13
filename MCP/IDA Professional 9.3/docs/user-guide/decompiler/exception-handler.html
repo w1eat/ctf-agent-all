@@ -1,0 +1,881 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Exception handler - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h3 id="x64-msvc-c-exception-handler-for-the-decompiler"><a class="header" href="#x64-msvc-c-exception-handler-for-the-decompiler">x64 MSVC C++ Exception Handler for the Decompiler</a></h3>
+<p>Hex-Rays’ support for exceptions in Microsoft Visual C++/x64
+incorporates the C++ exception metadata for functions into their
+decompilation, and presents the results to the user via built-in
+constructs in the decompilation (<code>try</code>, <code>catch</code>, <code>__wind</code>,
+<code>__unwind</code>). When the results cannot be presented entirely with
+these constructs, they will be presented via helper calls in the
+decompilation.</p>
+<p>The documentation describes:</p>
+<ul>
+<li>Background behind C++ exception metadata. It is recommended that users read this first.</li>
+<li>Interactive operation via the GUI, configuration file, and keyboard shortcuts.</li>
+<li>A list of helper calls that may appear in the output.</li>
+<li>A note about the boundaries of <code>try</code> and <code>__unwind</code> regions.</li>
+<li>Miscellaneous notes about the plugin.</li>
+</ul>
+<h1 id="background-on-c-exceptions"><a class="header" href="#background-on-c-exceptions">BACKGROUND ON C++ EXCEPTIONS</a></h1>
+<h2 id="try-catch-and-throw"><a class="header" href="#try-catch-and-throw">TRY, CATCH, AND THROW</a></h2>
+<p>The C++ language provides the <code>try</code> scoped construct in which the
+developer expects that an exception might occur. <code>try</code> blocks must be
+followed by one or more scoped <code>catch</code> constructs for catching
+exceptions that may occur within. <code>catch</code> blocks may use <code>...</code> to
+catch any exception. Alternatively, <code>catch</code> blocks may name the type
+of an exception, such as <code>std::bad_alloc</code>. <code>catch</code> blocks with named
+types may or may not also catch the exception object itself. For
+example, <code>catch(std::bad_alloc *v10)</code> and <code>catch(std::bad_alloc *)</code> are both valid. The former can access the exception object through
+variable <code>v10</code>, whereas the latter cannot access the exception object.</p>
+<p>C++ provides the <code>throw</code> keyword for throwing an exception, as in
+<code>std::bad_alloc ba; throw ba;</code>. This is represented in the output as
+(for example) <code>throw v10;</code>. C++ also allows code to rethrow the
+current exception via <code>throw;</code>. This is represented in the output as
+<code>throw;</code>.</p>
+<h2 id="wind-and-unwind"><a class="header" href="#wind-and-unwind">WIND AND UNWIND</a></h2>
+<p>Exception metadata in C++ binaries is split into two categories: <code>try</code>
+and <code>catch</code> blocks, as discussed above, and so-called <code>wind</code> and
+<code>unwind</code> blocks. C++ does not have <code>wind</code> and <code>unwind</code> keywords,
+but the compiler creates these blocks implicitly. In most binaries, they
+outnumber <code>try</code> and <code>catch</code> blocks by about 20 to 1.</p>
+<p>Consider the following code, which may or may not throw an <code>int</code> as an
+exception at three places:</p>
+<pre><code class="language-cpp">void may_throw() 
+{
+  // Point -1
+  if ( rand() % 2 )
+    throw -1;
+
+  string s0 = "0";
+
+  // Point 0
+  if ( rand() % 2 )
+    throw 0;
+
+  string s1 = "1";
+
+  // Point 1
+  if ( rand() % 2 )
+    throw 1;
+
+  // Point 2
+  printf("%s %sn",
+    s0.c_str(),
+    s1.c_str());
+
+  // Implicit
+  // destruction
+  s1.~string();
+  s0.~string();
+}
+</code></pre>
+<p>If an exception is thrown at point -1, the function exits early without
+executing any of its remaining code. As no objects have been created on
+the stack, nothing needs to be cleaned up before the function returns.</p>
+<p>If an exception is thrown at point 0, the function exits early as
+before. However, since <code>string s0</code> has been created on the stack, it
+needs to be destroyed before exiting the function. Similarly, if an
+exception is thrown at point 1, both <code>string s1</code> and <code>string s0</code>
+must be destroyed.</p>
+<p>These destructor calls would normally happen at the end of their
+enclosing scope, i.e. the bottom of the function, where the compiler
+inserts implicitly-generated destructor calls. However, since the
+function does not have any <code>try</code> blocks, none of the function’s
+remaining code will execute after the exception is thrown. Therefore,
+the destructor calls at the bottom will not execute. If there were no
+other mechanism for destructing <code>s0</code> and/or <code>s1</code>, the result would
+be memory leaks or other state management issues involving those
+objects. Therefore, the C++ exception management runtime provides
+another mechanism to invoke their destructors: <code>wind</code> blocks and their
+corresponding <code>unwind</code> handlers.</p>
+<p><code>wind</code> blocks are effectively <code>try</code> blocks that are inserted
+invisibly by the compiler. They begin immediately after constructing
+some object, and end immediately before destructing that object. Their
+<code>unwind</code> blocks play the role of <code>catch</code> handlers, calling the
+destructor upon the object when exceptional control flow would otherwise
+cause the destructor call to be skipped.</p>
+<p>Microsoft Visual C++ effectively transforms the previous example as
+follows:</p>
+<pre><code class="language-cpp">void may_throw_transformed() 
+{
+  if ( rand() % 2 )
+    throw -1;
+
+  string s0 = "0";
+
+  // Implicit try
+  __wind
+  {
+    if ( rand() % 2 )
+      throw 0;
+
+    string s1 = "1";
+
+    // Implicit try
+    __wind 
+    {
+      if ( rand() % 2 )
+        throw 1;
+
+      printf("%s %sn",
+        s0.c_str(),
+        s1.c_str());
+    }
+
+    // Implicit catch
+    __unwind
+    {
+      s1.~string();
+    }
+    s1.~string();
+  }
+
+  // Implicit catch
+  __unwind 
+  {
+    s0.~string();
+  }
+  s0.~string();
+}
+</code></pre>
+<p><code>unwind</code> blocks always re-throw the current exception, unlike
+<code>catch</code> handlers, which may or may not re-throw it. Re-throwing the
+exception ensures that prior <code>wind</code> blocks will have a chance to
+execute. So, for example, if an exception is thrown at point 1, after
+the <code>unwind</code> handler destroys <code>string s1</code>, re-throwing the exception
+causes the unwind handler for point 0 to execute, thereby allowing it to
+destroy <code>string s0</code> before re-throwing the exception out of the
+function.</p>
+<h2 id="state-numbers-and-instruction-states"><a class="header" href="#state-numbers-and-instruction-states">STATE NUMBERS AND INSTRUCTION STATES</a></h2>
+<p>As we have discussed, the primary components of Microsoft Visual C++ x64
+exception metadata are <code>try</code> blocks, <code>catch</code> handlers, <code>wind</code>
+blocks, and <code>unwind</code> handlers. Generally speaking, these elements can
+be nested within one another. For example, in C++ code, it is legal for
+one <code>try</code> block to contain another, and a <code>catch</code> handler may
+contain <code>try</code> blocks of its own. The same is true for <code>wind</code> and
+<code>unwind</code> constructs: <code>wind</code> blocks may contain other <code>wind</code> blocks
+(as in the previous example) or <code>try</code> blocks, and <code>try</code> and
+<code>catch</code> blocks may contain <code>wind</code> blocks.</p>
+<p>Exceptions must be processed in a particular sequence: namely, the most
+nested handlers must be consulted first. For example, if a <code>try</code> block
+contains another <code>try</code> block, any exceptions occurring within the
+latter region must be processed by the innermost <code>catch</code> handlers
+first. Only if none of the inner <code>catch</code> handlers can handle the
+exception should the outer <code>try</code> block’s catch handlers be consulted.
+Similarly, as in the previous example, <code>unwind</code> handlers must destruct
+their corresponding objects before passing control to any previous
+exception handlers (such as <code>string s1</code>’s <code>unwind</code> handler passing
+control to <code>string s0</code>’s <code>unwind</code> handler).</p>
+<p>Microsoft’s solution to ensure that exceptions are processed in the
+proper sequence is simple. It assigns a “state number” to each
+exception-handling construct. Each exception state has a “parent”
+state number whose handler will be consulted if the current state’s
+handler is unable to handle the exception. In the previous example, what
+we called “point 0” is assigned the state number 0, while “point 1”
+is assigned the state number 1. State 1 has a parent of 0. (State 0’s
+parent is a dummy value, -1, that signifies that it has no parent.)
+Since <code>unwind</code> handlers always re-throw exceptions, if state 1’s
+<code>unwind</code> handler is ever invoked, the exception handling machinery
+will always invoke state 0’s <code>unwind</code> handler afterwards. Because
+state 0 has no parent, the exception machinery will re-throw the
+exception out of the current function. This same machinery ensures that
+the catch handlers for inner <code>try</code> blocks are consulted before outer
+<code>try</code> blocks.</p>
+<p>There is only one more piece to the puzzle: given that an exception
+could occur anywhere, how does the exception machinery know which
+exception handler should be consulted first? I.e., for every address
+within a function with C++ exception metadata, what is the current
+exception state? Microsoft C++/x64 binaries provide this information in
+the <code>IPtoStateMap</code> metadata tables, which is an array of address
+ranges and their corresponding state numbers.</p>
+<h1 id="gui-operation"><a class="header" href="#gui-operation">GUI OPERATION</a></h1>
+<p>This support is fully automated and requires no user interaction.
+However, the user can customize the display of C++ exception metadata
+elements for the global database, as well as for individual functions.</p>
+<h2 id="global-settings"><a class="header" href="#global-settings">GLOBAL SETTINGS</a></h2>
+<p>Under the <code>Edit -&gt; Other-&gt; C++ exception display settings</code> menu item,
+the user can edit the default settings to control which exception
+constructs are shown in the listing. These are saved persistently in the
+database (i.e., the user’s choices are remembered after saving,
+closing, and re-opening), and can also be adjusted on a per-function
+basis (described later).</p>
+<p>The settings on the dialog are as follows:</p>
+<ul>
+<li><strong>Default output mode</strong>:</li>
+</ul>
+<blockquote>
+<p>When the plugin is able to represent C++
+exception constructs via nice constructs like <code>try</code>, <code>catch</code>,
+<code>__wind</code>, and <code>__unwind</code> in the listings, these are called
+“structured” exception states. The plugin is not always able to
+represent exception metadata nicely, and may instead be forced to
+represent the metadata via helper calls in the listing (which are called
+“unstructured” states). As these can be messy and distracting, users
+may prefer not to see them by default. Alternatively, the user may
+prefer to see no exception metadata whatsoever, not even the structured
+ones. This setting allows the user to specify which types of metadata
+will be shown in the listing.</p>
+</blockquote>
+<ul>
+<li><strong>Show wind states</strong>:</li>
+</ul>
+<blockquote>
+<p>We discussed wind states and unwind handlers in the background
+material. Although these states can be very useful when reverse
+engineering C++ binaries (particularly when analyzing
+constructors), displaying them increases the amount of code in the
+listing, and sometimes the information they provide is more redundant
+than useful. Therefore, this checkbox allows the user to control
+whether they are shown by default.</p>
+</blockquote>
+<ul>
+<li><strong>Inform user of hidden states</strong>:</li>
+</ul>
+<blockquote>
+<p>The two settings just discussed can cause unstructured and/or wind
+states to be omitted from the default output. If this checkbox is
+enabled, then the plugin will inform the user of these omissions via
+messages at the top of the listing, such as this message indicating
+that one unstructured wind state was omitted:
+<code>// Hidden C++ exception states: #wind_helpers=1</code></p>
+<p>The contents of these messages depend upon the settings from above,
+and the facts about which states were hidden from display. If output
+of exception blocks is entirely disabled, the messages will not
+appear, even if this setting is enabled.</p>
+<p>The following notes all assume that output is enabled.</p>
+<ul>
+<li>
+<p>If the settings indicated that unstructured states should be hidden,
+and there were hidden (unstructured) <code>try</code> states, the message will
+say something like <code>#try_helpers=2</code>.</p>
+</li>
+<li>
+<p>If the settings indicated that all <code>wind</code> states should be hidden,
+then the message might say something like <code>#wind=3</code> to indicate the
+total number of hidden <code>wind</code> states.</p>
+</li>
+<li>
+<p>If the settings indicated that <code>wind</code> states should be shown, but
+that unstructured states should be hidden, then the message might
+show something like <code>#wind_helpers=1</code> to indicate that one
+unstructured <code>wind</code> state was hidden.</p>
+</li>
+</ul>
+</blockquote>
+<p>There are three more elements on the settings dialog; most users should
+never have to use them. However, for completeness, we will describe them
+now.</p>
+<ul>
+<li><strong>Warning behavior</strong>:</li>
+</ul>
+<blockquote>
+<p>When internal warnings occur, they will either be printed to the
+output window at the bottom, or shown as a pop-up warning message box
+depending on this setting.</p>
+</blockquote>
+<ul>
+<li><strong>Reset per-function settings</strong>:</li>
+</ul>
+<blockquote>
+<p>The next section will discuss how the display settings described above
+can be customized on a per-function basis. This button allows the user
+to erase all such saved settings, such that all functions will use the
+global display settings the next time they are decompiled.</p>
+</blockquote>
+<ul>
+<li><strong>Rebuild C++ metadata caches</strong>:</li>
+</ul>
+<blockquote>
+<p>Before the plugin can show C++ exception metadata in the output, it
+must pre-process the metadata across the whole binary. Doing so
+crucially relies upon the ability to recognize the
+<code>__CxxFrameHandler3</code> and/or <code>__CxxFrameHandler4</code> unwind handler
+functions when they are referenced by the binary’s unwind metadata.
+If the plugin fails to recognize one of these functions, then it will
+be unable to display C++ exception metadata for any function that
+uses the unrecognized unwind handler(s).</p>
+<p>If the user suspects that a failure like this has taken place – say,
+because they expect to see a <code>try</code>/<code>catch</code> in the output and it is
+missing, and they have confirmed that the output was not simply hidden
+due to the display settings above – then this button may help them to
+diagnose and repair the issue. Pressing this button flushes the existing
+caches from the database and rebuilds them. It also prints output to
+tell the user which unwind handlers were recognized and which ones were
+not. The user can use these messages to confirm whether the function’s
+corresponding unwind handler was unrecognized. If it was not, the user
+can rename the unwind handler function to something that contains one of
+the two aforementioned names, and then rebuild the caches again.</p>
+<p>Note that users should generally not need to use this button, as the
+plugin tries several methods to recognize the unwind handlers (such as
+FLIRT signatures, recognizing import names, and looking at the
+destination of “thunk” functions with a single <code>jmp</code> to a
+destination function). If the user sees any C++ exception metadata in
+the output, this almost always means that the recognition worked
+correctly. This button should only be used by experienced users as a
+last resort. Users are advised to save their database before pressing
+this button, and only proceed with the changes if renaming unwind
+handlers and rebuilding the cache addresses missing metadata in the
+output.</p>
+</blockquote>
+<h2 id="configuration"><a class="header" href="#configuration">CONFIGURATION</a></h2>
+<p>The default options for the settings just described are controlled via
+the <code>%IDADIR%/cfg/eh34.cfg</code> configuration file. Editing this file will
+change the defaults for newly-created databases (but not affect existing
+databases).</p>
+<h2 id="per-function-settings"><a class="header" href="#per-function-settings">PER-FUNCTION SETTINGS</a></h2>
+<p>As just discussed, the user can control which C++ exception metadata is
+displayed in the output via the global menu item. Users can also
+customize these settings on a per-function basis (say, by enabling
+display of wind states for selected functions only), and they will be
+saved persistently in the database.</p>
+<p>When a function has C++ exception metadata, one or more items will
+appear on Hex-Rays’ right click menu. The most general one is “C++
+exception settings…”. Selecting this menu item will bring up a
+dialog that is similar to the global settings menu item with the
+following settings:</p>
+<ul>
+<li><strong>Use global settings</strong>.</li>
+</ul>
+<blockquote>
+<p>If the user previously changed the settings for
+the function, but wishes that the function be shown via the global
+settings in the future, they can select this item and press “OK”.
+This will delete the saved settings for the function, causing future
+decompilations to use the global settings.</p>
+</blockquote>
+<ul>
+<li><strong>This function’s output mode</strong>:</li>
+</ul>
+<blockquote>
+<p>This functions identically to “Default output mode” from the global
+settings dialog, but only affects the current function.</p>
+</blockquote>
+<ul>
+<li><strong>Show wind states</strong>:</li>
+</ul>
+<blockquote>
+<p>Again, identical to the global settings dialog item.</p>
+</blockquote>
+<p>There is a button at the bottom, “Edit global settings”, which is
+simply a shortcut to the same global settings dialog from the
+<code>Edit -&gt; Other -&gt; C++ exception display settings</code> menu item.</p>
+<p>The listing will automatically refresh if the user changes any
+settings.</p>
+<p>Additionally, there are four other menu items that may or may not
+appear, depending upon the metadata present and whether the settings
+caused any metadata to be hidden. These menu items are shortcuts to
+editing the corresponding fields in the per-function settings dialog
+just discussed. They are:</p>
+<ul>
+<li><strong>Show unstructured C++ states</strong>:</li>
+</ul>
+<blockquote>
+<p>If the global or per-function default output setting was set to
+“Structured only”, and the function had unstructured states, this
+menu item will appear. Clicking it will enable display of
+unstructured states for the function and refresh the decompilation.</p>
+</blockquote>
+<ul>
+<li><strong>Hide unstructured C++ states</strong>:</li>
+</ul>
+<blockquote>
+<p>Similar to the above.</p>
+</blockquote>
+<ul>
+<li><strong>Show wind states</strong>:</li>
+</ul>
+<blockquote>
+<p>If the global or per-function “Show wind states” setting was
+disabled, and the function had wind states, this menu item will
+appear. Clicking it will enable display of wind states for the
+function and refresh the decompilation.</p>
+</blockquote>
+<ul>
+<li><strong>Hide wind states</strong>:</li>
+</ul>
+<blockquote>
+<p>Similar to the above.</p>
+</blockquote>
+<h2 id="keyboard-shortcuts"><a class="header" href="#keyboard-shortcuts">KEYBOARD SHORTCUTS</a></h2>
+<p>The user can change (add, remove, or edit) the keyboard shortcuts for
+the per-function settings right-click menu items from the
+<code>Edit -&gt; Options -&gt; Shortcuts</code> dialog. The names of the corresponding
+actions are:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Title</th><th>Name</th></tr>
+</thead>
+<tbody>
+<tr><td>“Show unstructured C++ states”</td><td><code>eh34:enable_unstructured</code></td></tr>
+<tr><td>“Hide unstructured C++ states”</td><td><code>eh34:disable_unstructured</code></td></tr>
+<tr><td>“Show wind states”</td><td><code>eh34:enable_wind</code></td></tr>
+<tr><td>“Hide wind states”</td><td><code>eh34:disable_wind</code></td></tr>
+<tr><td>The global settings dialog</td><td><code>eh34:config_menu</code></td></tr>
+</tbody>
+</table>
+</div>
+<h1 id="helper-calls"><a class="header" href="#helper-calls">HELPER CALLS</a></h1>
+<p>Hex-Rays’ Microsoft C++ x64 exception support tries to hide low-level
+details about exception state numbers as much as possible. However,
+compiler optimizations can cause binaries to diverge from the original
+source code. For example, inlined functions can produce <code>goto</code>
+statements in the decompilation despite there being none in the source.
+Optimizations can also cause C++ exception metadata to differ from the
+original code. As a result, it is not always possible to represent
+<code>try</code>, <code>catch</code>, <code>wind</code>, and <code>unwind</code> constructs as scoped regions that
+hide the low-level details.</p>
+<p>In these cases, Hex-Rays’ Microsoft C++ x64 exception support will
+produce helper calls with informative names to indicate when exception
+states are entered and exited, and to ensure that the user can see the
+bodies of <code>catch</code> and <code>unwind</code> handlers in the output. The user can
+hover their mouse over those calls to see their descriptions. They are
+also catalogued below.</p>
+<p>The following helper calls are used when exception states have multiple
+entrypoints, or multiple exits:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_enter_wind_state(s1, s2)</code></td><td>switch state from parent state <code>s1</code> to child wind state <code>s2</code></td></tr>
+<tr><td><code>__eh34_enter_try_state(s1, s2)</code></td><td>switch state from parent state <code>s1</code> to child try state <code>s2</code></td></tr>
+<tr><td><code>__eh34_exit_wind_state(s1, s2)</code></td><td>switch state from child wind state <code>s1</code> to parent state <code>s2</code></td></tr>
+<tr><td><code>__eh34_exit_try_state(s1, s2)</code></td><td>switch state from child try state <code>s1</code> to parent state <code>s2</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper calls are used when exception states had single
+entry and exit points, but could not be represented via <code>try</code> or
+<code>__wind</code> keywords:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_wind(s1, s2)</code></td><td>switch state from parent state <code>s1</code> to child state <code>s2</code>; a new c++ object that requires a dtr has been created</td></tr>
+<tr><td><code>__eh34_try(s1, s2)</code></td><td>switch state from parent state <code>s1</code> to child state <code>s2</code>; mark beginning of a try block</td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper calls are used to display <code>catch</code> handlers for
+exception states that could not be represented via the <code>catch</code>
+keyword:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_catch(s)</code></td><td>beginning of catch blocks at state <code>s</code>; <code>s</code> corresponds to the second argument of the matching try call (<em>if present</em>)</td></tr>
+<tr><td><code>__eh34_catch_type(s, "handler_address")</code></td><td>a catch statement for the type described at <code>"handler_address"</code></td></tr>
+<tr><td><code>__eh34_catch_ellipsis(s)</code></td><td>catch all“ statement</td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper calls should be removed, but if you see them, they
+signify the boundary of a <code>catch</code> handler:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_try_continuation(s, i, ea)</code></td><td>end of catch handler <code>i</code> for state <code>s</code>, returning to address <code>ea</code></td></tr>
+<tr><td><code>__eh34_caught_type(s, "handler_address")</code></td><td>a pairing call for <code>__eh34_catch_type</code> when catch handler has no continuation</td></tr>
+<tr><td><code>__eh34_caught_ellipsis(s)</code></td><td>“caught all”, paired with <code>__eh34_catch_ellipsis</code> when catch handler has no continuation</td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper calls are used to display <code>unwind</code> handlers for
+exception states that could not be represented via the <code>__unwind</code>
+keyword:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_unwind(s)</code></td><td>destruct the c++ object created immediately before entering state <code>s</code>; <code>s</code> corresponds to the second argument of the matching wind call (<em>if present</em>)</td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper calls are used to signify that an <code>unwind</code>
+handler has finished executing, and will transfer control to a parent
+exception state (or outside of the function):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_continue_unwinding(s1, s2)</code></td><td>after unwinding at child state <code>s1</code>, switch to parent state <code>s2</code> and perform its unwind or catch action</td></tr>
+<tr><td><code>__eh34_propagate_exception_into_caller(s1, s2)</code></td><td>after unwinding at child state <code>s1</code>, switch to root state <code>s2</code>; this corresponds to the exception being propagated into the calling function</td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper call is used when the exception metadata did not
+specify a function pointer for an <code>unwind</code> handler, which causes
+program termination:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_no_unwind_handler(s)</code></td><td>the state <code>s</code> did not have an unwind handler, which causes program termination in the event that an exception reaches it</td></tr>
+</tbody>
+</table>
+</div>
+<p>The following helper calls are used to signify that Hex-Rays was unable
+to display an exception handler in the decompilation:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Function name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>__eh34_unwind_handler_absent(s, ea)</code></td><td>could not inline unwind handler at <code>ea</code> for wind state <code>s</code></td></tr>
+<tr><td><code>__eh34_catch_handler_absent(s, i, ea)</code></td><td>could not inline i’th catch handler at <code>ea</code> for try state <code>s</code></td></tr>
+</tbody>
+</table>
+</div>
+<h1 id="boundaries-of-exception-regions"><a class="header" href="#boundaries-of-exception-regions">BOUNDARIES OF EXCEPTION REGIONS</a></h1>
+<p>From Microsoft Visual Studio versions 2005 (toolchain version 8.0) to
+2017 Service Pack 2 (version 14.12), the compiler emitted detailed
+metadata that precisely defined the boundaries of all exception regions
+within C++ functions. This made binary files large, and not all of the
+metadata was strictly necessary for the runtime library to handle C++
+exceptions correctly.</p>
+<p>Starting from MSVC 2017 Service Pack 3 (version 14.13), the compiler
+began applying optimizations to reduce the size of the C++ exception
+metadata. An official Microsoft blog entry entitled:
+<a href="https://devblogs.microsoft.com/cppblog/making-cpp-exception-handling-smaller-x64/">“Making C++ Exception Handling Smaller on x64”</a>
+describes the first change as “dropping metadata for regions of code
+that cannot throw and folding logically identical states”. (Version
+14.23 later introduced the <code>__CxxFrameHandler4</code> metadata format to
+compress the metadata further.)</p>
+<p>As a result of these changes, the C++ exception metadata in MSVC 14.13+
+binaries is no longer fully precise. Exception states are frequently
+reported as beginning physically after where the source code would
+indicate. In order to produce usable output, Hex-Rays employs
+mathematical optimization algorithms to reconstruct more detailed C++
+exception metadata configurations that can be displayed in a nicer
+format in the decompilation. These algorithms improve the listings by
+producing more structured regions and fewer helper calls in the output,
+but they introduce further imprecision as to the true starting and
+ending locations of exception regions when compared to the source code.
+They are an integral part of Hex-Rays C++/x64 Windows exception metadata
+support and cannot be disabled.</p>
+<p>The takeaway is that, when processing MSVC 14.13+ binaries, Hex-Rays
+C++/x64 Windows exception support frequently produces <code>try</code> and
+<code>__unwind</code> blocks that begin and/or end earlier and/or later than
+what the source code would indicate, were it available. This has
+important consequences for vulnerability analysis.</p>
+<p>For example, given accurate exception boundary information, the
+destructor for a local object would ordinarily be situated after the end
+of that object’s <code>__wind</code> and <code>__unwind</code> blocks, as in:</p>
+<pre><code class="language-cpp">Object::Constructor(&amp;v14);
+__wind
+{
+  // ...
+}
+__unwind
+{
+  Object::Destructor(&amp;v14);
+}
+
+// HERE: destructor after __wind region
+Object::Destructor(&amp;v14);
+</code></pre>
+<p>Yet, due to the imprecise boundary information, Hex-Rays might display
+the destructor as being inside of the <code>__wind</code> block:</p>
+<pre><code class="language-cpp">Object::Constructor(&amp;v14);
+__wind
+{
+  // ...
+  // HERE: destructor inside of __wind region
+  Object::Destructor(&amp;v14);
+}
+__unwind
+{
+  Object::Destructor(&amp;v14);
+}
+</code></pre>
+<p>The latter output might indicate that <code>v14</code>’s destructor would be
+called twice if its destructor were to throw an exception. However, this
+indication is simply the result of imprecise exception region boundary
+information. In short, users should be wary of diagnosing software bugs
+or security issues based upon the positioning of statements nearby the
+boundaries of <code>try</code> and <code>__wind</code> blocks. The example above
+indicates something that might appear to be a bug in the code – a
+destructor being called twice – but is in fact not one.</p>
+<p>These considerations primarily apply when analyzing C++ binaries
+compiled with MSVC 14.13 or greater. They do not apply as much to
+binaries produced by MSVC 14.12 or earlier, when the compiler emitted
+fully precise information about exception regions.</p>
+<p>Although Hex-Rays may improve its detection of exception region
+boundaries in the future, because modern binaries lack the ground truth
+of older binaries, the results will never be fully accurate. If the
+imprecision is unacceptable to you, we recommend permanently disabling
+C++ metadata display via the <code>eh34.cfg</code> file discussed previously.</p>
+<h1 id="miscellaneous"><a class="header" href="#miscellaneous">MISCELLANEOUS</a></h1>
+<p>Hex-Rays’ support for exceptions in Microsoft Visual C++/x64 only works
+after auto-analysis has been completed. Users can explore the database
+and decompile functions as usual, but no C++ exception metadata will be
+shown. Users are advised to refresh any decompilation windows after
+auto-analysis has completed.</p>
+<p>If users have enabled display of wind states, they may see empty
+<code>__wind</code> or <code>__unwind</code> constructs in the output. Usually, this
+does not indicate an error occurred; this usually means that the region
+of the code corresponding the <code>wind</code> state was very small or contained
+dead code, and Hex-Rays normal analysis and transformation made it
+empty.</p>
+<p>Starting in IDA 9.0, IDA’s auto-analysis preprocesses C++ exception
+metadata differently than in previous versions. In particular, on
+MSVC/x64 binaries, <code>__unwind</code> and <code>catch</code> handlers are created as
+standalone functions, not as chunks of their parent function as in
+earlier versions. This is required to display the exception metadata
+correctly in the decompilation. For databases created with older
+versions, the plugin will still show the outline of the exception
+metadata, but the bodies of the <code>__unwind</code> and <code>catch</code> handlers
+will be displayed via the helper calls
+<code>__eh34_unwind_handler_absent</code> and
+<code>__eh34_catch_handler_absent</code>, respectively. The plugin will also
+print a warning at the top of the decompilation such as <code>Absent C++ exception handlers: # catch=1 (pre-9.0 IDB)</code> in these situations.
+Re-creating the IDB with a newer version will solve those issues,
+although users might still encounter absent handlers in new databases
+(rarely, and under different circumstances).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/decompiler/decompiler-manual/primer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/decompiler/decompiler-manual/primer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

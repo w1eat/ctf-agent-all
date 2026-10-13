@@ -1,0 +1,28 @@
+version: beta2
+platform: unknown
+native_id: '22'
+name: Serious Business
+category: BSides Orlando
+description: Go check out the Career Village and grab a Bingo Card! Fill it out for
+  more prizes at the end of the day :D
+value: 136
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#Serious%20Business-22
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Serious%20Business-22
+environment:
+  status: not_required
+  source: platform-page
+  url: https://2026.sunshinectf.org/challenges#Serious%20Business-22
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment/attachments: on-site Bingo Card at Career Village;
+      remote path = site repo (career_village.md, NevertheCPU-* branches) + community
+      writeups.'
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: preparing
+reason: ''

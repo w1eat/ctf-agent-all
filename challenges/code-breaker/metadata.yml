@@ -1,0 +1,50 @@
+version: beta2
+platform: unknown
+native_id: '3'
+name: Code Breaker
+category: Pwn
+description: 'CodeBreaker: enterprise-grade encrypted key-value storage. All traffic
+  is encrypted with our proprietary cipher. Your data has never been safer. Files:
+  code_breaker (sha256 ed7201eba1a5a77159eb3332d5419e80f63a4002e8bf51363a7ffe4a8cd32bd8,
+  14640 bytes), libc.so.6 (sha256 c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb),
+  ld-linux-x86-64.so.2 (sha256 854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972).
+  nc chal.sunshinectf.games 26005'
+value: 0
+files:
+- distfiles/code-breaker
+- distfiles/ld2-linux-x86-64-so.2
+- distfiles/libc2-so.6
+challenge_mode: hybrid
+connection_info: nc chal.sunshinectf.games 26005
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Code%20Breaker-3
+environment:
+  status: unknown
+  source: remote
+  url: nc chal.sunshinectf.games 26005
+  host: ''
+  port: 26005
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- name: code-breaker
+  sha256: ed7201eba1a5a77159eb3332d5419e80f63a4002e8bf51363a7ffe4a8cd32bd8
+  size: 14640
+  target: a[href="https://sunshinectf.games/files/734617/code_breaker"]
+  url: https://sunshinectf.games/files/734617/code_breaker
+- id: '1'
+  name: libc2-so.6
+  sha256: c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb
+  size: 2125328
+  target: a[href="https://sunshinectf.games/files/734617/libc.so.6"]
+  url: https://sunshinectf.games/files/734617/libc.so.6
+- id: '2'
+  name: ld2-linux-x86-64-so.2
+  sha256: 854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972
+  size: 236616
+  target: a[href="https://sunshinectf.games/files/734617/ld-linux-x86-64.so.2"]
+  url: https://sunshinectf.games/files/734617/ld-linux-x86-64.so.2
+attachments_scanned: true
+state: solved
+reason: ''

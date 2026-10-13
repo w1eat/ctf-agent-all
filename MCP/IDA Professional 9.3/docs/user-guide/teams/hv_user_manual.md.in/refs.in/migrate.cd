@@ -1,0 +1,10 @@
+.[-s] Silent Mode; do not output any messages.
+.$NCAT_VAULT_PATH...:PATH_PATTERN Vault path of file(s) to move.
+.WORKLIST_ID The id of the worklist to move the files to, the worklist must already exist.
+
+>Moves opened files between worklists.
+
+!
+$$ afile subdir/for/fred/interfaces 3
+ok migrated //afile#1 to worklist 3
+ok migrated //subdir/for/fred/interfaces#0 to worklist 3

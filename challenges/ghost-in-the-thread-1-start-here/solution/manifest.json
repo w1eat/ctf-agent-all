@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "current_key": "36eece084961cbeed2bc:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "36eece084961cbeed2bc:platform_confirmed",
+      "flag": "sun{tfw_hacked_by_offboarders}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "ghost in the thread - 1 - start here",
+        "category": "Forensics",
+        "description": ">be moot >never update >get pwned >mfw https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing (use virtual machine / sandbox). Part 1 of 4 - start here. Attached: sunchan.html. External imagepack on Google Drive.",
+        "connection_info": "",
+        "value": 463,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Recovered SunshineCTF forensic VM (GhostInTheThread.ova from the Google Drive imagepack), correlated the /po/ board snapshot sunchan.html with the disk's upload store, and decoded the dropped stage-2 ELF that generates the flag from the PostScript Document-ID.: sun{tfw_hacked_by_offboarders} | Evidence: sunchan.html post No.184726 attaches 'folding-guide.pdf' which alone is marked 'Attachment stored on the server' and whose preview is described as 'blank' (post 184733), while /home/hiro/todo.txt says 'figure out why that one upload isnt rendering'. ; Google Drive link resolves to GhostInTheThread.ova (tar, 126,930,944 bytes) containing GhostInTheThread-disk1.vmdk (2 GiB virtual, GPT: EFI, BIOS, ext4 '/'); qemu-img convert + e2fsprogs debugfs used to read it (loop mount unavailable). ; The on-disk upload /srv/sunchan/uploads/po/184726.pdf is actually a PostScript file (file: 'PostScript document text conforming DSC level 3.0') carrying stage-2 metadata: %%Document-ID: po-184726, %%Stage2-URL-Base64: aHR0cDovL2Fzc2V0cy5zdW5jaGFuLmludmFsaWQvcmVzb3VyY2VzL2dzLXJlc291cmNlLmJpbg== (http://assets.sunchan.invalid/resources/gs-resource.bin), %%Stage2-Destination: /var/tmp/sunchan-downloads/gs-resource.bin, %%Stage2-SHA256: 3cf1f62fe43202b9d0fc1ded2776fe7d40001d3fd6c8d23b53550d8edf0f3500. ; The dropped payload /var/tmp/sunchan-downloads/gs-resource.bin matches that SHA-256 and is a static stripped ELF ('SunHash proof-of-work benchmark simulator (offline)'). Its disassembly: reads a 9-char Document-ID, checks FNV-1a (init 0x811c9dc5, prime 0x1000193) so that eax==0xdac3d58d, then emits 30 bytes = input[i%9] ^ key[i] ^ 0x5a with key = 59 40 19 10 16 08 1a 37 04 4b 56 1c 0e 06 31 0f 11 33 45 53 11 09 0d 0f 1f 0c 09 58 46 0a. ; Only input 'po-184726' (the %%Document-ID) satisfies the FNV check. Executing the binary: `printf 'po-184726\\n' | ./gs-resource.bin` prints 'Document-ID: sun{tfw_hacked_by_offboarders}', while a wrong input prints 'source binding rejected'.",
+      "solution_steps": [
+        "下载 Google Drive 中的镜像包 GhostInTheThread.ova（tar 包），解出 GhostInTheThread-disk1.vmdk。",
+        "用 qemu-img convert 把 VMDK 转成 raw 镜像；该盘为 GPT（EFI/BIOS/ext4），因容器无法 loop mount，用 e2fsprogs 的 debugfs 读取并 rdump 出文件系统内容。",
+        "对照附件 sunchan.html：帖子 No.184726 的 folding-guide.pdf 是唯一『存于服务器』且预览为空的附件，且 /home/hiro/todo.txt 提示有上传无法渲染。",
+        "在镜像 /srv/sunchan/uploads/po/184726.pdf 发现它其实是 PostScript 文件，%% 注释中给出 Stage2 URL（base64 解出 http://assets.sunchan.invalid/resources/gs-resource.bin）、落地路径 /var/tmp/sunchan-downloads/gs-resource.bin 及 SHA256。",
+        "校验落地文件 gs-resource.bin 的 sha256 与元数据一致；反汇编该静态 ELF：输入 9 字符 Document-ID，校验 FNV-1a 哈希等于 0xdac3d58d，再输出 30 字节 = input[i%9]^key[i]^0x5a。",
+        "用 %%Document-ID: po-184726 作为输入即可通过哈希校验；计算或直接运行 `printf 'po-184726\\n' | ./gs-resource.bin` 得到 sun{tfw_hacked_by_offboarders}。",
+        "提交该 flag，平台返回 Correct，确认通过。"
+      ],
+      "evidence": [
+        "sunchan.html post No.184726 attaches 'folding-guide.pdf' which alone is marked 'Attachment stored on the server' and whose preview is described as 'blank' (post 184733), while /home/hiro/todo.txt says 'figure out why that one upload isnt rendering'.",
+        "Google Drive link resolves to GhostInTheThread.ova (tar, 126,930,944 bytes) containing GhostInTheThread-disk1.vmdk (2 GiB virtual, GPT: EFI, BIOS, ext4 '/'); qemu-img convert + e2fsprogs debugfs used to read it (loop mount unavailable).",
+        "The on-disk upload /srv/sunchan/uploads/po/184726.pdf is actually a PostScript file (file: 'PostScript document text conforming DSC level 3.0') carrying stage-2 metadata: %%Document-ID: po-184726, %%Stage2-URL-Base64: aHR0cDovL2Fzc2V0cy5zdW5jaGFuLmludmFsaWQvcmVzb3VyY2VzL2dzLXJlc291cmNlLmJpbg== (http://assets.sunchan.invalid/resources/gs-resource.bin), %%Stage2-Destination: /var/tmp/sunchan-downloads/gs-resource.bin, %%Stage2-SHA256: 3cf1f62fe43202b9d0fc1ded2776fe7d40001d3fd6c8d23b53550d8edf0f3500.",
+        "The dropped payload /var/tmp/sunchan-downloads/gs-resource.bin matches that SHA-256 and is a static stripped ELF ('SunHash proof-of-work benchmark simulator (offline)'). Its disassembly: reads a 9-char Document-ID, checks FNV-1a (init 0x811c9dc5, prime 0x1000193) so that eax==0xdac3d58d, then emits 30 bytes = input[i%9] ^ key[i] ^ 0x5a with key = 59 40 19 10 16 08 1a 37 04 4b 56 1c 0e 06 31 0f 11 33 45 53 11 09 0d 0f 1f 0c 09 58 46 0a.",
+        "Only input 'po-184726' (the %%Document-ID) satisfies the FNV check. Executing the binary: `printf 'po-184726\\n' | ./gs-resource.bin` prints 'Document-ID: sun{tfw_hacked_by_offboarders}', while a wrong input prints 'source binding rejected'.",
+        "Platform submission of sun{tfw_hacked_by_offboarders} returned the page alert 'Correct' and confirm_submission reported CORRECT."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/36eece084961cbeed2bc/deepseek-deepseek-flash-5403e74e/154b9ab3a3c844dd/scripts/solve.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/scripts/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 scripts/solve.py",
+        "exit_code": 0,
+        "stdout": "sun{tfw_hacked_by_offboarders}\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "5b45c0feec1bbafa53db81dbb1661edffa4b2f6fa6659c89c90d35de94044b39",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:18:19.626550+00:00",
+      "updated_at": "2026-09-27T03:18:27.271609+00:00",
+      "exp_sha256": {
+        "exp/scripts/solve.py": "154b9ab3a3c844dd44a910667c0778777939be8bba468cce3307847d87ce5a59"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '26'
+name: you cut me off
+category: Forensics
+description: Here's a flag! It's uhhh ....... .............. .....................uhhhhhhhhh.........................
+  hmm..
+value: 422
+files:
+- distfiles/hereyougo.png
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#you%20cut%20me%20off-26
+environment: {}
+capabilities: []
+attachments:
+- filename: hereyougo.png
+  name: hereyougo.png
+  sha256: 7ff9e03f78600eea7eb5f1a65c23759cb268f905737e2c8868c0a4eda43a9be5
+  size: 38759
+  url: https://2026.sunshinectf.org/files/a19035398f5b71fbfe2c535cf623abc5/hereyougo.png
+attachments_scanned: false
+state: solved
+reason: ''

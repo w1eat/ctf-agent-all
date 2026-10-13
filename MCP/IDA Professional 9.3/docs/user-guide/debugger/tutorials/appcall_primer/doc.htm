@@ -1,0 +1,1306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <head>
+  <title>Appcall user guide</title>
+ </head>
+ <body>
+<center><font size="+2">IDA Pro - Appcall user guide</font></center>
+<span style="text-align:right;display:block"><i>Copyright 2023 Hex-Rays SA</i></span>
+<!-- --------------------------------------------------------------------------------- -->
+<h1>Introduction</h1>
+<p>
+Appcall is a mechanism to call functions under a debugger session in the context of the debugged program using IDA's CLI (Command Line Interpreter) or from a script.<br/>
+Such a mechanism can be used for seamless blackbox function calling and use, fuzzing, process instrumentation, DLL injection, testing or extending applications.</p>
+Appcall mechanism highly depends on the type information of the called function. For that reason, it is necessary to have a correct function prototype before doing an Appcall, otherwise different or incorrect results may be returned.</p>
+
+<p>In a nutshell, Appcall works by first hijacking the current thread's stack (please do switch threads explicitly if you want to Appcall in a different context), then pushing the arguments, and then temporarily adjusting the instruction pointer to the beginning of the called function. After the function returns (or an exception occurs), the original stack, instruction pointer, and other registers are restored, and the result is returned to the caller.</p>
+
+<p>Please note that while most of the examples in this document are illustrated using a Windows user mode application, Appcall is not limited to Windows and can be used with any platform supported by IDA debuggers.</p>
+</p>
+
+<!-- ------------------------------------------------------------------------------ -->
+<h2>Quick start</h2>
+<p>Let's start explaining the basic concepts of Appcall using the IDC CLI. Let's imagine we have the following <code>printf()</code> in the disassembly somewhere:</p>
+
+<pre style="background-color:lightblue">.text:00000001400015C0 ; __int64 printf(const char *, ...)
+.text:00000001400015C0 _printf         proc near               
+.text:00000001400015C0                                         
+.text:00000001400015C0
+.text:00000001400015C0 arg_0           = qword ptr  8
+.text:00000001400015C0 arg_8           = qword ptr  10h
+.text:00000001400015C0 arg_10          = qword ptr  18h
+.text:00000001400015C0 arg_18          = qword ptr  20h
+.text:00000001400015C0
+.text:00000001400015C0                 mov     [rsp+arg_0], rcx
+.text:00000001400015C5                 mov     [rsp+arg_8], rdx
+.text:00000001400015CA                 mov     [rsp+arg_10], r8
+.text:00000001400015CF                 mov     [rsp+arg_18], r9
+...
+</pre>
+
+<p>
+It can be called by simply typing the following in the IDC CLI (press "." to jump to the CLI):</p>
+<pre style="background-color:lightblue">_printf(&quot;hello world\n&quot;);</pre>
+
+<p>As you noticed, we invoked an Appcall by simply treating <code>_printf</code> as if it was a built-in IDC function. If the application had a console window, then you should see the message printed in it.
+</p>
+
+<p>
+If you have a function with a mangled name or with characters that cannot be used as an identifier name in the IDC language, such as "_my_func@8", then you can use the <code>LocByName</code> function to get its address given its name, then using the address variable (which is callable) we issue the Appcall:<br/>
+<pre style="background-color:lightblue">auto myfunc = LocByName(&quot;_my_func@8&quot;);
+myfunc(&quot;hello&quot;, &quot;world&quot;);
+</pre>
+</p>
+<p>
+Or simply directly as: 
+<pre style="background-color:lightblue">LocByName(&quot;_my_func@8&quot;)(&quot;hello&quot;, &quot;world&quot;);</pre>
+</p>
+<!-- ---------------------------------------------------------------------------- -->
+<h1>Using AppCall with IDC</h1>
+
+<p>Apart from calling Appcall naturally as shown in the previous section, it is possible to call it explicitly using the <code>dbg_appcall</code> function:</p>
+
+<pre style="background-color:lightblue">// Call application function
+//      ea - address to call
+//      type - type of the function to call. can be specified as:
+//              - declaration string. example: "int func(void);"
+//              - typeinfo object. example: get_tinfo(ea)
+//              - zero: the type will be retrieved from the idb
+//      ... - arguments of the function to call
+// Returns: the result of the function call
+// If the call fails because of an access violation or other exception,
+// a runtime error will be generated (it can be caught with try/catch)
+// In fact there is rarely any need to call this function explicitly.
+// IDC tries to resolve any unknown function name using the application labels
+// and in the case of success, will call the function. For example:
+//      _printf("hello\n")
+// will call the application function _printf provided that there is
+// no IDC function with the same name.
+
+anyvalue dbg_appcall(ea, type, ...);    
+</pre>
+<p>The Appcall IDC function requires you to pass a function address, function type information (various forms are accepted) and the parameters (if any):</p>
+<pre style="background-color:lightblue">auto msgbox;
+msgbox = LocByName("__imp_MessageBoxA");
+// Pass "0" for the type to deduce it from the database
+dbg_appcall(msgbox, 0, 0, "Hello world", "Info", 0);
+</pre>
+
+<p>
+We've seen so far how to call a function if it already has type information, now suppose we have a function that does not:
+</p>
+
+<pre style="background-color:lightblue">user32.dll:00007FFF3AD730F0 user32_FindWindowA proc near
+user32.dll:00007FFF3AD730F0      mov     r9, rdx
+user32.dll:00007FFF3AD730F3      mov     r8, rcx
+user32.dll:00007FFF3AD730F6      xor     edx, edx
+user32.dll:00007FFF3AD730F8      xor     ecx, ecx
+user32.dll:00007FFF3AD730FA      jmp     sub_7FFF3ADC326C
+user32.dll:00007FFF3AD730FA user32_FindWindowA endp  
+</pre> 
+
+<p>Before calling this function with <code>dbg_appcall</code> we have two options:
+
+<ol>
+  <li>Pass the prototype as a string</li>
+  <li>Or, parse the prototype separately and pass the returned type info object.</li>
+</ol>
+</p>
+
+<p>This is how we can do it using the first option:</p>
+<pre style="background-color:lightblue">auto window_handle;
+window_handle = dbg_appcall(
+    LocByName(&quot;user32_FindWindowA&quot;),
+    &quot;long __stdcall FindWindow(const char *cls, const char *wndname)&quot;,
+    0,
+    &quot;Calculator&quot;);
+    
+msg(&quot;handle=%d\n&quot;, window_handle);
+</pre>
+
+<p>As for the second option, we can use <code>parse_decl()</code> first, then proceed as usual:</p>
+
+<pre style="background-color:lightblue">auto window_handle, tif;
+
+tif = parse_decl(&quot;long __stdcall FindWindow(const char *cls, const char *wndname)&quot;, 0);
+
+window_handle = dbg_appcall(
+    LocByName(&quot;user32_FindWindowA&quot;),
+    tif,
+    0,
+    &quot;Calculator&quot;);
+    
+msg(&quot;handle=%d\n&quot;, window_handle);
+  
+</pre>
+
+<i>Note that we used <code>parse_decl()</code> function to construct a typeinfo object that we can pass to <code>dbg_appcall</code></i>.
+<p>
+It is possible to permanently set the prototype of a function programmatically using <code>apply_type()</code>:
+
+<pre style="background-color:lightblue">auto tif;
+tif = parse_decl(&quot;long __stdcall FindWindow(const char *cls, const char *wndname)&quot;, 0);
+apply_type(
+    LocByName(&quot;user32_FindWindowA&quot;),
+    tif);
+</pre>
+</p>
+
+In the following sections, we are going to cover different scenarios such as calling by reference, working with buffers and complex structures, etc.
+<!-- ------------------------------------------------------------------ -->
+
+<h2>Passing arguments by reference</h2>
+
+To pass function arguments by reference, it suffices to use the <b>&amp</b> symbol as in the C language.<br/>
+<ul><li>For example to call this function:</ul>
+
+<pre style="background-color:lightblue">void ref1(int *a)
+{
+  if (a == NULL)
+    return;
+  int o = *a;
+  int n = o + 1;
+  *a = n;
+  printf("called with %d and returning %d\n", o, n);
+}
+</pre>
+<p>We can use this code from IDC:</p>
+<pre style="background-color:lightblue">auto a = 5;
+msg(&quot;a=%d&quot;, a);
+ref1(<b>&</b>a);
+msg(&quot;, after the call=%d\n&quot;, a);</pre>
+
+<ul><li>To call a C function that takes a string buffer and modifies it:</ul>
+<pre style="background-color:lightblue">/* C code */
+int ref2(char *buf)
+{
+  if (buf == NULL)
+    return -1;
+
+  printf(&quot;called with: %s\n&quot;, buf);
+  char *p = buf + strlen(buf);
+  *p++ = '.';
+  *p = '\0';
+  printf(&quot;returned with: %s\n&quot;, buf);
+  int n=0;
+  for (;p!=buf;p--)
+    n += *p;
+  return n;
+}
+</pre>
+<p>We need to create a buffer and pass it by reference to the function:</p>
+<pre style="background-color:lightblue">auto s = strfill(&#x27;\x00&#x27;, 20); // create a buffer of 20 characters
+s[0:5] = &quot;hello&quot;; // initialize the buffer
+ref2(&amp;s); // call the function and pass the string by reference
+
+// check if the string has a dot appended to it
+if (s[5] != &quot;.&quot;)
+{
+  msg(&quot;not dot\n&quot;);
+}  
+else
+{
+  msg(&quot;dot\n&quot;);
+}
+</pre>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>__usercall calling convention</h2>
+<p>
+It is possible to Appcall functions with non standard calling conventions, such as routines written in assembler that expect parameters in various registers and so on.
+One way is to use the <b>__usercall</b> calling convention.<br/></p>
+Consider this function:
+<pre style="background-color:lightblue">/* C code */
+// eax = esi - edi
+int __declspec(naked) asm1()
+{
+  __asm
+  {
+    mov eax, esi
+    sub eax, edi
+    ret
+  }
+}
+</pre>
+And from IDC:
+<pre style="background-color:lightblue">auto x = dbg_appcall(
+  LocByName(&quot;asm1&quot;),
+  &quot;int __usercall asm1@&lt;eax&gt;(int a@&lt;edi&gt;, int b@&lt;esi&gt;);&quot;,
+  1,
+  5);
+msg(&quot;result = %d\n&quot;, x);
+</pre>
+<!-- ------------------------------------------------------------------ -->
+
+<h2>Variadic functions</h2>
+In C:
+<pre style="background-color:lightblue">int va_altsum(int n1, ...)
+{
+  va_list va;
+  va_start(va, n1);
+
+  int r = n1;
+  int alt = 1;
+  while ( (n1 = va_arg(va, int)) != 0 )
+  {
+    r += n1*alt;
+    alt *= -1;
+  }
+
+  va_end(va);
+  return r;
+}</pre>
+
+<p>And in IDC:</p>
+<pre style="background-color:lightblue">auto result = va_altsum(5, 4, 2, 1, 6, 9, 0);</pre>
+
+<!-- ------------------------------------------------------------------ -->
+
+<h2>Calling functions that might cause exceptions</h2>
+
+<p>Exceptions may occur during an Appcall. To capture them, use the try/catch mechanism:</p>
+
+<pre style="background-color:lightblue">auto e;
+try
+{
+  dbg_appcall(some_func_addr, func_type, args...);
+  // Or equally:
+  // some_func_name(arg1, arg2, ...);
+}
+catch (e)
+{
+  // Exception occured .....
+}
+</pre>
+<p>The exception object "e" will be populated with the following fields:
+<ul>
+  <li>description: description text generated by the debugger module while it was executing the Appcall
+  <li>file: The name of the file where the exception happened.
+  <li>func: The IDC function name where the exception happened.
+  <li>line: The line number in the script
+  <li>qerrno: The internal code of last error occurred
+</ul>
+</p>
+
+<p>For example, one could get something like this:</p>
+<pre style="background-color:lightgray">description: "Appcall: The instruction at 0x401012 referenced memory at 0x0. The memory could not be written"
+file: ""
+func: "___idcexec0"
+line:           4.        4h           4o 
+qerrno:          92.       5Ch         134o 
+</pre>
+In some cases, the exception object will contain more information. 
+
+<!-- --------------------------------------------------------------- -->
+<h2>Functions that accept or return structures</h2>
+Appcall mechanism also works with functions that accept or return structure types. Consider this C code:
+<pre style="background-color:lightblue">
+#pragma pack(push, 1)
+struct UserRecord 
+{
+  int id;
+  char name[50];
+  struct UserRecord* next;
+};
+#pragma pack(pop)
+
+// Function to create a new record
+UserRecord *makeRecord(char name[], int id) 
+{
+  UserRecord* newRecord = (UserRecord*)malloc(sizeof(UserRecord));
+  strcpy(newRecord-&gt;name, name);
+  newRecord-&gt;id = id;
+  newRecord-&gt;next = NULL;
+  return newRecord;
+}
+
+void printRecord(UserRecord* record) 
+{
+  printf(&quot;Id: %d ; Name: %s\n&quot;, record-&gt;id, record-&gt;name);
+}
+
+// Function to list all student records in the linked list
+void listRecords(UserRecord* head) 
+{
+  if (head == NULL) 
+  {
+      printf(&quot;No records found.\n&quot;);
+      return;
+  }
+
+  printf(&quot;Records:\n&quot;
+         &quot;--------\n&quot;);
+  while (head != NULL) 
+  {
+      printRecord(head);
+      head = head-&gt;next;
+  }
+}
+</pre>
+We can create a couple of records and link them up together:
+<pre style="background-color:lightblue">auto rec1, rec2, rec3;
+// Create records
+rec1 = makeRecord(&quot;user1&quot;, 1);
+rec2 = makeRecord(&quot;user2&quot;, 2);
+rec3 = makeRecord(&quot;user3&quot;, 3);
+// Link them up
+rec1.next = rec2;
+rec2.next = rec3;
+// Display them
+listRecords(rec1);
+</pre>
+
+<p>
+Because we issued an Appcall, when <code>listRecords</code> is called, we expect to see the following output in the console:
+<br/>
+<pre style="background-color:lightgray">Records:
+--------
+Id: 1 ; Name: user1
+Id: 2 ; Name: user2
+Id: 3 ; Name: user3
+</pre>
+ 
+</p>
+
+We can then access the fields naturally (even the linked objects). We can verify that if we just dump the first record through the IDC CLI (or just by calling IDC's <code>print</code> function):
+<pre style="background-color:lightgray">
+IDC&gt;rec1
+object
+  id:           1.        1h           1o
+  name: &quot;user1\x00&quot;
+  next: object
+    id:           2.        2h           2o
+    name: &quot;user2\x00&quot;
+    next: object
+      id:           3.        3h           3o 
+      name: &quot;user3\x00&quot;
+      next: 0x0i64
+</pre>
+<p>
+Notice how when <code>rec1</code> is dumped, its <code>next</code> field is automatically followed and properly displayed. The same happens for <code>rec2</code> and <code>rec3</code>.
+</p>
+<p>
+We can also directly access the fields of the structure from IDC and have those changes reflected in the debugee's memory:
+<pre style="background-color:lightblue">rec1.id = 11;
+rec1.name = &quot;hey user1&quot;;
+rec1.next.name = &quot;hey user2&quot;;
+rec1.next.id = 21;
+rec1.next.next.name = &quot;hey user3&quot;;
+rec1.next.next.id = 31;
+// Display them
+listRecords(rec1);
+</pre>
+</p>
+
+<p>
+<u>Notable observations:</u>
+<ul>
+  <li>Objects are always passed by reference (no need to use the <b>&amp;</b>)
+  <li>Objects are created on the stack
+  <li>Objects are untyped
+  <li>Missing object fields are automatically created by IDA and filled with zero
+</ul>
+</p>
+<!-- ------------------------------------------------------------------ -->
+
+<h2>Calling an API that receives a structure and its size</h2>
+Let us take another example where we call the GetVersionExA API function:
+<pre style="background-color:lightblue">kernel32.dll:00007FFF3A0F9240 kernel32_GetVersionExA proc near
+kernel32.dll:00007FFF3A0F9240                 jmp     cs:off_7FFF3A1645E0
+kernel32.dll:00007FFF3A0F9240 kernel32_GetVersionExA endp
+</pre>
+
+<p>
+This API requires one of its input fields to be initialized to the size of the structure. Therefore, we need to initialize the structure correctly before passing it to the API to be further populated therein:</p>
+
+<pre style="background-color:lightblue">// Create an empty object
+auto ver = object();
+// We need to initialize the size of the structure
+ver.dwOSVersionInfoSize = sizeof(&quot;OSVERSIONINFO&quot;);
+// This is the only field we need to have initialized, the other fields will be created by IDA and filled with zeroes
+// Now issue the Appcall:
+GetVersionExA(ver);
+
+msg(&quot;%d.%d (%d)\n&quot;, ver.dwMajorVersion, ver.dwMinorVersion, ver.dwBuildNumber);
+</pre>
+<p>Now if we dump the <b>ver</b> object contents we observe something like this:</p>
+<pre style="background-color:lightgray">
+  IDC>print(ver);
+  object
+    dwBuildNumber:        9200.     23F0h       21760o
+    dwMajorVersion:           6.        6h           6o 
+    dwMinorVersion:           2.        2h           2o
+    dwOSVersionInfoSize:         148.       94h         224o
+    dwPlatformId:           2.        2h           2o
+    szCSDVersion: "\x00\x00\x00\x00\x00\x00...."  
+</pre>
+<!-- -------------------------------------------------------------------------- -->
+<h2>Working with opaque types</h2>
+<p>Opaque types like <code>FILE</code>, <code>HWND</code>, <code>HANDLE</code>, <code>HINSTANCE</code>, <code>HKEY</code>, etc. are not meant to be used as structures by themselves but like pointers.</p>
+<p>Let us take for example the <code>FILE</code> structure that is used with <code>fopen()</code>; its underlying structure looks like this (implementation details might change):</p>
+<pre style="background-color:lightgray">00000000 FILE struc ; (sizeof=0x18, standard type)
+00000000 curp dd ?
+00000004 buffer dd ?
+00000008 level dd ?
+0000000C bsize dd ?
+00000010 istemp dw ?
+00000012 flags dw ?
+00000014 hold dw ?
+00000016 fd db ?
+00000017 token db ?
+00000018 FILE ends
+</pre>
+<p>And the <code>fopen()</code> function prototype is:<br/></p>
+<pre style="background-color:lightblue">msvcrt.dll:00007FFF39F1B7B0 ; FILE *__cdecl fopen(const char *FileName, const char *Mode)
+msvcrt.dll:00007FFF39F1B7B0 fopen           proc near
+msvcrt.dll:00007FFF39F1B7B0                 mov     r8d, 40h ; '@'
+msvcrt.dll:00007FFF39F1B7B6                 jmp     msvcrt__fsopen
+msvcrt.dll:00007FFF39F1B7B6 fopen           endp
+</pre>
+
+<p>Let us see how we can get a "FILE *"" and use it as an opaque type and issue an <code>fclose()</code> call properly:</p>
+<pre style="background-color:lightblue">auto fp;
+fp = fopen("c:\\temp\\x.cpp", "r");
+print(fp);
+fclose(fp.__at__);
+</pre>
+
+<p>Nothing special about the fopen/fclose Appcalls except that we see the <b>__at__</b> attribute showing up although it does not belong to the FILE structure definition.<br/>
+This is a special attribute that IDA inserts into all objects, and it contains the memory address from which IDA retrieved the object attribute values. We can use the <b>__at__</b> to retrieve the C pointer of a given IDC object.</p>
+
+<p>
+Previously, we omitted the <b>__at__</b> field from displaying when we dumped objects output, but in reality this is what one expects to see as part of the objects attributes used in Appcalls. Let's create a user record again:</p>
+<pre style="background-color:lightblue">auto rec;
+rec1 = makeRecord(&quot;user1&quot;, 13);
+rec2 = makeRecord(&quot;user2&quot;, 14);
+rec1.next = rec2;
+print(rec1);
+</pre>
+..and observe the output:
+<pre style="background-color: lightgray;">object
+  __at__:     5252736.   502680h    24023200o
+  id:          13.        Dh          15o
+  name: &quot;user1\x00...&quot;
+  next: object
+    __at__:     5252848.   5026F0h    24023360o 
+    id:          14.        Eh          16o
+    name: &quot;user2\x00...&quot;
+    next: 0x0i64
+</pre>
+
+<p>Please note that it is possible to pass as integer (which is a pointer) to a function that expects a pointer to a structure.</p>
+
+<!-- ---------------------------------------------------------------------------- -->
+<h2>FindFirst/FindNext APIs example</h2>
+
+<p>In this example, we call the APIs directly without permanently setting their prototype first.</p>
+
+<pre style="background-color:lightblue">static main()
+{
+  auto fd, h, n, ok;
+
+  fd = object(); // create an object
+  h = dbg_appcall(
+    LocByName(&quot;kernel32_FindFirstFileA&quot;),
+    &quot;HANDLE __stdcall FindFirstFileA(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData);&quot;,
+    &quot;c:\\windows\\*.exe&quot;, 
+    fd);
+  if (h == -1) // INVALID_HANDLE_VALUE
+  {
+    msg(&quot;No files found!\n&quot;);
+    return -1;
+  }
+  for (n=1;;n++)
+  {
+    msg(&quot;Found: %s\n&quot;, fd.cFileName);
+    ok = dbg_appcall(
+          LocByName(&quot;kernel32_FindNextFileA&quot;),
+          &quot;BOOL __stdcall FindNextFileA(HANDLE hFindFile, LPWIN32_FIND_DATAA lpFindFileData);&quot;,
+          h,
+          fd);
+
+    if ( (n &gt; 5) || (ok == 0) )
+      break;
+  }
+  dbg_appcall(
+    LocByName(&quot;kernel32_FindClose&quot;),
+    &quot;BOOL __stdcall FindClose(HANDLE hFindFile);&quot;,
+    h);
+
+  return n;
+}  
+</pre>
+
+<!-- --------------------------------------------------------------- -->
+<h2>Using LoadLibrary/GetProcAddress</h2>
+<p>In this example, we are going to initialize the APIs by setting up their prototypes correctly so we can use them later conveniently.</p>
+
+<pre style="background-color:lightblue">extern getmodulehandle, getprocaddr, findwindow, loadlib;
+
+static init_api()
+{
+  loadlib = LocByName(&quot;kernel32_LoadLibraryA&quot;);
+  getmodulehandle = LocByName(&quot;kernel32_GetModuleHandleA&quot;);
+  getprocaddr = LocByName(&quot;kernel32_GetProcAddress&quot;);
+
+  if (loadlib == BADADDR || getmodulehandle == BADADDR || getprocaddr == BADADDR)
+    return &quot;Failed to locate required APIs&quot;;
+
+  // Let us permanently set the prototypes of these functions
+  apply_type(loadlib, &quot;HMODULE __stdcall loadlib(LPCSTR lpModuleName);&quot;);
+  apply_type(getmodulehandle, &quot;HMODULE __stdcall gmh(LPCSTR lpModuleName);&quot;);
+  apply_type(getprocaddr, &quot;FARPROC __stdcall gpa(HMODULE hModule, LPCSTR lpProcName);&quot;);
+
+  // Resolve address of FindWindow api
+  auto t = getmodulehandle(&quot;user32.dll&quot;);
+  if (t == 0)
+  {
+    t = loadlib(&quot;user32.dll&quot;);
+    if (t == 0)
+        return &quot;User32 is not loaded!&quot;;
+  }
+  findwindow = getprocaddr(t, &quot;FindWindowA&quot;);
+  if (findwindow == 0)
+    return &quot;FindWindowA API not found!&quot;;
+
+  // Set type
+  apply_type(findwindow, &quot;HWND __stdcall FindWindowA(LPCSTR lpClassName, LPCSTR lpWindowName);&quot;);
+
+  return &quot;ok&quot;;
+}
+
+static main()
+{
+  auto ok = init_api();
+  if (ok != &quot;ok&quot;)
+  {
+    msg(&quot;Failed to initialize: %s&quot;, ok);
+    return -1;
+  }
+  auto hwnd = dbg_appcall(findwindow, 0, 0, &quot;Calculator&quot;);
+  if (hwnd == 0)
+  {
+    msg(&quot;Failed to locate the Calculator window!\n&quot;);
+    return -1;
+  }
+  msg(&quot;Calculator hwnd=%x\n&quot;, hwnd);
+  return 0;
+}
+</pre>
+
+<!-- --------------------------------------------------------------------------- -->
+<h2>Retrieving application's command line</h2>
+<pre style="background-color:lightblue">extern getcommandline;
+
+static main()
+{
+  getcommandline = LocByName(&quot;kernel32_GetCommandLineA&quot;);
+  if (getcommandline == BADADDR)
+  {
+    msg(&quot;Failed to resolve GetCommandLineA API address!\n&quot;);
+    return -1;
+  }
+  apply_type(getcommandline, &quot;const char *__stdcall GetCommandLineA();&quot;);
+
+  msg(&quot;This application&#x27;s command line:&lt;\n%s\n&gt;\n&quot;, getcommandline());
+  return 0;
+}
+</pre>
+
+<!-- -------------------------------------------------------------------- -->
+<h2>Specifying Appcall options</h2>
+Appcall can be configured with <code>set_appcall_options()</code> and passing one or more options:
+<ul>
+  <li>APPCALL_MANUAL: Only set up the appcall, do not run it (you should call <code>cleanup_appcall()</code> when finished). Please Refer to the "Manual Appcall" section for more information.
+  <li>APPCALL_DEBEV: If this bit is set, exceptions during appcall will generate IDC exceptions with full information about the exception. Please refer to the "Capturing exception debug events" section for more information.
+</ul>
+
+<p>It is possible to retrieve the Appcall options, change them and then restore them back. To retrieve the options use the <code>get_appcall_options()</code>.</p>
+<p>Please note that the Appcall options are saved in the database so if you set it once it will retain its value as you save and load the database.</p>
+
+<!-- ---------------------------------------------------------------------------- -->
+<h2>Manual Appcall</h2>
+
+<p>So far, we've seen how to issue an Appcall and capture the result from the script, but what if we only want to setup the environment and manually step through a function?</p>
+
+<p>This can be achieved with manual Appcall. The manual Appcall mechanism can be used to save the current execution context, execute another function in another context and then pop back the previous context and continue debugging from that point.</p>
+
+<p>Let us directly illustrate manual Appcall with a real life scenario:</p>
+<ol>
+  <li>You are debugging your application
+  <li>You discover a buggy function (foo()) that misbehaves when called with certain arguments: foo(0xdeadbeef)
+  <li>Instead of waiting until the application calls foo() with the desired arguments that can cause foo() to misbehave, you can manually call foo() with the desired arguments and then trace the function from its beginning.
+  <li>Finally, one calls <code>cleanup_appcall()</code> to restore the execution context
+</ol>
+
+<p>To illustrate, let us take the <code>ref1</code> function (from the previous example above) and call it with an invalid pointer:</p>
+<ol>
+  <li>Set manual Appcall mode: <pre>set_appcall_options(APPCALL_MANUAL);</pre> 
+  <li>Call the function with an invalid pointer: <pre>ref1(6);</pre>
+</ol>
+
+Directly after doing that, IDA will switch to the function and from that point on we can debug:<br/>
+<pre style="background-color:lightblue">.text:0000000140001050 ; void __stdcall ref1(int *a)
+.text:0000000140001050 ref1            proc near
+.text:0000000140001050                 test    rcx, rcx  ; <b>&lt;&lt; RIP starts here </b>
+.text:0000000140001053                 jz      short locret_14000106A
+.text:0000000140001055                 mov     edx, [rcx]
+.text:0000000140001057                 lea     r8d, [rdx+1]
+.text:000000014000105B                 mov     [rcx], r8d
+.text:000000014000105E                 lea     rcx, aCalledWithDAnd ; &quot;called with %d and returning %d\n&quot;
+.text:0000000140001065                 jmp     _printf
+.text:000000014000106A locret_14000106A:      
+.text:000000014000106A                 retn
+.text:000000014000106A ref1            endp  
+</pre> 
+Now you are ready to single step that function with all its arguments properly set up for you. When you are done, you can return to the previous context by calling <code>cleanup_appcall()</code>.
+
+<!-- ---------------------------------------------------------------------------- -->
+<h3>Initiating multiple manual Appcalls</h3>
+
+<p>It is possible to initiate multiple manual Appcalls. If manual Appcall is enabled, then issuing an Appcall from an another Appcall will push the current context and switch to the new Appcall context. <code>cleanup_appcall()</code> will pop the contexts one by one (LIFO style).</p>
+
+<p>Such technique is useful if you happen to be tracing a function then you want to debug another function and then resume back from where you were!</p>
+
+<p>Manual Appcalls are not designed to be called from a script (because they don't finish), nonetheless if you use them from a script:</p>
+<pre style="background-color:lightblue">auto i;
+printf("Loop started\n"); // appcall 1
+for (i=0;i&lt;10;i++)
+{
+  msg("i=%d\n", i);
+}
+printf("Loop finished\n"); // appcall 2
+</pre>
+<p>We observe the following:</p>
+<ol>
+  <li>First Appcall will be initiated
+  <li>The script will loop and display the values of i in IDA's output window
+  <li>Another Appcall will be initiated
+  <li>The script finishes. None of the two Appcalls actually took place
+  <li>The execution context will be setup for tracing the last issued Appcall
+  <li>After this Appcall is finished, we observe "Loop finished"
+  <li>We issue <code>cleanup_appcall</code> and notice that the execution context is back to printf but this time it will print "Loop started"
+  <li>Finally when we call again <code>cleanup_appcall</code> we resume our initial execution context
+</ol>
+
+<!-- ---------------------------------------------------------------------------- -->
+<h2>Capturing exception debug events</h2>
+<p>We previously illustrated that we can capture exceptions that occur during an Appcall, but that is not enough if we want to learn more about the nature of the exception from the operating system point of view.</p>
+
+<p>It would be better if we could somehow get the last <b>debug_event_t</b> that occured inside the debugger module. This is possible if we use the <b>APPCALL_DEBEV</b> option. Let us repeat the previous example but with the <b>APPCALL_DEBEV</b> option enabled:</p>
+<pre style="background-color:lightblue">auto e;
+try
+{
+  set_appcall_options(APPCALL_DEBEV); // Enable debug event capturing
+  ref1(6);
+}
+catch (e)
+{
+  // Exception occured ..... this time "e" is populated with debug_event_t fields (check idd.hpp)
+}
+</pre>
+And in this case, if we dump the exception object's contents, we get these attributes:
+<pre style="background-color:lightgray">
+Unhandled exception: object
+  can_cont:           1.        1h           1o
+  code:  3221225477. C0000005h 30000000005o
+  ea:     4198442.   40102Ah    20010052o
+  eid:          64.       40h         100o
+  file: ""
+  func: "___idcexec0"
+  handled:           1.        1h           1o
+  info: "The instruction at 0x40102A referenced memory at 0x6. The memory could not be read"
+  line:           2.        2h           2o
+  pc:          11.        Bh          13o
+  pid:       40128.     9CC0h      116300o
+  ref:           6.        6h           6o
+  tid:       36044.     8CCCh      106314o
+</pre>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<h2>Appcall related functions</h2>
+There are some functions that can be used while working with Appcalls.<br/>
+
+<h3>parse_decl/get_tinfo/sizeof</h3>
+
+<p>The <code>get_tinfo()</code> function is used to retrieve the typeinfo string associated with a given address.</p>
+<pre style="background-color:lightblue">/// Get type information of function/variable as 'typeinfo' object
+///      ea - the address of the object
+///      type_name - name of a named type
+/// returns: typeinfo object, 0 - failed
+/// The typeinfo object has one mandatory attribute: typid
+
+typeinfo get_tinfo(long ea);
+typeinfo get_tinfo(string type_name);  
+</pre>
+
+<p>The <code>parse_decl()</code> function is used to construct a typeinfo string from a type string. We already used it to construct a typeinfo string and passed it to <code>dbg_appcall()</code>.</p>
+<pre style="background-color:lightblue">/// Parse one type declaration
+///      input -  a C declaration
+///      flags -  combination of PT_... constants or 0
+///               PT_FILE should not be specified in flags (it is ignored)
+/// returns: typeinfo object or num 0
+
+typeinfo parse_decl(string input, long flags);
+</pre>
+
+<p>And finally, given a typeinfo string, one can use the <code>sizeof()</code> function to calculate the size of a type:</p>
+<pre style="background-color:lightblue">/// Calculate the size of a type
+///      type - type to calculate the size of
+///             can be specified as a typeinfo object (e.g. the result of get_tinfo())
+///             or a string with C declaration (e.g. "int")
+/// returns: size of the type or -1 if error
+
+long sizeof(typeinfo type);  
+</pre>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<h2>Accessing enum members as constants</h2>
+
+<p>In IDC, it is possible to access all the defined enumerations as if they were IDC constants:</p>
+
+<pre style="background-color:lightgray">
+00000001 ; enum MACRO_PAGE (standard) (bitfield)
+00000001 PAGE_NOACCESS  = 1
+00000002 PAGE_READONLY  = 2
+00000004 PAGE_READWRITE  = 4
+00000008 PAGE_WRITECOPY  = 8
+00000010 PAGE_EXECUTE  = 10h
+00000020 PAGE_EXECUTE_READ  = 20h
+00000040 PAGE_EXECUTE_READWRITE  = 40h
+</pre>
+
+<p>Then one can type:</p>
+
+<pre style="background-color:lightblue">msg("PAGE_EXECUTE_READWRITE=%x\n", PAGE_EXECUTE_READWRITE);</pre>
+
+<p>This syntax makes it even more convenient to use enumerations when calling APIs via Appcall.</p>
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<h2>Storing/Retrieving typed elements</h2>
+
+<p>It is possible to store/retrieve (aka serialize/deserialize) objects to/from the database (or the debugee's memory). To illustrate, let us consider the following memory contents:</p>
+
+<pre style="background-color:lightgray">0001000C dd 1003219h
+00010010 dw 0FFEEh
+00010012 dw 0FFEEh
+00010014 dd 1
+</pre>
+
+<p>And we know that this maps to a given type:</p>
+
+<pre style="background-color:lightblue">struct X
+{
+  unsigned long a;
+  unsigned short b, c;
+  unsigned long d;
+};
+</pre>
+
+<p>To retrieve (deserialize) the memory contents into a nice IDC object, we can use the <code>object.retrieve()</code> function:</p>
+
+<pre style="background-color:lightblue">/// Retrieve a C structure from the idb or a buffer and convert it into an object
+///  typeinfo - description of the C structure. Can be specified
+///             as a declaration string or result of \ref get_tinfo() or
+///             similar functions
+///  src      - address (ea) to retrieve the C structure from
+///             OR a string buffer previously packed with the store method
+///  flags    - combination of \ref object_store[PIO_...] bits
+
+void object.retrieve(typeinfo, src, flags);
+</pre>
+
+<p>Here is an example:</p>
+
+<pre style="background-color:lightblue">// Create the typeinfo string
+auto t = parse_decl(&quot;struct X { unsigned long a; unsigned short b, c; unsigned long d;};&quot;, 0);
+// Create a dummy object
+auto o = object();
+// Retrieve the contents into the object:
+o.retrieve(t, 0x1000C, 0);
+</pre>
+
+<p>And now if we dump the contents of <b>o</b>:</p>
+
+<pre style="background-color:lightgray">IDC>print(o);
+object
+  <b>__at__:</b>       65548.    1000Ch      200014o 00000000000000010000000000001100b
+  a:    16790041.  1003219h   100031031o 00000001000000000011001000011001b
+  b:       65518.     FFEEh      177756o 00000000000000001111111111101110b
+  c:       65518.     FFEEh      177756o 00000000000000001111111111101110b
+  d:           1.        1h           1o 00000000000000000000000000000001b
+</pre>
+
+<p>and again we notice the <b>__at__</b> which holds the address of the retrieved object.</p>
+
+<p>
+To store (serialize) the object back into memory, we can use the <code>object.store()</code> function:
+<pre style="background-color:lightblue">/// Convert the object into a C structure and store it into the idb or a buffer
+  ///  typeinfo - description of the C structure. Can be specified
+  ///             as a declaration string or result of \ref get_tinfo() or
+  ///             similar functions
+  ///  dest     - address (ea) to store the C structure
+  ///             OR a reference to a destination string
+  ///  flags    - combination of PIO_.. bits
+  
+  void object.store(typeinfo, dest, flags);
+</pre>
+</p>
+
+<p>Here's an example continuing from the previous one:</p>
+
+<pre style="background-color:lightblue">o.a++; // modify the field
+o.d = 6; // modify another field
+o.store(t, o.__at__, 0);
+</pre>
+
+<p>And finally to verify, we go to the memory address:</p>
+
+<pre style="background-color:lightgray">0001000C dd 100321Ah
+00010010 dw 0FFEEh
+00010012 dw 0FFEEh
+00010014 dd 6
+</pre>
+
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<h1>Using Appcall with IDAPython</h1>
+
+<p>The Appcall concept remains the same between IDC and Python, nonetheless Appcall/Python has a different syntax (using references, unicode strings, etc.)</p>
+
+<p>The Appcall mechanism is provided by <code>ida_idd</code> module (also via <code>idaapi</code>) through the Appcall variable. To issue an Appcall using Python:</p>
+
+<pre style="background-color:lightblue">from idaapi import Appcall
+Appcall.printf(&quot;Hello world!\n&quot;);</pre>
+
+<p>One can take a reference to an Appcall:</p>
+
+<pre style="background-color:lightblue">printf = Appcall.printf
+# ...later...
+printf(&quot;Hello world!\n&quot;);
+</pre>
+
+<ul><li>In case you have a function with a mangled name or with characters that cannot be used as an identifier name in the Python language, then use the following syntax:</li></ul>
+<pre style="background-color:lightblue">findclose     = Appcall[&quot;__imp__FindClose@4&quot;]
+getlasterror  = Appcall[&quot;__imp__GetLastError@0&quot;]
+setcurdir     = Appcall[&quot;__imp__SetCurrentDirectoryA@4&quot;]
+</pre>
+
+<ul><li>In case you want to redefine the prototype of a given function, then use the <code>Appcall.proto(func_name or func_ea, prototype_string)</code> syntax as such:</li></ul>
+<pre style="background-color:lightblue"># pass an address or name and Appcall.proto() will resolve it
+loadlib = Appcall.proto(&quot;__imp__LoadLibraryA@4&quot;, &quot;int (__stdcall *LoadLibraryA)(const char *lpLibFileName);&quot;)
+# Pass an EA instead of a name
+freelib = Appcall.proto(LocByName(&quot;__imp__FreeLibrary@4&quot;), &quot;int (__stdcall *FreeLibrary)(int hLibModule);&quot;)
+</pre>
+
+<ul><li>To pass unicode strings you need to use the Appcall.unicode() function:</li></ul>
+<pre style="background-color:lightblue">getmodulehandlew = Appcall.proto(&quot;__imp__GetModuleHandleW@4&quot;, &quot;int (__stdcall *GetModuleHandleW)(LPCWSTR lpModuleName);&quot;)
+hmod = getmodulehandlew(Appcall.<b>unicode</b>(&quot;kernel32.dll&quot;))
+</pre>
+<ul><li>To pass int64 values to a function you need to use the <code>Appcall.int64()</code> function:</ul>
+<pre style="background-color:lightblue">/* C code */
+int64 op_two64(int64 a, int64 b, int op)
+{
+  if (op == 1)
+    return a + b;
+  else if (op == 2)
+    return a - b;
+  else if (op == 3)
+    return a * b;
+  else if (op == 4)
+    return a / b;
+  else
+    return -1;
+}
+</pre>
+<p>Python Appcall code:</p>
+<pre style="background-color:lightblue">r = Appcall.op_two64(Appcall.<b>int64</b>(1), Appcall.<b>int64</b>(2), 1)
+print(&quot;result=&quot;, r.value)
+</pre>
+
+<p>If the returned value is also an int64, then you can use the <code>int64.value</code> to unwrap and retrieve the value.</p>
+
+<ul><li>To define a prototype and then later assign an address so you can issue an Appcall:</ul>
+
+<pre style="background-color:lightblue"># Create a typed object (no address is associated yet)
+virtualalloc = Appcall.typedobj(&quot;int __stdcall VirtualAlloc(int lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect);&quot;)
+# Later we have an address, so we pass it:
+virtualalloc.ea = idc.get_name_ea(0, &quot;kernel32_VirtualAlloc&quot;)
+# Now we can Appcall:
+ptr = virtualalloc(0, Appcall.Consts.MEM_COMMIT, 0x1000, Appcall.Consts.PAGE_EXECUTE_READWRITE)
+print(&quot;ptr=%x&quot; % ptr)
+</pre>
+
+Things to note:
+<ul>
+  <li>We used the Appcall.Consts syntax to access enumerations (similar to what we did in IDC)</li>
+  <li>If you replicate this specific example, a new memory page will be allocated. You need to refresh the debugger memory layout (with <code>idaapi.refresh_debugger_memory()</code>) to access it</li>
+</ul>
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<h2>Passing arguments by reference</h2>
+
+<ul><li>To pass function arguments by reference, one has to use the <code>Appcall.byref()</code>:</li></ul>
+<pre style="background-color:lightblue"># Create a byref object holding the number 5
+i = Appcall.byref(5)
+# Call the function
+Appcall.ref1(i)
+# Retrieve the value
+print(&quot;Called the function:&quot;, i.value)</pre>
+
+<ul><li>To call a C function that takes a string buffer and modifies it, we need to use the <code>Appcall.buffer(initial_value, [size])</code> function to create a buffer:</li></ul>
+<pre style="background-color:lightblue">buf = Appcall.buffer(&quot;test&quot;, 100)
+Appcall.ref2(buf)
+print(buf.cstr())
+</pre>
+
+<ul><li>Another real life example is when we want to call the GetCurrentDirectory() API:</li></ul>
+<pre style="background-color:lightblue"># Take a reference
+getcurdir = Appcall.proto(&quot;kernel32_GetCurrentDirectoryA&quot;, &quot;DWORD __stdcall GetCurrentDirectoryA(DWORD nBufferLength, LPSTR lpBuffer);&quot;)
+# make a buffer
+buf = Appcall.byref(&quot;\x00&quot; * 260)
+# get current directory
+n = getcurdir(260, buf)
+print(&quot;curdir=%s&quot; % buf.cstr())
+</pre>
+
+<ul><li>To pass int64 values by reference:</li></ul>
+<pre style="background-color:lightblue">int64_t ref4(int64_t *a)
+{
+  if (a == NULL)
+  {
+    printf(&quot;No number passed!&quot;);
+    return -1;
+  }
+  int64_t old = *a;
+  printf(&quot;Entered with %&quot; PRId64 &quot;\n&quot;, *a);
+  (*a)++;
+  return old;
+}
+</pre>
+
+<p>We use the following Python code:</p>
+<pre style="background-color:lightblue"># Create an int64 value
+i = Appcall.int64(5)
+# create a reference to it
+v = Appcall.byref(i)
+# appcall
+old_val = Appcall.ref4(v)
+print(f&quot;Called with {old_val.value}, computed {i.value}&quot;)
+</pre>
+<ul><li>To call a C function that takes an array of integers or an array of a given type:</li></ul>
+
+<pre style="background-color:lightblue">/* C code */
+int ref3(int *arr, int sz)
+{
+  if (arr == NULL)
+    return 0;
+  int sum = 0;
+  for (int i=0;i&lt;sz;i++)
+    sum += arr[i];
+  return sum;
+}
+</pre>
+
+<p>First we need to use the <code>Appcall.array()</code> function to create an array type, then we use the <code>array_object.pack()</code> function to encode the Python values into a buffer:</p>
+<pre style="background-color:lightblue"># create an array type
+arr = Appcall.array(&quot;int&quot;)
+# Create a test list
+L = [x for x in range(1, 10)]
+# Pack the list
+p_list = arr.pack(L)
+
+# appcall to compute the total
+c_total = Appcall.ref3(p_list, len(L))
+# internally compute the total
+total = sum(L)
+if total != c_total:
+    print(&quot;Appcall failed!&quot;)
+else:
+    print(f&quot;Total computed using Appcall is {total}&quot;)
+</pre>
+<!-- ---------------------------------------------------------------------------------- -->
+<h2>Functions that accept or return structures</h2>
+
+<p>Like in IDC, we can create objects and pass them with at least two methods.</p>
+
+<p>The first method involves using the <code>Appcall.obj()</code> function that takes an arbitrary number of keyword args that will be used to create an object with the arguments as attributes. The second method is by using a dictionary.</p>
+
+<pre style="background-color:lightblue"># Via dictionary
+rec1 = {&quot;id&quot;: 1, &quot;name&quot;: &quot;user1&quot;}
+
+# Via Appcall.obj
+rec2 = Appcall.obj(id=2, name=&quot;user2&quot;)
+
+Appcall.printRecord(rec1)
+Appcall.printRecord(rec2)  
+</pre>
+
+<p>And finally, if you happen to have your own object instance then just pass your object. The IDAPython object to IDC object conversion routine will skip attributes starting and ending with "__".</p>
+
+<!-- -------------------------------------------------------------------------- -->
+<h2>FindFirst/FindNext example</h2>
+
+<pre style="background-color:lightblue"># For simplicity, let&#x27;s alias the Appcall
+a = idaapi.Appcall
+getcurdir = a.proto(
+    &quot;kernel32_GetCurrentDirectoryA&quot;, 
+    &quot;DWORD __stdcall GetCurrentDirectoryA(DWORD nBufferLength, LPSTR lpBuffer);&quot;)
+    
+getwindir = a.proto(
+    &quot;kernel32_GetWindowsDirectoryA&quot;,
+    &quot;UINT __stdcall GetWindowsDirectoryA(LPSTR lpBuffer, UINT uSize);&quot;)
+    
+setcurdir = a.proto(
+    &quot;kernel32_SetCurrentDirectoryA&quot;,
+    &quot;BOOL __stdcall SetCurrentDirectoryA(LPCSTR lpPathName);&quot;)
+    
+findfirst = a.proto(
+    &quot;kernel32_FindFirstFileA&quot;,
+    &quot;HANDLE __stdcall FindFirstFileA(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData);&quot;)
+    
+findnext = a.proto(
+    &quot;kernel32_FindNextFileA&quot;,
+    &quot;BOOL __stdcall FindNextFileA(HANDLE hFindFile, LPWIN32_FIND_DATAA lpFindFileData);&quot;)
+    
+findclose = a.proto(
+    &quot;kernel32_FindClose&quot;,
+    &quot;BOOL __stdcall FindClose(HANDLE hFindFile);&quot;)
+
+def test():
+    # create a buffer
+    savedpath = a.byref(&quot;\x00&quot; * 260)
+    # get current directory
+    n = getcurdir(250, savedpath)
+    out = []
+    out.append(&quot;curdir=%s&quot; % savedpath.value[0:n])
+
+    # get windir
+    windir = a.buffer(size=260) # create a buffer using helper function
+    n = getwindir(windir, windir.size)
+    if n == 0:
+        print(&quot;could not get current directory&quot;)
+        return False
+
+    windir = windir.value[:n]
+    out.append(&quot;windir=%s&quot; % windir)
+
+    # change to windows folder
+    setcurdir(windir)
+
+    # initiate find
+    fd = a.obj()
+    h = findfirst(&quot;*.exe&quot;, fd)
+    if h == -1:
+        print(&quot;no *.exe files found!&quot;)
+        return False
+
+    found = False
+    while True:
+        fn = a.cstr(fd.cFileName)
+        if &quot;regedit&quot; in fn:
+            found = True
+        out.append(&quot;fn=%s&lt;&quot; % fn)
+        fd = a.obj() # reset the FD object
+        ok = findnext(h, fd)
+        if not ok:
+            break
+    #
+    findclose(h)
+
+    # restore cur dir
+    setcurdir(savedpath.value)
+
+    # verify
+    t = a.buffer(size=260)
+    n = getcurdir(t.size, t)
+    if t.cstr() != savedpath.cstr():
+        print(&quot;could not restore cur dir&quot;)
+        return False
+
+    out.append(&quot;curdir=%s&lt;&quot; % t.cstr())
+    print(&quot;all done!&quot;)
+    for l in out:
+        print(l)
+
+    if found:
+        print(&quot;regedit was found!&quot;)
+    else:
+        print(&quot;regedit was not found!&quot;)
+        
+    return found
+    
+    
+test()    
+</pre>
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<h3>Using GetProcAddress</h3>
+<pre style="background-color:lightblue">a = idaapi.Appcall
+loadlib  = a.proto(&quot;kernel32_LoadLibraryA&quot;, &quot;HMODULE __stdcall LoadLibraryA(const char *lpLibFileName);&quot;)
+getprocaddr = a.proto(&quot;kernel32_GetProcAddress&quot;, &quot;FARPROC __stdcall GetProcAddress(HMODULE hModule, LPCSTR lpProcName);&quot;)
+freelib = a.proto(&quot;kernel32_FreeLibrary&quot;, &quot;BOOL __stdcall FreeLibrary(HMODULE hLibModule);&quot;)
+
+def test_gpa():
+    h = loadlib(&quot;user32.dll&quot;)
+    if idaapi.inf_is_64bit():
+        h = h.value
+    if h == 0:
+        print(&quot;failed to load library!&quot;)
+        return False
+        
+    p = getprocaddr(h, &quot;FindWindowA&quot;)
+    if idaapi.inf_is_64bit():
+        p = p.value
+    if p == 0:
+        print(&quot;failed to gpa!&quot;)
+        return -2
+    findwin = a.proto(p, &quot;HWND FindWindow(LPCTSTR lpClassName, LPCTSTR lpWindowName);&quot;)
+    hwnd = findwin(0, &quot;Calculator&quot;)
+    freelib(h)
+    if idaapi.inf_is_64bit():
+        hwnd = hwnd.value
+        
+    print(&quot;%x: ok!-&gt;hwnd=%x&quot; % (p, hwnd))
+
+    return 1
+    
+test_gpa()
+</pre>
+
+<p>Please note that we used the <code>idaapi.inf_is_64bit()</code> method to properly unwrap integer values that depends on the bitness of the binary.</p>
+
+<!-- ------------------------------------------------------------------------------------------------------- -->
+<h2>Setting the Appcall options</h2>
+<p>In Python, the Appcall options can be set global or locally per Appcall.</p>
+
+<ul><li>To set the global Appcall setting:</li></ul>
+<pre style="background-color:lightblue">old_options = Appcall.set_appcall_options(Appcall.APPCALL_MANUAL)</pre>
+
+<ul><li>To set the Appcall setting per Appcall:</ul>
+<pre style="background-color:lightblue"># take a reference to printf
+printf = Appcall._printf
+# change the setting for this Appcall
+printf.options = Appcall.APPCALL_DEBEV
+printf(&quot;Hello world!\n&quot;)
+</pre>
+
+<p>Similarly, retrieving the Appcall options is done by either calling <code>Appcall.get_appcall_options()</code> or by reading the options attribute (for example: <code>printf.options</code>)</p>
+
+To cleanup after a manual Appcall use <code>Appcall.cleanup_appcall()</code>.
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<h2>Calling functions that can cause exceptions</h2>
+<p>An Appcall that generates an exception while executing in the current thread will throw a Python <b>Exception</b> object. This is inline with the IDC behavior we described above.</p>
+
+<ul><li>Let us try when the Appcall options does not include the <code>APPCALL_DEBEV</code> flag:</li></ul>
+<pre style="background-color:lightblue">try:
+  idaapi.Appcall.cause_crash()
+except Exception as e:
+  print(&quot;Got an exception!&quot;)
+</pre>
+
+<p>This approach is useful if you want to know whether the Appcall passes or crashes.</p>
+
+<p>Now if we want more details about the exception, then we use the APPCALL_DEBEV flag, which will cause an <b>OSError</b> exception to be raised and have its <b>args[0]</b> populated with the last <code>debug_event_t</code>:</p>
+<pre style="background-color:lightblue">cause_crash = idaapi.Appcall.cause_crash
+cause_crash.options = idaapi.APPCALL_DEBEV
+try:
+  cause_crash()
+except OSError as e:
+  debug_event = e.args[0]
+  print(f&quot;Exception: tid={debug_event.tid} ea={debug_event.ea:x}&quot;)
+except Exception as e:
+  print(&quot;Unknown exception!&quot;)
+</pre>
+
+<p>If the Appcall caused a crash, then the <b>debug_event</b> variable will be populated with the last <code>debug_event_t</code> structure inside the <code>OSError</code> exception handler.</p>
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<h2>Appcall related functions in Python</h2>
+
+<h3>Storing/Retrieving objects</h3>
+Storing/Retrieving objects is also supported in Python:
+<ol>
+  <li>Using the IDA SDK (through the idaapi Python module)</li>
+  <li>Using Appcall helper functions</li>
+</ol>
+
+In this example we show how to:
+<ol>
+  <li>Unpack the DOS header at address 0x140000000 and verify the fields
+  <li>Unpack a string and see if it is unpacked correctly
+</ol>
+
+Let's start with the IDA SDK helper functions first:
+
+<pre style="background-color:lightblue"># Struct unpacking
+def test_unpack_struct():
+  name, tp, flds = idc.parse_decl(&quot;IMAGE_DOS_HEADER;&quot;, 0)
+  ok, obj = idaapi.unpack_object_from_idb(idaapi.get_idati(), tp, flds, 0x140000000, 0)
+  return obj.e_magic == 23117 and obj.e_cblp == 144
+
+# Raw unpacking
+def test_unpack_raw():
+  # Parse the type into a type name, typestring and fields
+  name, tp, flds = idc.parse_decl(&quot;struct abc_t { int a, b;};&quot;, 0)
+  # Unpack from a byte vector (bv) (aka string)
+  ok, obj = idaapi.unpack_object_from_bv(
+              idaapi.get_idati(), 
+              tp, 
+              flds, 
+              b&quot;\x01\x00\x00\x00\x02\x00\x00\x00&quot;, 
+              0)
+  return obj.a == 1 and obj.b == 2
+
+print(&quot;test_unpack_struct() passed:&quot;, test_unpack_struct())
+print(&quot;test_unpack_raw() passed:&quot;, test_unpack_raw())
+</pre>
+
+Now to accomplish similar result using Appcall helper functions:
+
+<pre style="background-color:lightblue"># Struct unpacking with Appcall
+  def test_unpack_struct():
+  tp = idaapi.Appcall.typedobj(&quot;IMAGE_DOS_HEADER;&quot;)
+  ok, obj = tp.retrieve(0x140000000)
+  return ok and obj.e_magic == 23117 and obj.e_cblp == 144
+
+# Raw unpacking with Appcall
+def test_unpack_raw():
+  global tp
+  # Parse the type into a type name, typestring and fields
+  tp = idaapi.Appcall.typedobj(&quot;struct abc_t { int a, b;};&quot;)
+  ok, obj = tp.retrieve(b&quot;\x01\x00\x00\x00\x02\x00\x00\x00&quot;)
+  return obj.a == 1 and obj.b == 2
+
+print(&quot;test_unpack_struct() passed:&quot;, test_unpack_struct())
+print(&quot;test_unpack_raw() passed:&quot;, test_unpack_raw())
+</pre>
+
+When it comes to storing, instead of using the Appcall's <code>typedobj.retrieve()</code>, we can use the <code>typedobj.store()</code> function:
+<pre style="background-color:lightblue"># Packs/Unpacks a structure to the database using appcall facilities
+def test_pack_idb(ea):
+  print(&quot;%x: ...&quot; % ea)
+  tp = a.typedobj(&quot;struct { int a, b; char x[4];};&quot;)
+  o = a.obj(a=16, b=17,x=&quot;abcd&quot;)
+  return tp.store(o, ea) == 0
+
+ea = idc.here() # some writable area    
+if test_pack_idb(ea):
+  print(&quot;cool!&quot;)
+  idaapi.refresh_debugger_memory()
+</pre>
+
+<h3>Accessing enum members as constants</h3>
+
+<p>Like in IDC, to access the enums, one can use the <code>Appcall.Consts</code> object:</p>
+
+<pre style="background-color:lightblue">print("PAGE_EXECUTE_READWRITE=%x" % Appcall.Consts.PAGE_EXECUTE_READWRITE)</pre>
+
+<p>If the constant was not defined then an attribute error exception will be thrown. To prevent that, use the <code>Appcall.valueof()</code> method instead, which lets you provide a default value in case a constant was absent:</p>
+<pre style="background-color:lightblue">print("PAGE_EXECUTE_READWRITE=%x" % Appcall.valueof("PAGE_EXECUTE_READWRITE", <b>0x40</b>))</pre>
+
+<p>
+Please send your comments or questions to <a href="mailto:support@hex-rays.com">support@hex-rays.com</a></p>
+</body>
+</html>

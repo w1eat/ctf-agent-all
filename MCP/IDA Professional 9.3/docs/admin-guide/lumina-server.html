@@ -1,0 +1,496 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Lumina server - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="ida-pro-lumina-server-admin-guide"><a class="header" href="#ida-pro-lumina-server-admin-guide">IDA Pro Lumina server Admin Guide</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>This manual describes the installation, management, and interaction with an on-the-premises IDA Pro Lumina server.</p>
+<p>It is primarily intended for administrators, and will focus on the Lumina server component, that can be purchased for IDA Pro.</p>
+<p>While we will (at least superficially) make use of the <code>lc</code> command-line client that is used to access/manage the server, this manual will not offer a detailed explanation of its usage: that is the role of the <code>lc</code> user manual.</p>
+<p>We recommend having the <code>lc</code> user manual ready before starting the installation and configuration of the Lumina server.</p>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<p>After your purchase of Lumina server, go to the <a href="https://my.hex-rays.com/dashboard/download-center/downloads">customer portal</a>, where you will find an installer for the Lumina server. Please go ahead and download it.</p>
+<p><strong>Quick alternative</strong>
+{% hint style=“success” %}</p>
+<h3 id="hcli-commands--see-hcli-docs"><a class="header" href="#hcli-commands--see-hcli-docs">HCLI Commands | <a href="https://hcli.docs.hex-rays.com/">See HCLI Docs</a></a></h3>
+<ul>
+<li><code>hcli license get</code></li>
+<li><code>hcli download</code>
+{% endhint %}</li>
+</ul>
+<p>You will also need <code>root</code> access on the host where you will be installing the Lumina server (to install the server, not to run it).</p>
+<h3 id="mysql-server"><a class="header" href="#mysql-server">MySQL server</a></h3>
+<p>The Lumina server stores its data in a MySQL DBMS server. It is therefore necessary to have valid credentials to such a server, as well as a fresh, empty database.</p>
+<p>NOTE: The Lumina server requires a MySQL server <a href="#index-column-size-too-large.-the-maximum-column-size-is-767-bytes">version 5.8 or newer</a>.</p>
+<p>For illustration purposes, let’s assume the MySQL database the server will use, is called: <code>"lumina_db"</code>.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<p>At installation-time, the Lumina server installer will need information about the MySQL instance the Lumina server will be using (host, port, username, password). Eventually, that information will end up in the <code>lumina.conf</code> file, sitting next to the <code>lumina_server</code> binary:</p>
+<pre><code>CONNSTR="mysql;Server=127.0.0.1;Port=3306;Database=lumina_db;Uid=lumina;Pwd=&lt;snipped&gt;"
+</code></pre>
+<h3 id="installation-in-a-teams-setup"><a class="header" href="#installation-in-a-teams-setup">Installation in a Teams setup</a></h3>
+<p>When Lumina is installed in a Teams setup, in addition to information about the MySQL database in which the Lumina server will store the metadata, the installer asks for the <code>host</code>+<code>port</code> pair where to find a running Hex-Rays Vault server to which user authentication will be delegated.</p>
+<p>That information will also end up in the <code>lumina.conf</code> file:</p>
+<pre><code>VAULT_HOST="vault.acme.com:65433"
+</code></pre>
+<h3 id="supported-platforms"><a class="header" href="#supported-platforms">Supported platforms</a></h3>
+<p>The Lumina server can be installed on Linux servers. We have tested it on Debian and Ubuntu, but other major flavors of Linux should be fine too.</p>
+<p>To install the server, run the Lumina installer as <code>root</code> and follow the instructions (the server will not require <code>root</code> permissions; only the installer does.)</p>
+<p>NOTE: If your Linux system is based on <code>systemd</code> (e.g., Debian/Ubuntu, Red-Hat, CentOS, …​), it is recommended to let the installer create systemd units so that the server will start automatically at the next reboot.</p>
+<h3 id="supported-architectures"><a class="header" href="#supported-architectures">Supported architectures</a></h3>
+<p>Lumina functionality in IDA Pro is <strong>currently available only when analyzing binaries compiled for the following architectures</strong>:</p>
+<ul>
+<li>PC (x86/x64)</li>
+<li>ARM</li>
+<li>PPC</li>
+<li>MIPS</li>
+<li>RISC-V</li>
+</ul>
+<p>If a user loads a binary compiled for an unsupported architecture, the Lumina menu will not appear in IDA Pro and pushing or pulling metadata will not be possible.</p>
+<h3 id="activating-the-server-license"><a class="header" href="#activating-the-server-license">Activating the server license</a></h3>
+<p>In order for the Lumina server license to be activated, it must be bound to a Host ID (an Ethernet MAC address.)</p>
+<p>From a command prompt, run <code>/sbin/ifconfig</code>, and lookup the “ether” address for the network interface through which the server will be accessible.</p>
+<pre><code>&gt;/sbin/ifconfig
+enp4s0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        [...snipped...]
+        ether bf:e2:91:10:58:d2  txqueuelen 1000  (Ethernet)
+        [...snipped...]
+</code></pre>
+<p>In this case, our mac address is: <code>bf:e2:91:10:58:d2</code></p>
+<p>Go to <a href="https://my.hex-rays.com">Hex-Rays customer portal</a> and <a href="../getting-started/licensing.html#private-lumina-server-activation-for-admins">activate your license for Lumina server</a>. During that process, you will need to provide the MAC address of the device where the Lumina server will be running. Once the activation is complete, you’ll be able to download the following files:</p>
+<ul>
+<li>lumina server certificate</li>
+<li><code>lumina_server_&lt;LID&gt;.hexlic</code> (license key, where LID is your license ID)</li>
+</ul>
+<h3 id="installing-the-server-license"><a class="header" href="#installing-the-server-license">Installing the server license</a></h3>
+<p>Those need to be copied in the Lumina installation directory. As <code>root</code>:</p>
+<pre><code>&gt;cd /opt/lumina
+&gt;cp .../path/to/lumina_server.crt .
+&gt;cp .../path/to/lumina_server.key .
+&gt;cp .../path/to/lumina_server_&lt;LID&gt;.hexlic .
+&gt;chown lumina:lumina lumina_server.crt lumina_server.key lumina_server_&lt;LID&gt;.hexlic
+&gt;chmod 640 lumina_server.crt lumina_server.key lumina_server_&lt;LID&gt;.hexlic
+</code></pre>
+<h3 id="creating-the-initial-database-schema"><a class="header" href="#creating-the-initial-database-schema">Creating the initial database schema</a></h3>
+<p>At this point, the server should be ready to run.</p>
+<p>NOTE: If your system is already in production and hosts files, skip this section. Using the <code>--recreate-schema</code> option as in the example below, will re-create an empty database and lose all data.</p>
+<p>For the Lumina server to work, it needs to have a proper database schema to work with (at this point, the MySQL database (i.e., <code>"lumina_db"</code>) must already exist but is still empty.)</p>
+<p>That is why, on the first install, you will need to initialize the database the server will use as well as specify which user authentication will be used (either lumina or vault, we will use lumina in the example below):</p>
+<pre><code>&gt;sudo -u lumina ./lumina_server --config-file lumina.conf \
+                                --certchain-file lumina_server.crt \
+                                --privkey-file lumina_server.key \
+                                --recreate-schema lumina
+Hex-Rays Lumina Server v8.0 Hex-Rays (c) 2022-2024
+2022-09-02 10:28:30 Database has been initialized; exiting.
+</code></pre>
+<p>If you see “Error: Cannot connect to lumina db” please refer to <a href="#error-cannot-connect-to-lumina-db">troubleshooting</a> section.</p>
+<h3 id="testing-the-server"><a class="header" href="#testing-the-server">Testing the server</a></h3>
+<p>Now that the server is installed and has a database to work with, we can test that it works:</p>
+<pre><code>&gt;sudo -u lumina ./lumina_server --config-file lumina.conf \
+                      --certchain-file lumina_server.crt \
+                      --privkey-file lumina_server.key
+Hex-Rays Lumina Server v8.0 Hex-Rays (c) 2022-2024
+2022-09-22 12:14:37 Listening on 0.0.0.0:443...
+</code></pre>
+<p>Good, the server appears to run! (If you are observing more worrying messages than this one, please refer to the <a href="#troubleshooting">troubleshooting</a> section.)</p>
+<p>At this point, you may want to either let the server run, or stop it (<code>Ctrl+C</code> will do) and restart it using systemd:</p>
+<pre><code>&gt;systemctl restart lumina.service
+</code></pre>
+<p>…​and make sure it runs:</p>
+<pre><code>&gt;ps aux | grep lumina_server
+lumina  78812  0.0  0.0 ...
+</code></pre>
+<p>or:</p>
+<pre><code>&gt;systemctl status lumina.service
+</code></pre>
+<p>If you don’t see a running <code>lumina_server</code> process or systemctl reports a startup failure, please refer to the <code>systemd</code> diagnostic tools (e.g., <code>journalctl</code>) for more info.</p>
+<h2 id="initial-configuration"><a class="header" href="#initial-configuration">Initial configuration</a></h2>
+<p>This chapter explains how to perform the initial configuration of the Lumina server, and in particular how to create the first (i.e., “administrator”) user.</p>
+<h3 id="creating-the-administrator"><a class="header" href="#creating-the-administrator"><strong>Creating the administrator</strong></a></h3>
+<p>NOTE: The very first user to log into the server becomes the first administrator. S/he can create new administrators and otherwise manage the server.</p>
+<p>Once the server is up and running, login to it using a username and password of your choice using the <code>lc</code> utility.</p>
+<p>NOTE: <code>lc</code> is the Lumina command-line administration client, which comes with the Lumina server installer. We will assume the server has been installed in <code>/opt/lumina/</code>, and thus <code>lc</code> is present in <code>/opt/lumina/lc</code>.</p>
+<pre><code>&gt;cd /opt/lumina
+&gt;./lc -hlumina.acme.com -ualice -psecr3t info
+	Hex-Rays Lumina Server v8.0
+	Lumina time: 2022-09-01 14:28:02, up since 2022-09-01 14:27:58
+	MAC address: &lt;snipped macaddr&gt;
+	Client name: alice *ADMIN*
+	Client host: 127.0.0.1
+</code></pre>
+<p>Since Alice is the first user to login to the server, the credentials she provided, will be used to create the server’s primary administrator.</p>
+<p>You can verify that you are the only user by checking the user list:</p>
+<pre><code>&gt;./lc -hlumina.acme.com -ualice -psecr3t users
+	LastActive          Adm Login License         User name Email
+	------------------- --- ----- --------------- --------- --------------
+	2022-09-01 14:28:04 *   alice AA-A11C-AC8E-01 Alice     alice@acme.com
+	# Shown 1 results
+</code></pre>
+<h2 id="useful-environment-variables"><a class="header" href="#useful-environment-variables">Useful environment variables</a></h2>
+<p>To facilitate using <code>lc</code>, you may consider defining the following environment variables:</p>
+<pre><code>export LUMINA_HOST=lumina.acme.com
+export LUMINA_USER=alice
+export LUMINA_PASS=secr3t
+</code></pre>
+<p>After that, you can connect to the server effortlessly. For example, this command will print information about the server and the client:</p>
+<pre><code>&gt;./lc info
+    Hex-Rays Lumina Server v8.0
+    Lumina time: 2022-09-01 14:28:02, up since 2022-09-01 14:27:58
+    MAC address: &lt;snipped macaddr&gt;
+    Client name: alice *ADMIN*
+    Client host: 127.0.0.1
+...
+</code></pre>
+<p>The lumina server looks up an additional <code>LUMINA_RECV_HELO_TIMEOUT</code> environment variable, which can be used to set
+the timeout for client login phase (the time between the TLS handshake and the arrival of the first packet). The
+value is in milliseconds, and setting it to -1 disables the timeout.</p>
+<p>Note that when a client attempts to connect, the lumina server creates a new thread and keeps it running for the entire
+duration of this timeout. Hence, for publicly exposed lumina servers, it is advised to keep it as short as possible (e.g. 1000 ms).</p>
+<h2 id="lumina-server-command-line-options"><a class="header" href="#lumina-server-command-line-options">Lumina server command-line options</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>-p …​ (–port-number …​)</td><td>Port number (default 443)</td></tr>
+<tr><td>-i …​ (–ip-address …​)</td><td>IP address to bind to (default to any)</td></tr>
+<tr><td>-c …​ (–certchain-file …​)</td><td>TLS certificate chain file</td></tr>
+<tr><td>-k …​ (–privkey-file …​)</td><td>TLS private key file</td></tr>
+<tr><td>-v (–verbose)</td><td>Verbose mode</td></tr>
+<tr><td>(–recreate-schema [lumina|vault]​)</td><td>Drop &amp; re-create schema using either lumina or vault user authentication. Note that <strong>THIS WILL ERASE ALL DATA</strong></td></tr>
+<tr><td>(–upgrade-schema)</td><td>Upgrade database schema; then quit. Only necessary when upgrading to a newer version of the Lumina server.</td></tr>
+<tr><td>-C …​ (–connection-string …​)</td><td>Connection string</td></tr>
+<tr><td>-l …​ (–log-file …​)</td><td>Log file</td></tr>
+<tr><td>-f …​ (–config-file …​)</td><td>Config file</td></tr>
+<tr><td>-D …​ (–badreq-dir …​)</td><td>Directory holding dumps of requests causing internal errors</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<h3 id="the-server-complains-about-a-world-accessible-file-and-exits"><a class="header" href="#the-server-complains-about-a-world-accessible-file-and-exits">The server complains about a “world-accessible” file, and exits</a></h3>
+<p>The following files shouldn’t be readable by everyone on the system, but only by <code>root</code> and <code>lumina</code>:</p>
+<ul>
+<li><code>lumina.conf</code>: this file file holds the connection string to the database the server will use, and might contain credentials.</li>
+<li><code>lumina_server.crt</code>: the certificate chain</li>
+<li><code>lumina_server.key</code>: the private key file</li>
+<li><code>lumina_server_&lt;LID&gt;.hexlic</code>: the license file where <lid> represents your lumina server license ID.</lid></li>
+</ul>
+<p>As a precaution, the Lumina server will refuse to start if these files are readable by unauthorized users.</p>
+<p>Please make sure they:</p>
+<ul>
+<li>have <code>lumina:lumina</code> ownership: <code>chown lumina:lumina lumina_server.crt lumina_server.key lumina_server_&lt;LID&gt;.hexlic lumina.conf</code></li>
+<li>are not world-accessible: <code>chmod 640 lumina_server.crt lumina_server.key lumina_server_&lt;LID&gt;.hexlic lumina.conf</code></li>
+</ul>
+<h3 id="mysql"><a class="header" href="#mysql">MySQL</a></h3>
+<p>Before the first <code>--recreate-schema</code> command can succeed, it is necessary to create the MySQL database, as well as the user that it will be accessed as.</p>
+<h3 id="authentication-plugin-caching_sha2_password-cannot-be-loaded"><a class="header" href="#authentication-plugin-caching_sha2_password-cannot-be-loaded">“Authentication plugin ‘caching_sha2_password’ cannot be loaded”</a></h3>
+<p>Some recent Linux distributions ship versions of MySQL that use the <code>"caching_sha2_password"</code> password-checking plugin (as opposed to the traditional “native password” one.)</p>
+<p>In order for the Lumina server to able to use this strategy, it would have to ship with a <code>libmysqlclient.so</code> file that is linked against <code>libssl.so.3</code>.</p>
+<p>Unfortunately, this library is not yet available on all of the various [versions of] distributions that we currently support, and introducing this dependency would significantly reduce the diversity of platforms on which the Lumina server can run.</p>
+<p>Consequently (for now) we have opted for another approach: the “lumina” MySQL user should use MySQL’s “native password” strategy. This can be accomplished by issuing the following command in a MySQL prompt:</p>
+<pre><code>ALTER USER lumina@localhost IDENTIFIED WITH mysql_native_password BY '&lt;luminauserpassword&gt;';
+</code></pre>
+<p>Once <code>libssl.so.3</code> is more generally available, Lumina will not require this particular fine-tuning anymore.</p>
+<h3 id="mysql-tls-connections"><a class="header" href="#mysql-tls-connections">MySQL TLS connections</a></h3>
+<p>For the same reasons as the <code>caching_sha2_password</code>issue, the Lumina server does not use TLS connections and thus will negotiate a plain TCP connection to the MySQL server.</p>
+<h4 id="creating-the-user-and-database"><a class="header" href="#creating-the-user-and-database">Creating the user and database</a></h4>
+<p>What follows is an example creating a user + database, on a Debian system:</p>
+<pre><code>&gt;sudo mysql -uroot -p
+[sudo] password for aundro:
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14306
+Server version: 10.1.48-MySQL-0+deb9u2 Debian 9.13
+
+Copyright (c) 2000, 2018, Oracle, MySQL Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]&gt; create user lumina@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+MySQL [(none)]&gt; set password for lumina@localhost = PASSWORD('&lt;snipped&gt;');
+Query OK, 0 rows affected (0.00 sec)
+
+MySQL [(none)]&gt; grant all on *.* to lumina@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+MySQL [(none)]&gt; ALTER USER lumina@localhost IDENTIFIED WITH mysql_native_password BY '&lt;snipped&gt;';
+Query OK, 0 rows affected (0.00 sec)
+
+MySQL [(none)]&gt; create database lumina_db;
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [(none)]&gt; [Ctrl+C] Bye
+</code></pre>
+<h4 id="index-column-size-too-large-the-maximum-column-size-is-767-bytes"><a class="header" href="#index-column-size-too-large-the-maximum-column-size-is-767-bytes">“Index column size too large. The maximum column size is 767 bytes.”</a></h4>
+<p>The Lumina server cannot create its schema due to a particularly stringent limit on “index prefix sizes” in older versions of MySQL.</p>
+<p>This limit was increased in MySQL <strong>version 5.8</strong>, and thus this is the minimum version the Lumina server can work with.</p>
+<h4 id="error-cannot-connect-to-lumina-db"><a class="header" href="#error-cannot-connect-to-lumina-db">“Error: Cannot connect to lumina db”</a></h4>
+<p>In this case, edit the configuration file, by default <code>/opt/lumina/lumina.conf</code> and replace <code>Server=localhost</code> by <code>Server=127.0.0.1</code> in <code>CONNSTR</code>.</p>
+<h2 id="concepts"><a class="header" href="#concepts">Concepts</a></h2>
+<h3 id="what-is-the-lumina-server"><a class="header" href="#what-is-the-lumina-server">What is the Lumina server</a></h3>
+<p>The Lumina server is a “functions metadata” repository.</p>
+<p>It is a place where IDA users can <strong>push</strong>, and <strong>pull</strong> such metadata, to ease their reverse-engineering work: metadata can be extracted from existing projects, and re-applied effortlessly to new projects, thereby reducing (sometimes dramatically) the amount of time needed to analyze binaries.</p>
+<h4 id="functions-metadata"><a class="header" href="#functions-metadata"><strong>Functions metadata</strong></a></h4>
+<p>The Lumina server associates “function metadata” to functions, by means of a (<code>md5</code>) <em>hash</em> of those functions: whenever it wants to push information to, or pull information from the server, IDA will first have to compute hashes of the functions it wants to retrieve metadata for, and send those hashes to the Lumina server.</p>
+<p>Similarly, when IDA <strong>push</strong>es information to the Lumina server, it will first compute hashes for the corresponding functions, extract the metadata corresponding to those from the <code>.idb</code> file, and send those hash+metadata pairs to the server.</p>
+<h4 id="metadata-contents"><a class="header" href="#metadata-contents"><strong>Metadata contents</strong></a></h4>
+<p>Metadata about functions can include:</p>
+<ul>
+<li>function name</li>
+<li>function address</li>
+<li>function size</li>
+<li>function prototype</li>
+<li>function [repeatable] comments</li>
+<li>instruction-specific [repeatable] comments</li>
+<li>anterior/posterior (i.e., “extra”) comments</li>
+<li>user-defined “stack points” in the function’s frame</li>
+<li>the function frame description and stack variables</li>
+<li>instructions operands representations</li>
+</ul>
+<h4 id="pushing--overriding-metadata"><a class="header" href="#pushing--overriding-metadata"><strong>Pushing &amp; overriding metadata</strong></a></h4>
+<p>When a user pushes metadata about a function whose <code>md5</code> hash isn’t present in the database, the Lumina server will simply create a new record for it.</p>
+<p>However, when a user pushes metadata about a function whose <code>md5</code> hash (and associated metadata) is already present in the database, the Lumina server will attempt to “score” the quality of the old metadata and the quality of the new metadata. If the score of the new metadata is higher, the new function metadata will override the previous one.</p>
+<p>{% hint style=“info” %}
+When a user asks IDA to push <em>all</em> functions to the Lumina server, IDA will automatically skip some functions: those that still have a “dummy” name (e.g., <code>sub_XXXX</code>), or that are below a certain size threshold (i.e., 32 bytes) will be ignored.
+{% endhint %}</p>
+<h4 id="metadata-history"><a class="header" href="#metadata-history"><strong>Metadata history</strong></a></h4>
+<p>The Lumina server retains a history of the metadata associated to functions. Using the <code>lc</code> utility, it is possible to dig into that history, and view changes (detailed diffs, too.)</p>
+<h4 id="file-contents"><a class="header" href="#file-contents"><strong>File contents</strong></a></h4>
+<p>It’s worth pointing out that when pushing metadata to the Lumina server, IDA will not push the binary file itself. Only the following metadata about the file itself will be sent:</p>
+<ul>
+<li>the name of the input file</li>
+<li>the name of the IDB file</li>
+<li>a <code>md5</code> hash of the input file</li>
+</ul>
+<p>The Lumina server cannot therefore be used as a backup/repository for binary files &amp; IDBs (that is the role of the <code>vault_server</code>)</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../admin-guide.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../admin-guide/teams-server.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../admin-guide.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../admin-guide/teams-server.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

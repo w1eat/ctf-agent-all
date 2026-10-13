@@ -1,0 +1,20 @@
+.[WORKLIST_ID] Restrict to the provided worklist, defaults to showing all worklists.
+.[USER] Restrict to user USER, defaults to the current user.
+
+>Lists information about worklists.
+
+Show a (possibly filtered) list of pending worklists, and their
+metadata:
+
+* the timestamp of when they were last changed
+* the number of files they contain
+* the owner
+* the site
+* their description
+
+See also [worklist show](#worklist-show)
+
+!
+$$
+WL 4 2022-06-27 17:24:51 2 files; $USER@$ALICE_SITE More work on L30DS2 firmware
+

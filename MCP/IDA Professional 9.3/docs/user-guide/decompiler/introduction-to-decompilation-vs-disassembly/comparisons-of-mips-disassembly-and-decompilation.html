@@ -1,0 +1,596 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Comparisons of MIPS disassembly and decompilation - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="comparisons-of-mips-disassembly-and-decompilation"><a class="header" href="#comparisons-of-mips-disassembly-and-decompilation">Comparisons of MIPS disassembly and decompilation</a></h1>
+<p>Here are some side-by-side comparisons of disassembly and decompiler for MIPS. Please maximize the window too see both columns simultaneously.</p>
+<p>The following examples are displayed on this page:</p>
+<ol>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#simple-code">Simple code</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#id-64-bit-comparison">64-bit comparison</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#magic-divisions">Magic divisions</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#hard-cases-with-delay-slots">Hard cases with delay slots</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#little-endian-mips">Little-endian MIPS</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#micromips">MicroMIPS</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#floating-point-operations">Floating-point operations</a></li>
+<li><a href="comparisons-of-mips-disassembly-and-decompilation.html#compiler-helpers">Compiler helpers</a></li>
+</ol>
+<h3 id="simple-code"><a class="header" href="#simple-code">Simple code</a></h3>
+<p>This is a very simple code to decompile and the output is perfect. The only minor obstacle are references through the global offset table but both IDA and the Decompiler handle them well. Please note the difference in the number of lines to read on the left and on the right.</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-armasm"># void __fastcall free_argv(int argc, char **argv)
+                .globl _Z9free_argviPPc  # weak
+_Z9free_argviPPc:                        # CODE XREF: test_expand_argv(void)+264↑p
+                                         # test_expand_argv(void)+51C↑p ...
+
+var_10          = -0x10
+var_4           = -4
+var_s0          =  0
+var_s4          =  4
+arg_0           =  8
+arg_4           =  0xC
+
+ # __unwind {
+                addiu   $sp, -0x28
+                sw      $ra, 0x20+var_s4($sp)
+                sw      $fp, 0x20+var_s0($sp)
+                move    $fp, $sp
+                la      $gp, _GLOBAL_OFFSET_TABLE_+0x7FF0
+                sw      $gp, 0x20+var_10($sp)
+                sw      $a0, 0x20+arg_0($fp)
+                sw      $a1, 0x20+arg_4($fp)
+                lw      $v0, 0x20+arg_4($fp)
+                beqz    $v0, loc_17778
+                nop
+                sw      $zero, 0x20+var_4($fp)
+
+loc_1770C:                               # CODE XREF: free_argv(int,char **)+80↓j
+                lw      $v1, 0x20+var_4($fp)
+                lw      $v0, 0x20+arg_0($fp)
+                slt     $v0, $v1, $v0
+                beqz    $v0, loc_17760
+                nop
+                lw      $v0, 0x20+var_4($fp)
+                sll     $v0, 2
+                lw      $v1, 0x20+arg_4($fp)
+                addu    $v0, $v1, $v0
+                lw      $v0, 0($v0)
+                move    $a0, $v0
+                lw      $v0, (qfree_ptr-0x7FF0 - _GLOBAL_OFFSET_TABLE_)($gp)
+                move    $t9, $v0
+                jalr    $t9 ; qfree
+                nop
+                lw      $gp, 0x20+var_10($fp)
+                lw      $v0, 0x20+var_4($fp)
+                addiu   $v0, 1
+                sw      $v0, 0x20+var_4($fp)
+                b       loc_1770C
+                nop
+ # ---------------------------------------------------------------------------
+
+loc_17760:                               # CODE XREF: free_argv(int,char **)+40↑j
+                lw      $a0, 0x20+arg_4($fp)
+                lw      $v0, (qfree_ptr-0x7FF0 - _GLOBAL_OFFSET_TABLE_)($gp)
+                move    $t9, $v0
+                jalr    $t9 ; qfree
+                nop
+                lw      $gp, 0x20+var_10($fp)
+
+loc_17778:                               # CODE XREF: free_argv(int,char **)+28↑j
+                nop
+                move    $sp, $fp
+                lw      $ra, 0x20+var_s4($sp)
+                lw      $fp, 0x20+var_s0($sp)
+                addiu   $sp, 0x28
+                jr      $ra
+                nop
+ # } // starts at 176D8
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">void __fastcall free_argv(int argc, char **argv)
+{
+  int i; // [sp+1Ch] [+1Ch]
+
+  if ( argv )
+  {
+    for ( i = 0; i &lt; argc; ++i )
+      qfree(argv[i]);
+    qfree(argv);
+  }
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="64-bit-comparison"><a class="header" href="#64-bit-comparison">64-bit comparison</a></h3>
+<p>Sorry for another long assembler listing. It shows that for MIPS, as for other platforms, the decompiler can recognize 64-bit operations and collapse them into very readable constructs.</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-armasm"># =============== S U B R O U T I N E =======================================
+
+# Attributes: bp-based frame fpd=0x18
+
+# _DWORD uh_eq_s(void)
+                .globl _Z7uh_eq_sv
+_Z7uh_eq_sv:                             # DATA XREF: .eh_frame:000478E4↓o
+
+var_s0          =  0
+var_s4          =  4
+var_s8          =  8
+var_sC          =  0xC
+var_s10         =  0x10
+var_s14         =  0x14
+var_s18         =  0x18
+var_s1C         =  0x1C
+
+ # __unwind {
+                addiu   $sp, -0x38
+                 sw      $ra, 0x18+var_s1C($sp)
+                 sw      $fp, 0x18+var_s18($sp)
+                 sw      $s5, 0x18+var_s14($sp)
+                 sw      $s4, 0x18+var_s10($sp)
+                 sw      $s3, 0x18+var_sC($sp)
+                 sw      $s2, 0x18+var_s8($sp)
+                 sw      $s1, 0x18+var_s4($sp)
+                 sw      $s0, 0x18+var_s0($sp)
+                 move    $fp, $sp
+                 jal     uh
+                 nop
+                 move    $s5, $v1
+                 move    $s4, $v0
+                 jal     s
+                 nop
+                 move    $s3, $v0
+                 sra     $v0, 31
+                 move    $s2, $v0
+                 xor     $s0, $s4, $s2
+                 xor     $s1, $s5, $s3
+                 or      $v0, $s0, $s1
+                 sltiu   $v0, 1
+                 andi    $v0, 0xFF
+                 move    $sp, $fp
+                 lw      $ra, 0x18+var_s1C($sp)
+                 lw      $fp, 0x18+var_s18($sp)
+                 lw      $s5, 0x18+var_s14($sp)
+                 lw      $s4, 0x18+var_s10($sp)
+                 lw      $s3, 0x18+var_sC($sp)
+                 lw      $s2, 0x18+var_s8($sp)
+                 lw      $s1, 0x18+var_s4($sp)
+                 lw      $s0, 0x18+var_s0($sp)
+                 addiu   $sp, 0x38
+                 jr      $ra
+                 nop
+  # } // starts at 25C
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">bool uh_eq_s(void)
+{
+  unsigned __int64 v0; // $v1
+
+  v0 = uh();
+  return v0 == s();
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="magic-divisions"><a class="header" href="#magic-divisions">Magic divisions</a></h3>
+<p>We recognize magic divisions for MIPS the same way as for other processors. Note that this listing has a non-trivial delay slot.</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-armasm">.globl smod199
+ smod199:                                 # DATA XREF: .eh_frame:0000875C↓o
+ # __unwind {
+                 lui     $v1, 0x5254
+                 sra     $v0, $a0, 31
+                 li      $v1, 0x5254E78F
+                 mult    $a0, $v1
+                 mfhi    $v1
+                 sra     $v1, 6
+                 subu    $v1, $v0
+                 li      $v0, 0xC7
+                 mul     $a1, $v1, $v0
+                 jr      $ra
+                 subu    $v0, $a0, $a1
+  # } // starts at 4F2C
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">int __fastcall smod199(int a1)
+{
+  return a1 % 199;
+}
+
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="hard-cases-with-delay-slots"><a class="header" href="#hard-cases-with-delay-slots">Hard cases with delay slots</a></h3>
+<p>The previous example was a piece of cake. This one shows a tougher nut to crack: there is a jump to a delay slot. A decent decompiler must handle these cases too and produce a correct output without misleading the user. This is what we do. (We spent quite long time inventing and testing various scenarios with delay slots).</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-armasm">branch_to_b_dslot:                       # CODE XREF: branch_to_bal_dslot+14↓p
+                                         # DATA XREF: branch_likely_cond_move+10↓o
+                move    $t2, $a0
+                addiu   $t3, $t2, -0x18
+                bltz    $t3, l1
+                li      $a0, 1
+                sllv    $a0, $t3
+                b       l2
+
+l1:                                      # CODE XREF: branch_to_b_dslot+8↑j
+                li      $t4, 0xFFFFFFC0
+                li      $t3, 0x18
+                subu    $t3, $t2
+                srav    $a0, $t3
+
+l2:                                      # CODE XREF: branch_to_b_dslot+14↑j
+                jr      $ra
+                addu    $v0, $a0, $t4
+ # End of function branch_to_b_dslot
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">int __fastcall branch_to_b_dslot(int a1)
+{
+  int v1; // $a0
+
+  if ( a1 - 24 &lt; 0 )
+    v1 = 1 &gt;&gt; (24 - a1);
+  else
+    v1 = 1 &lt;&lt; (a1 - 24);
+  return v1 - 64;
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="little-endian-mips"><a class="header" href="#little-endian-mips">Little-endian MIPS</a></h3>
+<p>We support both big-endian and little-endian code. Usually they look the same but there may be subtle differences in the assembler. The decompiler keeps track of the bits involved and produces human-readable code.</p>
+<p>{% tabs %}
+{% tab title=“Little-endian” %}</p>
+<pre><code class="language-armasm">.globl upd_d2
+upd_d2:
+                lwl     $v0, 5($a0)
+                lwr     $v0, 2($a0)
+                addiu   $v0, $v0, 1
+                swl     $v0, 5($a0)
+                swr     $v0, 2($a0)
+                jr      $ra
+                lb      $v0, 0($a0)
+ # End of function upd_d2
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Big-endian” %}</p>
+<pre><code class="language-armasm"> .globl upd_d2
+upd_d2:
+                lwl     $v0, 2($a0)
+                lwr     $v0, 5($a0)
+                addiu   $v0, $v0, 1
+                swl     $v0, 2($a0)
+                swr     $v0, 5($a0)
+                jr      $ra
+                lb      $v0, 0($a0)
+ # End of function upd_d2
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">int __fastcall upd_d2(char *a1)
+{
+  ++*(_DWORD *)(a1 + 2);
+  return *a1;
+}
+
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="micromips"><a class="header" href="#micromips">MicroMIPS</a></h3>
+<p>MicroMIPS, as you have probably guessed, is supported too, with its special instructions and quirks.</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-armasm"> lwm16_sp:
+
+ var_10          = -0x10
+
+                 addiu   $sp, -0x10
+                 swm     $ra,$s0-$s2, 0x10+var_10($sp)
+                 move    $s0, $a0
+                 move    $s1, $a1
+                 move    $s2, $a2
+                 addu    $s0, $s1
+                 addu    $v0, $s0, $s2
+                 lwm     $ra,$s0-$s2, 0x10+var_10($sp)
+                 jraddiusp 0x10
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">__int64 __fastcall lwm16_sp(int a1, int a2, int a3)
+{
+  return a1 + a2 + a3;
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="floating-point-operations"><a class="header" href="#floating-point-operations">Floating-point operations</a></h3>
+<p>The MIPS processor contains a number of complex floating point instructions, which perform several operations at once. It is not easy to decipher the meaning of the assembler code but the pseudocode is the simplest possible.</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-armasm">x2y2m1f:
+                lui     $v0, %hi(dbl_50)
+                ldc1    $f1, dbl_50
+                sub.d   $f0, $f12, $f1
+                add.d   $f1, $f12, $f1
+                mul.d   $f0, $f1
+                jr      $ra
+                madd.d  $f0, $f13, $f0, $f12
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">double __fastcall x2y2m1f(double a1, double a2)
+{
+  return a2 * ((a1 - 1.0) * (a1 + 1.0)) + a1;
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="compiler-helpers"><a class="header" href="#compiler-helpers">Compiler helpers</a></h3>
+<p>A compiler sometime uses helpers; our decompiler knows the meaning of the many helpers and uses it to simplify code.</p>
+<p>{% tabs %}
+{% tab title=“Assembler code” %}</p>
+<pre><code class="language-wasm">mod4:
+
+var_C           = -0xC
+var_s0          =  0
+
+                lui     $gp, %hi(_GLOBAL_OFFSET_TABLE_+0x7FF0)
+                addiu   $sp, -0x20
+                la      $gp, _GLOBAL_OFFSET_TABLE_+0x7FF0
+                li      $a3, 5
+                sw      $ra, 0x1C+var_s0($sp)
+                sw      $gp, 0x1C+var_C($sp)
+                lw      $t9, (__moddi3_ptr-0x7FF0 - _GLOBAL_OFFSET_TABLE_)($gp)
+                jalr    $t9 ; __moddi3
+                move    $a2, $zero
+                lw      $ra, 0x1C+var_s0($sp)
+                jr      $ra
+                addiu   $sp, 0x20
+
+
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“Pseudocode” %}</p>
+<pre><code class="language-clike">__int64 __fastcall mod4(__int64 a1)
+{
+  return a1 % 5;
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly/comparisons-of-powerpc-disassembly-and-decompilation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly/hex-rays-v7.4-vs-v7.3-decompiler-comparison-page.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly/comparisons-of-powerpc-disassembly-and-decompilation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly/hex-rays-v7.4-vs-v7.3-decompiler-comparison-page.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../highlight-abc7f01d.js"></script>
+        <script src="../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

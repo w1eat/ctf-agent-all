@@ -1,0 +1,46 @@
+version: beta2
+platform: unknown
+native_id: '29'
+name: ghost in the thread - 2
+category: Forensics
+description: 'ghost in the thread - 2 (Forensics). VM image: https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing
+  (GhostInTheThread.ova).'
+value: 0
+files:
+- distfiles/sunchan2.html
+- distfiles/sunchan2b.html
+- distfiles/sunchan2c.html
+challenge_mode: hybrid
+connection_info: https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#ghost%20in%20the%20thread%20-%202-29
+environment:
+  status: unknown
+  source: remote
+  url: https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing
+  host: ''
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- id: '0'
+  name: sunchan2.html
+  sha256: d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e
+  size: 40034
+  target: a[href="/files/sunchan2.html"]
+  url: https://2026.sunshinectf.org/files/sunchan2.html
+- id: '1'
+  name: sunchan2b.html
+  sha256: d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e
+  size: 40034
+  target: a[href="/files/sunchan2b.html"]
+  url: https://2026.sunshinectf.org/files/sunchan2b.html
+- id: '2'
+  name: sunchan2c.html
+  sha256: d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e
+  size: 40034
+  target: a[href^="/files/00e4726e95ac014b970a678ca6d18ace/sunchan.html"]
+  url: https://2026.sunshinectf.org/files/00e4726e95ac014b970a678ca6d18ace/sunchan.html
+attachments_scanned: true
+state: solved
+reason: ''

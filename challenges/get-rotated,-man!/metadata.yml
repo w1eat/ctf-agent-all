@@ -1,0 +1,29 @@
+version: beta2
+platform: unknown
+native_id: '46'
+name: Get rotated, man!
+category: BSides Orlando
+description: Uh... this one's weird. There's like a spinny thing at the front of the
+  room. What the heck does it mean? I don't even know if the flag format is different.
+  (on-site challenge)
+value: 499
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#Get%20rotated%2C%20man!-46
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Get%20rotated%2C%20man!-46
+environment:
+  status: not_required
+  source: platform-page
+  url: https://2026.sunshinectf.org/challenges#Get%20rotated%2C%20man!-46
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment/attachments: on-site ''spinny thing'' dial at front
+      of room; flag format may be non-standard. Remote path = photos of the dial +
+      sponsor/team writeups.'
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: preparing
+reason: ''

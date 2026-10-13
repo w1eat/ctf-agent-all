@@ -1,0 +1,12 @@
+.[SITENAME] Name of the site to show.
+>Lists all sites.
+
+Show a list of sites, and their associated information.
+
+!
+$$
+Site name  User   Host       Last Used  Rootdir                Cur
+---------- ------ ---------- ---------- ---------------------- ---
+alicepc    alice  alice_PC   2022-06-22 /home/alice/vault_site  *
+joe_laptop joe    ThinkPad14 2022-05-30 c:/work/vault
+chrispc    chris  chris_PC   Never      W:/vault

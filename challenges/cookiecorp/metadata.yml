@@ -1,0 +1,19 @@
+version: beta2
+platform: unknown
+native_id: '9'
+name: CookieCorp
+category: web
+description: '"A Better Cookie for a Brighter Tomorrow!" Welcome to CookieCorp, the
+  Space Age''s finest custom-cookie fabrication service.'
+value: 488
+files: []
+challenge_mode: remote
+connection_info: https://tomorrow.web.2026.sunshinectf.games
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#CookieCorp-9
+environment: {}
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: solved
+reason: ''

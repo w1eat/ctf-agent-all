@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '8'
+name: Total Recall
+category: Pwn
+description: 'Can you recall how to get out of this one? Binary: https://sunshinectf.games/files/54cf6a/total_recall'
+value: 469
+files: []
+challenge_mode: remote
+connection_info: nc chal.sunshinectf.games 26003
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Total%20Recall-8
+environment:
+  status: unknown
+  source: remote
+  url: ''
+  host: chal.sunshinectf.games
+  port: 26003
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments: []
+attachments_scanned: true
+state: solved
+reason: ''

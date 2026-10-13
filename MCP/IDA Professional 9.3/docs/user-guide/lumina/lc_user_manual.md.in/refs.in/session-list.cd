@@ -1,0 +1,7 @@
+>Lists the current connections to the Lumina server. For each connection, the currently executed query (if any) is shown.
+For each connection, the currently executed query (if any) is shown.
+
+!
+$$
+id=1642 peer="127.0.0.1", user="...", license="...", e-mail="...", established="2022-08-16 17:13:21"
+current_query="INSERT INTO pushes (fk_idb, fk_user) VALUES (?, ?)" (0msec)

@@ -1,0 +1,560 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Debugging Mac OSX Applications with IDA Pro - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="debugging-mac-osx-applications-with-ida-pro"><a class="header" href="#debugging-mac-osx-applications-with-ida-pro">Debugging Mac OSX Applications with IDA Pro</a></h1>
+<h2 id="debugging-mac-osx-applications-with-ida-pro-1"><a class="header" href="#debugging-mac-osx-applications-with-ida-pro-1">Debugging Mac OSX Applications with IDA Pro</a></h2>
+<p>Last updated on March 6, 2021 — v2.0</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>IDA Pro fully supports debugging native macOS applications.</p>
+<p>Intel x86/64 debugging has been supported since IDA 5.6 (during OSX 10.5 Leopard), but due to IDA’s use of libc++ we can only officially support debugging on OSX 10.9 Mavericks and later. Apple Silicon arm64 debugging for macOS11 is also supported since IDA 7.6.</p>
+<p>Note that this task is riddled with gotchas, and often times it demands precise workarounds that are not required for other platforms. In this tutorial we will purposefully throw ourselves into the various pitfalls of debugging on a Mac, in the hopes that learning things the hard way will ultimately lead to a smoother experience overall.</p>
+<p>Begin by downloading samples:</p>
+<p>{% file src=“samples.zip” %}</p>
+<p>which contains the sample applications used in this writeup.</p>
+<h2 id="codesigning--permissions"><a class="header" href="#codesigning--permissions">Codesigning &amp; Permissions</a></h2>
+<p>It is important to note that a debugger running on macOS requires <a href="https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_debugger">special permissions</a> in order to function properly. This means that the debugger itself must be codesigned in such a way that MacOS allows it to inspect other processes.</p>
+<p>The main IDA Pro application is <em>not</em> codesigned in this way. Later on we’ll discuss why.</p>
+<p>To quickly demonstrate this, let’s open a binary in IDA Pro and try to debug it. In this example we’ll be debugging the <strong>helloworld</strong> app from samples.zip:</p>
+<p>{% file src=“samples.zip” %}</p>
+<p>on MacOSX 10.15 Catalina using IDA 7.5. Begin by loading the file in IDA:</p>
+<pre><code class="language-bash">$ alias ida64="/Applications/IDA\ Pro\ 7.5/ida64.app/Contents/MacOS/ida64"
+$ ida64 helloworld
+</code></pre>
+<p>Now go to menu <strong>Debugger&gt;Select debugger</strong> and select <strong>Local Mac OS X Debugger</strong>:</p>
+<figure><img src="choose_mac_debugger.png" alt="choose mac debugger"><figcaption></figcaption></figure>
+<p>Immediately IDA should print a warning message to the Output window:</p>
+<pre><code>This program must either be codesigned or run as root to debug mac applications.
+</code></pre>
+<p>This is because IDA is aware that it is not codesigned, and is warning you that attempting to debug the target application will likely fail. Try launching the application with shortcut <strong>F9</strong>. You will likely get this error message:</p>
+<figure><img src="elevated_permissions.png" alt="elevated permissions"><figcaption></figcaption></figure>
+<p>Codesigning IDA Pro might resolve this issue, but we have purposefully decided not to do this. Doing so would require refactoring IDA’s internal plugin directory structure so that it abides by Apple’s bundle structure guidelines. This would potentially break existing plugins as well as third-party plugins written by users. We have no plans to inconvenience our users in such a way.</p>
+<p>Also note that running IDA as root will allow you to use the Local Mac OS X Debugger without issue, but this is not advisable.</p>
+<p>A much better option is to use IDA’s mac debug server - discussed in detail in the next section.</p>
+<h2 id="using-the-mac-debug-server"><a class="header" href="#using-the-mac-debug-server">Using the Mac Debug Server</a></h2>
+<p>A good workaround for the debugging restrictions on macOS is to use IDA’s debug server - even when debugging local apps on your mac machine. The mac debug server is a standalone application that communicates with IDA Pro via IPC, so we can ship it pre-codesigned and ready for debugging right out of the box:</p>
+<pre><code>$ codesign -dvv /Applications/IDA\ Pro\ 7.5/idabin/dbgsrv/mac_server64
+Executable=/Applications/IDA Pro 7.5/ida.app/Contents/MacOS/dbgsrv/mac_server64
+Identifier=com.hexrays.mac_serverx64
+Format=Mach-O thin (x86_64)
+CodeDirectory v=20100 size=6090 flags=0x0(none) hashes=186+2 location=embedded
+Signature size=9002
+Authority=Developer ID Application: Hex-Rays SA (ZP7XF62S2M)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=May 19, 2020 at 4:13:31 AM
+</code></pre>
+<p>Let’s try launching the server:</p>
+<pre><code>$ /Applications/IDA\ Pro\ 7.5/idabin/dbgsrv/mac_server64
+IDA Mac OS X 64-bit remote debug server(MT) v7.5.26. Hex-Rays (c) 2004-2020
+Listening on 0.0.0.0:23946...
+</code></pre>
+<p>Now go back to IDA and use menu <strong>Debugger&gt;Switch debugger</strong> to switch to remote debugging:</p>
+<figure><img src="switch_debugger.png" alt="switch debugger"><figcaption></figcaption></figure>
+<p>Now use <strong>Debugger&gt;Process options</strong> to set the <strong>Hostname</strong> and <strong>Port</strong> fields to <strong>localhost</strong> and <strong>23946</strong>.</p>
+<p>(Note that the port number was printed by mac_server64 after launching it):</p>
+<figure><img src="process_options1.png" alt="process options1"><figcaption></figcaption></figure>
+<p>Also be sure to check the option <strong>Save network settings as default</strong> so IDA will remember this configuration.</p>
+<p>Now go to <strong>_main</strong> in the helloworld disassembly, press <strong>F2</strong> to set a breakpoint, then <strong>F9</strong> to launch the process. Upon launching the debugger you might receive this prompt from the OS:</p>
+<figure><img src="developer_tools.png" alt="developer tools"><figcaption></figcaption></figure>
+<p>macOS is picky about debugging permissions, and despite the fact that mac_server is properly codesigned you still must explicitly grant it permission to take control of another process. Thankfully this only needs to be done once per login session, so macOS should shut up until the next time you log out (we discuss how to disable this prompt entirely in the <a href="mac_debugger_primer2.html#debugging-over-ssh">Debugging Over SSH</a> section below).</p>
+<p>After providing your credentials the debugger should start up without issue:</p>
+<figure><img src="helloworld.png" alt="helloworld"><figcaption></figcaption></figure>
+<h3 id="using-a-launch-agent"><a class="header" href="#using-a-launch-agent">Using a Launch Agent</a></h3>
+<p>To simplify using the mac server, save the following XML as com.hexrays.mac_server64.plist in ~/Library/LaunchAgents/:</p>
+<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;com.hexrays.mac_server64&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;/Applications/IDA Pro 7.5/dbgsrv/mac_server64&lt;/string&gt;
+        &lt;string&gt;-i&lt;/string&gt;
+        &lt;string&gt;localhost&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;StandardOutPath&lt;/key&gt;
+    &lt;string&gt;/tmp/mac_server64.log&lt;/string&gt;
+    &lt;key&gt;StandardErrorPath&lt;/key&gt;
+    &lt;string&gt;/tmp/mac_server64.log&lt;/string&gt;
+    &lt;key&gt;KeepAlive&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+<p>Now mac_server64 will be launched in the background whenever you log in. You can connect to it from IDA at any time using the <strong>Remote Mac OS X Debugger</strong> option. Hopefully this will make local debugging on macOS almost as easy as other platforms.</p>
+<h2 id="debugging-system-applications"><a class="header" href="#debugging-system-applications">Debugging System Applications</a></h2>
+<p>There are some applications that macOS will refuse to allow IDA to debug.</p>
+<p>For example, load /System/Applications/Calculator.app/Contents/MacOS/Calculator in IDA and try launching the debugger. You will likely get this error message:</p>
+<figure><img src="permission_denied.png" alt="permission denied"><figcaption></figcaption></figure>
+<p>Despite the fact that mac_server64 is codesigned, it <em>still</em> failed to retrieve permission from the OS to debug the target app. This is because Calculator.app and all other apps in /System/Applications/ are protected by <a href="https://support.apple.com/en-us/HT204899">System Integrity Protection</a> and they cannot be debugged until SIP is <a href="https://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-macos-os-x">disabled</a>. Note that the error message is a bit misleading because it implies that running mac_server64 as root will resolve the issue - it will not. Not even root can debug apps protected by SIP.</p>
+<p>Disabling SIP allows IDA to debug applications like Calculator without issue:</p>
+<figure><img src="calc.png" alt="calc"><figcaption></figcaption></figure>
+<p>The effects of SIP are also apparent when attaching to an existing process. Try using menu <strong>Debugger&gt;Attach to process</strong>, with SIP enabled there will likely only be a handful of apps that IDA can debug:</p>
+<figure><img src="proclist1.png" alt="proclist1"><figcaption></figcaption></figure>
+<p>Disabling SIP makes all system apps available for attach:</p>
+<figure><img src="proclist2.png" alt="proclist2"><figcaption></figcaption></figure>
+<p>It is unfortunate that such drastic measures are required to inspect system processes running on your own machine, but this is the reality of MacOS. We advise that you only disable System Integrity Protection when absolutely necessary, or use a virtual machine that can be compromised with impunity.</p>
+<h2 id="debugging-system-libraries"><a class="header" href="#debugging-system-libraries">Debugging System Libraries</a></h2>
+<p>With IDA you can debug any system library in /usr/lib/ or any framework in /System/Library/.</p>
+<p>This functionality is fully supported, but surprisingly it is one of the hardest problems the mac debugger must handle. To demonstrate this, let’s try debugging the <strong>_getaddrinfo</strong> function in libsystem_info.dylib.</p>
+<p>Consider the <strong>getaddrinfo</strong> application from samples.zip:</p>
+<p>{% file src=“samples.zip” %}</p>
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(int argc, char **argv)
+{
+  if ( argc != 2 )
+  {
+    fprintf(stderr, "usage: %s &lt;hostname&gt;\n", argv[0]);
+    return 1;
+  }
+
+  struct addrinfo hints;
+  memset(&amp;hints, 0, sizeof(hints));
+
+  hints.ai_family = AF_INET;
+  hints.ai_flags |= AI_CANONNAME;
+
+  struct addrinfo *result;
+  int code = getaddrinfo(argv[1], NULL, &amp;hints, &amp;result);
+  if ( code != 0 )
+  {
+    fprintf(stderr, "failed: %d\n", code);
+    return 2;
+  }
+
+  struct sockaddr_in *addr_in = (struct sockaddr_in *)result-&gt;ai_addr;
+  char *ipstr = inet_ntoa(addr_in-&gt;sin_addr);
+  printf("IP address: %s\n", ipstr);
+
+  return 0;
+}
+</code></pre>
+<p>Try testing it out with a few hostnames:</p>
+<pre><code>$ ./getaddrinfo localhost
+IP address: 127.0.0.1
+$ ./getaddrinfo hex-rays.com
+IP address: 104.26.10.224
+$ ./getaddrinfo foobar
+failed: 8
+</code></pre>
+<p>Now load libsystem_info.dylib in IDA and set a breakpoint at <strong>_getaddrinfo</strong>:</p>
+<pre><code>$ ida64 -o/tmp/libsystem_info /usr/lib/system/libsystem_info.dylib
+</code></pre>
+<figure><img src="getaddrinfo_bpt.png" alt="getaddrinfo bpt"><figcaption></figcaption></figure>
+<p>Choose <strong>Remote Mac OS X Debugger</strong> from the Debugger menu and under <strong>Debugger&gt;Process options</strong> be sure to provide a hostname in the <strong>Parameters</strong> field. IDA will pass this argument to the executable when launching it:</p>
+<figure><img src="process_options2.png" alt="process options2"><figcaption></figcaption></figure>
+<p>Before launching the process, use <strong>Ctrl+S</strong> to pull up the segment list for libsystem_info.dylib. Pay special attention to the <strong>__eh_frame</strong> and <strong>__nl_symbol_ptr</strong> segments. Note that they appear to be next to each other in memory:</p>
+<figure><img src="segments1.png" alt="segments1"><figcaption></figcaption></figure>
+<p>This will be important later.</p>
+<p>Finally, use <strong>F9</strong> to launch the debugger and wait for our breakpoint at <strong>_getaddrinfo</strong> to be hit. We can now start stepping through the logic:</p>
+<figure><img src="getaddrinfo_bpt2.png" alt="getaddrinfo bpt2"><figcaption></figcaption></figure>
+<p>Everything appears to be working normally, but use <strong>Ctrl+S</strong> to pull up the segment information again. We can still see <strong>__eh_frame</strong>, but it looks like <strong>__nl_symbol_ptr</strong> has gone missing:</p>
+<figure><img src="segments2.png" alt="segments2"><figcaption></figcaption></figure>
+<p>It is actually still present, but we find it at a much higher address:</p>
+<figure><img src="segments3.png" alt="segments3"><figcaption></figcaption></figure>
+<p>Recall that we opened the file directly from the filesystem (/usr/lib/system/libsystem_info.dylib). However this is actually <em>not</em> the file that macOS loaded into memory. The libsystem_info image in process memory was mapped in from the <a href="http://iphonedevwiki.net/index.php/Dyld_shared_cache">dyld_shared_cache</a>, and the library’s segment mappings were modified before it was inserted into the cache.</p>
+<p>IDA was able to detect this situation and adjust the database so that it matches the layout in process memory. This functionality is fully supported, but it is not trivial. Essentially the debugger must split your database in half, rebase all code segments to one address, then rebase all data segments to a completely different address.</p>
+<p>It is worth noting there is another approach that achieves the same result, but without so much complexity.</p>
+<h3 id="debugging-modules-in-dyld_shared_cache"><a class="header" href="#debugging-modules-in-dyld_shared_cache">Debugging Modules in dyld_shared_cache</a></h3>
+<p>As an alternative for the above example, note that you can load any module directly from a dyld_shared_cache file and debug it. For example, open the shared cache in IDA:</p>
+<pre><code>$ ida64 -o/tmp/libsystem_info2 /var/db/dyld/dyld_shared_cache_x86_64h
+</code></pre>
+<p>When prompted, select the “single module” option:</p>
+<figure><img src="dyld1.png" alt="dyld1"><figcaption></figcaption></figure>
+<p>Then choose the libsystem_info module:</p>
+<figure><img src="dyld2.png" alt="dyld2"><figcaption></figcaption></figure>
+<p>Select the <strong>Remote Mac OS X Debugger</strong> and for <strong>Debugger&gt;Process options</strong> use the exact same options as before:</p>
+<figure><img src="process_options2.png" alt="process options2"><figcaption></figcaption></figure>
+<p>Now set a breakpoint at <strong>_getaddrinfo</strong> and launch the process with <strong>F9</strong>.</p>
+<p>After launching the debugger you might see this warning:</p>
+<figure><img src="dyld3.png" alt="dyld3"><figcaption></figcaption></figure>
+<p>This is normal. Modules from the dyld_shared_cache will contain tagged pointers, and IDA patched the pointers when loading the file so that analysis would not be hindered by the tags. IDA is warning us that the patches might cause a discrepancy between the database and the process, but in this case we know it’s ok. Check <strong>Don’t display this message again</strong> and don’t worry about it.</p>
+<p>Launching the process should work just like before, and we can start stepping through the function in the shared cache:</p>
+<figure><img src="dyld4.png" alt="dyld4"><figcaption></figcaption></figure>
+<p>This time there was no special logic to map the database into process memory. Since we loaded the module directly from the cache, segment mappings already match what’s expected in the process. Thus only one rebasing operation was required (as apposed to the segment scattering discussed in the previous example).</p>
+<p>Both techniques are perfectly viable and IDA goes out of its way to fully support both of them. In the end having multiple solutions to a complex problem is a good thing.</p>
+<h2 id="debugging-objective-c-applications"><a class="header" href="#debugging-objective-c-applications">Debugging Objective-C Applications</a></h2>
+<p>When debugging macOS applications it is easy to get lost in some obscure Objective-C framework. IDA’s mac debugger provides tools to make debugging Objective-C code a bit less painful.</p>
+<p>Consider the <strong>bluetooth</strong> application from samples.zip:</p>
+<p>{% file src=“samples.zip” %}</p>
+<pre><code class="language-c">#import &lt;IOBluetooth/IOBluetooth.h&gt;
+
+int main(void)
+{
+  NSArray *devices = [IOBluetoothDevice pairedDevices];
+  int count = [devices count];
+  for ( int i = 0; i &lt; count; i++ )
+  {
+    IOBluetoothDevice *device = [devices objectAtIndex:i];
+    NSLog(@"%@:\n", [device name]);
+    NSLog(@"  paired:    %d\n", [device isPaired]);
+    NSLog(@"  connected: %d\n", [device isConnected]);
+  }
+  return 0;
+}
+</code></pre>
+<p>The app will print all devices that have been paired with your host via Bluetooth. Try running it:</p>
+<pre><code>$ ./bluetooth
+2020-05-22 16:27:14.443 bluetooth[17025:15645888] Magic Keyboard:
+2020-05-22 16:27:14.443 bluetooth[17025:15645888]   paired:    1
+2020-05-22 16:27:14.443 bluetooth[17025:15645888]   connected: 1
+2020-05-22 16:27:14.443 bluetooth[17025:15645888] Apple Magic Mouse:
+2020-05-22 16:27:14.443 bluetooth[17025:15645888]   paired:    1
+2020-05-22 16:27:14.443 bluetooth[17025:15645888]   connected: 1
+2020-05-22 16:27:14.443 bluetooth[17025:15645888] iPhone SE:
+2020-05-22 16:27:14.443 bluetooth[17025:15645888]   paired:    0
+2020-05-22 16:27:14.443 bluetooth[17025:15645888]   connected: 0
+</code></pre>
+<p>Let’s try debugging this app. First consider the call to method +[IOBluetoothDevice pairedDevices]:</p>
+<figure><img src="objc1.png" alt="objc1"><figcaption></figcaption></figure>
+<p>If we execute a regular instruction step with <strong>F7</strong>, IDA will step into the <strong>_objc_msgSend</strong> function in libobjc.A.dylib, which is probably not what we want here. Instead use shortcut <strong>Shift+O</strong>. IDA will automatically detect the address of the Objective-C method that is being invoked and break at it:</p>
+<figure><img src="objc2.png" alt="objc2"><figcaption></figcaption></figure>
+<p>This module appears to be Objective-C heavy, so it might be a good idea to extract Objective-C type info from the module using right click -&gt; <strong>Load debug symbols</strong> in the Modules window:</p>
+<figure><img src="objc3.png" alt="objc3"><figcaption></figcaption></figure>
+<p>This operation will extract any Objective-C types encoded in the module, which should give us some nice prototypes for the methods we’re stepping in:</p>
+<figure><img src="objc4.png" alt="objc4"><figcaption></figcaption></figure>
+<p>Let’s continue to another method call - but this time the code invokes a stub for <strong>_objc_msgSend</strong> that IDA has not analyzed yet, so its name has not been properly resolved:</p>
+<figure><img src="objc5.png" alt="objc5"><figcaption></figcaption></figure>
+<p>In this case <strong>Shift+O</strong> should still work:</p>
+<figure><img src="objc6.png" alt="objc6"><figcaption></figcaption></figure>
+<p><strong>Shift+O</strong> is purposefully flexible so that it can be invoked at any point before a direct or indirect call to <strong>_objc_msgSend</strong>. It will simply intercept execution at the function in libobjc.A.dylib and use the arguments to calculate the target method address.</p>
+<p>However, you must be careful. If you use this action in a process that does <em>not</em> call <strong>_objc_msgSend</strong>, you will lose control of the process. It is best to only use it when you’re certain the code is compiled from Objective-C and an <strong>_objc_msgSend</strong> call is imminent.</p>
+<h3 id="decompiling-objective-c-at-runtime"><a class="header" href="#decompiling-objective-c-at-runtime">Decompiling Objective-C at Runtime</a></h3>
+<p>The Objective-C runtime analysis performed by <strong>Load debug symbols</strong> will also improve decompilation.</p>
+<p>Consider the method -[IOBluetoothDevice isConnected]:</p>
+<figure><img src="objc8.png" alt="objc8"><figcaption></figcaption></figure>
+<p>Before we start stepping through this method we might want to peek at the pseudocode to get a sense of how it works. Note that the Objective-C analysis created local types for the <strong>IOBluetoothDevice</strong> class, as well as many other classes:</p>
+<figure><img src="objc7.png" alt="objc7"><figcaption></figcaption></figure>
+<p>This type info results in some sensible pseudocode:</p>
+<figure><img src="objc9.png" alt="objc9"><figcaption></figcaption></figure>
+<p>We knew nothing about this method going in - but it’s immediately clear that device connectivity is determined by the state of an <strong>io_service_t</strong> handle in the <strong>IOBluetoothObject</strong> superclass, and we’re well on our way.</p>
+<h2 id="debugging-over-ssh"><a class="header" href="#debugging-over-ssh">Debugging Over SSH</a></h2>
+<p>In this section we will discuss how to remotely debug an app on a mac machine using only an SSH connection. Naturally, this task introduces some unique complications.</p>
+<p>To start, copy the mac_server binaries and the <strong>bluetooth</strong> app from samples.zip:</p>
+<p>{% file src=“samples.zip” %}</p>
+<p>to the target machine:</p>
+<pre><code>$ scp &lt;IDA install dir&gt;/dbgsrv/mac_server* user@remote:
+$ scp bluetooth user@remote:
+</code></pre>
+<p>Now ssh to the target machine and launch the mac_server:</p>
+<pre><code>$ ssh user@remote
+user@remote:~$ ./mac_server64
+IDA Mac OS X 64-bit remote debug server(MT) v7.5.26. Hex-Rays (c) 2004-2020
+Listening on 0.0.0.0:23946...
+</code></pre>
+<p>Now open the <strong>bluetooth</strong> binary on the machine with your IDA installation, select <strong>Remote Mac OS X Debugger</strong> from the debugger menu, and for <strong>Debugger&gt;Process options</strong> set the debugging parameters. Be sure to replace <strong>&lt;remote user&gt;</strong> and <strong>&lt;remote ip&gt;</strong> with the username and ip address of the target machine:</p>
+<figure><img src="process_options3.png" alt="process options3"><figcaption></figcaption></figure>
+<p>Try launching the debugger with <strong>F9</strong>. You might get the following error message:</p>
+<figure><img src="permission_denied.png" alt="permission denied"><figcaption></figcaption></figure>
+<p>This happened because debugging requires manual authentication from the user for every login session (via the <strong>Take Control</strong> prompt discussed under <a href="mac_debugger_primer2.html#using-the-mac-debug-server">Using the Mac Debug Server</a>, above).</p>
+<p>But since we’re logged into the mac via SSH, the OS has no way of prompting you with the authentication window and thus debugging permissions are refused.</p>
+<p>Note that mac_server64 might have printed this workaround:</p>
+<pre><code>WARNING: The debugger could not acquire the necessary permissions from the OS to
+debug mac applications. You will likely have to specify the proper credentials at
+process start. To avoid this, you can set the MAC_DEBMOD_USER and MAC_DEBMOD_PASS
+environment variables.
+</code></pre>
+<p>But this is an extreme measure. As an absolute last resort you can launch the mac_server with your credentials in the environment variables, which should take care of authentication without requiring any interaction with the OS. However there is a more secure workaround.</p>
+<p>In your SSH session, terminate the mac_server process and run the following command:</p>
+<pre><code>$ security authorizationdb read system.privilege.taskport &gt; taskport.plist
+</code></pre>
+<p>Edit taskport.plist and change the <strong>authenticate-user</strong> option to <strong>false</strong>:</p>
+<pre><code class="language-xml">&lt;key&gt;authenticate-user&lt;/key&gt;
+&lt;false/&gt;
+</code></pre>
+<p>Then apply the changes:</p>
+<pre><code>$ sudo security authorizationdb write system.privilege.taskport &lt; taskport.plist
+</code></pre>
+<p>This will completely disable the debugging authentication prompt (even across reboots), which should allow you to use the debug server over SSH without macOS bothering you about permissions.</p>
+<h3 id="dealing-with-slow-connections"><a class="header" href="#dealing-with-slow-connections">Dealing With Slow Connections</a></h3>
+<p>When debugging over SSH you might experience some slowdowns. For example you might see this dialog appear for several seconds when starting the debugger:</p>
+<figure><img src="symbols1.png" alt="symbols1"><figcaption></figcaption></figure>
+<p>During this operation IDA is fetching function names from the symbol tables for all dylibs that have been loaded in the target process. It is a critical task (after all we want our stack traces to look nice), but it is made complicated by the sheer volume of dylibs loaded in a typical macOS process due to the dyld_shared_cache. This results in several megabytes of raw symbol names that mac_server must transmit over the wire every time the debugger is launched.</p>
+<p>We can fix this by using the same trick that IDA’s <a href="../debugger_ios/ios_debugger_primer2.html">Remote iOS Debugger</a> uses to speed up debugging - by extracting symbol files from the dyld cache and parsing them locally. Start by downloading the ios_deploy utility from our <a href="https://my.hex-rays.com/dashboard/download-center">download center</a>, and copy it to the remote mac:</p>
+<pre><code>$ scp ios_deploy user@remote:
+</code></pre>
+<p>Then SSH to the remote mac and run it:</p>
+<pre><code>$ ./ios_deploy symbols -c /var/db/dyld/dyld_shared_cache_x86_64h -d mac_symbols
+Extracting symbols from /var/db/dyld/dyld_shared_cache_x86_64h =&gt; mac_symbols
+Extracting symbol file: 1813/1813
+mac_symbols: done
+$ zip -r mac_symbols.zip mac_symbols
+</code></pre>
+<p>Copy mac_symbols.zip from the remote machine to your host machine and unzip it. Then open <strong>Debugger&gt;Debugger options&gt;Set specific options</strong> and set the <strong>Symbol path</strong> field:</p>
+<figure><img src="symbols2.png" alt="symbols2"><figcaption></figcaption></figure>
+<p>Now try launching the debugger again, it should start up much faster.</p>
+<p>Also keep the following in mind:</p>
+<ul>
+<li>Use /var/db/dyld/dyld_shared_cache_i386 if debugging 32-bit apps</li>
+<li>You must perform this operation after every macOS update. Updating the OS will update the dyld_shared_cache, which invalidates the extracted symbol files.</li>
+<li>The ios_deploy utility simply invokes <strong>dyld_shared_cache_extract_dylibs_progress</strong> from the <strong>dsc_extractor.bundle</strong> library in Xcode. If you don’t want to use ios_deploy there are likely other third-party tools that do something similar.</li>
+</ul>
+<h2 id="debugging-arm64-applications-on-apple-silicon"><a class="header" href="#debugging-arm64-applications-on-apple-silicon">Debugging arm64 Applications on Apple Silicon</a></h2>
+<p>IDA 7.6 introduced the ARM Mac Debugger, which can debug any application that runs natively on Apple Silicon.</p>
+<p>On Apple Silicon, the same rules apply (see <a href="mac_debugger_primer2.html#codesigning-and-permissions">Codesigning &amp; Permissions</a> above). The Local ARM Mac Debugger can only be used when run as root, so it is better to use the Remote ARM Mac Debugger with the debug server (mac_server_arm64), which can debug any arm64 app out of the box (see <a href="mac_debugger_primer2.html#using-the-mac-debug-server">Using the Mac Debug Server</a>).</p>
+<p>We have included arm64 versions of the <a href="https://www.hex-rays.com/wp-content/uploads/2020/05/samples.zip">sample binaries</a> used in the previous examples. We encourage you to go back and try them. They should work just as well on Apple Silicon.</p>
+<h3 id="debugging-arm64e-system-applications"><a class="header" href="#debugging-arm64e-system-applications">Debugging arm64e System Applications</a></h3>
+<p>Similar to Intel Macs, IDA cannot debug system apps on Apple Silicon until System Integrity Protection is disabled.</p>
+<p>But here macOS introduces another complication. All system apps shipped with macOS are built for arm64e - and thus have pointer authentication enabled. This is interesting because ptruath-enabled processes are treated much differently within the XNU kernel. All register values that typically contain pointers (PC, LR, SP, and FP) will be signed and authenticated by PAC.</p>
+<p>Thus, if a debugger wants to modify the register state of an arm64e process, it must know how to properly sign the register values. Only arm64e applications are allowed to do this (canonically, at least).</p>
+<p>You may have noticed that IDA 7.6 ships with two versions of the arm64 debug server:</p>
+<figure><img src="arm64e1.png" alt="arm64e1"><figcaption></figcaption></figure>
+<p><strong>mac_server_arm64e</strong> is built specifically for the arm64e architecture, and thus will be able to properly inspect other arm64e processes. We might want to try running this version right away, but by default macOS will refuse to run any third-party software built for arm64e:</p>
+<figure><img src="arm64e2.png" alt="arm64e2"><figcaption></figcaption></figure>
+<p><a href="https://developer.apple.com/forums/thread/652340">According to Apple</a>, this is because the arm64e ABI is not stable enough to be used generically. In order to run third-party arm64e binaries you must enable the following boot arg:</p>
+<pre><code>$ sudo nvram boot-args=-arm64e_preview_abi
+</code></pre>
+<p>After rebooting you can finally run mac_server_arm64e:</p>
+<figure><img src="arm64e3.png" alt="arm64e3"><figcaption></figcaption></figure>
+<p>This allows you to debug any system application (e.g. /System/Applications/Calculator.app) without issue:</p>
+<figure><img src="arm64e4.png" alt="arm64e4"><figcaption></figcaption></figure>
+<figure><img src="arm64e5.png" alt="arm64e5"><figcaption></figcaption></figure>
+<p>Also note that the arm64e ABI limitation means you cannot use the <strong>Local</strong> ARM Mac Debugger to debug system arm64e apps, since IDA itself is not built for arm64e. It is likely that Apple will break the arm64e ABI in the future and IDA might cease to work. We want to avoid this scenario entirely.</p>
+<p>Using the Remote ARM Mac Debugger with mac_server_arm64e is a nice workaround. It guarantees ida.app will continue to work normally regardless of any breakages in the arm64e ABI, and we can easily ship new arm64e builds of the server to anybody who needs it.</p>
+<h3 id="apple-silicon-tldr"><a class="header" href="#apple-silicon-tldr">Apple Silicon: TL;DR</a></h3>
+<p>To summarize:</p>
+<ul>
+<li>Use <strong>mac_server_arm64</strong> if you’re debugging third-party arm64 apps that aren’t protected by SIP</li>
+<li>Use <strong>mac_server_arm64e</strong> if you’re feeling frisky and want to debug macOS system internals. You must disable SIP and enable <strong>nvram boot-args=-arm64e_preview_abi</strong>, then you can debug any app you want (arm64/arm64e apps, system/non-system apps, shouldn’t matter).</li>
+</ul>
+<h2 id="support"><a class="header" href="#support">Support</a></h2>
+<p>If you have any questions about this writeup or encounter any issues with the debugger itself in your environment, don’t hesitate to contact our <a href="https://support.hex-rays.com/">support</a>.</p>
+<p>Our Mac support team has years of experience keeping the debugger functional through rapid changes in the Apple developer ecosystem. It is likely that we can resolve your issue quickly.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/debugger/tutorials/win32tolinux/win32tolinux.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/ios_debugging_coredevice/ios_debugging_coredevice.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/debugger/tutorials/win32tolinux/win32tolinux.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/ios_debugging_coredevice/ios_debugging_coredevice.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

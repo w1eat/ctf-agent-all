@@ -1,0 +1,1242 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Porting Guide from IDA 8.x to 9.0 - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="porting-guide-from-ida-8x-to-90"><a class="header" href="#porting-guide-from-ida-8x-to-90">Porting Guide from IDA 8.x to 9.0</a></h1>
+<p>IDA 9.0 API Changes and porting guide</p>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#introduction">Introduction</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#structhpp">struct.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-classes">Removed classes</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#enumhpp">enum.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-1">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#byteshpp">bytes.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis">Added APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis">Modified APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-2">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#dirtreehpp">dirtree.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-1">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#diskiohpp">diskio.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-2">Modified APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-3">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#errh">err.h</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-4">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#exprhpp">expr.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-3">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#framehpp">frame.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-1">Added APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-pis">Modified PIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-5">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#funcshpp">funcs.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-2">Added APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-6">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#gdlhpp">gdl.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-classesstructures">Added classes/structures</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#hexrayshpp">hexrays.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-classesstructures-1">Added classes/structures</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-3">Added APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#lvar_t">lvar_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#lvars_t">lvars_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#simple_graph_t">simple_graph_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#fnumber_t">fnumber_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#minsn_t">minsn_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#mba_t">mba_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#codegen_t">codegen_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#vd_failure_t">vd_failure_t</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-4">Modified APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#stkvar_ref_t">stkvar_ref_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#mop_t">mop_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#mba_t-1">mba_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#valrng_t">valrng_t</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-7">Removed APIs:</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#valrng_t-1">valrng_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#ctree_item_t">ctree_item_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#ctree_parentee_t">ctree_parentee_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#vdui_t">vdui_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#graphhpp">graph.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-classesstructures">Removed classes/structures</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-classesstructures">Modified classes/structures</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-5">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#idalibhpp">idalib.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-4">Added APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#iddhpp">idd.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-5">Added APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#idphpp">idp.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-8">Removed APIs:</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-6">Modified APIs:</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-6">Added APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#procmod_t">procmod_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#kernwinhpp">kernwin.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-9">Removed APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-classesstructures-1">Removed classes/structures</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-7">Added APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#tagged_line_section_t">tagged_line_section_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#chooser_base_t">chooser_base_t</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-7">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#lexhpp">lex.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-8">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#lineshpp">lines.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-10">Removed APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-9">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#nalthpp">nalt.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-10">Modified APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#parsejsonhpp">parsejson.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-8">Added APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#jvalue_t">jvalue_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#jobj_t">jobj_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#proh">pro.h</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-11">Removed APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-9">Added APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#bytevec_t">bytevec_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#qlist">qlist</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-classesstructures-2">Added classes/structures</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#regexhpp">regex.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-12">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#regfinderhpp">regfinder.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-11">Modified APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-13">Removed APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-10">Added APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#registryhpp">registry.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-14">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#searchhpp">search.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-15">Removed APIs</a></li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#typeinfhpp">typeinf.hpp</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#removed-apis-16">Removed APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#modified-apis-12">Modified APIs</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-classesstructures-3">Added classes/structures</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#added-apis-11">Added APIs</a>
+<ul>
+<li><a href="c++-sdk-porting-guide-ida-9.html#til_t">til_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#callregs_t">callregs_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#tinfo_t">tinfo_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#func_type_data_t">func_type_data_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#enum_type_data_t">enum_type_data_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#udm_t">udm_t</a></li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#udt_type_data_t">udt_type_data_t</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="c++-sdk-porting-guide-ida-9.html#idb-events">IDB events</a></li>
+</ul>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>The largest change is the removal of two headers:</p>
+<ul>
+<li><code>struct.hpp</code></li>
+<li><code>enum.hpp</code></li>
+</ul>
+<p>The functionalities for working with user-defined types are now available in <code>typeinf.hpp</code> (<code>tinfo_t</code> class).</p>
+<h2 id="structhpp"><a class="header" href="#structhpp">struct.hpp</a></h2>
+<h3 id="removed-classes"><a class="header" href="#removed-classes">Removed classes</a></h3>
+<ul>
+<li><code>class member_t;</code></li>
+<li><code>class struc_t;</code></li>
+</ul>
+<p>struc_t is replaced by the notion of “user-defined type” (<code>udt_type_data_t</code> class) and member_t by dt member (<code>udm_t</code> class).</p>
+<h3 id="removed-apis"><a class="header" href="#removed-apis">Removed APIs</a></h3>
+<ul>
+<li><code>get_struc_qty()</code> Rough equivalent is <code>get_ordinal_limit()</code> or <code>get_ordinal_count()</code> but note that it also includes enums and typedefs.</li>
+<li><code>get_first_struc_idx()</code></li>
+<li><code>get_last_struc_idx()</code></li>
+<li><code>get_prev_struc_idx()</code></li>
+<li><code>get_next_struc_idx()</code></li>
+</ul>
+<p>Local type ordinals always start at 1 (0 is invalid ordinal) and go up to <code>get_ordinal_limit()</code>.</p>
+<ul>
+<li><code>get_struc_idx(tid_t id)</code></li>
+<li><code>get_struc_by_idx(uval_t idx)</code></li>
+</ul>
+<h2 id="enumhpp"><a class="header" href="#enumhpp">enum.hpp</a></h2>
+<p>Enumerations are now manipulated via:</p>
+<ul>
+<li><code>tinfo_t</code> class</li>
+<li><code>enum_type_data_t</code> class</li>
+<li><code>edm_t</code> class. in <code>typeinf.hpp</code></li>
+</ul>
+<h3 id="removed-apis-1"><a class="header" href="#removed-apis-1">Removed APIs</a></h3>
+<ul>
+<li><code>get_enum_qty(void)</code></li>
+<li><code>getn_enum(size_t idx)</code></li>
+<li><code>get_enum_idx(enum_t id)</code></li>
+<li><code>get_enum(const char *name)</code></li>
+<li><code>is_bf(enum_t id)</code></li>
+<li><code>is_enum_hidden(enum_t id)</code></li>
+<li><code>set_enum_hidden(enum_t id, bool hidden)</code></li>
+<li><code>is_enum_fromtil(enum_t id)</code></li>
+<li><code>set_enum_fromtil(enum_t id, bool fromtil)</code></li>
+<li><code>is_ghost_enum(enum_t id)</code></li>
+<li><code>set_enum_ghost(enum_t id, bool ghost)</code></li>
+<li><code>get_enum_name(qstring *out, enum_t id)</code></li>
+<li><code>get_enum_name2(qstring *out, enum_t id, int flags=0)</code></li>
+<li><code>get_enum_name(tid_t id, int flags=0)</code></li>
+<li><code>get_enum_width(enum_t id)</code></li>
+<li><code>set_enum_width(enum_t id, int width)</code></li>
+<li><code>get_enum_cmt(qstring *buf, enum_t id, bool repeatable)</code></li>
+<li><code>get_enum_size(enum_t id)</code></li>
+<li><code>get_enum_flag(enum_t id)</code></li>
+<li><code>get_enum_member_by_name(const char *name)</code></li>
+<li><code>get_enum_member_value(const_t id)</code></li>
+<li><code>get_enum_member_enum(const_t id)</code></li>
+<li><code>get_enum_member_bmask(const_t id)</code></li>
+<li><code>get_enum_member(enum_t id, uval_t value, int serial, bmask_t mask)</code></li>
+<li><code>get_first_bmask(enum_t enum_id)</code></li>
+<li><code>get_last_bmask(enum_t enum_id)</code></li>
+<li><code>get_next_bmask(enum_t enum_id, bmask_t bmask\)</code></li>
+<li><code>get_prev_bmask(enum_t enum_id, bmask_t bmask)</code></li>
+<li><code>get_first_enum_member(enum_t id, bmask_t bmask=DEFMASK)</code></li>
+<li><code>get_last_enum_member(enum_t id, bmask_t bmask=DEFMASK)</code></li>
+<li><code>get_next_enum_member(enum_t id, uval_t value, bmask_t bmask=DEFMASK)</code></li>
+<li><code>get_prev_enum_member(enum_t id, uval_t value, bmask_t bmask=DEFMASK)</code></li>
+<li><code>get_enum_member_name(qstring *out, const_t id)</code></li>
+<li><code>get_enum_member_cmt(qstring *buf, const_t id, bool repeatable)</code></li>
+<li><code>get_first_serial_enum_member(uchar *out_serial, enum_t id, uval_t value, bmask_t bmask)</code></li>
+<li><code>get_last_serial_enum_member(uchar *out_serial, enum_t id, uval_t value, bmask_t bmask)</code></li>
+<li><code>get_next_serial_enum_member(uchar *in_out_serial, const_t first_cid)</code></li>
+<li><code>get_prev_serial_enum_member(uchar *in_out_serial, const_t first_cid)</code></li>
+<li><code>for_all_enum_members(enum_t id, enum_member_visitor_t &amp;cv)</code></li>
+<li><code>ida_export get_enum_member_serial(const_t cid)</code></li>
+<li><code>get_enum_type_ordinal(enum_t id)</code></li>
+<li><code>set_enum_type_ordinal(enum_t id, int32 ord)</code></li>
+<li><code>add_enum(size_t idx, const char *name, flags64_t flag)</code></li>
+<li><code>del_enum(enum_t id)</code></li>
+<li><code>set_enum_idx(enum_t id, size_t idx)</code></li>
+<li><code>set_enum_bf(enum_t id, bool bf)</code></li>
+<li><code>set_enum_name(enum_t id, const char *name)</code></li>
+<li><code>set_enum_cmt(enum_t id, const char *cmt, bool repeatable)</code></li>
+<li><code>set_enum_flag(enum_t id, flags64_t flag)</code></li>
+<li><code>add_enum_member(enum_t id, const char *name, uval_t value, bmask_t bmask=DEFMASK)</code></li>
+<li><code>del_enum_member(enum_t id, uval_t value, uchar serial, bmask_t bmask)</code></li>
+<li><code>set_enum_member_name(const_t id, const char *name)</code></li>
+<li><code>set_enum_member_cmt(const_t id, const char *cmt, bool repeatable)</code></li>
+<li><code>is_one_bit_mask(bmask_t mask)</code></li>
+<li><code>set_bmask_name(enum_t id, bmask_t bmask, const char *name)</code></li>
+<li><code>get_bmask_name(qstring *out, enum_t id, bmask_t bmask)</code></li>
+<li><code>set_bmask_cmt(enum_t id, bmask_t bmask, const char *cmt, bool repeatable)</code></li>
+<li><code>get_bmask_cmt(qstring *buf, enum_t id, bmask_t bmask, bool repeatable)</code></li>
+</ul>
+<h2 id="byteshpp"><a class="header" href="#byteshpp">bytes.hpp</a></h2>
+<h3 id="added-apis"><a class="header" href="#added-apis">Added APIs</a></h3>
+<ul>
+<li><code>idaman ea_t ida_export find_binary(ea_t startea, ea_t endea, const char *ubinstr, int radix, int sflag, int strlits_encoding=0)</code></li>
+</ul>
+<h3 id="modified-apis"><a class="header" href="#modified-apis">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman bool ida_export get_octet2(uchar *out, octet_generator_t *ogen)</code></td><td><code>idaman bool ida_export get_octet(uchar *out, octet_generator_t *ogen)</code></td></tr>
+<tr><td><code>idaman bool ida_export op_enum(ea_t ea, int n, enum_t id, uchar serial=0)</code></td><td><code>idaman bool ida_export op_enum(ea_t ea, int n, tid_t id, uchar serial=0)</code></td></tr>
+<tr><td><code>idaman enum_t ida_export get_enum_id(uchar *serial, ea_t ea, int n)</code></td><td><code>idaman tid_t ida_export get_enum_id(uchar *serial, ea_t ea, int n)</code></td></tr>
+<tr><td><code>idaman ea_t ida_export bin_search3(size_t *out_matched_idx, ea_t start_ea, ea_t end_ea, const compiled_binpat_vec_t &amp;data, int flags)</code></td><td><code>idaman ea_t ida_export bin_search(ea_t start_ea, ea_t end_ea, const compiled_binpat_vec_t &amp;data, int flags, size_t *out_matched_idx=nullptr)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="removed-apis-2"><a class="header" href="#removed-apis-2">Removed APIs</a></h3>
+<ul>
+<li><code>bin_search2(ea_t start_ea, ea_t end_ea, const compiled_binpat_vec_t &amp;data, int flags)</code></li>
+<li><code>bin_search(ea_t, ea_t, const uchar *, const uchar *, size_t, int, int)</code></li>
+<li><code>get_8bit(ea_t *ea, uint32 *v, int *nbit)</code></li>
+<li><code>get_octet(ea_t *ea, uint64 *v, int *nbit)</code></li>
+<li><code>free_chunk(ea_t bottom, asize_t size, int32 step)</code></li>
+</ul>
+<h2 id="dirtreehpp"><a class="header" href="#dirtreehpp">dirtree.hpp</a></h2>
+<h3 id="modified-apis-1"><a class="header" href="#modified-apis-1">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman bool ida_export dirtree_get_abspath_by_cursor2(qstring *out, const dirtree_impl_t *d, const dirtree_cursor_t &amp;cursor, uint32 name_flags)</code></td><td><code>idaman bool ida_export dirtree_get_abspath_by_cursor(qstring *out, const dirtree_impl_t *d, const dirtree_cursor_t &amp;cursor, uint32 name_flags)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="diskiohpp"><a class="header" href="#diskiohpp">diskio.hpp</a></h2>
+<h3 id="modified-apis-2"><a class="header" href="#modified-apis-2">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman THREAD_SAFE int ida_export enumerate_files2(char *answer, size_t answer_size, const char *path, const char *fname, file_enumerator_t &amp;fv)</code></td><td><code>idaman THREAD_SAFE int ida_export enumerate_files(char *answer, size_t answer_size, const char *path, const char *fname, file_enumerator_t &amp;fv)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="removed-apis-3"><a class="header" href="#removed-apis-3">Removed APIs</a></h3>
+<ul>
+<li><code>ecreate(const char *file)</code></li>
+<li><code>eclose(FILE *fp)</code></li>
+<li><code>eread(FILE *fp, void *buf, size_t size)</code></li>
+<li><code>ewrite(FILE *fp, const void *buf, size_t size)</code></li>
+<li><code>eseek(FILE *fp, qoff64_t pos)</code></li>
+<li><code>enumerate_files(char *answer, size_t answer_size, const char *path, const char *fname, int (idaapi*func)(const char *file,void *ud), void *ud=nullptr)</code></li>
+</ul>
+<h2 id="errh"><a class="header" href="#errh">err.h</a></h2>
+<h3 id="removed-apis-4"><a class="header" href="#removed-apis-4">Removed APIs</a></h3>
+<ul>
+<li><code>qerrcode(int new_code=-1)</code></li>
+</ul>
+<h2 id="exprhpp"><a class="header" href="#exprhpp">expr.hpp</a></h2>
+<h3 id="modified-apis-3"><a class="header" href="#modified-apis-3">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>bool extlang_t::(idaapi *compile_file)(const char *file, qstring *errbuf)</code></td><td><code>bool extlang_t::(idaapi *compile_file)(const char *file, const char *requested_namespace, qstring *errbuf)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="framehpp"><a class="header" href="#framehpp">frame.hpp</a></h2>
+<h3 id="added-apis-1"><a class="header" href="#added-apis-1">Added APIs</a></h3>
+<ul>
+<li><code>idaman bool ida_export add_frame_member(const func_t *pfn, const char *name, uval_t offset, const tinfo_t &amp;tif, const struct value_repr_t *repr=nullptr, uint etf_flags=0)</code></li>
+<li><code>THREAD_SAFE bool is_anonymous_member_name(const char *name)</code></li>
+<li><code>THREAD_SAFE bool is_dummy_member_name(const char *name)</code></li>
+<li><code>idaman bool ida_export is_special_frame_member(tid_t tid)</code></li>
+<li><code>idaman bool ida_export set_frame_member_type(const func_t *pfn, uval_t offset, const tinfo_t &amp;tif, const struct value_repr_t *repr=nullptr, uint etf_flags=0)</code></li>
+<li><code>idaman bool ida_export delete_frame_members(const func_t *pfn, uval_t start_offset, uval_t end_offset)</code></li>
+<li><code>idaman sval_t ida_export calc_frame_offset(func_t *pfn, sval_t off, const insn_t *insn = nullptr, const op_t *op = nullptr)</code></li>
+</ul>
+<h3 id="modified-pis"><a class="header" href="#modified-pis">Modified PIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman struc_t *ida_export get_frame(const func_t *pfn)</code></td><td><code>idaman bool ida_export get_func_frame(tinfo_t *out, const func_t *pfn)</code></td></tr>
+<tr><td><code>idaman bool ida_export define_stkvar(func_t *pfn, const char *name, sval_t off, flags64_t flags, const opinfo_t *ti, asize_t nbytes)</code></td><td><code>idaman bool ida_export define_stkvar(func_t *pfn, const char *name, sval_t off, const tinfo_t &amp;tif, const struct value_repr_t *repr=nullptr)</code></td></tr>
+<tr><td><code>idaman void ida_export build_stkvar_xrefs(xreflist_t *out, func_t *pfn, const member_t *mptr)</code></td><td><code>idaman void ida_export build_stkvar_xrefs(xreflist_t *out, func_t *pfn, uval_t start_offset, uval_t end_offset)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="removed-apis-5"><a class="header" href="#removed-apis-5">Removed APIs</a></h3>
+<ul>
+<li><code>get_frame_member_by_id(qstring *out_mname, struc_t **out_fptr, tid_t mid)</code></li>
+<li><code>get_stkvar(sval_t *actval, const insn_t &amp;insn, const op_t &amp;x, sval_t v)</code> See get_stkvar in ida_typeinf.tinfo_t</li>
+<li><code>get_min_spd_ea(func_t *pfn)</code></li>
+<li><code>delete_unreferenced_stkvars(func_t *pfn)</code></li>
+<li><code>delete_wrong_stkvar_ops(func_t *pfn)</code></li>
+</ul>
+<h2 id="funcshpp"><a class="header" href="#funcshpp">funcs.hpp</a></h2>
+<h3 id="added-apis-2"><a class="header" href="#added-apis-2">Added APIs</a></h3>
+<ul>
+<li><code>bool func_item_iterator_t::set_ea(ea_t _ea)</code></li>
+</ul>
+<h3 id="removed-apis-6"><a class="header" href="#removed-apis-6">Removed APIs</a></h3>
+<ul>
+<li><code>save_signatures(void)</code></li>
+<li><code>invalidate_sp_analysis(func_t *pfn)</code></li>
+<li><code>invalidate_sp_analysis(ea_t ea)</code></li>
+</ul>
+<h2 id="gdlhpp"><a class="header" href="#gdlhpp">gdl.hpp</a></h2>
+<h3 id="added-classesstructures"><a class="header" href="#added-classesstructures">Added classes/structures</a></h3>
+<ul>
+<li><code>struct edge_t</code></li>
+<li><code>class node_ordering_t</code></li>
+</ul>
+<h2 id="hexrayshpp"><a class="header" href="#hexrayshpp">hexrays.hpp</a></h2>
+<h3 id="added-classesstructures-1"><a class="header" href="#added-classesstructures-1">Added classes/structures</a></h3>
+<ul>
+<li><code>class control_graph_t</code></li>
+<li><code>class edge_mapper_t</code></li>
+<li><code>class node_bitset_t</code></li>
+<li><code>class array_of_node_bitset_t</code></li>
+<li><code>struct ctry_t</code></li>
+<li><code>struct cthrow_t</code></li>
+<li><code>struct catchexpr_t</code></li>
+<li><code>struct ccatch_t</code></li>
+<li><code>struct cblock_pos_t</code></li>
+</ul>
+<h3 id="added-apis-3"><a class="header" href="#added-apis-3">Added APIs</a></h3>
+<ul>
+<li><code>uvlr_t max_vlr_value(int size)</code></li>
+<li><code>uvlr_t min_vlr_svalue(int size)</code></li>
+<li><code>uvlr_t max_vlr_svalue(int size)</code></li>
+<li><code>bool is_unsigned_cmpop(cmpop_t cmpop)</code></li>
+<li><code>bool is_signed_cmpop(cmpop_t cmpop)</code></li>
+<li><code>bool is_cmpop_with_eq(cmpop_t cmpop)</code></li>
+<li><code>bool is_cmpop_without_eq(cmpop_t cmpop)</code></li>
+</ul>
+<h4 id="lvar_t"><a class="header" href="#lvar_t">lvar_t</a></h4>
+<ul>
+<li><code>bool was_scattered_arg() const</code></li>
+<li><code>void set_scattered_arg()</code></li>
+<li><code>void clr_scattered_arg()</code></li>
+</ul>
+<h4 id="lvars_t"><a class="header" href="#lvars_t">lvars_t</a></h4>
+<ul>
+<li><code>int find_input_reg(int reg, int _size=1)</code></li>
+</ul>
+<h4 id="simple_graph_t"><a class="header" href="#simple_graph_t">simple_graph_t</a></h4>
+<ul>
+<li><code>virtual bool ignore_edge(int /*src*/, int /*dst*/ ) const</code></li>
+<li><code>void hexapi compute_dominators(array_of_node_bitset_t &amp;domin, bool post=false) const</code></li>
+<li><code>void hexapi compute_immediate_dominators(const array_of_node_bitset_t &amp;domin, intvec_t &amp;idomin, bool post=false) const</code></li>
+<li><code>int hexapi depth_first_preorder(node_ordering_t *pre) const</code></li>
+<li><code>int hexapi depth_first_postorder(node_ordering_t *post) const</code></li>
+<li><code>void depth_first_postorder(node_ordering_t *post, edge_mapper_t *et) const</code></li>
+<li><code>void depth_first_postorder_for_all_entries(node_ordering_t *post) const</code></li>
+<li><code>intvec_t find_dead_nodes() const</code></li>
+<li><code>void find_reaching_nodes(int n, node_bitset_t &amp;reaching) const</code></li>
+<li><code>bool path_exists(int m, int n) const</code></li>
+<li><code>bool path_back(const array_of_node_bitset_t &amp;domin, int m, int n) const</code></li>
+<li><code>bool path_back(const edge_mapper_t &amp;et, int m, int n) const</code></li>
+<li><code>iterator begin() const</code></li>
+<li><code>iterator end()</code></li>
+<li><code>int front()</code></li>
+<li><code>void inc(iterator &amp;p, int n=1) const</code></li>
+<li><code>virtual int hexapi goup(int node) const</code></li>
+</ul>
+<h4 id="fnumber_t"><a class="header" href="#fnumber_t">fnumber_t</a></h4>
+<ul>
+<li><code>int calc_max_exp() const</code></li>
+<li><code>bool is_nan() const</code></li>
+</ul>
+<h4 id="minsn_t"><a class="header" href="#minsn_t">minsn_t</a></h4>
+<ul>
+<li><code>bool was_unpaired() const</code></li>
+</ul>
+<h4 id="mba_t"><a class="header" href="#mba_t">mba_t</a></h4>
+<ul>
+<li><code>mblock_t *hexapi split_block(mblock_t *blk, minsn_t *start_insn)</code></li>
+<li><code>merror_t hexapi inline_func(codegen_t &amp;cdg, int blknum, mba_ranges_t &amp;ranges, int decomp_flags=0, int inline_flags=0)</code></li>
+<li><code>const stkpnt_t *hexapi locate_stkpnt(ea_t ea) const</code></li>
+</ul>
+<h4 id="codegen_t"><a class="header" href="#codegen_t">codegen_t</a></h4>
+<ul>
+<li><code>void hexapi clear()</code></li>
+</ul>
+<h4 id="vd_failure_t"><a class="header" href="#vd_failure_t">vd_failure_t</a></h4>
+<ul>
+<li><code>virtual const char *what() const noexcept override</code></li>
+</ul>
+<h3 id="modified-apis-4"><a class="header" href="#modified-apis-4">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>void hexapi save_user_labels2(ea_t func_ea, const user_labels_t *user_labels, const cfunc_t *func=nullptr)</code></td><td><code>void hexapi save_user_labels(ea_t func_ea, const user_labels_t *user_labels, const cfunc_t *func=nullptr)</code></td></tr>
+<tr><td><code>user_labels_t *hexapi restore_user_labels2(ea_t func_ea, const cfunc_t *func=nullptr)</code></td><td><code>user_labels_t *hexapi restore_user_labels(ea_t func_ea, const cfunc_t *func=nullptr)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="stkvar_ref_t"><a class="header" href="#stkvar_ref_t">stkvar_ref_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>member_t *hexapi get_stkvar(uval_t *p_off=nullptr) const</code></td><td><code>ssize_t hexapi get_stkvar(udm_t *udm=nullptr, uval_t *p_off=nullptr) const</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="mop_t"><a class="header" href="#mop_t">mop_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>member_t *get_stkvar(uval_t *p_off) const</code></td><td><code>ssize_t get_stkvar(udm_t *udm=nullptr, uval_t *p_off=nullptr) const</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="mba_t-1"><a class="header" href="#mba_t-1">mba_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>member_t *get_stkvar(sval_t vd_stkoff, uval_t *poff) const</code></td><td><code>ssize_t get_stkvar(udm_t *udm, sval_t vd_stkoff, uval_t *poff=nullptr) const</code></td></tr>
+<tr><td><code>const mblock_t *get_mblock(int n) const</code></td><td><code>const mblock_t *get_mblock(uint n) const</code></td></tr>
+<tr><td><code>mblock_t *get_mblock(int n)</code></td><td><code>mblock_t *get_mblock(uint n)</code></td></tr>
+<tr><td><code>bool hexapi combine_blocks()</code></td><td><code>bool hexapi merge_blocks()</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="valrng_t"><a class="header" href="#valrng_t">valrng_t</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>bool cvt_to_cmp(cmpop_t *cmp, uvlr_t *val, bool strict) const</code></td><td><code>bool valrng_t::cvt_to_cmp(cmpop_t *cmp, uvlr_t *val) const</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="removed-apis-7"><a class="header" href="#removed-apis-7">Removed APIs:</a></h3>
+<ul>
+<li><code>bool hexapi get_member_type(const member_t *mptr, tinfo_t *type)</code></li>
+<li><code>bool hexapi checkout_hexrays_license(bool silent)</code></li>
+<li><code>bool get_member_type(const member_t *mptr, tinfo_t *type)</code></li>
+</ul>
+<h4 id="valrng_t-1"><a class="header" href="#valrng_t-1">valrng_t</a></h4>
+<ul>
+<li><code>static uvlr_t max_value(int size_)</code></li>
+<li><code>static uvlr_t min_svalue(int size_)</code></li>
+<li><code>static uvlr_t max_svalue(int size_)</code></li>
+</ul>
+<h4 id="ctree_item_t"><a class="header" href="#ctree_item_t">ctree_item_t</a></h4>
+<ul>
+<li><code>member_t *hexapi get_memptr(struc_t **p_sptr=nullptr) const</code></li>
+</ul>
+<h4 id="ctree_parentee_t"><a class="header" href="#ctree_parentee_t">ctree_parentee_t</a></h4>
+<ul>
+<li><code>cblock_t *get_block()</code></li>
+</ul>
+<h4 id="vdui_t"><a class="header" href="#vdui_t">vdui_t</a></h4>
+<ul>
+<li><code>bool hexapi set_strmem_type(struc_t *sptr, member_t *mptr)</code></li>
+<li><code>bool hexapi rename_strmem(struc_t *sptr, member_t *mptr)</code></li>
+</ul>
+<h2 id="graphhpp"><a class="header" href="#graphhpp">graph.hpp</a></h2>
+<h3 id="removed-classesstructures"><a class="header" href="#removed-classesstructures">Removed classes/structures</a></h3>
+<ul>
+<li><code>class node_ordering_t</code> See <a href="c++-sdk-porting-guide-ida-9.html#gdlhpp"><code>code</code></a></li>
+<li><code>struct edge_t</code> See <a href="c++-sdk-porting-guide-ida-9.html#gdlhpp"><code>code</code></a></li>
+</ul>
+<h3 id="modified-classesstructures"><a class="header" href="#modified-classesstructures">Modified classes/structures</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>class abstract_graph_t</code></td><td><code>class drawable_graph_t</code></td></tr>
+<tr><td><code>class mutable_graph_t</code></td><td><code>class interactive_graph_t</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="modified-apis-5"><a class="header" href="#modified-apis-5">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>mutable_graph_t *idaapi create_mutable_graph(uval_t id)</code></td><td><code>interactive_graph_t *idaapi create_interactive_graph(uval_t id)</code></td></tr>
+<tr><td><code>mutable_graph_t *idaapi create_disasm_graph(ea_t ea)</code></td><td><code>interactive_graph_t *idaapi create_disasm_graph(ea_t ea)</code></td></tr>
+<tr><td><code>mutable_graph_t *idaapi create_disasm_graph(const rangevec_t &amp;ranges)</code></td><td><code>interactive_graph_t *idaapi create_disasm_graph(const rangevec_t &amp;ranges)</code></td></tr>
+<tr><td><code>mutable_graph_t *idaapi get_viewer_graph(graph_viewer_t *gv)</code></td><td><code>interactive_graph_t *idaapi get_viewer_graph(graph_viewer_t *gv)</code></td></tr>
+<tr><td><code>void idaapi set_viewer_graph(graph_viewer_t *gv, mutable_graph_t *g)</code></td><td><code>void idaapi set_viewer_graph(graph_viewer_t *gv, interactive_graph_t *g)</code></td></tr>
+<tr><td><code>void idaapi delete_mutable_graph(mutable_graph_t *g)</code></td><td><code>void idaapi delete_interactive_graph(interactive_graph_t *g)</code></td></tr>
+<tr><td><code>void idaapi mutable_graph_t::del_custom_layout(void)</code></td><td><code>void idaapi interactive_graph_t::del_custom_layout(void)</code></td></tr>
+<tr><td><code>void idaapi mutable_graph_t::set_custom_layout(void) const</code></td><td><code>void idaapi interactive_graph_t::set_custom_layout(void) const</code></td></tr>
+<tr><td><code>void idaapi mutable_graph_t::set_graph_groups(void) const</code></td><td><code>void idaapi interactive_graph_t::set_graph_groups(void) const</code></td></tr>
+<tr><td><code>void idaapi mutable_graph_t::clear(void)</code></td><td><code>void idaapi interactive_graph_t::clear(void)</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::create_digraph_layout(void)</code></td><td><code>bool idaapi interactive_graph_t::create_digraph_layout(void)</code></td></tr>
+<tr><td><code>bool idaapi abstract_graph_t::create_tree_layout(void)</code></td><td><code>bool idaapi drawable_graph_t::create_tree_layout(void)</code></td></tr>
+<tr><td><code>bool idaapi abstract_graph_t::create_circle_layout(point_t c, int radius)</code></td><td><code>bool idaapi drawable_graph_t::create_circle_layout(point_t c, int radius)</code></td></tr>
+<tr><td><code>int idaapi mutable_graph_t::get_node_representative(int node)</code></td><td><code>int idaapi interactive_graph_t::get_node_representative(int node)</code></td></tr>
+<tr><td><code>int idaapi mutable_graph_t::_find_subgraph_node(int gr, int n) const</code></td><td><code>int idaapi interactive_graph_t::_find_subgraph_node(int gr, int n) const</code></td></tr>
+<tr><td><code>int idaapi mutable_graph_t::create_group(const intvec_t &amp;_nodes)</code></td><td><code>int idaapi interactive_graph_t::create_group(const intvec_t &amp;_nodes)</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::get_custom_layout(void)</code></td><td><code>bool idaapi interactive_graph_t::get_custom_layout(void)</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::get_graph_groups(void)</code></td><td><code>bool idaapi interactive_graph_t::get_graph_groups(void)</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::empty(void) const</code></td><td><code>bool idaapi interactive_graph_t::empty(void) const</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::is_visible_node(int node) const</code></td><td><code>bool idaapi interactive_graph_t::is_visible_node(int node) const</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::delete_group(int group)</code></td><td><code>bool idaapi interactive_graph_t::delete_group(int group)</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::change_group_visibility(int gr, bool exp)</code></td><td><code>bool idaapi interactive_graph_t::change_group_visibility(int gr, bool exp)</code></td></tr>
+<tr><td><code>bool idaapi mutable_graph_t::set_edge(edge_t e, const edge_info_t *ei)</code></td><td><code>bool idaapi interactive_graph_t::set_edge(edge_t e, const edge_info_t *ei)</code></td></tr>
+<tr><td><code>int idaapi mutable_graph_t::node_qty(void) const</code></td><td><code>int idaapi interactive_graph_t::node_qty(void) const</code></td></tr>
+<tr><td><code>rect_t &amp;idaapi mutable_graph_t::nrect(int n)</code></td><td><code>rect_t &amp;idaapi interactive_graph_t::nrect(int n)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="idalibhpp"><a class="header" href="#idalibhpp">idalib.hpp</a></h2>
+<p>The new header for the IDA library</p>
+<h3 id="added-apis-4"><a class="header" href="#added-apis-4">Added APIs</a></h3>
+<ul>
+<li><code>idaman int ida_export init_library(int argc = 0, char *argv[] = nullptr)</code></li>
+<li><code>idaman int ida_export open_database(const char *file_path, bool run_auto)</code></li>
+<li><code>idaman void ida_export close_database(bool save)</code></li>
+</ul>
+<h2 id="iddhpp"><a class="header" href="#iddhpp">idd.hpp</a></h2>
+<h3 id="added-apis-5"><a class="header" href="#added-apis-5">Added APIs</a></h3>
+<ul>
+<li><code>idaman int ida_export cpu2ieee(fpvalue_t *ieee_out, const void *cpu_fpval, int size)</code></li>
+<li><code>idaman int ida_export ieee2cpu(void *cpu_fpval, const fpvalue_t &amp;ieee_out, int size)</code></li>
+</ul>
+<h2 id="idphpp"><a class="header" href="#idphpp">idp.hpp</a></h2>
+<h3 id="removed-apis-8"><a class="header" href="#removed-apis-8">Removed APIs:</a></h3>
+<ul>
+<li><code>processor_t::has_realcvt(void) const</code></li>
+</ul>
+<h3 id="modified-apis-6"><a class="header" href="#modified-apis-6">Modified APIs:</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>static ssize_t processor_t::gen_stkvar_def(outctx_t &amp;ctx, const class member_t *mptr, sval_t v)</code></td><td><code>static ssize_t processor_t::gen_stkvar_def(outctx_t &amp;ctx, const struct udm_t *mptr, sval_t v, tid_t tid)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="added-apis-6"><a class="header" href="#added-apis-6">Added APIs</a></h3>
+<h4 id="procmod_t"><a class="header" href="#procmod_t">procmod_t</a></h4>
+<ul>
+<li><code>const op_t *procmod_t::make_op_reg(op_t *op, int reg, int8 dtype = -1) const</code></li>
+<li><code>const op_t *procmod_t::make_op_imm(op_t *op, uval_t val, int8 dtype = -1) const</code></li>
+<li><code>const op_t *procmod_t::make_op_displ(op_t *op, int base_reg, uval_t displ, int8 dtype = -1) const</code></li>
+<li><code>const op_t *procmod_t::make_op_phrase(op_t *op, int base_reg, int index_reg, int8 dtype = -1) const</code></li>
+</ul>
+<p>See also <a href="c++-sdk-porting-guide-ida-9.html#idb-events">IDB events</a> for a table providing a list a event replacement and removal.</p>
+<h2 id="kernwinhpp"><a class="header" href="#kernwinhpp">kernwin.hpp</a></h2>
+<h3 id="removed-apis-9"><a class="header" href="#removed-apis-9">Removed APIs</a></h3>
+<ul>
+<li><code>open_enums_window(tid_t const_id=BADADDR)</code></li>
+<li><code>open_structs_window(tid_t id=BADADDR, uval_t offset=0)</code></li>
+<li><code>choose_struc(const char *title)</code></li>
+<li><code>choose_enum_by_value(const char *title, enum_t default_id, uint64 value, int nbytes, uchar *serial)</code></li>
+</ul>
+<h3 id="removed-classesstructures-1"><a class="header" href="#removed-classesstructures-1">Removed classes/structures</a></h3>
+<ul>
+<li><code>class enumplace_t</code></li>
+<li><code>class structplace_t</code></li>
+</ul>
+<h3 id="added-apis-7"><a class="header" href="#added-apis-7">Added APIs</a></h3>
+<ul>
+<li><code>bool is_ida_library(char *path, size_t pathsize, void** handle)</code></li>
+</ul>
+<h4 id="tagged_line_section_t"><a class="header" href="#tagged_line_section_t">tagged_line_section_t</a></h4>
+<ul>
+<li><code>const tagged_line_section_t::tagged_line_section_t *nearest_before(const tagged_line_section_t &amp;range, cpidx_t start, color_t tag=0) const</code></li>
+<li><code>const tagged_line_section_t::tagged_line_section_t *nearest_after(const tagged_line_section_t &amp;range, cpidx_t start, color_t tag=0) const</code></li>
+</ul>
+<h4 id="chooser_base_t"><a class="header" href="#chooser_base_t">chooser_base_t</a></h4>
+<ul>
+<li><code>bool chooser_base_t::has_widget_lifecycle() const</code></li>
+</ul>
+<h3 id="modified-apis-7"><a class="header" href="#modified-apis-7">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ea_t choose_stkvar_xref(func_t *pfn, member_t *mptr)</code></td><td><code>ea_t choose_stkvar_xref(func_t *pfn, tid_t srkvar_tid)</code></td></tr>
+<tr><td><code>bool tagged_line_section_t::substr(qstring *out, const qstring &amp;in) const</code></td><td><code>bool tagged_line_section_t::substr(qstring *out,,const qstring &amp;in, const tagged_line_section_t *end = nullptr) const</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="lexhpp"><a class="header" href="#lexhpp">lex.hpp</a></h2>
+<h3 id="modified-apis-8"><a class="header" href="#modified-apis-8">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman lexer_t *ida_export create_lexer(const char *const *keys, size_t size, void *ud=nullptr)</code></td><td><code>idaman lexer_t *ida_export create_lexer(const char *const *keys, size_t size, void *ud=nullptr, uint32 macro_flags=0)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="lineshpp"><a class="header" href="#lineshpp">lines.hpp</a></h2>
+<h3 id="removed-apis-10"><a class="header" href="#removed-apis-10">Removed APIs</a></h3>
+<ul>
+<li><code>set_user_defined_prefix(size_t width, void (idaapi *get_user_defined_prefix)(qstring *buf, ea_t ea, int lnnum, int indent, const char *line))</code></li>
+</ul>
+<h3 id="modified-apis-9"><a class="header" href="#modified-apis-9">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman void ida_export update_extra_cmt(ea_t ea, int what, const char *str)</code></td><td><code>idaman bool ida_export update_extra_cmt(ea_t ea, int what, const char *str)</code></td></tr>
+<tr><td><code>idaman void ida_export del_extra_cmt(ea_t ea, int what)</code></td><td><code>idaman bool ida_export del_extra_cmt(ea_t ea, int what)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="nalthpp"><a class="header" href="#nalthpp">nalt.hpp</a></h2>
+<h3 id="modified-apis-10"><a class="header" href="#modified-apis-10">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>idaman int ida_export validate_idb_names2(bool do_repair)</code></td><td><code>idaman int ida_export validate_idb_names(bool do_repair)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="parsejsonhpp"><a class="header" href="#parsejsonhpp">parsejson.hpp</a></h2>
+<h3 id="added-apis-8"><a class="header" href="#added-apis-8">Added APIs</a></h3>
+<h4 id="jvalue_t"><a class="header" href="#jvalue_t">jvalue_t</a></h4>
+<ul>
+<li><code>void jvalue_t::set_str(const char *s)</code></li>
+</ul>
+<h4 id="jobj_t"><a class="header" href="#jobj_t">jobj_t</a></h4>
+<ul>
+<li><code>void jobj_t::put(const char *key, const jobj_t &amp;value)</code></li>
+</ul>
+<h2 id="proh"><a class="header" href="#proh">pro.h</a></h2>
+<h3 id="removed-apis-11"><a class="header" href="#removed-apis-11">Removed APIs</a></h3>
+<ul>
+<li><code>unpack_memory(void *buf, size_t size, const uchar **pptr, const uchar *end)</code></li>
+</ul>
+<h3 id="added-apis-9"><a class="header" href="#added-apis-9">Added APIs</a></h3>
+<ul>
+<li><code>idaman THREAD_SAFE bool ida_export get_login_name(qstring *out)</code></li>
+<li><code>idaman void *ida_export pipe_process(qhandle_t *read_handle, qhandle_t *write_handle, launch_process_params_t *lpp, qstring *errbuf=nullptr)</code></li>
+</ul>
+<h4 id="bytevec_t"><a class="header" href="#bytevec_t">bytevec_t</a></h4>
+<ul>
+<li><code>qstring bytevec_t::tohex(bool upper_case=true) const</code></li>
+</ul>
+<h4 id="qlist"><a class="header" href="#qlist">qlist</a></h4>
+<ul>
+<li><code>void qlist::splice(iterator pos, qlist &amp;other, iterator first, iterator last)</code></li>
+</ul>
+<h3 id="added-classesstructures-2"><a class="header" href="#added-classesstructures-2">Added classes/structures</a></h3>
+<ul>
+<li><code>struct memory_serializer_t</code></li>
+</ul>
+<h2 id="regexhpp"><a class="header" href="#regexhpp">regex.hpp</a></h2>
+<h3 id="removed-apis-12"><a class="header" href="#removed-apis-12">Removed APIs</a></h3>
+<ul>
+<li><code>regcomp(struct regex_t *preg, const char *pattern, int cflags)</code></li>
+<li><code>regerror(int errcode, const struct regex_t *preg, char *errbuf, size_t errbuf_size)</code></li>
+<li><code>regexec(const struct regex_t *preg, const char *str, size_t nmatch, struct regmatch_t pmatch[], int eflags)</code></li>
+<li><code>regfree(struct regex_t *preg)</code></li>
+</ul>
+<h2 id="regfinderhpp"><a class="header" href="#regfinderhpp">regfinder.hpp</a></h2>
+<h3 id="modified-apis-11"><a class="header" href="#modified-apis-11">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>void ida_export reg_finder_invalidate_cache(reg_finder_t *_this, ea_t ea)</code></td><td><code>void ida_export reg_finder_invalidate_cache(reg_finder_t *_this, ea_t to, ea_t from)</code></td></tr>
+<tr><td><code>bool ida_export reg_finder_calc_op_addr(reg_finder_t *_this, reg_value_info_t *addr, const op_t *memop, const insn_t *insn, ea_t ea, ea_t ds)</code></td><td><code>bool ida_export reg_finder_calc_op_addr(reg_finder_t *_this, reg_value_info_t *addr, const op_t *memop, const insn_t *insn, ea_t ea, ea_t ds, int max_depth)</code></td></tr>
+<tr><td><code>bool ida_export reg_finder_may_modify_stkvars(const reg_finder_t *_this, reg_finder_op_t op, const insn_t *insn)</code></td><td><code>bool ida_export reg_finder_may_modify_stkvar(const reg_finder_t *_this, reg_finder_op_t op, const insn_t *insn)</code></td></tr>
+<tr><td><code>void idaapi invalidate_regfinder_cache(ea_t ea = BADADDR)</code></td><td><code>void idaapi invalidate_regfinder_cache(ea_t to = BADADDR, ea_t from = BADADDR)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="removed-apis-13"><a class="header" href="#removed-apis-13">Removed APIs</a></h3>
+<ul>
+<li><code>reg_finder_op_make_rfop(func_t *pfn, const insn_t &amp;insn, const op_t &amp;op)</code></li>
+</ul>
+<h3 id="added-apis-10"><a class="header" href="#added-apis-10">Added APIs</a></h3>
+<ul>
+<li><code>void reg_value_info_t::movt(const reg_value_info_t &amp;r, const insn_t &amp;insn)</code></li>
+<li><code>static int reg_finder_op_t::get_op_width(const op_t &amp;op)</code></li>
+<li><code>static reg_finder_op_t reg_finder_op_t::make_stkoff(sval_t stkoff, int width)</code></li>
+</ul>
+<h2 id="registryhpp"><a class="header" href="#registryhpp">registry.hpp</a></h2>
+<h3 id="removed-apis-14"><a class="header" href="#removed-apis-14">Removed APIs</a></h3>
+<ul>
+<li><code>reg_load(void)</code></li>
+<li><code>reg_flush(void)</code></li>
+</ul>
+<h2 id="searchhpp"><a class="header" href="#searchhpp">search.hpp</a></h2>
+<h3 id="removed-apis-15"><a class="header" href="#removed-apis-15">Removed APIs</a></h3>
+<ul>
+<li><code>user2bin(uchar *, uchar *, ea_t, const char *, int, bool)</code></li>
+<li><code>find_binary(ea_t, ea_t, const char *, int, int)</code></li>
+</ul>
+<h2 id="typeinfhpp"><a class="header" href="#typeinfhpp">typeinf.hpp</a></h2>
+<h3 id="removed-apis-16"><a class="header" href="#removed-apis-16">Removed APIs</a></h3>
+<ul>
+<li><code>set_numbered_type(til_t *ti, uint32 ordinal, int ntf_flags, const char *name, const type_t *type, const p_list *fields=nullptr, const char *cmt=nullptr, const p_list *fldcmts=nullptr, const sclass_t *sclass=nullptr)</code></li>
+<li><code>get_ordinal_from_idb_type(const char *name, const type_t *type)</code></li>
+<li><code>is_autosync(const char *name, const type_t *type)</code></li>
+<li><code>is_autosync(const char *name, const tinfo_t &amp;tif)</code></li>
+<li><code>import_type(const til_t *til, int idx, const char *name, int flags=0)</code></li>
+<li><code>get_udm_tid(const udm_t *udm, const char *udt_name)</code></li>
+</ul>
+<h3 id="modified-apis-12"><a class="header" href="#modified-apis-12">Modified APIs</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>In 8.4</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>bool ida_export create_tinfo2(tinfo_t *_this, type_t bt, type_t bt2, void *ptr)</code></td><td><code>bool ida_export create_tinfo(tinfo_t *_this, type_t bt, type_t bt2, void *ptr)</code></td></tr>
+<tr><td><code>int ida_export verify_tinfo(uint32 typid)</code></td><td><code>int ida_export verify_tinfo(typid_t typid)</code></td></tr>
+<tr><td><code>bool ida_export get_tinfo_details2(uint32 typid, type_t bt2, void *buf)</code></td><td><code>bool ida_export get_tinfo_details(typid_t typid, type_t bt2, void *buf)</code></td></tr>
+<tr><td><code>size_t ida_export get_tinfo_size(uint32 *p_effalign, uint32 typid, int gts_code)</code></td><td><code>size_t ida_export get_tinfo_size(uint32 *p_effalign, typid_t typid, int gts_code)</code></td></tr>
+<tr><td><code>size_t ida_export get_tinfo_pdata(void *outptr, uint32 typid, int what)</code></td><td><code>size_t ida_export get_tinfo_pdata(void *outptr, typid_t typid, int what)</code></td></tr>
+<tr><td><code>size_t ida_export get_tinfo_property(uint32 typid, int gta_prop)</code></td><td><code>size_t ida_export get_tinfo_property(typid_t typid, int gta_prop)</code></td></tr>
+<tr><td><code>size_t ida_export get_tinfo_property4(uint32 typid, int gta_prop, size_t p1, size_t p2, size_t p3, size_t p4)</code></td><td><code>size_t ida_export get_tinfo_property4(typid_t typid, int gta_prop, size_t p1, size_t p2, size_t p3, size_t p4)</code></td></tr>
+<tr><td><code>bool ida_export deserialize_tinfo2(tinfo_t *tif, const til_t *til, const type_t **ptype, const p_list **pfields, const p_list **pfldcmts, const char *cmt)</code></td><td><code>bool ida_export deserialize_tinfo(tinfo_t *tif, const til_t *til, const type_t **ptype, const p_list **pfields, const p_list **pfldcmts, const char *cmt)</code></td></tr>
+<tr><td><code>int ida_export find_tinfo_udt_member(udm_t *udm, uint32 typid, int strmem_flags)</code></td><td><code>int ida_export find_tinfo_udt_member(udm_t *udm, typid_t typid, int strmem_flags)</code></td></tr>
+<tr><td><code>bool ida_export compare_tinfo(uint32 t1, uint32 t2, int tcflags)</code></td><td><code>bool ida_export compare_tinfo(typid_t t1, typid_t t2, int tcflags)</code></td></tr>
+<tr><td><code>int ida_export lexcompare_tinfo(uint32 t1, uint32 t2, int)</code></td><td><code>int ida_export lexcompare_tinfo(typid_t t1, typid_t t2, int)</code></td></tr>
+<tr><td><code>uint64 ida_export read_tinfo_bitfield_value(uint32 typid, uint64 v, int bitoff)</code></td><td><code>uint64 ida_export read_tinfo_bitfield_value(typid_t typid, uint64 v, int bitoff)</code></td></tr>
+<tr><td><code>uint64 ida_export write_tinfo_bitfield_value(uint32 typid, uint64 dst, uint64 v, int bitoff)</code></td><td><code>uint64 ida_export write_tinfo_bitfield_value(typid_t typid, uint64 dst, uint64 v, int bitoff)</code></td></tr>
+<tr><td><code>bool ida_export get_tinfo_attr(uint32 typid, const qstring &amp;key, bytevec_t *bv, bool all_attrs)</code></td><td><code>bool ida_export get_tinfo_attr(typid_t typid, const qstring &amp;key, bytevec_t *bv, bool all_attrs)</code></td></tr>
+<tr><td><code>bool ida_export get_tinfo_attrs(uint32 typid, type_attrs_t *tav, bool include_ref_attrs)</code></td><td><code>bool ida_export get_tinfo_attrs(typid_t typid, type_attrs_t *tav, bool include_ref_attrs)</code></td></tr>
+<tr><td><code>bool ida_export append_tinfo_covered(rangeset_t *out, uint32 typid, uint64 offset)</code></td><td><code>bool ida_export append_tinfo_covered(rangeset_t *out, typid_t typid, uint64 offset)</code></td></tr>
+<tr><td><code>bool ida_export calc_tinfo_gaps(rangeset_t *out, uint32 typid)</code></td><td><code>bool ida_export calc_tinfo_gaps(rangeset_t *out, typid_t typid)</code></td></tr>
+<tr><td><code>bool ida_export name_requires_qualifier(qstring *out, uint32 typid, const char *name, uint64 offset)</code></td><td><code>bool ida_export name_requires_qualifier(qstring *out, typid_t typid, const char *name, uint64 offset)</code></td></tr>
+<tr><td><code>void ida_export tinfo_get_innermost_udm(tinfo_t *itif, const tinfo_t *tif, uint64 offset, size_t *udm_idx, uint64 *bit_offset)</code></td><td><code>void ida_export tinfo_get_innermost_udm(tinfo_t *itif, const tinfo_t *tif, uint64 offset, size_t *udm_idx, uint64 *bit_offset, bool return_member_type)</code></td></tr>
+<tr><td><code>tinfo_code_t tinfo_t::find_edm(edm_t *edm, uint64 value, bmask64_t bmask=DEFMASK64, uchar serial=0) const</code></td><td><code>ssize_t tinfo_t::find_edm(edm_t *edm, uint64 value, bmask64_t bmask=DEFMASK64, uchar serial=0) const</code></td></tr>
+<tr><td><code>tinfo_code_t tinfo_t::find_edm(edm_t *edm, const char *name) const</code></td><td><code>ssize_t tinfo_t::find_edm(edm_t *edm, const char *name) const</code></td></tr>
+<tr><td><code>bool tinfo_t::get_type_by_edm_name(const char *mname, til_t *til=nullptr)</code></td><td><code>ssize_t tinfo_t::get_edm_by_name(const char *mname, const til_t *til=nullptr)</code></td></tr>
+<tr><td><code>void ida_export gen_use_arg_tinfos2(struct argtinfo_helper_t *_this, ea_t caller, func_type_data_t *fti, funcargvec_t *rargs)</code></td><td><code>void ida_export gen_use_arg_tinfos(struct argtinfo_helper_t *_this, ea_t caller, func_type_data_t *fti, funcargvec_t *rargs)</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="added-classesstructures-3"><a class="header" href="#added-classesstructures-3">Added classes/structures</a></h3>
+<ul>
+<li><code>struct udm_visitor_t</code></li>
+</ul>
+<h3 id="added-apis-11"><a class="header" href="#added-apis-11">Added APIs</a></h3>
+<ul>
+<li><code>bool ida_export detach_tinfo_t(tinfo_t *_this)</code></li>
+<li><code>bool stroff_as_size(int plen, const tinfo_t &amp;tif, asize_t value)</code></li>
+<li><code>int ida_export visit_stroff_udms(udm_visitor_t &amp;sfv, const tid_t *path, int plen, adiff_t *disp, bool appzero)</code></li>
+<li><code>bool is_one_bit_mask(uval_t mask)</code></li>
+</ul>
+<h4 id="til_t"><a class="header" href="#til_t">til_t</a></h4>
+<ul>
+<li><code>til_t *til_t::find_base(const char *n)</code></li>
+</ul>
+<h4 id="callregs_t"><a class="header" href="#callregs_t">callregs_t</a></h4>
+<ul>
+<li><code>void callregs_t::set_registers(reg_kind_t kind, int first_reg, int last_reg)</code></li>
+</ul>
+<h4 id="tinfo_t"><a class="header" href="#tinfo_t">tinfo_t</a></h4>
+<ul>
+<li><code>bool tinfo_t::get_named_type(const char *name, type_t decl_type=BTF_TYPEDEF, bool resolve=true, bool try_ordinal=true)</code></li>
+<li><code>bool tinfo_t::get_numbered_type(uint32 ordinal, type_t decl_type=BTF_TYPEDEF, bool resolve=true)</code></li>
+<li><code>bool tinfo_t::detach()</code></li>
+<li><code>bool tinfo_t::is_punknown()</code></li>
+<li><code>int tinfo_t::find_udm(uint64 offset, int strmem_flags=0) const</code></li>
+<li><code>int tinfo_t::find_udm(const char *name, int strmem_flags=0) const</code></li>
+<li><code>size_t tinfo_t::get_enum_nmembers() const</code></li>
+<li><code>bool tinfo_t::is_empty_enum() const</code></li>
+<li><code>tinfo_code_t tinfo_t::get_enum_repr(value_repr_t *repr) const</code></li>
+<li><code>int tinfo_t::get_enum_width() const</code></li>
+<li><code>uint64 tinfo_t::calc_enum_mask() const</code></li>
+<li><code>tid_t tnfo_t::get_edm_tid(size_t idx) const</code></li>
+<li><code>tinfo_t tinfo_t::get_innermost_member_type(uint64 bitoffset, uint64 *out_bitoffset=nullptr) const</code></li>
+<li><code>bool tinfo_t::is_udm_by_til(size_t idx) const</code></li>
+<li><code>tinfo_code_t tinfo_t::set_udm_by_til(size_t idx, bool on=true, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_fixed_struct(bool on=true)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_struct_size(size_t new_size)</code></li>
+<li><code>bool tinfo_t::is_fixed_struct() const</code></li>
+<li><code>bool tinfo_t::get_func_frame(const func_t *pfn)</code></li>
+<li><code>bool tinfo_t::is_frame() const</code></li>
+<li><code>ea_t tinfo_t::get_frame_func() const</code></li>
+<li><code>ssize_t tinfo_t::get_stkvar(sval_t *actval, const insn_t &amp;insn, const op_t *x, sval_t v)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_enum_radix(int radix, bool sign, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_funcarg_type(size_t index, const tinfo_t &amp;tif, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_func_rettype(const tinfo_t &amp;tif, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::del_funcargs(size_t idx1, size_t idx2, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::del_funcarg(size_t idx, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::add_funcarg(const funcarg_t &amp;farg, uint etf_flags=0, ssize_t idx=-1)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_func_cc(cm_t cc, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::set_funcarg_loc(size_t index, const argloc_t &amp;argloc, uint etf_flags=0)</code></li>
+<li><code>tinfo_code_t tinfo_t::et_func_retloc(const argloc_t &amp;argloc, uint etf_flags=0)</code></li>
+</ul>
+<h4 id="func_type_data_t"><a class="header" href="#func_type_data_t">func_type_data_t</a></h4>
+<ul>
+<li><code>ssize_t func_type_data_t::find_argument(const char *name, size_t from=0, size_t to=size_t(-1)) const</code></li>
+</ul>
+<h4 id="enum_type_data_t"><a class="header" href="#enum_type_data_t">enum_type_data_t</a></h4>
+<ul>
+<li><code>tinfo_code_t enum_type_data_t::get_value_repr(value_repr_t *repr) const</code></li>
+<li><code>uchar enum_type_data_t::get_serial(size_t index) const</code></li>
+<li><code>uchar enum_type_data_t::get_max_serial(uint64 value) const</code></li>
+</ul>
+<h4 id="udm_t"><a class="header" href="#udm_t">udm_t</a></h4>
+<ul>
+<li><code>bool udm_t::is_retaddr() const</code></li>
+<li><code>bool udm_t::is_savregs() const</code></li>
+<li><code>bool udm_t::is_special_member() const</code></li>
+<li><code>bool udm_t::is_by_til() const</code></li>
+<li><code>void udm_t::set_retaddr(bool on=true)</code></li>
+<li><code>void udm_t::set_savregs(bool on=true)</code></li>
+<li><code>void udm_t::set_by_til(bool on=true)</code></li>
+</ul>
+<h4 id="udt_type_data_t"><a class="header" href="#udt_type_data_t">udt_type_data_t</a></h4>
+<ul>
+<li><code>bool udt_type_data_t::is_fixed() const</code></li>
+<li><code>void udt_type_data_t::set_fixed(bool on=true)</code></li>
+</ul>
+<h2 id="idb-events"><a class="header" href="#idb-events">IDB events</a></h2>
+<p>The following table provide a list of IDB events that have been replaced or, in some cases, removed.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Since 7</th><th>In 9.0</th></tr>
+</thead>
+<tbody>
+<tr><td><code>truc_created</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>deleting_struc</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_deleted</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>changing_struc_align</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_align_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>renaming_struc</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_renamed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>expanding_struc</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_expanded</code></td><td><code>lt_udt_expanded, frame_expanded, local_types_changed</code></td></tr>
+<tr><td><code>struc_member_created</code></td><td><code>lt_udm_created, frame_udm_created, local_types_changed</code></td></tr>
+<tr><td><code>deleting_struc_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_member_deleted</code></td><td><code>lt_udm_deleted, frame_udm_deleted, local_types_changed</code></td></tr>
+<tr><td><code>renaming_struc_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_member_renamed</code></td><td><code>lt_udm_renamed, frame_udm_renamed, local_types_changed</code></td></tr>
+<tr><td><code>changing_struc_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_member_changed</code></td><td><code>lt_udm_changed, frame_udm_changed, local_types_changed</code></td></tr>
+<tr><td><code>changing_struc_cmt</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>struc_cmt_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_created</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>deleting_enum</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_deleted</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>renaming_enum</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_renamed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>changing_enum_bf</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_bf_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>changing_enum_cmt</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_cmt_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_member_created</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>deleting_enum_member</code></td><td><strong>none</strong></td></tr>
+<tr><td><code>enum_member_deleted</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_width_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_flag_changed</code></td><td><code>local_types_changed</code></td></tr>
+<tr><td><code>enum_ordinal_changed</code></td><td><strong>none</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../developer-guide/c++-sdk/how-to-create-a-plugin.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../developer-guide/idapython.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../developer-guide/c++-sdk/how-to-create-a-plugin.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../developer-guide/idapython.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

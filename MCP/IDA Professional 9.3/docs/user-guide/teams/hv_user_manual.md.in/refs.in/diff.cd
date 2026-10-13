@@ -1,0 +1,19 @@
+.$NCAT_VAULT_PATH_WITH_REV:PATH Database 1.
+.$NCAT_VAULT_PATH_WITH_REV:PATH_OR_REV  Database 2. If no path is specified, it will default to the path of Database 1. If no revision is specified, it will default to the current revision (`#=`).
+
+>Compares two databases, will launch IDA in diff mode.
+
+Only IDA databases (`.i64`, `.idb`) can be diffed with this command.
+If revisions of databases requested for comparison are currently not in the site,
+they will be downloaded to a temporary directory and will be deleted when IDA exits.
+On unix the temporary directory can be specified with `$TMPDIR`.
+
+! with `interfaces.i64` opened for edit and changed, this will open IDA and show the differences with the current revision on vault
+$$ interfaces.i64
+
+!
+$ hv changes interfaces.i64
+CM 9 2022-06-30 23:55:33 edit alice@alicepc interfaces.i64: deobfuscated some string
+CM 8 2022-06-28 23:30:17 edit john@johnpc interfaces.i64: annotated areas to inves
+CM 1 1970-02-04 01:52:08 add  john@johnpc added samples
+$$ interfaces.i64 "#2"

@@ -1,0 +1,608 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Debugger - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="debugger-menu-actions-for-common"><a class="header" href="#debugger-menu-actions-for-common">Debugger menu actions for Common</a></h1>
+<p>Below is an overview of all actions that can be accessed from this menu.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>UI Action Name</th><th>Action Name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Quick debug view</td><td><code>QuickDbgView</code></td><td>Quickly open a debug view</td></tr>
+<tr><td>Debugger windows</td><td>``</td><td></td></tr>
+<tr><td>Debugger window</td><td><code>Debugger</code></td><td>Open debugging window. <a href="#debugger-window">More…</a></td></tr>
+<tr><td>Thread list</td><td><code>Threads</code></td><td>Open threads window. <a href="#thread-list">More…</a></td></tr>
+<tr><td>Module list</td><td><code>Modules</code></td><td>Open modules window. <a href="#module-list">More…</a></td></tr>
+<tr><td>Locals</td><td><code>Locals</code></td><td>Open local variables window</td></tr>
+<tr><td>Stack view</td><td><code>StackView</code></td><td>Stack view</td></tr>
+<tr><td>Stack trace</td><td><code>StackTrace</code></td><td>Open the stack trace window. <a href="#stack-trace">More…</a></td></tr>
+<tr><td>Watch view</td><td><code>WatchView</code></td><td>Open a new watch window</td></tr>
+<tr><td>Breakpoints</td><td>``</td><td></td></tr>
+<tr><td>Breakpoint list</td><td><code>Breakpoints</code></td><td>Open breakpoints window. In this window, you can view information related to existing breakpoints. Breakpoints are saved in the database, and restored as soon as possible (once the memory becomes writeable). <a href="#breakpoint-list">More…</a></td></tr>
+<tr><td>Add breakpoint</td><td><code>BreakpointAdd</code></td><td>Add a breakpoint to the current address. <a href="#add-breakpoint">More…</a></td></tr>
+<tr><td>Delete breakpoint</td><td><code>BreakpointDel</code></td><td>Delete the breakpoint at the current address</td></tr>
+<tr><td>Watches</td><td>``</td><td></td></tr>
+<tr><td>Watch list</td><td><code>WatchList</code></td><td>Open the watch list window. <a href="#watch-list">More…</a></td></tr>
+<tr><td>Add watch</td><td><code>AddWatch</code></td><td>Add a variable to watch. This command adds a watch at the current address. The watch is visible in the Watch list window (accessible via the <code>WatchList</code> action).</td></tr>
+<tr><td>Delete watch</td><td><code>DelWatch</code></td><td>Delete an existing watch.</td></tr>
+<tr><td>Tracing</td><td>``</td><td></td></tr>
+<tr><td>Tracing window</td><td><code>TracingWindow</code></td><td>Open tracing window. <a href="#tracing-window">More…</a></td></tr>
+<tr><td>Clear trace</td><td><code>ClearTrace</code></td><td>This command removes all trace events from the Tracing window. It also removes any loaded trace file used for diffing against the currently loaded trace.</td></tr>
+<tr><td>Instruction tracing</td><td><code>ToggleTraceInstructions</code></td><td>Toggle instruction tracing. <a href="#instruction-tracing">More…</a></td></tr>
+<tr><td>Basic block tracing</td><td><code>ToggleTraceBasicBlocks</code></td><td>Toggle basic block tracing. <a href="#basic-block-tracing">More…</a></td></tr>
+<tr><td>Function tracing</td><td><code>ToggleTraceFunctions</code></td><td>Toggle function tracing. <a href="#function-tracing">More…</a></td></tr>
+<tr><td>Add write trace</td><td><code>WriteTraceAdd</code></td><td>Add a write trace to the current address. <a href="#add-write-trace">More…</a></td></tr>
+<tr><td>Add read/write trace</td><td><code>ReadWriteTraceAdd</code></td><td>Add a read/write trace to the current address. <a href="#add-readwrite-trace">More…</a></td></tr>
+<tr><td>Add execution trace</td><td><code>ExecTraceAdd</code></td><td>Add an execution trace to the current address. <a href="#add-execution-trace">More…</a></td></tr>
+<tr><td>Tracing options…</td><td><code>SetupTracing</code></td><td>This command opens a dialog box that allows you to specify different settings related to the tracing features. <a href="#tracing-options">More…</a></td></tr>
+<tr><td>Start process</td><td><code>ProcessStart</code></td><td>Start a new process in the debugger or continue a debugged process.</td></tr>
+<tr><td>Attach to process…</td><td><code>ProcessAttach</code></td><td>Attach the debugger to a running process</td></tr>
+<tr><td>Process options…</td><td><code>SetupProcess</code></td><td>Open the Process options dialog. <a href="#process-options">More…</a></td></tr>
+<tr><td>Pause process</td><td><code>ProcessPause</code></td><td>Pause or continue the debugged process</td></tr>
+<tr><td>Terminate process</td><td><code>ProcessExit</code></td><td>Terminate the debugged process</td></tr>
+<tr><td>Detach from process</td><td><code>ProcessDetach</code></td><td>Detach the debugger from the debugged process</td></tr>
+<tr><td>Refresh memory</td><td><code>RefreshMemcfg</code></td><td>Refresh memory. <a href="#refresh-memory">More…</a></td></tr>
+<tr><td>Take memory snapshot</td><td><code>TakeSnapshot</code></td><td>Take memory snapshot. <a href="#take-memory-snapshot">More…</a></td></tr>
+<tr><td>Step into</td><td><code>ThreadStepInto</code></td><td>Execute each instruction</td></tr>
+<tr><td>Step over</td><td><code>ThreadStepOver</code></td><td>Execute instructions without entering into functions</td></tr>
+<tr><td>Run until return</td><td><code>ThreadRunUntilReturn</code></td><td>Run until execution returns from the current function. <a href="#run-until-return">More…</a></td></tr>
+<tr><td>Run to cursor</td><td><code>ThreadRunToCursor</code></td><td>Execute instructions until instruction under the cursor is reached</td></tr>
+<tr><td>Continue backwards</td><td><code>ProcessGoBackwards</code></td><td>Continue execution backwards in a trace (with supported debuggers)</td></tr>
+<tr><td>Step into (backwards)</td><td><code>ThreadStepIntoBackwards</code></td><td>Execute each instruction backwards</td></tr>
+<tr><td>Step over (backwards)</td><td><code>ThreadStepOverBackwards</code></td><td>Execute instructions backwards without entering into functions. <a href="#step-over-backwards">More…</a></td></tr>
+<tr><td>Run to cursor (backwards)</td><td><code>ThreadRunToCursorBackwards</code></td><td>Execute instructions backwards until instruction under the cursor is reached</td></tr>
+<tr><td>Switch to source</td><td><code>SwitchToSource</code></td><td>Switch from disassembly to source view</td></tr>
+<tr><td>Use source-level debugging</td><td><code>ToggleSourceDebug</code></td><td>Use source-level debugging</td></tr>
+<tr><td>Open source file…</td><td><code>OpenSourceFile</code></td><td>Open a source file</td></tr>
+<tr><td>Debugger options…</td><td><code>SetupDebugger</code></td><td>Open Debugger setup dialog. <a href="#debugger-options">More…</a></td></tr>
+<tr><td>Switch debugger…</td><td><code>SwitchDebugger</code></td><td>Select debugger. <a href="#switch-debugger">More…</a></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="debugger-window"><a class="header" href="#debugger-window">Debugger window</a></h2>
+<p>Open debugging window.
+In this window, you can view the register values for the selected thread. The debugger always selects the thread where the latest debugging event occurred.</p>
+<p>For most registers, we have two different boxes:</p>
+<ul>
+<li>the first box (on the left) indicates the current value of the register.
+Blue indicates that the value has changed since the last debugging event.
+Purple indicates that the value has been modified by the user.
+A popup menu is available on this control, offering different commands.</li>
+<li>the second box (on the right) shows the current value of the register, interpreted like an address (if possible).</li>
+</ul>
+<p>For a segment register, we only have one box indicating the current value.</p>
+<p>For the flags register, we have one box indicating the current value, and small boxes indicating the status of the most important flags.</p>
+<p>A popup menu is accessible everywhere in the window, which allows the user to show or hide different parts of the window: toolbar, thread list and available register classes.</p>
+<h2 id="thread-list"><a class="header" href="#thread-list">Thread list</a></h2>
+<p>Open threads window.
+In this window, you can view all the threads of the debugged process. Double clicking on a thread jumps to its current instruction (available only if the process has been suspended). Double clicking also changes the current thread for the CPU window.</p>
+<p>The right click brings a popup menu, where you can suspend or resume threads. The following thread states are possible:</p>
+<ul>
+<li>Running: the thread is running</li>
+<li>Ready: the thread is ready to run but the application has been suspended</li>
+<li>Suspended: the thread has been suspended by the user</li>
+</ul>
+<h2 id="module-list"><a class="header" href="#module-list">Module list</a></h2>
+<p>Open modules window.
+Opens the modules window.
+This window lists all the modules loaded by the debugged process. Double click on a module to see the list of its exported names.</p>
+<p>The right click menu allows for loading debug information for the current module. For that, select the “Load debug symbols” command from the popup menu. If IDA manages to find and load the corresponding debug information file, it will import all symbols from it into the database. Currently, only PDB files are supported. The operation result is displayed in the message window.</p>
+<h2 id="stack-trace"><a class="header" href="#stack-trace">Stack trace</a></h2>
+<p>Open the stack trace window.
+This window displays the function calls that brought the current instruction.</p>
+<p>The top of the Stack Trace window lists the last function called by the program. Below this is the listing for the previously called functions. Each line indicates the name of the function which called the function represented by the previous line.
+Double clicking on a line jumps to the exact address of the instruction realizing this call.</p>
+<p>Currently, IDA uses the EBP frame pointer values to gather the stack trace information. It will fail for functions using other methods for the frame.</p>
+<h2 id="breakpoint-list"><a class="header" href="#breakpoint-list">Breakpoint list</a></h2>
+<p>Open breakpoints window. In this window, you can view information related to existing breakpoints. Breakpoints are saved in the database, and restored as soon as possible (once the memory becomes writeable).</p>
+<p><img src="assets/breakpoints_list.png" alt="Breakpoints view"></p>
+<p>The “Pass count” column indicates how many times the program needs to hit the breakpoint before being suspended (0 means “always suspend”).</p>
+<h2 id="add-breakpoint"><a class="header" href="#add-breakpoint">Add breakpoint</a></h2>
+<p>Add a breakpoint to the current address.
+If an instruction exists at this address, an instruction breakpoint is created. Otherwise, IDA offers to create a hardware breakpoint and allows the user to edit breakpoint settings (Action <code>BreakpointEdit</code>). Hardware breakpoints can be either real hardware breakpoints or page breakpoints.</p>
+<h2 id="watch-list"><a class="header" href="#watch-list">Watch list</a></h2>
+<p>Open the watch list window.
+Opens the assembler level watch list window.
+In this window you can view memorized watches. A watch allows the user to continuously see the value of a defined item.</p>
+<h2 id="tracing-window"><a class="header" href="#tracing-window">Tracing window</a></h2>
+<p>Open tracing window.
+In this window, you can view some information related to all traced events. The tracing events are the information saved during the execution of a program. Different type of trace events are available:</p>
+<ul>
+<li><a href="#instruction-tracing">instruction tracing events</a> ,</li>
+<li><a href="#function-tracing">function tracing events</a> and</li>
+<li><a href="#add-write-trace">write</a>,</li>
+<li><a href="#add-read-write-trace">read/write</a>, or</li>
+<li><a href="#add-execution-trace">execution tracing events</a>.</li>
+</ul>
+<p><img src="assets/tracing_window.png" alt="Tracing window"></p>
+<p>During the execution, the list of traced events is disabled, as it couldn’t be continuously synchronized with the execution without rendering the whole tracing very slow.
+If a ‘=’ character is displayed in the ‘Thread’ and ‘Address’ columns, it indicates that the trace event occurred in the same thread and at the same address as the previous trace event.</p>
+<h2 id="instruction-tracing"><a class="header" href="#instruction-tracing">Instruction tracing</a></h2>
+<p>Toggle instruction tracing.
+This command starts instruction tracing. You can then use all the debugger commands as usual: the debugger will save all the modified register values for each instruction.</p>
+<p>When you click on an instruction trace event in the Tracing window, IDA displays the corresponding register values preceding the execution of this instruction. In the ‘Result’ column of the Tracing window, you can also see which registers were modified by this instruction. By using this information, you can for example quickly determine which instruction modified a specific register, or you can even backtrace the execution flow. Note that the IP register is never printed in the ‘Result’ column, although it is usually modified by almost any instruction (except perhaps some prefixed instructions like REP MOVSB, …).</p>
+<p>Internally, the debugger runs the current thread step by step to properly obtain all the required register values. This explains why instruction tracing is slower than a normal execution.</p>
+<h2 id="basic-block-tracing"><a class="header" href="#basic-block-tracing">Basic block tracing</a></h2>
+<p>Toggle basic block tracing.
+This command starts basic block tracing. You can then use all debugger commands as usual: the debugger will save all addresses where a temporary basic block breakpoint was reached.</p>
+<p>Internally, the debugger runs the current thread normally, setting temporary breakpoints in the last instruction of every basic block of every function referenced from the current function and also at any call instruction in the middle of the traced basic blocks.</p>
+<p>Basic block tracing is slower than normal execution but faster than instruction or function tracing.</p>
+<h2 id="function-tracing"><a class="header" href="#function-tracing">Function tracing</a></h2>
+<p>Toggle function tracing.
+This command starts function tracing. You can then use all debugger commands as usual: the debugger will save all addresses where a call to a function or a return from a function occurred.</p>
+<p>Internally, the debugger runs the current thread step by step to properly detect all function calls and returns. This explains why functions tracing is slower than a normal execution.</p>
+<h2 id="add-write-trace"><a class="header" href="#add-write-trace">Add write trace</a></h2>
+<p>Add a write trace to the current address.
+Each time the given address will be accessed in write mode, the debugger will add a trace event to the Tracing window.
+In fact, write traces are nothing more than breakpoints with special properties: they don’t stop and they simply add a trace event when the breakpoints are reached.</p>
+<p>Internally, the debugger will add a hardware breakpoint on the given address, so all the restrictions for hardware breakpoints are also valid for write traces.</p>
+<h2 id="add-readwrite-trace"><a class="header" href="#add-readwrite-trace">Add read/write trace</a></h2>
+<p>Add a read/write trace to the current address.
+This command adds a read/write trace to the current address.
+Each time the given address will be accessed in read or write mode, the debugger will add a trace event to the Tracing window.
+In fact, read/write traces are nothing more than breakpoints with special properties: they don’t stop and they simply add a trace event when the breakpoints are reached.
+Internally, the debugger will add a hardware breakpoint on the given address, so all the restrictions for hardware breakpoints are also valid for read/write traces.</p>
+<h2 id="add-execution-trace"><a class="header" href="#add-execution-trace">Add execution trace</a></h2>
+<p>Add an execution trace to the current address.
+Each time the instruction at the given address will be run, the debugger will add a trace event to the Tracing window.</p>
+<p>In fact, execution traces are nothing more than breakpoints with special properties: they don’t stop and they simply add a trace event when the breakpoints are reached.</p>
+<p>Internally, the debugger will add a breakpoint instruction at the given address.</p>
+<h2 id="tracing-options"><a class="header" href="#tracing-options">Tracing options…</a></h2>
+<p>This command opens a dialog box that allows you to specify different settings related to the tracing features.</p>
+<p><img src="assets/SetupTracing-options-dialog.png" alt="Tracing options dialog"></p>
+<ul>
+<li>
+<p><strong>Trace buffer size</strong>: This setting indicates how many tracing events can fit in the trace buffer.
+If the debugger must insert a new event and the buffer is full, the oldest tracing event will be removed. However, if you specify a size of 0, the buffer size isn’t limited. Notice that, for example, in the case of an instructions trace, all executed instructions could be logged, which would quickly fill up the memory!</p>
+</li>
+<li>
+<p><strong>Trace file</strong>: If a filename is specified, all future traced events will be appended to it.</p>
+</li>
+<li>
+<p><strong>Trace directory</strong>: The directory were trace files for the current database will be saved. If not specified, the IDB directory will be used.</p>
+</li>
+<li>
+<p><strong>Stop condition</strong>:
+This <a href="https://idc.docs.hex-rays.com/TraceFileFunctions.html">IDC</a> expression will be evaluated before the execution of each instruction. If the expression returns true, the debugger will suspend the execution. Please note that you can use register names in the condition.</p>
+</li>
+</ul>
+<p><strong>Tracing</strong>:</p>
+<ul>
+<li><strong>Trace over debugger segments</strong>: If selected, the debugger will not go step by step in debugger segments (segments not available in the database).</li>
+<li><strong>Trace over library functions</strong>: If selected, the debugger will not go step by step in library functions.</li>
+</ul>
+<p>{% hint style=“info” %}
+Enabling these options will speed up the execution, as many instructions (from debugger segments and/or library functions) will not be traced. Disabling these options can quickly fill the Tracing window, as all instructions in DLLs and system functions will be executed step by step. Notice that both options influence the way instruction and function tracings will work.
+{% endhint %}</p>
+<p>Internally, the debugger proceeds like this:</p>
+<ul>
+<li>
+<p>Memorize the return address associated with the last executed call instruction in database segments (the previously saved one is overwritten).</p>
+</li>
+<li>
+<p>Setup a temporary breakpoint on this address once the IP is in a debugger segment or library function, disable step by step, and run the thread.</p>
+</li>
+<li>
+<p>Reenable step by step once this temporary breakpoint is reached.</p>
+</li>
+<li>
+<p><strong>Do not log already logged IP</strong>: If selected, already executed instructions will not be logged if they are executed again.</p>
+</li>
+<li>
+<p><strong>Skip loops</strong>: If selected, tracing will be temporarily disabled for some loops constructs.</p>
+</li>
+</ul>
+<p><strong>Highlight</strong>:</p>
+<ul>
+<li><strong>Highlight instructions in IDA views</strong>: If selected, recorded instructions will be displayed in IDA views (disassembly views) with a different background color.</li>
+</ul>
+<p><strong>Instruction tracing</strong>:</p>
+<ul>
+<li><strong>Log if same IP</strong>: If selected, the debugger will also log all register modifications occurring during the execution of prefixed instructions like REP MOVSB, …</li>
+</ul>
+<p><strong>Function tracing</strong>:</p>
+<ul>
+<li><strong>Log return instructions</strong>: If selected, the debugger will also log function returns. If disabled, only function calls are logged.</li>
+</ul>
+<p><strong>Basic block and function tracing</strong>:</p>
+<ul>
+<li><strong>Log internal instructions</strong>: If selected, all instructions from the current basic block will be logged and displayed in the ‘Tracing’ window, instead of only the last instruction of the basic block.</li>
+</ul>
+<h2 id="process-options"><a class="header" href="#process-options">Process options…</a></h2>
+<p>Open the Process options dialog.
+It allows to specify different settings related to the process being debugged.</p>
+<table>
+<thead>
+<tr><th width="256"></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>Application</td><td>Host application to launch. When the debugging target (== 'input file') is an executable file, this field is equal to the 'input file'. If this field is wrong, IDA will not be able to launch the program. For remoting debugging, this field denotes a remote file.</td></tr>
+<tr><td>Input file</td><td>The input file used to create the database. For remoting debugging, this field denotes a remote file.</td></tr>
+<tr><td>Directory</td><td>Directory to start the application. If empty, then the current directory will be used. For remoting debugging, this field denotes a remote directory.</td></tr>
+<tr><td>Parameters</td><td>Optional parameters to pass to the debugged application (or the host application) when it starts. This field may be empty. The standard input/output/error channels can be redirected using the bash shell notations. For example: &gt;output 2&gt;&amp;1</td></tr>
+<tr><td>Hostname</td><td>If entered, denotes the name of the remote host with the application to debug. In this case, a remote IDA server on this host must be launched. <a href="/user-guide/debugger/remote-debugging.html">Click here</a> to see the list of remote servers.</td></tr>
+<tr><td>Port</td><td>The port number of the remote server</td></tr>
+<tr><td>Password</td><td>Optional password to protect your server from strangers connecting to it and running arbitrary commands. The same password switch must be specified on the remote server.</td></tr>
+</tbody>
+</table>
+
+<p>The hostname, port, and password are not available for debuggers connected locally to the computer.</p>
+<p>See also <a href="/user-guide/debugger/remote-debugging.html">How to launch remote debugging</a></p>
+<h2 id="refresh-memory"><a class="header" href="#refresh-memory">Refresh memory</a></h2>
+<p>Refresh memory.
+This command refreshes the segments and memory contents in IDA. It is available only during a debugging session.
+NOTE: this command is currently hidden from the user interface because IDA does synchronize with the process memory automatically.</p>
+<p>Please note that IDA itself tries to keep the program segments in sync with the debugged process. However, in order to accelerate the debugger, the synchronization is done only at major events, for example when dynamic library gets loaded or unloaded or a thread is created or deleted. If the memory configuration is changed because of a simple system call (think of VirtualAlloc), IDA might miss it. Use the “refresh memory” command in these cases.</p>
+<p>{% hint style=“info” %}
+When IDA detects a discrepancy in the segments, it will automatically synchronize with the process.
+{% endhint %}</p>
+<h2 id="take-memory-snapshot"><a class="header" href="#take-memory-snapshot">Take memory snapshot</a></h2>
+<p>Take memory snapshot.
+This command copies the contents of the process memory to the database. It is available during a debugging session.</p>
+<p>The memory contents will be copied to the database. The user may specify that only the segments with the ‘loader’ attribute will be saved in the database.</p>
+<p>The segments with the loader attribute are created by the input file loader and usually contain information from the input file. However, in some cases (like attaching to an existing process), there will not be any loader segments because the input file was not loaded by IDA.</p>
+<p>To be able to make a partial snapshot in this case and other similar cases, the user can set or clear the ‘loader’ attribute of the desired segments using the Edit segment… (action <code>EditSegment</code>) command.</p>
+<p>After applying this command, the user can terminate the debugging process and continue to analyze the program in the database.</p>
+<p>Please note that it is possible to save the database without taking a memory snapshot. Such a database might be used to keep global information about the program like the breakpoint information, notes, etc. However, we recommend to take a memory snapshot of at least the ‘loader’ segments because it will allow to save also information about the program functions, names, comments, etc.</p>
+<h2 id="run-until-return"><a class="header" href="#run-until-return">Run until return</a></h2>
+<p>Run until execution returns from the current function.
+This command executes assembler instructions and stops on the instruction immediately following the instruction that called the current function.</p>
+<p>Internally, IDA executes each instruction in the current function until a ‘return from function’ instruction is reached.</p>
+<h2 id="step-over-backwards"><a class="header" href="#step-over-backwards">Step over (backwards)</a></h2>
+<p>Execute instructions backwards without entering into functions.
+This command backward-executes one assembler instruction at a time, stepping over procedures while executing them as a single unit.
+Internally, in the case of a function call, IDA setups a temporary breakpoint on the instruction preceding this function call.</p>
+<h2 id="debugger-options"><a class="header" href="#debugger-options">Debugger options…</a></h2>
+<p>Open Debugger setup dialog.
+This dialog box allows to specify different settings related to the debugger.</p>
+<h3 id="events"><a class="header" href="#events">Events</a></h3>
+<ul>
+<li>
+<p><strong>Suspend on debugging start</strong></p>
+<p>If selected, the debugger will suspend directly once the debugging starts.</p>
+</li>
+<li>
+<p><strong>Evaluate event condition on exit</strong></p>
+<p>If selected, the debugger will evaluate the event condition immediately before closing the debugging session (once we receive PROCESS_EXITED or PROCESS_DETACHED event)</p>
+</li>
+<li>
+<p><strong>Suspend on process entry point</strong></p>
+<p>If selected, the debugger will insert a temporary breakpoint at the main entry point of the debugged application.</p>
+</li>
+<li>
+<p><strong>Suspend on thread start/exit</strong></p>
+<p>If selected, the debugger will suspend if a new thread starts or if an existing thread terminates.</p>
+</li>
+<li>
+<p><strong>Suspend on library load/unload</strong></p>
+<p>If selected, the debugger will suspend if a new library is loaded or if a previously loaded library is unloaded.</p>
+</li>
+<li>
+<p><strong>Suspend on debugging message</strong></p>
+<p>If selected, the debugger will suspend if the debugged application generates a message destined to the debugger.</p>
+</li>
+</ul>
+<h3 id="event-condition"><a class="header" href="#event-condition">Event condition</a></h3>
+<p>When one or more debug events (see above) are checked, then this option is used to specify a condition. In the following example, the debugger will suspend the process whenever a module with the name test.dll is loaded:</p>
+<pre><code>    get_event_id() == LIB_LOADED &amp;&amp; strstr(get_event_module_name(), "test.dll") != -1
+</code></pre>
+<h3 id="log"><a class="header" href="#log">Log</a></h3>
+<ul>
+<li>
+<p><strong>Segment modifications</strong></p>
+<p>If selected, the debugger will print information regarding segment modifications (creation, deletion, or resizing of segments) since the last event. Note that the debugger doesn’t continuously track segment modifications, but detects those only if a debugging event occurs.</p>
+</li>
+<li>
+<p><strong>Thread start/exit</strong></p>
+<p>If selected, the debugger will print a message if a new thread starts or if an existing thread terminates.</p>
+</li>
+<li>
+<p><strong>Library load/unload</strong></p>
+<p>If selected, the debugger will print a message if a new library is loaded or if a previously loaded library is unloaded.</p>
+</li>
+<li>
+<p><strong>Breakpoint</strong></p>
+<p>If selected, the debugger will print a message if the debugged process reaches a breakpoint.</p>
+</li>
+<li>
+<p><strong>Debugging message</strong></p>
+<p>If selected, the debugger will print debugging messages from the application.</p>
+</li>
+</ul>
+<h3 id="options"><a class="header" href="#options">Options</a></h3>
+<ul>
+<li>
+<p><strong>Reconstruct the stack</strong></p>
+<p>If selected, the debugger will try to reconstruct the chain of stack frames, based on information available on the stack and in the function stack variables.</p>
+</li>
+<li>
+<p><strong>Show debugger breakpoint instructions</strong></p>
+<p>If selected, the debugger will show breakpoint instructions inserted by the debugger itself. This function is mainly useful if the user wants to see the real content of the memory.</p>
+</li>
+<li>
+<p><strong>Use hardware temporary breakpoints</strong></p>
+<p>If selected, IDA will try to use hardware breakpoints for the temporary breakpoints used to implement the “step over” and “run to” functionality. This feature is useful when debugging read-only or self-modifying code, since it does not change the contents of the memory. IDA will fall back to software breakpoints if the attempt to set a hardware breakpoint fails.</p>
+</li>
+<li>
+<p><strong>Autoload PDB files</strong></p>
+<p>If selected, IDA will invoke the PDB plugin to try to load PDB symbols for every new module loaded into process.</p>
+</li>
+<li>
+<p><strong>Optimize single-stepping</strong></p>
+<p>Prevent debugger memory refreshes when single-stepping. See debugger_t::DBG_FLAG_FAST_STEP</p>
+</li>
+<li>
+<p><strong>Disable ASLR</strong></p>
+<p>Disable Address space layout randomization (ASLR). Optional, valid if debugger declares this option is supported, see debugger_t::DBG_FLAG_DISABLE_ASLR</p>
+</li>
+<li>
+<p><strong>Set as just-in-time debugger</strong></p>
+<p>If changed from off to on, IDA will try to register itself as a just-in-time debugger (invoked by the system in case of application crashes) on dialog close. Optional, valid only for Windows OS.</p>
+</li>
+</ul>
+<h3 id="buttons"><a class="header" href="#buttons">Buttons</a></h3>
+<ul>
+<li>
+<p><strong>Edit exceptions</strong></p>
+<p>This button allows the user to setup exceptions (#exceptions) how the debugger will react to specific exceptions.</p>
+</li>
+<li>
+<p><strong>Reload exceptions</strong></p>
+<p>This button reloads the exception table from the exceptions.cfg file.</p>
+</li>
+<li>
+<p><strong>Set specific options</strong></p>
+<p>Set debugger options (parameters that are specific to the debugger module). Optional, valid if debugger has the additional specific options. See debugger_t::ev_set_dbg_options</p>
+</li>
+</ul>
+<h3 id="exceptions"><a class="header" href="#exceptions">Exceptions</a></h3>
+<p>This dialog box allows to setup how the debugger will react to specific exceptions. For each exception, two settings can be specified, simply by selecting the desired exception, and clicking the ‘Edit’ button in the popup menu.</p>
+<ul>
+<li>
+<p><strong>Suspend program</strong>: Specify whether the debugger will suspend when the exception occurs. If ‘Passed to’ == application and the application handles the exception successfully, the execution will not be suspended regardless of the ‘Suspend’ value.</p>
+</li>
+<li>
+<p><strong>Passed to</strong>: Specify whether the exception will be passed to the application itself or handled by the debugger. If the debugged program contains exception handling code, it is better to select ‘Application’.</p>
+</li>
+</ul>
+<p><strong>Report</strong>:</p>
+<ul>
+<li><strong>Warn</strong>: Show a warning message with the exception information.</li>
+<li><strong>Log</strong>: Instead of displaying a warning message, log to the output window the exception information.</li>
+<li><strong>Silent</strong>: Do not show a warning message nor log to the output window.</li>
+</ul>
+<p>For new exceptions being added by the “Insert” command, you have to specify the exception name and code. These values must be unique, the name cannot be empty, and the code cannot be zero.</p>
+<h2 id="switch-debugger"><a class="header" href="#switch-debugger">Switch debugger…</a></h2>
+<p>Select debugger.
+This command allows the user to select a debugger if there are several debuggers available for the current database. For example, Window32 program can be debugged with a remote or a local debugger.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/user-interface/menu-bar/view/common-actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/user-interface/menu-bar/lumina/common-actions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/user-interface/menu-bar/view/common-actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/user-interface/menu-bar/lumina/common-actions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

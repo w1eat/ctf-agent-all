@@ -1,0 +1,7 @@
+.GROUP_NAME A group name.
+
+>Displays the list of users in a group.
+
+!
+$$ "malware"
+malware: alice michael matt sarah jason

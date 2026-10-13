@@ -1,0 +1,1377 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Options - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="options-menu-actions-for-common"><a class="header" href="#options-menu-actions-for-common">Options menu actions for Common</a></h1>
+<p>Below is an overview of all actions that can be accessed from this menu.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>UI Action Name</th><th>Action Name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>General…</td><td><code>Options</code></td><td>Open the General IDA Options dialog, where settings are organized thematically across multiple tabs. <a href="#general">More…</a></td></tr>
+<tr><td>Colors…</td><td><code>SetColors</code></td><td>Setup colors. <a href="#colors">More…</a></td></tr>
+<tr><td>Font…</td><td><code>SetFont</code></td><td>Setup font. <a href="#font">More…</a></td></tr>
+<tr><td>Feature Flags…</td><td><code>ShowFeatureFlags</code></td><td>Configure feature flags. <a href="#feature-flags">More…</a></td></tr>
+<tr><td>Shortcuts…</td><td><code>ShortcutEditor</code></td><td>Edit shortcuts. <a href="#shortcuts">More…</a></td></tr>
+<tr><td>Show command palette…</td><td><code>CommandPalette</code></td><td>Show command palette. This command opens a dialog, that provides quick access to all available IDA actions with shortcuts and descriptions. <a href="#show-command-palette">More…</a></td></tr>
+<tr><td>Repeat last palette command</td><td><code>RepeatLastPaletteCommand</code></td><td>Repeat last palette command</td></tr>
+<tr><td>Disable undo</td><td><code>UndoToggle</code></td><td>Disable undo</td></tr>
+<tr><td>Reset undo history</td><td><code>ResetUndoHistory</code></td><td>Reset undo history. <a href="#reset-undo-history">More…</a></td></tr>
+<tr><td>Assembler directives…</td><td><code>SetDirectives</code></td><td>Setup assembler directive generation. <a href="#assembler-directives">More…</a></td></tr>
+<tr><td>Name representation…</td><td><code>SetNameType</code></td><td>Setup name representation. <a href="#name-representation">More…</a></td></tr>
+<tr><td>Demangled names…</td><td><code>SetDemangledNames</code></td><td>Setup C++ demangled name representation. <a href="#demangled-names">More…</a></td></tr>
+<tr><td>Compiler…</td><td><code>SetupCompiler</code></td><td>Setup target compiler and its parameters. <a href="#compiler">More…</a></td></tr>
+<tr><td>String literals…</td><td><code>SetStrlitStyle</code></td><td>Setup string literal style. <a href="#string-literals">More…</a></td></tr>
+<tr><td>Setup data types…</td><td><code>SetupData</code></td><td>Setup data types. <a href="#setup-data-types">More…</a></td></tr>
+<tr><td>Source paths…</td><td><code>SetupSrcPaths</code></td><td>Setup source paths. <a href="#source-paths">More…</a></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="general"><a class="header" href="#general">General…</a></h2>
+<p>Open the General IDA Options dialog, where settings are organized thematically across multiple tabs.</p>
+<ul>
+<li><a href="#disassembly-options">Disassembly</a></li>
+<li><a href="#analysis-options">Analysis</a></li>
+<li><a href="#cross-references-dialog">Cross references</a></li>
+<li><a href="#string-options">String options…</a></li>
+<li><a href="#browser-options">Browser options…</a></li>
+<li><a href="#graph-options">Graph options</a></li>
+<li><a href="#lumina-options">Lumina options</a></li>
+<li><a href="#miscellaneous-options">Misc</a></li>
+</ul>
+<h2 id="disassembly-options"><a class="header" href="#disassembly-options">Disassembly options</a></h2>
+<p>This tab configures the appearance of the disassembly.</p>
+<p><img src="assets/options-disassembly.png" alt="Disassembly options"></p>
+<p>The checkboxes/input fields are organized into several categories:</p>
+<ul>
+<li><a href="#address-representation">Address representation</a></li>
+<li><a href="#display-disassembly-line-parts">Display disassembly line parts</a></li>
+<li><a href="#display-disassembly-lines">Display disassembly lines</a></li>
+</ul>
+<h3 id="display-disassembly-line-parts"><a class="header" href="#display-disassembly-line-parts">Display disassembly line parts</a></h3>
+<p><strong>Line prefixes (non-graph)</strong></p>
+<p>This checkbox enables or disables line prefixes display. Line prefix is the address of the current byte:</p>
+<pre><code>         3000:1000      mov ax, bx
+         ^^^^^^^^^
+</code></pre>
+<p>IDA.CFG parameter: SHOW_LINEPREFIXES</p>
+<p><strong>Stack pointer</strong></p>
+<p>If this option is set, IDA will display the value of the stack pointer in the line prefix.</p>
+<p>IDA.CFG parameter: SHOW_SP</p>
+<p><strong>Number of opcode bytes (non-graph)</strong></p>
+<p>The opcode is the operation code of the current instruction. For the data items, the opcodes are elements of data directives. Sometimes there is not enough place to display all bytes of an item (of a large array, for example). In this case, IDA will display just the few first bytes of the item. For the code items, IDA will try to display all bytes of the instruction, even if it requires adding more lines just for the opcode bytes. If this behavior is not desired, the number of opcode bytes can be specified as a negative value. A negative value -N means to display N opcode bytes on a line but never display empty lines just for the opcode bytes. By default, IDA does not display the opcodes.</p>
+<p>Opcode bytes are shown below:</p>
+<pre><code>        3000:1000 55           push    bp
+                  ^^^^^^^^^
+</code></pre>
+<p>IDA.CFG parameter: OPCODE_BYTES</p>
+<p><strong>Comments-related options</strong>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th><a href="../../../configuration/configuration-files.html">IDA.CFG</a> Parameter</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Comments</strong></td><td>n/a</td></tr>
+<tr><td><strong>Repeatable comments</strong></td><td>SHOW_REPEATABLE_COMMENTS</td></tr>
+<tr><td><strong>Auto comments</strong></td><td>SHOW_AUTOCOMMENTS</td></tr>
+</tbody>
+</table>
+</div>
+<p>{% hint style=“info” %}
+<strong>Auto comments</strong> are predefined comments for all instructions. If you forgot the meaning of a certain instruction, you can use this command to get comments for all lines on the screen.
+IDA does not give comments to very simple instructions, such as the ‘mov’ instruction, and does not override existing comments.
+{% endhint %}</p>
+<h3 id="address-representation"><a class="header" href="#address-representation">Address representation</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th><th>Enabled</th><th>Disabled</th><th><a href="../../../configuration/configuration-files.html">IDA.CFG</a> Parameter</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Function offsets</strong></td><td>This option controls the appearance of the line prefixes. If it is enabled, the addresses will be displayed as offsets from a function beginning.</td><td><code>somefunc+0x44</code></td><td><code>cseg:0x4544</code></td><td>SHOW_SEGMENTS</td></tr>
+<tr><td><strong>Include segment addresses</strong></td><td>Marking this checkbox, you can enable segment addresses in the disassembly. IDA will show only offsets.</td><td><code>codeseg:0034</code></td><td><code>0034</code></td><td>SHOW_SEGMENTS</td></tr>
+<tr><td><strong>Use segment names</strong></td><td>This option controls the appearance of the segment names in the addresses. (codeseg has base 3000)</td><td><code>codeseg:0034</code></td><td><code>3000:0034</code></td><td>USE_SEGMENT_NAMES</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="display-disassembly-lines"><a class="header" href="#display-disassembly-lines">Display disassembly lines</a></h3>
+<p><strong>Empty lines</strong></p>
+<p>This option enables or disables the presence of the autogenerated empty lines in the disassembly. It could be useful to decrease the number of the blank lines on the screen increasing amount of information on it.</p>
+<p>IDA.CFG parameter: SHOW_EMPTYLINES</p>
+<p><strong>Borders between data/code (non-graph)</strong></p>
+<p>This command enables or disables the presence of the autogenerated border lines in the disassembly. It could be useful to decrease the number of the blank lines on the screen increasing amount of information on it. A border line looks like this:</p>
+<pre><code>         ;---------------------------------------------------------
+</code></pre>
+<p>Note that you can hide a particular border by using the Toggle border command	(action <code>ToggleBorder</code>).</p>
+<p>IDA.CFG parameter: SHOW_BORDERS</p>
+<p><strong>Basic block boundaries (non-graph)</strong></p>
+<p>This option enables or disables the presence of the autogenerated empty lines at the end of basic blocks in the disassembly.</p>
+<p>IDA.CFG(../../configuration/configuration-files.md) parameter: SHOW_BASIC_BLOCKS</p>
+<p><strong>Source line numbers</strong></p>
+<p>This options controls the presence of the source line number information in the disassembly. Some object files have this information.</p>
+<p>IDA.CFG parameter: SHOW_SOURCE_LINNUM</p>
+<p><strong>Try block lines</strong></p>
+<p>This option controls the display of the try block information in the disassembly.</p>
+<p>IDA.CFG parameter: SHOW_TRYBLOCKS</p>
+<h3 id="other-text-formatting-options"><a class="header" href="#other-text-formatting-options">Other text formatting options</a></h3>
+<p><strong>Instruction identation (non-graph)</strong></p>
+<p>You can change indention of disassembled instructions:</p>
+<pre><code>
+                         mov ax, bx
+         &lt;--------------&gt;
+            indention
+</code></pre>
+<p>IDA.CFG parameter: INDENTION</p>
+<p><strong>Comments identation (non-graph)</strong></p>
+<p>You can change indention of comments:</p>
+<pre><code>                mov ax, bx                      ; this is a comment
+        &lt;--------------------------------------&gt;
+                       indention
+</code></pre>
+<p>IDA.CFG parameter: COMMENTS_INDENTION</p>
+<p><strong>Right margin (non-graph)</strong></p>
+<p>This option controls the length of disassembly lines for data directives.</p>
+<p>IDA.CFG parameter: MAX_DATALINE_LENGTH</p>
+<p><strong>Low and high suspiciousness limit</strong></p>
+<p>If IDA suspects that an operand can be represented as something different from a plain number, it will mark the operand as “suspicious” and display it in red/orange.</p>
+<p>Two values control the definition of suspiciousness. An operand is ‘suspicious’ if it has an immediate value between low and high ‘suspicious’ limits. The comparison is always unsigned, i.e., in the instruction:</p>
+<pre><code>        mov ax,[bp-2]
+</code></pre>
+<p>the immediate operand is 0xFFFE, not -2.</p>
+<p>IDA uses a simple heuristic to determine initial suspiciousness limits. You may change these limits any time you want.</p>
+<h2 id="analysis-options"><a class="header" href="#analysis-options">Analysis options</a></h2>
+<p>This tab allows you to configure analysis settings and processor-specific options.</p>
+<ul>
+<li><strong>Target processor</strong>: Change the <a href="#processor-type">processor type</a> (if multiple types are supported by the current processor module)</li>
+<li><strong>Target assembler</strong>: Select the <a href="#specify-target-assembler">assembler style</a></li>
+</ul>
+<p>Additional options (buttons):</p>
+<ul>
+<li><a href="#kernel-options">Kernel options</a></li>
+<li><strong>Processor specific analysis options</strong>: Configure processor-specific settings (available when the current <a href="#processor-type">processor</a> supports additional options)</li>
+<li><strong>Memory mapping</strong>: Define memory mapping ranges (available when the current <a href="#processor-type">processor</a> supports memory mapping)</li>
+<li><strong>Reanalyze program</strong></li>
+</ul>
+<p><img src="assets/options-analysis.png" alt="Analysis options"></p>
+<p><strong>Analysis section</strong></p>
+<p>The checkboxes:</p>
+<ul>
+<li><strong>Enabled</strong></li>
+<li><strong>Indicator enabled</strong></li>
+</ul>
+<p>allows you to disable and enable the autoanalysis and its indicator.</p>
+<p>By default, the auto analysis and indicator are enabled. Disable them only if you are sure it will help.</p>
+<pre><code> Action    name: SetAuto
+ 
+</code></pre>
+<p>The analysis indicator is located in the bottom left corner of the main IDA window (upper right corner in text version). Possible values of the indicator:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Indicator</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>(empty)</td><td>Indicator is turned off</td></tr>
+<tr><td><code>AU: idle</code></td><td>Autoanalysis is finished</td></tr>
+<tr><td><code>AU:disabled</code></td><td>Autoanalysis is disabled</td></tr>
+<tr><td><code>FL:&lt;address&gt;</code></td><td>Execution flow is being traced</td></tr>
+<tr><td><code>PR:&lt;address&gt;</code></td><td>A function is being created</td></tr>
+<tr><td><code>TL:&lt;address&gt;</code></td><td>A function tail is being created</td></tr>
+<tr><td><code>SP:&lt;address&gt;</code></td><td>The stack pointer is being traced</td></tr>
+<tr><td><code>AC:&lt;address&gt;</code></td><td>The address is being analyzed</td></tr>
+<tr><td><code>LL:&lt;number&gt;</code></td><td>A signature file is being loaded</td></tr>
+<tr><td><code>L1:&lt;address&gt;</code></td><td>The first pass of FLIRT</td></tr>
+<tr><td><code>L2:&lt;address&gt;</code></td><td>The second pass of FLIRT</td></tr>
+<tr><td><code>L3:&lt;address&gt;</code></td><td>The third pass of FLIRT</td></tr>
+<tr><td><code>TP:&lt;address&gt;</code></td><td>Type information is being applied</td></tr>
+<tr><td><code>FI:&lt;address&gt;</code></td><td>The final pass of autoanalysis</td></tr>
+<tr><td><code>WF:&lt;address&gt;</code></td><td>Weak execution flow is being traced</td></tr>
+<tr><td><code>??:&lt;address&gt;</code></td><td>The address becomes unexplored</td></tr>
+<tr><td><code>@:&lt;number&gt;</code></td><td>Indication of various activity</td></tr>
+</tbody>
+</table>
+</div>
+<p>{% hint style=“success” %}
+Hint: you can right-click the analysis indicator to quickly disable or enable it, or to reanalyze the program.
+{% endhint %}</p>
+<p>See also <a href="../../../disassembler/background-analysis.html">auto analysis explanation</a>.</p>
+<h3 id="processor-type"><a class="header" href="#processor-type">Processor Type</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Description</th><th>Family</th></tr>
+</thead>
+<tbody>
+<tr><td><code>8086</code></td><td>Intel 8086</td><td>IBM PC family</td></tr>
+<tr><td><code>80286r</code></td><td>Intel 80286 real mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80286p</code></td><td>Intel 80286 protected mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80386r</code></td><td>Intel 80386 real mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80386p</code></td><td>Intel 80386 protected mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80486r</code></td><td>Intel 80486 real mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80486p</code></td><td>Intel 80486 protected mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80586r</code></td><td>Intel Pentium &amp; MMX real mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80586p</code></td><td>Intel Pentium &amp; MMX prot mode</td><td>IBM PC family</td></tr>
+<tr><td><code>80686p</code></td><td>Intel Pentium Pro &amp; MMX</td><td>IBM PC family</td></tr>
+<tr><td><code>k62</code></td><td>AMD K6-2 with 3DNow!</td><td>IBM PC family</td></tr>
+<tr><td><code>p2</code></td><td>Intel Pentium II</td><td>IBM PC family</td></tr>
+<tr><td><code>p3</code></td><td>Intel Pentium III</td><td>IBM PC family</td></tr>
+<tr><td><code>athlon</code></td><td>AMD K7</td><td>IBM PC family</td></tr>
+<tr><td><code>p4</code></td><td>Intel Pentium 4</td><td>IBM PC family</td></tr>
+<tr><td><code>metapc</code></td><td>Disassemble all IBMPC opcodes</td><td>IBM PC family</td></tr>
+<tr><td><code>8085</code></td><td>Intel 8085</td><td>Zilog 80 family</td></tr>
+<tr><td><code>z80</code></td><td>Zilog 80</td><td>Zilog 80 family</td></tr>
+<tr><td><code>z180</code></td><td>Zilog 180</td><td>Zilog 80 family</td></tr>
+<tr><td><code>z380</code></td><td>Zilog 380</td><td>Zilog 80 family</td></tr>
+<tr><td><code>64180</code></td><td>Hitachi HD64180</td><td>Zilog 80 family</td></tr>
+<tr><td><code>gb</code></td><td>Gameboy</td><td>Zilog 80 family</td></tr>
+<tr><td><code>z8</code></td><td>Zilog 8</td><td>Zilog 8 family</td></tr>
+<tr><td><code>860xr</code></td><td>Intel 860 XR</td><td>Intel 860 family</td></tr>
+<tr><td><code>860xp</code></td><td>Intel 860 XP</td><td>Intel 860 family</td></tr>
+<tr><td><code>8051</code></td><td>Intel 8051</td><td>Intel 51 family</td></tr>
+<tr><td><code>80196</code></td><td>Intel 80196</td><td>Intel 80196 family</td></tr>
+<tr><td><code>80196NP</code></td><td>Intel 80196NP, NU</td><td>Intel 80196 family</td></tr>
+<tr><td><code>m6502</code></td><td>MOS 6502</td><td>MOS Technology 65xx family</td></tr>
+<tr><td><code>m65c02</code></td><td>MOS 65c02</td><td>MOS Technology 65xx family</td></tr>
+<tr><td><code>pdp11</code></td><td>DEC PDP/11</td><td>PDP family</td></tr>
+<tr><td><code>68000</code></td><td>Motorola MC68000</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68010</code></td><td>Motorola MC68010</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68020</code></td><td>Motorola MC68020</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68030</code></td><td>Motorola MC68030</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68040</code></td><td>Motorola MC68040</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68330</code></td><td>Motorola CPU32 (68330)</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68882</code></td><td>Motorola MC68020 with MC68882</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68851</code></td><td>Motorola MC68020 with MC68851</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68020EX</code></td><td>Motorola MC68020 with both</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>colfire</code></td><td>Motorola ColdFire</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>68K</code></td><td>Motorola MC680x0 all opcodes</td><td>Motorola 680x0 family</td></tr>
+<tr><td><code>6800</code></td><td>Motorola MC68HC00</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6801</code></td><td>Motorola MC68HC01</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6803</code></td><td>Motorola MC68HC03</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6301</code></td><td>Hitachi HD 6301</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6303</code></td><td>Hitachi HD 6303</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6805</code></td><td>Motorola MC68HC05</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6808</code></td><td>Motorola MC68HC08</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6809</code></td><td>Motorola MC68HC09</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6811</code></td><td>Motorola MC68HC11</td><td>Motorola 8bit family</td></tr>
+<tr><td><code>6812</code></td><td>Motorola MC68HC12</td><td></td></tr>
+<tr><td><code>hcs12</code></td><td>Motorola MC68HCS12</td><td></td></tr>
+<tr><td><code>6816</code></td><td>Motorola MC68HC16</td><td></td></tr>
+<tr><td><code>java</code></td><td>java</td><td>Java family</td></tr>
+<tr><td><code>ppc</code></td><td>PowerPC big endian</td><td>PowerPC family</td></tr>
+<tr><td><code>ppcl</code></td><td>PowerPC little endian</td><td>PowerPC family</td></tr>
+<tr><td><code>arm</code></td><td>ARM little endian</td><td>ARM family</td></tr>
+<tr><td><code>armb</code></td><td>ARM big endian</td><td>ARM family</td></tr>
+<tr><td><code>tms320c2</code></td><td>TMS320C2x series</td><td>TMS 16bit addressing family</td></tr>
+<tr><td><code>tms320c5</code></td><td>TMS320C5x series</td><td>TMS 16bit addressing family</td></tr>
+<tr><td><code>tms320c6</code></td><td>TMS320C6x series</td><td>TMS VLIW family</td></tr>
+<tr><td><code>tms320c3</code></td><td>TMS320C3x series</td><td>TMS VLIW family</td></tr>
+<tr><td><code>tms32054</code></td><td>TMS320C54xx series</td><td></td></tr>
+<tr><td><code>tms32055</code></td><td>TMS320C55xx series</td><td></td></tr>
+<tr><td><code>sh3</code></td><td>Renesas SH-3 (little endian)</td><td>Renesas SuperH series</td></tr>
+<tr><td><code>sh3b</code></td><td>Renesas SH-3 (big endian)</td><td>Renesas SuperH series</td></tr>
+<tr><td><code>sh4</code></td><td>Renesas SH-4 (little endian)</td><td>Renesas SuperH series</td></tr>
+<tr><td><code>sh4b</code></td><td>Renesas SH-4 (big endian)</td><td>Renesas SuperH series</td></tr>
+<tr><td><code>sh2a</code></td><td>Renesas SH-2A (big endian)</td><td>Renesas SuperH series</td></tr>
+<tr><td><code>avr</code></td><td>ATMEL AVR</td><td>ATMEL family</td></tr>
+<tr><td><code>mipsl</code></td><td>MIPS little endian</td><td>MIPS family: R2000, R3000, R4000, R4200, R4300, R4400, R4600, R8000, R10000</td></tr>
+<tr><td><code>mipsb</code></td><td>MIPS big endian</td><td>MIPS family: R2000, R3000, R4000, R4200, R4300, R4400, R4600, R8000, R10000</td></tr>
+<tr><td><code>mipsrl</code></td><td>MIPS &amp; RSP little</td><td>MIPS family: R2000, R3000, R4000, R4200, R4300, R4400, R4600, R8000, R10000</td></tr>
+<tr><td><code>mipsr</code></td><td>MIPS &amp; RSP big</td><td>MIPS family: R2000, R3000, R4000, R4200, R4300, R4400, R4600, R8000, R10000</td></tr>
+<tr><td><code>r5900l</code></td><td>MIPS R5900 little</td><td>MIPS family: R2000, R3000, R4000, R4200, R4300, R4400, R4600, R8000, R10000</td></tr>
+<tr><td><code>r5900r</code></td><td>MIPS R5900 big</td><td>MIPS family: R2000, R3000, R4000, R4200, R4300, R4400, R4600, R8000, R10000</td></tr>
+<tr><td><code>h8300</code></td><td>H8/300x in normal mode</td><td>Hitachi H8 family</td></tr>
+<tr><td><code>h8300a</code></td><td>H8/300x in advanced mode</td><td>Hitachi H8 family</td></tr>
+<tr><td><code>h8s300</code></td><td>H8S in normal mode</td><td>Hitachi H8 family</td></tr>
+<tr><td><code>h8s300a</code></td><td>H8S in advanced mode</td><td>Hitachi H8 family</td></tr>
+<tr><td><code>h8500</code></td><td>H8/500</td><td>Hitachi H8/500 family</td></tr>
+<tr><td><code>pic12cxx</code></td><td>Microchip PIC 12-bit (12xxx)</td><td>PIC family</td></tr>
+<tr><td><code>pic16cxx</code></td><td>Microchip PIC 14-bit (16xxx)</td><td>PIC family</td></tr>
+<tr><td><code>pic18cxx</code></td><td>Microchip PIC 16-bit (18xxx)</td><td>PIC family</td></tr>
+<tr><td><code>sparcb</code></td><td>SPARC big endian</td><td>SPARC family</td></tr>
+<tr><td><code>sparcl</code></td><td>SPARC little endian</td><td>SPARC family</td></tr>
+<tr><td><code>alphab</code></td><td>DEC Alpha big endian</td><td>ALPHA family</td></tr>
+<tr><td><code>alphal</code></td><td>DEC Alpha little endian</td><td>ALPHA family</td></tr>
+<tr><td><code>hppa</code></td><td>HP PA-RISC big endian</td><td>HP PA-RISC family</td></tr>
+<tr><td><code>dsp56k</code></td><td>Motorola DSP 5600x</td><td>DSP 56K family</td></tr>
+<tr><td><code>dsp561xx</code></td><td>Motorola DSP 561xx</td><td>DSP 56K family</td></tr>
+<tr><td><code>dsp563xx</code></td><td>Motorola DSP 563xx</td><td>DSP 56K family</td></tr>
+<tr><td><code>dsp566xx</code></td><td>Motorola DSP 566xx</td><td>DSP 56K family</td></tr>
+<tr><td><code>c166</code></td><td>Siemens C166</td><td>C166 family</td></tr>
+<tr><td><code>c166v1</code></td><td>Siemens C166 v1 family</td><td>C166 family</td></tr>
+<tr><td><code>c166v2</code></td><td>Siemens C166 v2 family</td><td>C166 family</td></tr>
+<tr><td><code>st10</code></td><td>SGS-Thomson ST10</td><td>C166 family</td></tr>
+<tr><td><code>super10</code></td><td>Super10</td><td>C166 family</td></tr>
+<tr><td><code>st20</code></td><td>SGS-Thomson ST20/C1</td><td>ST20 family</td></tr>
+<tr><td><code>st20c4</code></td><td>SGS-Thomson ST20/C2-C4</td><td></td></tr>
+<tr><td><code>st7</code></td><td>SGS-Thomson ST7</td><td>ST7 family</td></tr>
+<tr><td><code>ia64l</code></td><td>Intel Itanium little endian</td><td>IA64 family</td></tr>
+<tr><td><code>ia64b</code></td><td>Intel Itanium big endian</td><td>IA64 family</td></tr>
+<tr><td><code>cli</code></td><td>Microsoft.Net platform</td><td></td></tr>
+<tr><td><code>net</code></td><td>Microsoft.Net platform (alias)</td><td></td></tr>
+<tr><td><code>i960l</code></td><td>Intel 960 little endian</td><td>i960 family</td></tr>
+<tr><td><code>i960b</code></td><td>Intel 960 big endian</td><td>i960 family</td></tr>
+<tr><td><code>f2mc16l</code></td><td>Fujitsu F2MC-16L</td><td>Fujitsu F2MC family</td></tr>
+<tr><td><code>f2mc16lx</code></td><td>Fujitsu F2MC-16LX</td><td>Fujitsu F2MC family</td></tr>
+<tr><td><code>78k0</code></td><td>NEC 78k/0</td><td></td></tr>
+<tr><td><code>78k0s</code></td><td>NEC 78k/0s</td><td></td></tr>
+<tr><td><code>m740</code></td><td>Mitsubishi 8-bit</td><td></td></tr>
+<tr><td><code>m7700</code></td><td>Mitsubishi 16-bit</td><td>Mitsubishi 16-bit family</td></tr>
+<tr><td><code>m7750</code></td><td>Mitsubishi 16-bit</td><td>Mitsubishi 16-bit family</td></tr>
+<tr><td><code>m32r</code></td><td>Mitsubishi 32-bit</td><td>Mitsubishi 32-bit family</td></tr>
+<tr><td><code>m32rx</code></td><td>Mitsubishi 32-bit extended</td><td>Mitsubishi 32-bit family</td></tr>
+<tr><td><code>st9</code></td><td>STMicroelectronics ST9+</td><td></td></tr>
+<tr><td><code>fr</code></td><td>Fujitsu FR family</td><td></td></tr>
+<tr><td><code>m7900</code></td><td>Mitsubishi M7900</td><td></td></tr>
+<tr><td><code>kr1878</code></td><td>Angstrem KR1878</td><td></td></tr>
+<tr><td><code>ad218x</code></td><td>Analog Devices ADSP</td><td></td></tr>
+<tr><td><code>oakdsp</code></td><td>Atmel OAK DSP</td><td></td></tr>
+<tr><td><code>tricore</code></td><td>Infineon Tricore</td><td></td></tr>
+<tr><td><code>ebc</code></td><td>EFI Bytecode</td><td></td></tr>
+<tr><td><code>msp430</code></td><td>Texas Instruments MSP430</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<p>Processor modules can accept additional options that can be passed on the commandline with the -p switch. Currently only the <a href="#arm-processor-specifics">ARM</a> module supports it. For example, -parm:ARMv7-A will turn on options specific for the ARMv7-A architecture, such as NEON instruction set.</p>
+<p>For information about additional processor modules, please check <a href="../../../disassembler/supported-processors.html">supported processors</a></p>
+<p>Please note that when you change the processor type, IDA may change the <a href="#specify-target-assembler">target assembler</a>, so check it out.</p>
+<p>You may get a message saying that IDA does not know the specified processor if IDA fails to load the corresponding processor module:</p>
+<ul>
+<li>Windows IDA uses .dll file extension</li>
+<li>Linux IDA uses .so file extension</li>
+<li>Mac IDA uses .dylib file extension</li>
+</ul>
+<p>{% hint style=“info” %}
+Modules compiled with support for 64-bit address space, will feature a ‘64’ suffix before the extension. E.g., ‘pc64.dll’
+{% endhint %}</p>
+<p>{% hint style=“info” %}
+Changing the processor type leads to reanalysis of the whole program. Sometimes this is useful.
+{% endhint %}</p>
+<p>{% hint style=“info” %}
+When you load a new processor module, all <a href="/user-guide/disassembler/background-analysis.html">analysis</a> options are reset to the values specified in the <a href="/user-guide/configuration/configuration-files.html">configuration</a> file.
+{% endhint %}</p>
+<p>IDA determines the default processor using the input file extension and the contents of the input file. The table which describes the input file extensions and the corresponding processor types is located in IDA.CFG file and looks like this:</p>
+<pre><code> DEFAULT_PROCESSOR = {
+ /* Extension   Processor */
+  "com" :       "8086"                  // IDA will try the specified
+  "exe" :       "80386r"                // extensions if no extension is
+  "dll" :       "80386r"                // given.
+  "drv" :       "80386r"
+  "o"   :       "68000"
+  "prc" :       "68000"                 // PalmPilot programs
+  "axf" :       "arm"
+  "h68" :       "68000"                 // MC68000 for *.H68 files
+  "i51" :       "8051"                  // i8051   for *.I51 files
+  "sav" :       "pdp11"                 // PDP-11  for *.SAV files
+  "rom" :       "z80"                   // Z80     for *.ROM files
+  "cla" :       "java"                  // Java classes
+  "class":      "java"                  // Java classes
+  "s19":        "6811"
+  "*":          "80386p"                // Default processor
+}
+</code></pre>
+<p>If you want to change the default processor type, you need to change this table. You may add/delete rows in this table.</p>
+<p>See also: <a href="#arm-processor-specifics">ARM</a> processor specifics.</p>
+<h3 id="arm-processor-specifics"><a class="header" href="#arm-processor-specifics">ARM processor specifics</a></h3>
+<p>Since architecture version v4 (introduced in ARM7 cores), ARM processors have a new 16-bit instruction set called Thumb (the original 32-bit set is referred to as “ARM”). Since these two sets have different instruction encodings and can be mixed in one segment, we need a way to specify how to disassemble instructions. For this purpose, IDA uses a virtual segment register named ‘T’. If its value is 0, then ARM mode is used. Otherwise, Thumb mode is used. ARM is the default mode. Please note that if you change the value of T register for a range, IDA will destroy all instructions in that range because their disassembly is no longer correct.</p>
+<p>IDA use UAL (Unified Assembly Language) syntax by default which uses the same syntax for both ARM and Thumb mode. If necessary, legacy assembler syntax can be selected in <a href="#analysis-options">Analysis options</a>.</p>
+<p>To decode Aarch64 (ARM64) instructions the segment with instructions must be set to 64-bit (see Edit segment… command; action <code>EditSegment</code>).</p>
+<h3 id="processor-options-for-arm"><a class="header" href="#processor-options-for-arm">Processor options for ARM</a></h3>
+<ul>
+<li><strong>Simplify instructions</strong>:
+If this option is on, IDA will simplify instructions and replace them by clearer pseudo-instructions.
+For example:</li>
+</ul>
+<pre><code>
+              MOV     PC, LR
+</code></pre>
+<p>is replaced by</p>
+<pre><code>              RET
+</code></pre>
+<ul>
+<li><strong>Disable pointer dereferencing</strong>:
+If this option is on, IDA will not use =label syntax for loads from literal pools.
+For example,</li>
+</ul>
+<pre><code>
+                    LDR     R1, =dst
+                    ...
+      off_0_1003C   DCD dst
+</code></pre>
+<p>will be shown as</p>
+<pre><code>
+                    LDR     R1, off_0_1003C
+</code></pre>
+<ul>
+<li>
+<p><strong>No automatic ARM-Thumb switch</strong>:
+If this option is on, IDA will not propagate ARM-Thumb modes automatically when following jumps and calls.</p>
+</li>
+<li>
+<p><strong>Disable BL jumps detection</strong>:
+Some ARM compilers in Thumb mode use BL (branch-and-link) instead of B (branch) for long jumps, since BL has more range. By default, IDA tries to determine if BL is a jump or a call. You can override IDA’s decision using commands in Edit → Other menu (Force BL call/Force BL jump). If your target does not use this trick, you can set this option and IDA will always treat BL as a call.</p>
+</li>
+<li>
+<p><strong>Scattered MOVT/MOVW pairs analysis</strong>:
+A pair of MOVT and MOVW instructions can be used to load any 32-bit constant into a register without having to use the literal pool. For example: MOVW R1, #0xABA2 MOVT R1, #0x32AA is simplified by IDA into MOV R1, 0x32AAABA2 (unless macro creation is <a href="#kernel-analysis-options-3">turned off</a>).
+However, if there is an unrelated instruction between them, such simplification is not possible. If you enable the conversion, then IDA will try to convert operands of even scattered instructions. The example above could be represented as:</p>
+</li>
+</ul>
+<pre><code>
+      MOVW  R1, #:lower16:0x32AAABA2
+      [other instructions]
+      MOVT  R1, #:upper16:0x32AAABA2
+</code></pre>
+<p>It is possible to select how aggressively IDA should try to handle such pairs:</p>
+<ul>
+<li>
+<p>leave them as is, convert only if the result a valid address, or try to</p>
+</li>
+<li>
+<p>convert all pairs even if the result does not look like a valid address.</p>
+</li>
+<li>
+<p><strong>Edit ARM architecture options</strong>:
+This button allows you to edit various features of the ARM architecture. This will affect the disassembly of some instructions depending on whether the selected architecture supports them. For details, see the ARM Architecture Reference Manual.</p>
+</li>
+</ul>
+<h3 id="command-line-options"><a class="header" href="#command-line-options">Command-line options</a></h3>
+<p>You can configure the architecture options from the command line. For that, use the<code> -parm:&lt;option1[;option2...]&gt;</code> switch.
+The following options are accepted:</p>
+<ul>
+<li><code>ARMv&lt;N&gt;</code> - base ARM architecture version (e.g. ARMv4, ARMv4T, ARMv5TE, …, ARMv7-M, ARMv7-A), or</li>
+<li><code>&lt;name&gt;</code> - ARM core name (e.g. ARM7TDMI, ARM926EJ-S, PXA270, Cortex-M3, Cortex-A8)</li>
+</ul>
+<p>Additionally, a special name “armmeta” can be used to enable decoding of all known instructions.</p>
+<p>The options above will set some default values that can be adjusted further:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>NoVFP/VFPv&lt;N&gt;</code></td><td>disable or enable support for VFP instructions (e.g. VFPv3).</td></tr>
+<tr><td><code>NoNEON/NEON/NEON-FMA</code></td><td>disable or enable support for NEON (aka Advanced SIMD) instructions.</td></tr>
+<tr><td><code>NoThumb/Thumb/Thumb-2</code></td><td>disable or enable support for Thumb (16-bit) or Thumb-2 (16/32-bit) instructions.</td></tr>
+<tr><td><code>NoARM/ARM</code></td><td>disable or enable support for ARM instructions.</td></tr>
+<tr><td><code>XScale</code></td><td>support for XScale-specific instructions. Implies ARMv5TE.</td></tr>
+<tr><td><code>NoWMMX/WMMXv1/WMMXv2</code></td><td>support for Intel Wireless MMX extensions (v1 or v2). Implies XScale.</td></tr>
+</tbody>
+</table>
+</div>
+<p>See also</p>
+<ul>
+<li>Change segment register value command (action <code>SetSegmentRegister</code>)</li>
+<li>Set default segment register value… command	(action <code>SetSegmentRegisterDefault</code>) to specify the segment register value.</li>
+</ul>
+<h3 id="specify-target-assembler"><a class="header" href="#specify-target-assembler">Specify Target Assembler</a></h3>
+<p>This command allows you to change the target assembler, i.e. the assembler for which the output is generated. You select the target assembler from a menu. The menu items depend on the current <a href="#processor-type">processor type</a>.</p>
+<p>{% hint style=“info” %}
+Currently, IDA supports only a generic assembler for 80x86 processors. We recommend the use of Borland’s TASM to compile the output assembler files.
+{% endhint %}</p>
+<h3 id="kernel-options"><a class="header" href="#kernel-options">Kernel options</a></h3>
+<p>Here you can change various kernel analysis options:</p>
+<ul>
+<li><a href="#kernel-analysis-options-1">options 1</a></li>
+<li><a href="#kernel-analysis-options-2">options 2</a></li>
+<li><a href="#kernel-analysis-options-3">options 3</a></li>
+</ul>
+<h3 id="kernel-analysis-options-1"><a class="header" href="#kernel-analysis-options-1">Kernel analysis options 1</a></h3>
+<ul>
+<li><strong>Trace execution flow</strong>:
+This option allows IDA to trace execution flow and convert all references bytes to instructions (the Code command; action <code>MakeCode</code>)	 Mark typical code sequences as code. IDA knows some typical code sequences for each processor. For example, it knows about typical sequence</li>
+</ul>
+<pre><code>          push    bp
+          mov     bp, sp
+</code></pre>
+<p>If this option is enabled, IDA will search for all typical sequences and convert them to instructions even if there are no references to them. The search is performed at the loading time.</p>
+<ul>
+<li>
+<p><strong>Locate and create jump tables</strong>:
+This option allows IDA to try to guess the address and size of jump tables. Please note that disabling this option will not disable the recognition of C-style typical switch constructs.</p>
+</li>
+<li>
+<p><strong>Control flow to data segment is ignored</strong>:
+If set, IDA will not analyze code reference targets in pure data segments. Usually pure data segments have some instructions (e.g., thunk functions), that’s why this option is set off by default. For Mach-O files, it is set on because pure data segment do not contain instructions in them.</p>
+</li>
+<li>
+<p><strong>Analyze and create all xrefs</strong>:
+If this option is disabled, IDA will not thoroughly analyze the program: it will simply trace execution flow, nothing more (no xrefs, no additional checks, etc.)</p>
+</li>
+<li>
+<p><strong>Delete instructions with no xrefs</strong>:
+This option allows IDA to undefine instructions without any xrefs to them. For example, if you undefine (Edit → Undefine) an instruction at the start of a function, IDA will trace execution flow and delete all instructions that lose references to them.</p>
+</li>
+<li>
+<p><strong>Create function if data xref data-&gt;code32 exists</strong>:
+If IDA encounters a data reference from DATA segment to 32bit CODE segment, it will check for the presence of meaningful (disassemblable) instruction at the target. If there is an instruction, it will mark it as an instruction and will create a function there.</p>
+</li>
+<li>
+<p><strong>Create functions if call is present</strong>
+This option allows IDA to create function (Edit → Create function…) (proc) if a call instruction is present. For example, the presence of:</p>
+</li>
+</ul>
+<pre><code>          call loc_1234
+</code></pre>
+<p>leads to creation of a function at label loc_1234</p>
+<ul>
+<li>
+<p><strong>Create function tails</strong>:
+This option allows IDA to find and append separately located function tails to function definitions.</p>
+</li>
+<li>
+<p><strong>Create stack variables</strong>:
+This option allows IDA to automatically create stack variables and function parameters.</p>
+</li>
+<li>
+<p><strong>Propagate stack argument information</strong>:</p>
+</li>
+</ul>
+<p>This option propagates the stack argument information (the type and the name) to the caller’s stack. If the caller is called, then the information will be propagated further through the whole program. Currently, the type propagation is really simple and non-intelligent: the first encountered type for a stack variable will be used.</p>
+<ul>
+<li>
+<p><strong>Propagate register argument information</strong>:
+This option propagates the register argument information (the type and the name) to the caller. If the caller is also called, then the information will be propagated further through the whole program.</p>
+</li>
+<li>
+<p><strong>Trace stack pointer</strong>:
+This option allows IDA to trace (Edit → Functions → Change stack pointer…)  the value of the SP register.</p>
+</li>
+<li>
+<p><strong>Perform full stack pointer analysis</strong>:
+This option allows IDA to perform the stack pointer analysis using the simplex method. This option is valid only for the IBM PC processor.</p>
+</li>
+<li>
+<p><strong>Perform ‘no-return’ analysis</strong>:
+This option allows IDA to perform the control flow analysis and determine functions which do not return to
+their callers. The ‘exit()’ function, for example, does not return to its caller.</p>
+</li>
+<li>
+<p><strong>Try to guess member function types</strong>:
+If set, IDA will guess member function types using the demangled names. Please note that this rule may occasionally produce wrong results, for example, for static member functions. IDA has no means of distinguishing them from non-static member functions. If clear, IDA will guess only types of non-member functions.</p>
+</li>
+</ul>
+<p>See also:</p>
+<ul>
+<li><a href="#kernel-analysis-options-2">analysis options 2</a></li>
+<li><a href="#kernel-analysis-options-3">analysis options 3</a></li>
+</ul>
+<h3 id="kernel-analysis-options-2"><a class="header" href="#kernel-analysis-options-2">Kernel analysis options 2</a></h3>
+<ul>
+<li>
+<p><strong>Truncate functions upon code deletion</strong>: Truncate functions when the code at the function end gets deleted. If this option is turned off, IDA does not modify function definitions when code is deleted.</p>
+</li>
+<li>
+<p><strong>Create string literals if data xref exists</strong>:
+If IDA encounters a data reference to an undefined item, it checks for the presence of the string literal at the target. If the length of the candidate string literal is big enough (more than 4 chars in 16bit or data segments; more than 16 chars otherwise), IDA will automatically create a string literal(Edit → Strings → String).</p>
+</li>
+<li>
+<p><strong>Check for unicode strings</strong>:
+This option allows IDA to check for the presence of the unicode strings in the program and creates them if necessary. IDA will check for the unicode strings only if the <a href="#string-literals">string style</a> is set to “C-style (0 terminated)” or “Unicode”.</p>
+</li>
+<li>
+<p><strong>Create offsets and segments using fixup info</strong>:
+IDA will use relocation information to make the disassembly nicer. More precisely, it will convert all data items with relocation information to words or dwords like this:</p>
+</li>
+</ul>
+<pre><code>          dd offset label
+          dw seg seg000
+</code></pre>
+<p>If an instruction has a relocation information attached to it, IDA will convert its immediate operand to an offset or segment:</p>
+<pre><code>          mov     eax, offset label
+</code></pre>
+<p>You can display the relocation information attached to the current item by using the Print internal flags command.</p>
+<ul>
+<li>
+<p><strong>Create offset if data xref to seg32 exists</strong>:
+If IDA encounters a data reference to 32bit segment and the target contains 32bit value which can be represented as an offset expression, IDA will convert it to an offset.</p>
+</li>
+<li>
+<p><strong>Convert 32bit instruction operand to offset</strong>:
+This option works only in 32bit and 64bit segments. If an instruction has an immediate operand and the operand can be represented as a meaningful offset expression, IDA will convert it to an offset. However, the value of immediate operand must be higher than 0x10000.</p>
+</li>
+<li>
+<p><strong>Automatically convert data to offsets</strong>:</p>
+</li>
+</ul>
+<p>This option allows IDA to convert all newly created data items to offsets if the following conditions are satisfied:</p>
+<ul>
+<li>
+<p>the offset target is a valid address in the program</p>
+</li>
+<li>
+<p>the target address is higher than 0x20</p>
+</li>
+<li>
+<p>the target does not point into the middle of an item</p>
+</li>
+<li>
+<p>if the target is code, the execution does not flow to it from the previous instruction</p>
+</li>
+<li>
+<p>the data is dword (4 bytes) in a 32-bit segment or qword(8 bytes) in a 64-bit segment</p>
+</li>
+<li>
+<p>the segment type is not special (extern, communal, abs…)</p>
+</li>
+<li>
+<p><strong>Use flirt signatures</strong>:
+Allows usage of FLIRT technology</p>
+</li>
+<li>
+<p><strong>Comment anonymous library functions</strong>:
+This option appends a comment to anonymous library functions. The comment consists of the description of the FLIRT signature which has recognized the function and marked it as coming from a library.</p>
+</li>
+<li>
+<p><strong>Multiple copy library function recognition</strong>:
+This option allows FLIRT to recognize several copies of the same function in the program.</p>
+</li>
+<li>
+<p><strong>Automatically hide libary functions</strong>:
+This option hides the functions recognized by FLIRT. It will have effect only from the time it is set.</p>
+</li>
+<li>
+<p><strong>Rename jump functions as j_…</strong>:
+This option allows IDA to rename simple functions containing only</p>
+</li>
+</ul>
+<pre><code>          jmp somewhere
+</code></pre>
+<p>instruction to “j_somewhere”.</p>
+<ul>
+<li>
+<p><strong>Rename empty functions as nullsub_…</strong>:
+This option allows IDA to rename empty functions containing only a “return” instruction as “nullsub_…” (… is replaced by a serial number: 0,1,2,3…)</p>
+</li>
+<li>
+<p><strong>Coagulate data at the final pass</strong>: This option is meaningful only if “Make final analysis pass” is enabled. It allows IDA to convert unexplored bytes (Edit → Undefine) to data arrays in the non-code segments.</p>
+</li>
+<li>
+<p><strong>Coagulate code at the final pass</strong>:
+This option is meaningful only if “Make final analysis pass” is enabled. It allows IDA to convert unexplored bytes to data arrays in the code segments. Make final analysis pass This option allows IDA to coagulate all unexplored bytes by converting them to data or instructions. See also <a href="#kernel-analysis-options-1">analysis options 1</a> <a href="#kernel-analysis-options-3">analysis options 3</a></p>
+</li>
+</ul>
+<h3 id="kernel-analysis-options-3"><a class="header" href="#kernel-analysis-options-3">Kernel analysis options 3</a></h3>
+<ul>
+<li>
+<p><strong>Enable EH analysis</strong>:
+If this option is set on, IDA uses EH information of the binary for more detailed analysis.</p>
+</li>
+<li>
+<p><strong>Enable RTTI analysis</strong>:
+If this option is set on, IDA tries to detect C++ Run-Time Type Identification and does additional analysis based on this information.</p>
+</li>
+<li>
+<p><strong>Enable macros</strong>:
+This option is disabled if the processor module does not support macros. If this option is on, IDA will combine several instructions into one macro instruction. For example for the ARM processor:</p>
+</li>
+</ul>
+<pre><code>      ADRP Rx, label@PAGE
+      ADD  Rx, Rx, label@PAGEOFF
+</code></pre>
+<p>will be replaced by</p>
+<pre><code>
+      ADRL Rx, label
+</code></pre>
+<ul>
+<li><strong>Merge strlits</strong>:
+If the analysis option “Create string literals if data xref exists” is set and the target string literal ends at the existing one (without a
+termination character), IDA will merge these strlits into one.</li>
+</ul>
+<h2 id="cross-references-options"><a class="header" href="#cross-references-options">Cross-References options</a></h2>
+<p>This tab configures how cross-references (xrefs) are displayed.</p>
+<p><img src="assets/options-cross-references.png" alt="Cross-references options"></p>
+<p>IDA maintains cross-references automatically. Of course, when IDA starts to disassemble a new file, the cross-references will not appear immediately; they will be collected during background <a href="/user-guide/disassembler/background-analysis.html">analysis</a>.</p>
+<h3 id="cross-reference-parts"><a class="header" href="#cross-reference-parts">Cross-reference parts</a></h3>
+<ul>
+<li><strong>Display segments in xrefs</strong>:
+This checkbox enables or disables segments in cross references:</li>
+</ul>
+<pre><code>           Enabled:     ; CODE XREF: 3000:1025
+           Disabled:    ; CODE XREF: 1025
+</code></pre>
+<ul>
+<li><strong>Display xref type mark</strong>:
+If this option is disabled, IDA will not display “CODE” or “DATA” in the cross-references.</li>
+</ul>
+<p>IDA.CFG parameter: SHOW_XREF_TYPES</p>
+<ul>
+<li><strong>Display function offsets</strong>:
+This option controls the appearance of the cross-reference addresses. If it is enabled, the addresses will be displayed as offsets from a function beginning.</li>
+</ul>
+<p>Example:</p>
+<pre><code>           Enabled:     somefunc+0x44
+           Disabled:    cseg:0x4544
+</code></pre>
+<p>IDA.CFG parameter: SHOW_XREF_FUNC</p>
+<ul>
+<li><strong>Display xref values</strong>:
+If this option is disabled, IDA will just display the presence of cross-references, like this:</li>
+</ul>
+<pre><code>                ; CODE XREF: ...
+</code></pre>
+<p>IDA.CFG parameter: SHOW_XREF_VALUES</p>
+<ul>
+<li><strong>Right margin</strong>:
+Determines the maximal length of a line with the cross references.</li>
+</ul>
+<p>IDA.CFG parameter: MAX_XREF_LENGTH</p>
+<ul>
+<li><strong>Cross reference depth</strong>:
+This value “how many bytes of an object to look at to collect cross references”. For example, we have an array:</li>
+</ul>
+<pre><code>                A       db 100 dup(0)
+</code></pre>
+<p>If some instruction refers to the 5-th element of the array:</p>
+<pre><code>                mov     al,A+5
+
+         with TD=3      we'll have no xrefs displayed
+         with TD=10     we'll have this xref
+</code></pre>
+<p>IDA.CFG parameter: MAX_TAIL</p>
+<ul>
+<li><strong>Number of displayed xrefs</strong>:</li>
+</ul>
+<p>Determines the maximal number of the cross references to display. You may keep this value low because you can access all xrefs by using the List cross references to/from… command.<br>IDA.CFG parameter: SHOW_XREFS</p>
+<h2 id="string-options"><a class="header" href="#string-options">String options</a></h2>
+<p>This tab sets up the string literals options.</p>
+<p><img src="assets/options-strings.png" alt="String options"></p>
+<ul>
+<li><strong>Generate names</strong>
+If this option is set, IDA will give meaningful names to newly created string literals.</li>
+</ul>
+<h3 id="name-generation"><a class="header" href="#name-generation">Name generation</a></h3>
+<ul>
+<li>
+<p><strong>Prefix</strong>:
+The prefix inserted in the field will be used to form the string name.</p>
+</li>
+<li>
+<p><strong>Mark as autogenerated</strong>:
+If a name is marked as autogenerated, it will be displayed in a different color and will be included in the list of names [action <code>JumpName</code>] depending on the current setting.</p>
+</li>
+<li>
+<p><strong>Generate serial names</strong>:
+IDA can generate serial names for string literals, i.e.</p>
+</li>
+</ul>
+<pre><code>                pref_001,pref_002,pref_003 etc...
+</code></pre>
+<p>To enable serial names generation, specify prefix for names, starting serial number, and number of leading zeroes.</p>
+<p>Each time you create a string literal (Edit → Strings → String), IDA generates a new serial name and assigns it to the string.</p>
+<ul>
+<li>
+<p><strong>String literal next line char</strong>:
+This symbol, when encountered in the string, will make IDA start a new line in the string representation in the disassembly. Usually it is the line feed character (‘\n’).</p>
+</li>
+<li>
+<p><strong>Comment string literal references</strong>:
+This option tells IDA to display the contents of the string literal next to the instruction or offset that refers to the string.</p>
+</li>
+</ul>
+<h2 id="browser-options"><a class="header" href="#browser-options">Browser options</a></h2>
+<p>This tab of IDA Options configures the disassembly browser’s display behavior, hints, highlighting and navigation features.
+There are two groups of settings:</p>
+<ul>
+<li>The first group is for <a href="#hints">hints</a> that are displayed when the mouse is hovered
+over some text.</li>
+<li>The second group is for <a href="#other-settings">other <strong>navigation and display</strong> settings</a>, like highlighting.</li>
+</ul>
+<p><img src="assets/options-browser.png" alt="Browser options"></p>
+<h3 id="hints"><a class="header" href="#hints">Hints</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Number of lines for identifier hints</strong></td><td>Specifies how tall the hint window will be initially. IDA may decide to display less lines than specified if the hint is small. The user can resize the hint window using the mouse wheel.</td></tr>
+<tr><td><strong>Delay for identifier hints</strong></td><td>Milliseconds that pass before the hint appears when the user hovers the mouse pointer over an identifier.</td></tr>
+<tr><td><strong>Mouse wheel resizes hint window</strong></td><td>Permit to resize the hint window by using the mouse wheel. Can be turned off if the user does not want to resize the hints.</td></tr>
+<tr><td><strong>No hints if debugger is active</strong></td><td>Hints will be disabled when the debugger is active. This may be useful to speed of debugging: calculating hints for zero filled ranges can be very expensive.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="other-settings"><a class="header" href="#other-settings">Other settings</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Auto highlight the current identifier</strong></td><td>Highlight the current identifier everywhere on the screen. IDA tries to determine if the current identifier denotes a register. In this case it will highlight references to other parts of the register. For example, if “AL” is highlighted, IDA will also highlight “AH”, “AX”, and “EAX” (if the current processor is x86).</td></tr>
+<tr><td><strong>Unhide collapsed items automatically when jumping to them</strong></td><td>If this option is set on, IDA will automatically uncollapse hidden functions if the user decides to jump to them. As soon as the user quits the function by pressing <kbd>Esc</kbd>, the function is automatically collapsed again.</td></tr>
+<tr><td><strong>Lazy jumps</strong></td><td>If this option is set on, IDA will not redraw the disassembly window if the jump target is already on the screen. In this case, it will just move the cursor to the specified address. This option leads to less screen redraws and less jumpy behavior.</td></tr>
+<tr><td><strong>Enable history sharing</strong></td><td>This option is enabled by default. It keeps a shared global history across multiple widgets (including <strong>Disassembly, Pseudocode, Local Types, and Stack</strong>), allowing you to navigate back and forward between them.</td></tr>
+<tr><td><strong>Number of items in navigation stack drop-down menus</strong></td><td>Specifies the number of entries in the drop-down menu for the ‘Jump’ toolbar.</td></tr>
+<tr><td><strong>Number of lines for auto scroll</strong></td><td>Specifies how many lines force automatic scrolling of the disassembly view.</td></tr>
+<tr><td><strong>Caret blinking interval</strong></td><td>Specifies how fast the input caret blinks (in milliseconds). Must be greater than or equal to 500, or zero. Zero means to disable blinking.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="graph-options"><a class="header" href="#graph-options">Graph options</a></h2>
+<p>This tab configures the visual appearance and behavior of graph view and proximity view.</p>
+<p><img src="assets/options-graph.png" alt="Graph options"></p>
+<h3 id="general-1"><a class="header" href="#general-1">General</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Use graph view by default</strong></td><td>IDA switches to graph mode for each ‘jump’ command.</td></tr>
+<tr><td><strong>Enable graph animation</strong></td><td>Animate the graph layout, movement, and group collapsing/uncollapsing. While animation takes time, it gives the user some idea what’s going on.</td></tr>
+<tr><td><strong>Draw node shadows</strong></td><td>Display shadows for each graph node. Shadows are not displayed for really huge or ridiculously small nodes.</td></tr>
+<tr><td><strong>Auto fit graph into window</strong></td><td>Zoom the graph so that it occupies the whole window.</td></tr>
+<tr><td><strong>Fit window max zoom level 100%</strong></td><td>The ‘fit window’ command maximal zoom level is 100%.</td></tr>
+<tr><td><strong>Re-layout graph if nodes overlap</strong></td><td>IDA recomputes the graph layout if a node overlap is detected. The presence of a custom layout (if the user has displaced some graph nodes) effectively turns off this option.</td></tr>
+<tr><td><strong>Re-layout graph upon screen refresh</strong></td><td>IDA recomputes the graph layout at each screen refresh. Turning this option off accelerates IDA but then a manual layout might be required after some operations.</td></tr>
+<tr><td><strong>Truncate at the right margin</strong></td><td>All nodes at truncated at the right margin. The right margin is specified in the Options → General → Disassembly tab. This option narrows the graph but hides some information by truncating long lines.</td></tr>
+<tr><td><strong>Lock graph layout</strong></td><td>Locks the graph layout by ignoring attempts to displace nodes. This prevents the creation of custom layouts that might lead to ugly graph layouts when nodes change their sizes.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="proximity-view"><a class="header" href="#proximity-view">Proximity view</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Show data references</strong></td><td>Show data cross-referenced items in proximity view.</td></tr>
+<tr><td><strong>Hide library functions</strong></td><td>Do not show data or code cross-references to library functions, only show cross-referenced local functions.</td></tr>
+<tr><td><strong>Unlimited children recursion</strong></td><td>Recurse until there are no more callees (children) of the currently selected central node and all of his children.</td></tr>
+<tr><td><strong>Recurse into library functions</strong></td><td>Displays children data or code cross-references from library functions.</td></tr>
+<tr><td><strong>Max parents recursion</strong></td><td>Maximum recursion level for displaying parents of the currently selected central node. The value <code>0</code> disables parents recursion.</td></tr>
+<tr><td><strong>Max children recursion</strong></td><td>Maximum recursion level for displaying children of the currently selected central node. The value <code>0</code> means no maximum recursion level.</td></tr>
+<tr><td><strong>Max nodes per level</strong></td><td>Maximum number of nodes to show per level of children and parents.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="lumina-options"><a class="header" href="#lumina-options">Lumina options</a></h2>
+<p>This tab configures Lumina server connection settings.</p>
+<p><img src="assets/options-lumina.png" alt="Lumina options"></p>
+<h3 id="servers"><a class="header" href="#servers">Servers</a></h3>
+<ul>
+<li><strong>Use public</strong>:
+Sets host and port to the default public server hosted by Hex-Rays. No username or password is required.</li>
+</ul>
+<h3 id="private-server-authentication"><a class="header" href="#private-server-authentication">Private server authentication</a></h3>
+<p>Specify the username and password credentials for a Private Lumina server.</p>
+<p><strong>Automatically use Lumina server for analysis</strong></p>
+<p>Instructs IDA to fetch function metadata from the current Lumina server, after the initial auto-analysis is complete. This helps with the recognition of known functions stored in the database of the Lumina server.</p>
+<h3 id="lumina-command-line-options"><a class="header" href="#lumina-command-line-options">Lumina command line options</a></h3>
+<p>Command line switch '-Olumina' overrides for ida session the primary server and '-Osecondary_lumina' the secondary one.</p>
+<h4 id="list-of-options"><a class="header" href="#list-of-options">List of options</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>host</code></td><td>lumina server host</td></tr>
+<tr><td><code>port</code></td><td>lumina server port</td></tr>
+<tr><td><code>user</code></td><td>username for authentification on private lumina</td></tr>
+<tr><td><code>pass</code></td><td>password for authentification on private lumina</td></tr>
+<tr><td><code>proxy_host</code></td><td>proxy host</td></tr>
+<tr><td><code>proxy_port</code></td><td>proxy port</td></tr>
+<tr><td><code>proxy_user</code></td><td>username for authentification on proxy</td></tr>
+<tr><td><code>proxy_pass</code></td><td>password for authentification on proxy</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="example"><a class="header" href="#example">Example</a></h4>
+<pre><code>  -Osecondary_lumina:host=lumina.hex-rays.com:port=443
+</code></pre>
+<p>Use the public lumina as secondary server for this ida session</p>
+<h2 id="miscellaneous-options"><a class="header" href="#miscellaneous-options">Miscellaneous options</a></h2>
+<p>This tab configures miscellaneous options including editor settings, encoding and types autocompletion.</p>
+<ul>
+<li>
+<p><strong>Editor</strong>:
+A text editor is to be used when the user decides to edit an IDC script using the IDC toolbar.</p>
+</li>
+<li>
+<p><strong>Navigation band refresh interval (milliseconds)</strong>:
+Specifies how often the navigation band will be refreshed. IDA tries to minimize the number of redrawings because they could be really time and processor consuming (imagine a huge program, 50-100 megabytes of code. It would take a long time to refresh information on the navigation band because the whole program will be examined to determine how to draw the band). If this option is set to <code>0</code>, the navigation band is refreshed only when the cursor is moved far enough to reflect its movement on the band.</p>
+</li>
+<li>
+<p><strong>Convert already defined bytes</strong>:
+Determines how IDA should behave when user operations would end up redefining some already-defined bytes.</p>
+</li>
+<li>
+<p><strong>Associate .IDB file extension with IDA</strong>:
+Whether or not the .IDB extension should be associated, at the OS-level, with IDA.</p>
+</li>
+<li>
+<p><strong>Enable autocomplete in forms</strong>:
+Determines whether input fields should provide an auto-complete combo box by default.</p>
+</li>
+<li>
+<p><strong>Output files encoding</strong>:
+The encoding used to generate output text files from IDA. The value ‘<default>’ means that the IDB’s default 8 bit-per-unit encoding will be used.</default></p>
+</li>
+</ul>
+<h3 id="types-autocompletion"><a class="header" href="#types-autocompletion">Types autocompletion</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Enable autocomplete for types</strong></td><td>Enables or disables the entire autocomplete mechanism for types. If you uncheck the box, the behavior will not differ from previous versions. Enabled by default.</td></tr>
+<tr><td><strong>Case sensitive</strong></td><td>Changes case sensitivity. When enabled, for example, the prefix <code>b</code> will show <code>bucket</code> but not <code>BigStruct</code>. Disabled by default.</td></tr>
+<tr><td><strong>Enable autocomplete for curly braces</strong></td><td>Enables or disables autocompletion of curly braces and indents. When enabled, typing <code>{</code> inserts a closing brace on a new line, with an indented empty line and the cursor placed in between. Enabled by default.</td></tr>
+<tr><td><strong>Enable type hints</strong></td><td>Enables or disables hints when selecting a type from the autocomplete suggestions. These hints behave similarly to the hints in Local Types. Enabled by default.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="colors"><a class="header" href="#colors">Colors…</a></h2>
+<p>Setup colors.
+The IDA Colors dialog lets you change the active theme or fine-tune the one currently in use.
+Each tab lets you customize specific parts of the UI.</p>
+<p><img src="assets/colors.png" alt="IDA Colors"></p>
+<p>IDA keeps the color configuration in the registry. There are 3 predefined schemes. The user can modify the existing schemes or add his own schemes. New schemes should be added to the “themes” subdirectory in IDA.</p>
+<h3 id="windows-11-style-contrast"><a class="header" href="#windows-11-style-contrast">Windows 11 style contrast</a></h3>
+<p>By default, IDA uses the “out-of-the-box” Qt style - named <code>windows11</code>.</p>
+<p>That style mimics the core Microsoft Windows 11 theme, with which some
+users have reported some discomfort due to low-contrast hints.</p>
+<p>This is observable especially in “tabular” widgets, where the selection
+painted using an somewhat discrete overlay:</p>
+<p><img src="assets/windows11_contrast.png" alt="Windows 11 style tabular view selection"></p>
+<p>Addressing this naïvely (e.g., by overriding the selection entries through CSS)
+might do more harm than good though, so we have decided against that.</p>
+<p>Instead, we recommend using the Qt “Fusion” style, which offers
+significantly better contrast:</p>
+<p><img src="assets/fusion_contrast.png" alt="Fusion style tabular view selection"></p>
+<p>This is achievable by <a href="https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables">opening the “Environment variables” dialog</a>, and adding an entry called <code>QT_STYLE_OVERRIDE</code> with the value <code>fusion</code>.</p>
+<h2 id="font"><a class="header" href="#font">Font…</a></h2>
+<p>Setup font.
+This dialog allows you to customize the font used in listings.</p>
+<p><img src="assets/fonts.png" alt="Select font for: Listings"></p>
+<h2 id="feature-flags"><a class="header" href="#feature-flags">Feature Flags…</a></h2>
+<p>Configure feature flags.
+This dialog lists optional features that can be enabled or disabled. By default, the two options below are enabled, supporting the new <code>JumpAnywhere</code> feature:</p>
+<ul>
+<li><strong>Override <kbd>G</kbd> shortcut with new Jump Anywhere dialog</strong>.
+<ul>
+<li>(If disabled, the <kbd>G</kbd> will continue to trigger “Jump to address…” dialog).</li>
+</ul>
+</li>
+<li><strong>Enable preview pane in Jump Anywhere dialog</strong>.</li>
+</ul>
+<h2 id="shortcuts"><a class="header" href="#shortcuts">Shortcuts…</a></h2>
+<p>Edit shortcuts.
+This dialog allows you to view and customize all keyboard shortcuts used in IDA. You can use <kbd>Ctrl</kbd> + <kbd>F</kbd> to search by command name or keyboard shortcut.</p>
+<p><img src="assets/shortcuts.png" alt="Shortcuts"></p>
+<h2 id="show-command-palette"><a class="header" href="#show-command-palette">Show command palette…</a></h2>
+<p>Show command palette. This command opens a dialog, that provides quick access to all available IDA actions with shortcuts and descriptions.</p>
+<p><img src="assets/command-palette.png" alt="Command palette"></p>
+<h2 id="reset-undo-history"><a class="header" href="#reset-undo-history">Reset undo history</a></h2>
+<p>Reset undo history.
+This command clears the undo history. After it the Undo and Redo commands become unavailable. However, once the user performs a new action, IDA will again start journaling all database modifications.</p>
+<p>A side effect of this command is fast autoanalysis: since there is no user action to revert yet, IDA does not maintain undo buffers and this speeds up the analysis.</p>
+<h2 id="assembler-directives"><a class="header" href="#assembler-directives">Assembler directives…</a></h2>
+<p>Setup assembler directive generation.</p>
+<p>This command enables/disables the generation of some assembler directives, namely:</p>
+<ul>
+<li>assume directive</li>
+<li>origin directive
+Sometimes (when you do not intend to assemble the output file), you may want to disable their generation.</li>
+</ul>
+<h2 id="name-representation"><a class="header" href="#name-representation">Name representation…</a></h2>
+<p>Setup name representation.
+Dummy names are automatically generated by IDA. They are used to denote subroutines, program locations and data.
+Dummy names have various prefixes depending on the item type and value:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Prefix</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>sub_</code></td><td>instruction, subroutine start</td></tr>
+<tr><td><code>locret_</code></td><td>‘return’ instruction</td></tr>
+<tr><td><code>loc_</code></td><td>instruction</td></tr>
+<tr><td><code>off_</code></td><td>data, contains offset value</td></tr>
+<tr><td><code>seg_</code></td><td>data, contains segment address value</td></tr>
+<tr><td><code>asc_</code></td><td>data, string literal</td></tr>
+<tr><td><code>byte_</code></td><td>data, byte</td></tr>
+<tr><td><code>word_</code></td><td>data, 16-bit</td></tr>
+<tr><td><code>dword_</code></td><td>data, 32-bit</td></tr>
+<tr><td><code>qword_</code></td><td>data, 64-bit</td></tr>
+<tr><td><code>byte3_</code></td><td>data, 3 bytes</td></tr>
+<tr><td><code>xmmword_</code></td><td>data, 128-bit</td></tr>
+<tr><td><code>ymmword_</code></td><td>data, 256-bit</td></tr>
+<tr><td><code>packreal_</code></td><td>data, packed real</td></tr>
+<tr><td><code>flt_</code></td><td>floating point data, 32-bit</td></tr>
+<tr><td><code>dbl_</code></td><td>floating point data, 64-bit</td></tr>
+<tr><td><code>tbyte_</code></td><td>floating point data, 80-bit</td></tr>
+<tr><td><code>stru_</code></td><td>structure</td></tr>
+<tr><td><code>custdata_</code></td><td>custom data type</td></tr>
+<tr><td><code>algn_</code></td><td>alignment directive</td></tr>
+<tr><td><code>unk_</code></td><td>unexplored byte</td></tr>
+</tbody>
+</table>
+</div>
+<p>You can change representation of dummy names. IDA supports several types of dummy names:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Format</th><th>Example</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>0</code></td><td><code>loc_0_1234</code></td><td>segment base address relative to program base address &amp; offset from the segment base</td></tr>
+<tr><td><code>1</code></td><td><code>loc_1000_1234</code></td><td>segment base address &amp; offset from the segment base</td></tr>
+<tr><td><code>2</code></td><td><code>loc_dseg_1234</code></td><td>segment name &amp; offset from the segment base</td></tr>
+<tr><td><code>3</code></td><td><code>loc_0_11234</code></td><td>segment relative to base address &amp; full address</td></tr>
+<tr><td><code>4</code></td><td><code>loc_1000_11234</code></td><td>segment base address &amp; full address</td></tr>
+<tr><td><code>5</code></td><td><code>loc_dseg_11234</code></td><td>segment name &amp; full address</td></tr>
+<tr><td><code>6</code></td><td><code>loc_12</code></td><td>full address</td></tr>
+<tr><td><code>7</code></td><td><code>loc_0012</code></td><td>full address (at least 4 digits)</td></tr>
+<tr><td><code>8</code></td><td><code>loc_00000012</code></td><td>full address (at least 8 digits)</td></tr>
+<tr><td><code>9</code></td><td><code>dseg_1234</code></td><td>the same as 2, but without data type specifier</td></tr>
+<tr><td><code>10</code></td><td><code>loc_1</code></td><td>enumerated names (loc_1,loc_2,loc_3…)</td></tr>
+</tbody>
+</table>
+</div>
+<p>If you have selected names type 10 (enumerated names), you may renumber them using a checkbox. The process is relatively fast, surprisingly.</p>
+<p>The best representation for MS DOS programs is #0, for 16-bit processors - #7, and for 32-bit processors - #8. You can change dummy names type any time you want.</p>
+<p>You can also set up types of names included in the name list (Jump by name… command, action <code>JumpName</code>). IDA knows about the following types of names:</p>
+<ul>
+<li>normal names</li>
+<li>public names</li>
+<li>weak public or extern names</li>
+<li>autogenerated (meaningful) names.</li>
+<li>dummy (meaningless) names.</li>
+</ul>
+<p>Dummy names may be public or weak, but they never appear in the list of names. You can specify the type of a name when you create or rename  it.</p>
+<p>You can also set maximal length of new names. Old names will not be affected by this parameter.</p>
+<p>See also: the Rename command.</p>
+<h2 id="demangled-names"><a class="header" href="#demangled-names">Demangled names…</a></h2>
+<p>Setup C++ demangled name representation.
+IDA can demangle mangled C++ names of the most popular C++ compilers:</p>
+<ul>
+<li>Microsoft</li>
+<li>Borland</li>
+<li>Watcom</li>
+<li>Visual Age</li>
+<li>GNU</li>
+</ul>
+<p>The demangled names are represented in two forms: short and long form. The short form is used when a name is used as a reference, the long form is used at the declaration.</p>
+<p>You can set how demangled C++ names must be represented:</p>
+<ul>
+<li>as comments: this representation allows you to obtain
+recompilable source text</li>
+<li>instead of mangled names: this representation makes the output more readable (the disadvantage is that you cannot recompile the output)</li>
+<li>don’t display demangled names.</li>
+</ul>
+<p>You can setup short and long forms of demangled names. Short form is used when a reference to the name is made; long form is used at the declaration.</p>
+<p>To make demangled names more readable, we introduce the possibility to suppress pointer modifiers (near/far/huge).</p>
+<p>To demangle GNU C v3.x names, the “Assume GCC v3.x names” checkbox should be set, otherwise such names might not be demangled. Furthermore, to make the demangled name more compact, unsigned types may be displayed as uchar, uint, ushort, ulong. The same with signed basic types.</p>
+<p>If the “Override type info” checkbox is set, the demangled name overrides the type information if both are present.</p>
+<p>See also <a href="#customize-demangled-names">How to customize demangled names</a></p>
+<h2 id="compiler"><a class="header" href="#compiler">Compiler…</a></h2>
+<p>Setup target compiler and its parameters.
+This dialog allows the user to specify the compiler used to create the program along with the memory model, default calling convention, ABI and other parameters.
+Please note that while some combinations of the parameters are meaningless, IDA doesn’t check them for validity. It is up to the user to specify a correct combination.</p>
+<p>IDA tries to determine the correct values automatically.</p>
+<p>The include directories are a list of directories that look for the standard C headers. This parameter is used during parsing C header files (the Parse C header file… command; action <code>LoadHeaderFile</code>). The directories must be separated by ‘;’ in MS Windows and ‘:’ in Linux. The predefined macros field has the same format and is used similarly. Please note that IDA doesn’t define any compiler-specific macros by default.</p>
+<h3 id="parser-options"><a class="header" href="#parser-options">Parser options</a></h3>
+<p>You can select between different parsers using the parser settings located at the bottom of the <strong>Compiler options</strong> dialog.</p>
+<p><img src="assets/compiler-parser.png" alt="Compiler - Parser options"></p>
+<p>IDA provides three parser options:</p>
+<ul>
+<li><strong>legacy</strong> - old internal IDA parser (will be removed in future versions)</li>
+<li><strong>old_clang</strong> - previous parser based on clang</li>
+<li><strong>clang</strong> - new parser introduced in IDA 9.2, (based on LLVM)</li>
+</ul>
+<h3 id="parser-configuration"><a class="header" href="#parser-configuration">Parser Configuration</a></h3>
+<p>The <strong>old_clang</strong> and new <strong>clang</strong> parser can be fine-tuned using the <em>Parser specific options</em> dialog.</p>
+<p><img src="assets/parser-options.png" alt="Parser specific options"></p>
+<h2 id="string-literals"><a class="header" href="#string-literals">String literals…</a></h2>
+<p>Setup string literal style.
+With this dialog you can setup string styles and also create a new string immediately at the current location.</p>
+<p>The following string styles are defined:</p>
+<ul>
+<li>C-style (zero-terminated)</li>
+<li>DOS style ($ terminated)</li>
+<li>Pascal style (one byte length prefix)</li>
+<li>Wide pascal (two-byte length prefix)</li>
+<li>Delphi (four-byte length prefix)</li>
+<li>Unicode (UTF-16)</li>
+<li>Unicode pascal style (two-byte length prefix)</li>
+<li>Unicode wide pascal style (four-byte length prefix)</li>
+<li>Character terminated</li>
+</ul>
+<p>If you select “character terminated” string style then you may specify up to 2 termination characters. The string will be terminated by any of these characters. If the second character is equal to 0, then it is ignored.
+In IDA Qt you can also set a specific encoding to be used to display the string, or change the defaults for all strings.</p>
+<h3 id="string-encodings"><a class="header" href="#string-encodings">String encodings</a></h3>
+<p>IDA Qt can display program strings using different encodings. You can specify default encodings for all strings or override the encoding of a specific string.</p>
+<p>The following encodings can be used:</p>
+<ul>
+<li><code>&lt;default&gt;</code> - the default encoding for this string type (8-bit or 16-bit)</li>
+<li><code>&lt;no conversion&gt;</code> - the string bytes are printed using the current system encoding (after translating with XlatAsciiOutput array in the configuration file).</li>
+<li>Windows codepages (e.g., 866, CP932, windows-1251)</li>
+<li>Charset names (e.g., Shift-JIS, UTF-8, Big5)</li>
+</ul>
+<p>You can add new encodings to the list using the context menu item Insert (Ins hotkey).</p>
+<p>On Linux/OS X, you can run “iconv -l” to see the available encodings. Please note that some encodings are not supported on all systems.</p>
+<h2 id="setup-data-types"><a class="header" href="#setup-data-types">Setup data types…</a></h2>
+<p>Setup data types.
+This command allows you to select the data types used in the round-robin carousel in the Data (action <code>MakeData</code>) command.</p>
+<p>Valid data types are:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Data Type</th><th>Size</th></tr>
+</thead>
+<tbody>
+<tr><td>byte</td><td></td></tr>
+<tr><td>word</td><td>2 bytes</td></tr>
+<tr><td>double word</td><td>4 bytes</td></tr>
+<tr><td>float</td><td>4 bytes</td></tr>
+<tr><td>quadro word</td><td>8 bytes</td></tr>
+<tr><td>double</td><td>8 bytes</td></tr>
+<tr><td>long double</td><td>10 or 12 bytes</td></tr>
+<tr><td>packed real</td><td>10 or 12 bytes</td></tr>
+<tr><td>octa word</td><td>16 bytes</td></tr>
+</tbody>
+</table>
+</div>
+<p>Naturally, not all data types are usable for all processors. For example, Intel 8051 processor doesn’t have the ‘double word’ type.
+Furthermore, this command allows you to select a data type for the current undefined item and convert it to data.
+Please note that if the current processor does not support a data type, you cannot assign it even if you have selected it. If you unselect all data types, IDA will use the ‘byte’ type.</p>
+<h2 id="source-paths"><a class="header" href="#source-paths">Source paths…</a></h2>
+<p>Setup source paths.
+In this dialog you can configure path mappings to help IDA locate source files in different locations.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/user-interface/menu-bar/lumina/common-actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/user-interface/menu-bar/windows/common-actions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/user-interface/menu-bar/lumina/common-actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/user-interface/menu-bar/windows/common-actions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Debugging Dalvik Programs - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="debugging-dalvik-programs"><a class="header" href="#debugging-dalvik-programs">Debugging Dalvik Programs</a></h1>
+<p>Last updated on September 27, 2023 — v0.3</p>
+<h2 id="preface"><a class="header" href="#preface">Preface</a></h2>
+<p>Starting with version 6.6, IDA Pro can debug Android applications written for the Dalvik Virtual Machine. This includes source level debugging too. This tutorial explains how to set up and start a Dalvik debugging session.</p>
+<h2 id="installing-android-studio"><a class="header" href="#installing-android-studio">Installing Android Studio</a></h2>
+<p>First of all we have to install the Android SDK from the official site <a href="https://developer.android.com/studio">Android Studio</a>.</p>
+<h2 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h2>
+<p>IDA needs to know where the <code>adb</code> utility resides, and tries various methods to locate it automatically. Usually IDA finds the path to <code>adb</code>, but if it fails then we can define the <code>ANDROID_SDK_HOME</code> or the <code>ANDROID_HOME</code> environment variable to point to the directory where the Android SDK is installed to.</p>
+<h2 id="android-device"><a class="header" href="#android-device">Android Device</a></h2>
+<p>Start the Android Emulator or connect to the Android device.</p>
+<p>Information about preparing a physical device for development can be found at <a href="http://developer.android.com/tools/device.html">Using Hardware Devices</a>.</p>
+<p>Check that the device can be correctly detected by <code>adb</code>:</p>
+<pre><code class="language-bash">$ adb devices
+List of devices attached
+emulator-5554 device
+</code></pre>
+<h2 id="installing-the-app"><a class="header" href="#installing-the-app">Installing the App</a></h2>
+<p>IDA assumes that the debugged application is already installed on the Android emulator/device.</p>
+<p>Please download:</p>
+<p>{% file src=“MyFirstApp.apk.zip” %}</p>
+<p>and</p>
+<p>{% file src=“MyFirstApp.src.zip” %}</p>
+<p>from our site. We will use this application in the tutorial.</p>
+<p>We will use <code>adb</code> to install the application:</p>
+<pre><code class="language-bash">$ adb -s emulator-5554 install MyFirstApp.apk
+</code></pre>
+<h2 id="loading-application-into-ida"><a class="header" href="#loading-application-into-ida">Loading Application into IDA</a></h2>
+<p>IDA can handle both <code>.apk</code> app bundles, or just the contained <code>.dex</code> files storing the app’s bytecode. If we specify an <code>.apk</code> file, IDA can either extract one of the contained <code>.dex</code> files by loading it with the <code>ZIP</code> load option, or load all <code>classes*.dex</code> files when using the <code>APK</code> loader.</p>
+<p><img src="dalvik_apk_loader.png" alt="dalvik apk loader"></p>
+<h2 id="dalvik-debugger-options"><a class="header" href="#dalvik-debugger-options">Dalvik Debugger Options</a></h2>
+<p>The main configuration of the dalvik debugger happens resides in “Debugger &gt; Debugger Options &gt; Set specific options”:</p>
+<p><img src="dalvik_options.png" alt="dalvik options"></p>
+<h3 id="connection-settings"><a class="header" href="#connection-settings">Connection Settings</a></h3>
+<h4 id="adb-executable"><a class="header" href="#adb-executable">ADB executable</a></h4>
+<p>As mentioned above IDA tries to locate the <code>adb</code> utility. If IDA failed to find it then we can set the path to <code>adb</code> here.</p>
+<h4 id="connection-string"><a class="header" href="#connection-string">Connection string</a></h4>
+<p>Specifies the argument to the <code>adb connect</code> command. It is either empty (to let <code>adb</code> figure out a meaningful target) or a <code>&lt;host&gt;[:&lt;port&gt;]</code> combination to connect to a remote device somewhere on the network.</p>
+<h4 id="emulatordevice-serial-number"><a class="header" href="#emulatordevice-serial-number">Emulator/device serial number</a></h4>
+<p>Serial number of an emulator or a device. Passed to <code>adb``'s -s</code> option. This option is useful if there are multiple potential target devices running. For the official Android emulator, it is typically <code>emulator-5554</code>.</p>
+<h3 id="start-application"><a class="header" href="#start-application">Start Application</a></h3>
+<h4 id="fill-from-androidmanifestxml"><a class="header" href="#fill-from-androidmanifestxml">Fill from AndroidManifest.xml</a></h4>
+<p>Press button and point IDA to either the APK or the <code>AndroidManifest.xml</code> file of the mobile app. IDA then automatically fetches the package name and application start activity, as well as the <code>debuggable</code> flag from the specified file.</p>
+<h4 id="package-name"><a class="header" href="#package-name">Package Name</a></h4>
+<p>Package name containing the activity to be launched by the debugger.</p>
+<h4 id="activity"><a class="header" href="#activity">Activity</a></h4>
+<p>Start activity to be launched by the debugger.</p>
+<h4 id="alternative-start-command"><a class="header" href="#alternative-start-command">Alternative Start Command</a></h4>
+<p>Usually IDA builds the start command from the package and activity name and launches the APK from the command line as follows:</p>
+<pre><code>am start -D -n '&lt;package&gt;/&lt;activity&gt;' -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
+</code></pre>
+<p>If that does not match your desired debugging setup, you can enter an alternative start command here. Note that you have to provide package and activity as part of the startup command.</p>
+<h4 id="apk-debuggable"><a class="header" href="#apk-debuggable">APK Debuggable</a></h4>
+<p>The value of the debuggable flag, as extracted from the <code>AndroidManifest.xml</code> or the APK. APKs that do not have the debuggable flag set (most do not) cannot be started on unpatched phones. Hence, while this value is false, IDA will display a (silencable) warning when starting a debugging session. To produce a debuggable APK that has the flag set to true, please revert to third-party tooling.</p>
+<h3 id="detect-local-variable-types"><a class="header" href="#detect-local-variable-types">Detect Local Variable Types</a></h3>
+<p>This controls the behavior of IDA’s type guessing engine. “Always” and “Never” are pretty self-explanatory: The options force-enable or force-disable type guessing. “Auto” means that type guessing is disabled for Android APIs &lt; 28 and enabled on APIs &gt;= 28. If you work with very old (i.e. API 23 and lower) Android devices and experience crashes during debugging, set this option to “Never”. Note that when type guessing is disabled, IDA automatically assumes <code>int</code> for unknown variable types, which causes warnings on API 30 and above.</p>
+<p><strong>Local Variables with Type Guessing Deactivated</strong></p>
+<p><img src="dalvik_type_guessing_off.png" alt="dalvik type guessing off"></p>
+<p><strong>Local Variables with Type Guessing Activated</strong></p>
+<p><img src="dalvik_type_guessing_on.png" alt="dalvik type guessing on"></p>
+<h3 id="other-options"><a class="header" href="#other-options">Other Options</a></h3>
+<h4 id="show-object-id"><a class="header" href="#show-object-id">Show object ID</a></h4>
+<p>If active, IDA shows the object ID assigned by the Java VM for composite (non-trivial) types in the local variables window.</p>
+<h4 id="preset-bpts"><a class="header" href="#preset-bpts">Preset BPTs</a></h4>
+<p>If active, IDA sets breakpoints at the beginning of all (non-synthetic, non-empty) methods of the start activity class specified in the Activity field above.</p>
+<h2 id="path-to-sources"><a class="header" href="#path-to-sources">Path to Sources</a></h2>
+<p>To use source-level debugging we have to set paths to the application source files. We can do it using the “Options &gt; Sources path” menu item.</p>
+<p>Our Dalvik debugger presumes that the application sources reside in the current (“.”) directory. If this is not the case, we can map current directory (“.”) to the directory where the source files are located.</p>
+<p>Let us place the source files <code>DisplayMessageActivity.java</code> and <code>MainActivity.java</code> in the same directory as the <code>MyFirstApp.apk</code> package. This way we do not need any mapping.</p>
+<h2 id="setting-breakpoints"><a class="header" href="#setting-breakpoints">Setting Breakpoints</a></h2>
+<p>Before launching the application it is reasonable to set a few breakpoints. We can rely on the decision made by IDA (see above the <code>presetBPTs</code> option) or set breakpoints ourselves. A good candidate is the <code>onCreate</code> method of the application’s main activity.</p>
+<p>We can use the activity name and the method name <code>onCreate</code> to set a breakpoint:</p>
+<p><img src="dalvik_names.png" alt="dalvik names"></p>
+<p>Naturally, we can set any other breakpoints any time. For example, we can do it later, when we suspend the application.</p>
+<h2 id="starting-the-debugger"><a class="header" href="#starting-the-debugger">Starting the Debugger</a></h2>
+<p>At last we can start the debugger. Check that the Dalvik debugger backend is selected. Usually it should be done automatically by IDA:</p>
+<p><img src="dalvik_debugger_slct.png" alt="dalvik debugger slct"></p>
+<p>If the debugger backend is correct, we are ready to start a debugger session. There are two ways to do it:</p>
+<ul>
+<li>Launch a new copy of the application (Start process)</li>
+<li>Attach to a running process (Attach to process)</li>
+</ul>
+<h3 id="launching-the-app"><a class="header" href="#launching-the-app">Launching the App</a></h3>
+<p>To start a new copy of the application just press &lt;F9&gt; or use the “Debugger &gt; Start process” menu item. The Dalvik debugger will launch the application, wait until application is ready and open a debugger session to it.</p>
+<p>We may wait for the execution to reach a breakpoint or press the “Cancel” button to suspend the application.</p>
+<p>In our case let us wait until execution reach of <code>onCreate</code> method breakpoint.</p>
+<h3 id="attaching-to-a-running-app"><a class="header" href="#attaching-to-a-running-app">Attaching to a Running App</a></h3>
+<p>Instead of launching a new process we could attach to a running process and debug it. For that we could have selected the “Debugger &gt; Attach to process…​” menu item. IDA will display a list of active processes.</p>
+<p><img src="dalvik_attach.png" alt="dalvik attach"></p>
+<p>We just select the process we want to attach to.</p>
+<h2 id="particularities-of-dalvik-debugger"><a class="header" href="#particularities-of-dalvik-debugger">Particularities of Dalvik Debugger</a></h2>
+<p>All traditional debug actions like <code>Step into</code>, <code>Step over</code>, <code>Run until return</code> and others can be used. If the application sources are accessible then IDA will automatically switch to the source-level debugging.</p>
+<p>Below is the list of special things about our Dalvik debugger:</p>
+<ul>
+<li>In Dalvik there is no stack and there is no <code>SP</code> register. The only available register is <code>IP</code>.</li>
+<li>The method frame registers and slots (<code>v0</code>, <code>v1</code>, …​) are represented as local variables in IDA. We can see them in the “Debugger &gt; Debugger Windows &gt; Locals” window (see below)</li>
+<li>The stack trace is available from “Debugger &gt; Debugger windows &gt; Stack trace” (the hot key is &lt;Ctrl-Alt-S&gt;).</li>
+<li>When the application is running, it may execute some system code. If we break the execution by clicking on the “Cancel” button, quite often we may find ourselves outside of the application, in the system code. The value of the <code>IP</code> register is <code>0xFFFFFFFF</code> in this case, and stack trace shows only system calls and a lot of <code>0xFFFFFFFF</code>. It means that IDA could not locate the current execution position inside the application. We recommend to set more breakpoints inside the application, resume the execution and interact with application by clicking on its windows, selecting menu items, etc. The same thing can occur when we step out the application.</li>
+<li>Use “Run until return” command to return to the source-level debugging if you occasionally step into a method and the value of the <code>IP</code> register becomes <code>0xFFFFFFFF</code>.</li>
+</ul>
+<h3 id="locals-window"><a class="header" href="#locals-window">Locals Window</a></h3>
+<p>IDA considers the method frame registers, slots, and variables (<code>v0</code>, <code>v1</code>, …​) as local variables. To see their values we have to open the “Locals” window from the “Debugger &gt; Debugger windows &gt; Locals” menu item.</p>
+<p>At the moment the debugger stopped the execution at the breakpoint which we set on <code>onCreate</code> method.</p>
+<p><img src="dalvik_stop_bpt.png" alt="dalvik stop bpt"></p>
+<p>Perform “Step over” action (the hot key is &lt;F8&gt;) two times and open the “Locals” window, we will see something like the following:</p>
+<p><img src="dalvik_locals.png" alt="dalvik locals"></p>
+<p>If information about the frame is available (the symbol table is intact) or type guessing is enabled then IDA shows the method arguments, the method local variables with names and other non-named variables. Otherwise some variable values will not be displayed because IDA does not know their types.</p>
+<p>Variables without type information are marked with “Bad type” in the “Locals” window. To see the variable value in this case please use the “Watch view” window and query them with an explicit type (see below).</p>
+<h3 id="watch-view-window"><a class="header" href="#watch-view-window">Watch View Window</a></h3>
+<p>To open the “Watch view” window select the “Debugger &gt; Debugger windows &gt; Watch view” menu item. In this window we can add any variable to watch its value.</p>
+<p><img src="dalvik_watches.png" alt="dalvik watches"></p>
+<p>note that we have to specify type of variable if it is not known. Use C-style casts:</p>
+<ul>
+<li><code>(Object*)v0</code></li>
+<li><code>(String)v6</code></li>
+<li><code>(char*)v17</code></li>
+<li><code>(int)v7</code></li>
+</ul>
+<p>We do not need to specify the real type of an object variable, the “(Object*)” cast is enough. IDA can derive the real object type itself.</p>
+<p>Attention! On Android API versions 23 and below an incorrect type may cause the Dalvik VM to crash. There is not much we can do about it. Our recommendation is to never cast an integer variable to an object type, the Dalvik VM usually crashes if we do that. But the integer cast “(int)” is safe in practice.</p>
+<p>Keeping the above in the mind, do not leave the cast entries in the “Watch view” window for a long time. Delete them before any executing instruction that may change the type of the watched variable.</p>
+<p>Overall we recommend to debug on a device that runs at least Android API 24.</p>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<ul>
+<li>Check the path to <code>adb</code> in the “Debugger specific options”</li>
+<li>Check the package and activity names</li>
+<li>Check that the emulator is working and was registered as an <code>adb</code> device. Try to restart the <code>adb</code> daemon.</li>
+<li>Check that the application was successfully installed on the emulator/device</li>
+<li>Check the output window of IDA for any errors or warnings</li>
+<li>Turn on more debug print in IDA with the <code>-z50000</code> command line switch.</li>
+<li>Android APIs 24 and 25 are known to return wrong instruction sizes during single stepping. Try migrating to a different Android API if you have trouble with single steps.</li>
+<li>IDA exposes a subset of the <a href="https://docs.oracle.com/javase/8/docs/platform/jpda/jdwp/jdwp-protocol.html">JDWP specification</a> as IDC commands. (Usually the name from the specification prefixed with <code>JDWP_</code>).</li>
+<li>Android APIs 23 and below crash if type guessing is enabled. Remedy this by setting the <code>Detect Local Variable Types</code> option to <code>Never</code> or migrate to a newer Android API.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/debugger/debugger-tutorials.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/win32local/win32local.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/debugger/debugger-tutorials.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/win32local/win32local.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

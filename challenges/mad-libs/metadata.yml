@@ -1,0 +1,47 @@
+version: beta2
+platform: unknown
+native_id: '4'
+name: Mad Libs
+category: Pwn
+description: 'Fill in the blanks! Our Mad Libs game prints back whatever you type.
+  It''s just a simple word game... right? Files: mad_libs (sha256 f65aca17be585e86c0cba30a629bdccfc9cc65129e850e26b916872065a2f1a1,
+  14584 bytes), libc.so.6 (sha256 c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb),
+  ld-linux-x86-64.so.2 (sha256 854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972).
+  nc chal.sunshinectf.games 26001'
+value: 0
+files:
+- distfiles/ldM-linux-x86-64-so.2
+- distfiles/libcM-so.6
+- distfiles/mad-libs
+challenge_mode: hybrid
+connection_info: nc chal.sunshinectf.games 26001
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Mad%20Libs-4
+environment:
+  status: unknown
+  source: remote
+  url: nc chal.sunshinectf.games 26001
+  host: chal.sunshinectf.games
+  port: 26001
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- name: mad-libs
+  sha256: f65aca17be585e86c0cba30a629bdccfc9cc65129e850e26b916872065a2f1a1
+  size: 14584
+  target: a[href="https://sunshinectf.games/files/fbf35f/mad_libs"]
+  url: https://sunshinectf.games/files/fbf35f/mad_libs
+- name: libcM-so.6
+  sha256: c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb
+  size: 2125328
+  target: a[href="https://sunshinectf.games/files/fbf35f/libc.so.6"]
+  url: https://sunshinectf.games/files/fbf35f/libc.so.6
+- name: ldM-linux-x86-64-so.2
+  sha256: 854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972
+  size: 236616
+  target: a[href="https://sunshinectf.games/files/fbf35f/ld-linux-x86-64.so.2"]
+  url: https://sunshinectf.games/files/fbf35f/ld-linux-x86-64.so.2
+attachments_scanned: true
+state: solved
+reason: ''

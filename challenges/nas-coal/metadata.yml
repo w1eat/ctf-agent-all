@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '13'
+name: NAS coal
+category: Forensics
+description: someone put coal in my gem collection :^(
+value: 374
+files:
+- distfiles/gem-collection.pptm
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#NAS%20coal-13
+environment: {}
+capabilities: []
+attachments:
+- filename: gem-collection.pptm
+  name: gem-collection.pptm
+  sha256: 929726804037cc9b2e8779814aabf88361a6f4035ca1d93803662bdee543e855
+  size: 2229848
+  url: https://2026.sunshinectf.org/files/fb23889378e93b9600930e099c37dd28/gem_collection.pptm
+  target: .modal.show .challenge-desc a[href*='gem_collection.pptm']
+attachments_scanned: true
+state: solved
+reason: ''

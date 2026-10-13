@@ -1,0 +1,36 @@
+.[-s] Silent mode; do not output any messages.
+.[-w WORKLIST_ID] The id of the worklist that the files will be added to. If omitted, defaults to worklist 1.
+.$NCAT_VAULT_PATH:SRC_PATH The source path.
+.$NCAT_VAULT_PATH:DST_PATH The destination path.
+
+>Makes a copy of vault file(s).
+
+This command creates a copy of the original file at the requested
+destination, and place the new file into a worklist. Once the worklist is
+committed, the new file will be visible to other users.
+
+NOTE: The source file will be downloaded from the server to the new file.
+If the source file was modified locally, those modifications won't be part of the copy.
+This implies that if a file has just been [added](#add) to the
+{hrvsrv} but not committed yet, it can't be copied because it does not exist
+on the server yet.
+
+! Copy `newfile` into the `rust_samples` subdirectory. The worklist #2 will hold the change.
+$$ -w 2 newfile rust_samples/newfile
+ok copied '//newfile#1' to '//rust_samples/newfile'
+
+! Copy an entire subdirectory (note the trailing slash at the destination):
+$$ source_subdir/ destination/subdir/
+ok copied '//source_subdir/aaa/sample.idb#1' to '//destination/subdir/aaa/sample.idb'
+ok copied '//source_subdir/common.idb#1' to '//destination/subdir/common.idb'
+
+! Copy a subdirectory without recursion:
+$$ source_subdir/* destination/subdir/
+ok copied '//source_subdir/common.idb#1' to '//destination/subdir/common.idb'
+
+! Copy a file that was just added but not yet committed, it will fail:
+$ hv add test.text
+ok added '//test.text'
+$$ test.text test.text.copy
+no matching files for '//test.text'
+

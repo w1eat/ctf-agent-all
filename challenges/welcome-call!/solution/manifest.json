@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "current_key": "fb7f2ba697df3e0842ef:candidate_found",
+  "status": "needs_review",
+  "records": [
+    {
+      "key": "fb7f2ba697df3e0842ef:candidate_found",
+      "flag": "sun{thankyouforplaying}",
+      "confirmation_source": "candidate_found",
+      "model_spec": "manual-recovery",
+      "run_id": "manual-recovery-20260927",
+      "verified_by": [],
+      "challenge": {
+        "name": "Welcome Call!",
+        "category": "Forensics",
+        "description": "Welcome to Bsides Orlando! I just got a call from the flag factory, they said they were looking for their favorite flag.",
+        "connection_info": "",
+        "value": 435,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "PCAP 中包含 SIP/G.711 PCMU RTP 通话。按 RTP 序号提取音频，μ-law 解码为 PCM 后倒序播放；语音明确给出 Flag 内容和大小写规则。",
+      "solution_steps": [
+        "在 PCAP 中定位 SIP 会话和 UDP 4000 到 4002 的 RTP 流。",
+        "按连续 RTP 序号拼接 778 个 PCMU payload，解码为 8 kHz mono PCM。",
+        "反转 PCM 样本顺序并播放，语音读出 sun 前缀、Thank you for playing、右花括号以及全小写无空格的要求。"
+      ],
+      "evidence": [
+        "题目附件 SHA-256 为 7e0effd30dbd6fd072fe565f012c86746f9e27cd54eaa2fa942a9c5af4f2d3e6，与 metadata.yml 一致。",
+        "旧本地轨迹 step 88 保存了 Whisper 对倒序音频的完整转录。",
+        "RTP 流为 778 个连续包，payload type 0，每包 160 bytes，序号 12000-12777。",
+        "用户反馈平台显示该题已解；旧提交记录与页面提示冲突，无法审计哪一条具体提交被平台接受。"
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "",
+      "status": "needs_review",
+      "replay": {
+        "status": "manual",
+        "reason": "人工复现：exp/recover_audio.py 生成倒序 WAV，需收听语音确认 Flag；历史平台页面提示冲突，待关联队伍提交记录。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "cffc8c87e359b9e99fe11492b160d15686ef9fe987c3d7e6aa8b5ca9766da4fa",
+      "planned_sha256": null,
+      "exp_sha256": {
+        "exp/recover_audio.py": "8f4363575b03a018f40bcdcafe4d4ac9d28e9d89a38fdab1c5b645659015187a"
+      },
+      "created_at": "2026-09-27T05:43:53.928240+00:00",
+      "updated_at": "2026-09-27T05:43:53.928240+00:00"
+    }
+  ]
+}

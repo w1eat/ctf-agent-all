@@ -1,0 +1,393 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Trace Replayer and managing traces - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="trace-replayer-and-managing-traces"><a class="header" href="#trace-replayer-and-managing-traces">Trace Replayer and managing traces</a></h1>
+<p>Using Trace Replayer Debugger and Managing Traces in IDA</p>
+<p>Copyright 2014 Hex-Rays SA</p>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<h3 id="quick-overview"><a class="header" href="#quick-overview">Quick Overview</a></h3>
+<p>The trace replayer is an IDA pseudo debugger plugin that appeared first in IDA 6.3. This plugin can replay execution traces recorded with any debugger backend in IDA, such as local Win32 or Linux debuggers, WinDbg, remote GDB debugger, etc…</p>
+<h3 id="following-this-tutorial"><a class="header" href="#following-this-tutorial">Following this tutorial</a></h3>
+<p>This tutorial was created using the Linux version of IDA and a Linux binary as target. However, it can be followed on any supported platform (MS Windows, Mac OS X and Linux) by setting up remote debugging. Please refer to the <a href="../../../debugger.html">debugger</a> section of the docs for more information regarding <a href="../../remote-debugging.html">remote debugging</a>.</p>
+<h3 id="supplied-files"><a class="header" href="#supplied-files">Supplied files</a></h3>
+<p>Among with the tutorial the following files are also provided at <a href="http://www.hex-rays.com/products/ida/support/tutorials/replayer/ida-replayer-tutorial.tar.gz">http://www.hex-rays.com/products/ida/support/tutorials/replayer/ida-replayer-tutorial.tar.gz</a></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>File name</td><td>SHA1</td><td>Description</td></tr>
+<tr><td>intoverflow.c</td><td>6424d3100e3ab1dd3fceae53c7d925364cea75c5</td><td>Program’s source code.</td></tr>
+<tr><td>intoverflow.elf</td><td>69a0889b7c09ec5c293702b3b50f55995a1a2daa</td><td>Linux ELF32 program.</td></tr>
+<tr><td>no_args.trc</td><td>773837c2b212b4416c8ac0249859208fd30e2209</td><td>IDA binary trace file version 1</td></tr>
+<tr><td>second_run.trc</td><td>4e0a5effa34f805cc50fe40bc0e19b78ad1bb7c4</td><td>IDA binary trace file version 1</td></tr>
+<tr><td>crash.trc</td><td>f0ee851b298d7709e327d8eee81657cf0beae69b</td><td>IDA binary trace file version 1</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="replaying-and-managing-traces"><a class="header" href="#replaying-and-managing-traces">Replaying and managing traces</a></h2>
+<h3 id="recording-traces"><a class="header" href="#recording-traces">Recording traces</a></h3>
+<p>Before using the trace replayer plugin we will need to record an execution trace of a program. We will use the following toy vulnerable program as an example:</p>
+<pre><code>#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt; 
+#include &lt;string.h&gt; 
+
+int foo(char *arg, int size) 
+{ 
+    char *buf; 
+
+    if ( strlen(arg) &gt; size ) 
+    { 
+        printf("Too big!\n"); 
+        return 1; 
+    } 
+
+    buf = malloc(size); 
+    strcpy(buf, arg); 
+    printf("Buffer is %s\n", buf); 
+    free(buf); 
+    return 0; 
+} 
+
+int main(int argc, char **argv) 
+{ 
+    if ( argc != 3 ) 
+    { 
+        printf("Invalid number of arguments!\n"); 
+        return 2; 
+    } 
+
+    return foo(argv[1], atoi(argv[2])); 
+} 
+</code></pre>
+<p>Please compile this sample program (in this example, we used GCC compiler for Linux) or use the supplied ELF binary, open the binary in IDA and wait until the initial analysis completes. When done, select a suitable debugger from the drop down list (“Local Linux debugger”, or “Remote Linux debugger” if you’re following this tutorial from another platform):</p>
+<p><img src="assets/replayer-1.png" alt=""></p>
+<p>We have two ways of telling IDA to record a trace:</p>
+<ol>
+<li>Break on process entry point and manually enable tracing at this point.</li>
+<li>Or put a trace breakpoint at the very first instruction of the program.</li>
+</ol>
+<p>In the case we prefer the first approach we will need to click on the menu “Debugger → Debugger Options” and then mark the check box “Stop on process entry point” as shown bellow:</p>
+<p><img src="assets/replayer-2.png" alt=""></p>
+<p>After checking this option press OK and run the program pressing F9. When the entry point is reached, we can select from the menu “Debugger → Tracing” one of the following three options:</p>
+<ol>
+<li>Instruction tracing: All instructions executed will be recorded.</li>
+<li>Function tracing: Only function calls and returns will be recorded.</li>
+<li>Basic block tracing: Similar to instruction tracing but, instead of single stepping instruction by instruction, IDA will set temporary breakpoints in the end of every known basic block, as well as on function calls.</li>
+</ol>
+<p>For this example we will select “Instruction tracing”. Check this option and let the program continue by pressing F9. The program will resume execution and finish quickly. Now, we have a recorded trace! To see it, select “Debugger → Tracing → Trace Window”. A new tab will open with a content similar to the following:</p>
+<p><img src="assets/replayer-3.png" alt=""></p>
+<p>As previously stated, there are two ways to record traces: enabling it manually, or using an “Enable tracing” breakpoint. To set such a breakpoint we will go to the program’s entry point (Ctrl+E) and put a breakpoint (F2) in the very first instruction. Then right click on the new breakpoint and select “Edit breakpoint”. In the dialog check the option “Enable tracing” and then select the desired “Tracing type” (for this example, we’ll use “Instructions”):</p>
+<p><img src="assets/replayer-4.png" alt=""></p>
+<p>Remove the “Stop on process entry point” option we set in the prior example and press F9 to run the program.</p>
+<p>This way is more convenient than the first because the tracing is turned on automatically and does not need manual intervention.</p>
+<h3 id="working-with-traces"><a class="header" href="#working-with-traces">Working with traces</a></h3>
+<p>Now we have a new recorded trace, no matter which method we used. What can we do with it? First, we can check which instructions were executed, as they are highlighted in the disassembly, like in the screenshot bellow:</p>
+<p><img src="assets/replayer-5.png" alt=""></p>
+<p>(the highlight color can be changed in “Debugger → Tracing → Tracing Options”)</p>
+<p>Highlighting makes it clear which instructions have been executed.</p>
+<p>We can also check what functions have been executed (instead of instructions) by opening the “Trace Window” via “Debugger → Tracing → Trace Window”, right clicking on the list and then selecting “Show trace call graph”:</p>
+<p><img src="assets/replayer-6.png" alt=""></p>
+<p>Now let’s inspect the register values in order to understand why the check at 0x0848566 doesn’t pass. Please select “Debugger → Switch debugger” and in the dialog box click on the “Trace replayer” radio button:</p>
+<p><img src="assets/replayer-7.png" alt=""></p>
+<p>Click OK and press F4 in the first instruction of the “main” function.</p>
+<p>The trace replayer will suspend execution at the “main” function and display the register values that were recorded when the program was executed:</p>
+<p><img src="assets/replayer-8.png" alt=""></p>
+<p>We can single step by pressing F7, as usual. Let us keep pressing F7 until the “jz” instruction is reached:</p>
+<p><img src="assets/replayer-9.png" alt=""></p>
+<p>The comparison “cmp [ebp+arg_0], 3” was not successful (ZF=0) so the check does not pass. We need to give to the program two arguments to pass this check and record a new trace.</p>
+<h3 id="loading-an-overlay-and-viewing-differences-in-flow"><a class="header" href="#loading-an-overlay-and-viewing-differences-in-flow">Loading an overlay and viewing differences in flow</a></h3>
+<p>Before doing another run, let’s save the first trace to a file. Select “Debugger → Tracing → Trace Window”, right click in the middle of the newly opened tab, and select “Save trace” from the popup menu:</p>
+<p><img src="assets/replayer-10.png" alt=""></p>
+<p>Then save the file:</p>
+<p><img src="assets/replayer-11.png" alt=""></p>
+<p>You will also be offered a chance to give the trace a description:</p>
+<p><img src="assets/replayer-12.png" alt=""></p>
+<p>Now let’s record a new trace but this time we will pass two command line arguments to the program. Select “Debugger → Process Options” and set “AAAA 4” as the arguments:</p>
+<p><img src="assets/replayer-13.png" alt=""></p>
+<p>Close the dialog, revert to the “Local Linux debugger”, and press F9. A new trace will be recorded. If we check the “main” function we will see that different instructions have been executed this time:</p>
+<p><img src="assets/replayer-14.png" alt=""></p>
+<p>Let’s check which instructions are different between the first and the second run.</p>
+<p>First, we will need to load the previous trace as “overlay”:</p>
+<p><img src="assets/replayer-15.png" alt=""></p>
+<p>Select the trace we saved:</p>
+<p><img src="assets/replayer-16.png" alt=""></p>
+<p>Note that we have now other options in the ‘Overlay’ submenu, now that there is an overlay present:</p>
+<p><img src="assets/replayer-17.png" alt=""></p>
+<p>Now go back to the disassembly view and check how the disassembly code is highlighted in three different colors:</p>
+<p><img src="assets/replayer-18.png" alt=""></p>
+<p>The code highlighted in yellow is the code executed in the current trace (the one listed in the “Trace Window”). The pink code was executed only in the overlay trace. And the code in purple is the code common to both traces. We can immediately see that there is some new code that have been executed, like the calls to <strong>atoi</strong> and <strong>foo</strong>.</p>
+<p>Let’s go to the “foo” function and see what happened here:</p>
+<p><img src="assets/replayer-19.png" alt=""></p>
+<p>The code in yellow tells us that the check for the size at 0x800484FC passed and the calls to <strong>malloc</strong>, <strong>strcpy</strong> and <strong>printf</strong> were executed. Let’s save this trace for later analysis and comparison with the future runs. As before, go to the trace window, right click on the list and select “Save trace”. Set the trace’s description to ‘Correct execution’.</p>
+<p>It’s time to record another trace with different arguments to see what happens. For this new execution, we will longer command line arguments (eight “A” characters instead of four). Let’s change the arguments in “Debugger → Process Options”, switch back to the “Local Linux debugger”, and run it. We have a new trace. Let’s compare it against the previously recorded one. As we did before, go to the “Trace Window”, right click on the list, select “Overlay”, then “Load overlay”, and select the trace with description “Correct execution”.</p>
+<p><img src="assets/replayer-20.png" alt=""></p>
+<p>As we see, the code that alerts us the about a too big string was executed (it’s highlighted in yellow). Let’s save this recorded trace with the “String too big” description. Now we will record one more trace but this time we will use the number “-1” as the second command line argument.</p>
+<p>Change the arguments in “Debugger → Process Options” as shown bellow:</p>
+<p><img src="assets/replayer-21.png" alt=""></p>
+<p>Then switch back again, to the “Local Linux debugger” (or to “Remote Linux debugger” if needed) and run it by pressing F9. The process will crash somewhere in the call to <strong>strcpy</strong>:</p>
+<p><img src="assets/replayer-22.png" alt=""></p>
+<p>Stop the debugger and save this trace (let’s call it “Crash”). Then diff this trace against the “Correct execution” trace.</p>
+<p>We will see the following in the disassembly view:</p>
+<p><img src="assets/replayer-23.png" alt=""></p>
+<p>As we see, pretty much the same code as in the previous run was executed until the call to <strong>strcpy</strong>. It’s time to replay this last execution and see what happened.</p>
+<h3 id="diffing-traces"><a class="header" href="#diffing-traces">Diffing traces</a></h3>
+<p>When both a “main trace” and an “overlay trace” are present, the context menu item “Overlay → Subtract overlay” becomes available.</p>
+<p>This allows one to subtract the list of events (e.g., instructions) that are present in the overlay, from the main trace:</p>
+<p><img src="assets/replayer-24.png" alt=""></p>
+<p>Will give the following results:</p>
+<p><img src="assets/replayer-25.png" alt=""></p>
+<p>As you can see, many events that were present in both the overlay &amp; the main trace have been removed. Only those that were only present in the main trace remain.</p>
+<h3 id="reverting-the-diff"><a class="header" href="#reverting-the-diff">Reverting the diff</a></h3>
+<p>The diffing operation is reversible:</p>
+<p><img src="assets/replayer-26.png" alt=""></p>
+<p>This will restore the main trace as it were, before the contents of the overlay were removed from it.</p>
+<h3 id="replaying-traces"><a class="header" href="#replaying-traces">Replaying traces</a></h3>
+<p>We know that the program is crashing somewhere in the call to <strong>strcpy</strong> but we don’t know why the check at 0x080484FC passes since -1 is smaller than the size of the string (8 bytes). Let’s put a breakpoint at the call to <strong>strlen</strong> at 0x080484F0, switch to the “Trace replayer” debugger, and “run” the program by pressing F9. Please note that we do not really run the program, we are merely replaying a previously recorded trace.</p>
+<p>The debugger will stop at the <strong>strlen</strong> call:</p>
+<p><img src="assets/replayer-27.png" alt=""></p>
+<p>In the trace replayer we can use all usual debugging commands like “run to cursor” (F4), “single step” (F7), or “step over” (F8). Let’s press F8 to step over the <strong>strlen</strong> call and check the result:</p>
+<p><img src="assets/replayer-28.png" alt=""></p>
+<p>It returns 8 as expected. Now move to the address 0x080484FC and press F4 or right click on this address, select “Set IP”, and press F7 (we need to inform the replayer plugin that we changed the current execution instruction in order to refresh all the register values). The difference between “Run to” (F4) and “Set IP” is that “Run to” will replay all events happened until that point but “Set IP” will directly move to the nearest trace event happened at this address (if it’s in the recorded trace, of course).</p>
+<p>Regardless of how we moved to this point IDA will display the following:</p>
+<p><img src="assets/replayer-29.png" alt=""></p>
+<p>As we see, the jump was taken because CF was set to 1 in the previous instruction (“cmp edx, eax”). Let’s step back to this instruction to see what values were compared. Select “Debugger → Step back” from the menu:</p>
+<p><img src="assets/replayer-30.png" alt=""></p>
+<p>The flags are reset to 0 and we can see that EAX (0xFFFFFFFF) and EDX (8) are compared. Press F7 to step one instruction again and you will notice CF changes to 1. The instruction JBE performs an unsigned comparison between 8 and 0xFFFFFFFF and, as 8 &lt;= 0xFFFFFFFF, the check passes. We just discovered the cause of the bug.</p>
+<p>Let’s continue analyzing it a bit more. Scroll down until the call to malloc at 0x08048517, right click, choose “Set IP”, and press F7 (or simply press F4). As we see, the argument given to malloc is 0xFFFFFFFF (4 GB).</p>
+<p>Press F8 to step over the function call:</p>
+<p><img src="assets/replayer-31.png" alt=""></p>
+<p>Obviously, <strong>malloc</strong> can not allocate so much memory and returns NULL. However, the program does not check for this possibility and tries to copy the contents of the given buffer to the address 0, resulting in a crash.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this tutorial we showed you the basics of trace management and the trace replayer module in IDA. We hope you enjoy this new feature. Happy debugging!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../../user-guide/debugger/tutorials/qemu_debugger_primer/primer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/tracing/tracing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../../user-guide/debugger/tutorials/qemu_debugger_primer/primer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../../user-guide/debugger/tutorials/tracing/tracing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../../highlight-abc7f01d.js"></script>
+        <script src="../../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

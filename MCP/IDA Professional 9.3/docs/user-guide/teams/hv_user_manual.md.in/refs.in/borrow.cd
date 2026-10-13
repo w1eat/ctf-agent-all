@@ -1,0 +1,17 @@
+.PRODUCT The product code or license id.
+.END_DATE
+YYYY-MM-DD - exact date, +Nd - N days since now, +Nw - N weeks since now.
+DD-MON-YYYY can be used to specify an exact date too.
+
+>Borrow a license
+
+A borrowed license can be used offline but other users will not have access to it.
+
+A borrowed license can be returned to the vault using [return](#return).
+If not returned earlier, it will automatically be returned to the vault at the expiration time.
+
+!
+$$ IDAULTTW 2022-07-31
+License IDAULTTW 99-9999-9999-99 has been borrowed until 2022-07-31 00:00:00
+$$ IDAULTTL +6d
+License IDAULTTL 99-9999-9999-99 has been borrowed until 2022-07-31 13:53:23

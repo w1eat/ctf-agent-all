@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>IDA F.L.I.R.T. Technology: In-Depth - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="ida-flirt-technology-in-depth"><a class="header" href="#ida-flirt-technology-in-depth">IDA F.L.I.R.T. Technology: In-Depth</a></h1>
+<h2 id="the-goal"><a class="header" href="#the-goal">The Goal <a href="#goal" id="goal"></a></a></h2>
+<p>One major stumbling block in the disassembly of programs written in modern high level languages is the time required to isolate library functions. This time may be considered lost because it does not bring us new knowledge : it is only a mandatory step that allows further analysis of the program and its meaningful algorithms. Unfortunately, this process has to be repeated for each and every new disassembly.</p>
+<p>Sometimes, the knowledge of the class of a library function can considerably ease the analysis of a program. This knowledge might be extremely helpful in discarding useless information. For example, a C++ function that works with streams usually has nothing to do with the main algorithm of a program.</p>
+<p>It is interesting to note that every high level language program uses a great number of standard library functions, sometimes even up to 95% of all the functions called are standard functions. For one well known compiler, the “Hello, world!” program contains:</p>
+<pre><code>        library functions       -       58
+        function main()         -       1
+</code></pre>
+<p>Of course, this is an artificial example but our analysis has shown that real life programs contain, on average, 50% of library functions. This is why the user of a disassembler is forced to waste more than half of his time isolating those library functions. The analysis of an unknown program resembles the resolution of a gigantic crossword puzzle : the more letters we know, the easier it is to guess the next word. During a disassembly, more comments and meaningful names in a function means a faster understanding of its purpose. Widespread use of standard libraries such as OWL, MFC and others increase even more the contribution of the standard functions in the target program.</p>
+<p>A middle sized program for Win32, written in C++, using modern technologies (e.g., AppExpert or a similar wizard) calls anything from 1000 to 2500 library functions.</p>
+<p>To assist IDA users we attempted to create an algorithm to recognize the standard library functions. We wanted to achieve a practical, usable result and therefore accepted some <strong>limitations</strong></p>
+<ul>
+<li>
+<p>we only consider programs written in C/C++</p>
+</li>
+<li>
+<p>we do not attempt to achieve perfect function recognition : this is theoretically impossible. Moreover the recognition of some functions may lead to undesirable consequences. For example, the recognition of the following function</p>
+<pre><code>                push    bp
+                mov     bp, sp
+                xor     ax, ax
+                pop     bp
+                ret
+      
+</code></pre>
+<p>would lead to many misidentifications. It is worth noting that in modern C++ libraries one can find a lot of functions that are absolutely identical byte-to-byte but have different names.</p>
+</li>
+<li>
+<p>we only recognize and identify functions located in the code segment, we ignore the data segment.</p>
+</li>
+<li>
+<p>when a function has been sucessfully identified, we assign it a name and an eventual comment. We do not aim to provide information about the function arguments or about the behaviour of the function.</p>
+</li>
+</ul>
+<p>and we imposed the following <strong>constraints</strong> upon ourselves</p>
+<ul>
+<li>we try to avoid false positives completely. We consider that a false positive (a function wrongly identified) is worse than a false negative (a function not identified). Ideally, there should be no false positive at all.</li>
+<li>the recognition of the functions must require a minimum of processor and memory resources.</li>
+<li>because of the polyvalent architecture of IDA – it supports tens of very different processors – the identification algorithm must be platform-independent, i.e. it must work with the programs compiled for any processor.</li>
+<li>the main() function should be identified and properly labelled as the library’ startup-code is of no interest.</li>
+</ul>
+<h2 id="the-difficulties"><a class="header" href="#the-difficulties">The Difficulties <a href="#difficulties" id="difficulties"></a></a></h2>
+<h3 id="memory-usage"><a class="header" href="#memory-usage"><strong>Memory usage</strong></a></h3>
+<p>The main obstacle to recognition and identification is the sheer quantity of functions and the size of the memory they occupy. If we evaluate the size of the memory occupied by all _versions_ of all libraries produced by all compiler _vendors_ for memory _models_, we easily fall into the tens of gigabytes range.</p>
+<p>Matters get even worse if we try to take OWL, MFC, MFC and similar libraries into account. The storage needed is huge. At this time, personal computers’ users can’t afford to set aside hundreds of Megabytes of disk space for a simple utility disassembler. Therefore, we had to find an algorithm that diminishes the size of the information needed to recognize standard library functions. Of course, the number of functions that should be recognized dictates the need for an efficient recognition algorithm : a simple brute force search is not an option.</p>
+<h3 id="variability"><a class="header" href="#variability"><strong>Variability</strong></a></h3>
+<p>An additional difficulty arises from the presence of _variant_ bytes in the program. Some bytes are corrected (fixed up) at load time, others become constants at link time, but most of the variant bytes originate from references to external names. In that case the compiler does not know the addresses of the called functions and leaves these bytes equal to zeroes. This so called “fixup information” is usually written to a table in the output file (sometimes called “relocation table” or “relocation information”). The example below</p>
+<pre><code>B8 0000s                             mov     ax, seg _OVRGROUP_
+9A 00000000se                        call    _farmalloc
+26: 3B 1E 0000e                      cmp     bx, word ptr es:__ovrbuffer
+  
+</code></pre>
+<p>contains variant bytes. The linker will try to resolve external references, replacing zeroes with the addresses of called functions, but some bytes will stay untouched : references to dynamic libraries or bytes containing absolute address in the program. These references can be resolved only at load time by the system loader. It will try to resolve all external references and replace zeroes with absolute addresses. When the system loader cannot resolve an external referenceI, as it is the case when the program refers to an unknown DLL, the program will simply not run.</p>
+<p>Optimizations introduced by some linkers will also complicate the matter because constant bytes will sometim es be changed. For example:</p>
+<pre><code>               0000: 9A........        call    far ptr xxx
+
+             is replaced by
+
+               0000: 90                nop
+               0001: 0E                push    cs
+               0002: E8....            call    near ptr xxx
+
+  
+</code></pre>
+<p>The program will execute as usual, but the replacement introduced by the linker effectively prohibits byte-to-byte comparison with a function template. The presence of variant bytes in a program makes the use of simple checksums for recognition impossible. If functions did not contain variant bytes, the CRC of the first N Bytes would be enough to identify and select a group of functions in a hash table. The use of such tables would greatly decrease the size of the information required for identification : the name of a function, its length and checksum would suffice.</p>
+<p>We have already mentionned the fact that the recognition of all standard library functions was not possible or even desirable. One additional proof is the fact that some identical functions do exactly the same thing but are called in a different manner. For example, the functions strcmp() and fstrcmp() are identical in large memory models.</p>
+<p>We face a dilemna here : we do not want to discard these functions from the recgnition process since they are not trivial and their labelling would help the user but, we are unable to distinguish them.</p>
+<p>And there is more : consider this</p>
+<pre><code>                call    xxx
+                ret
+        or
+                jmp     xxx
+  
+</code></pre>
+<p>At first sight, these pieces of code are not interesting. The problem is that they are present, sometimes in significant number, in standard libraries. The libraries for the Borland C++ v1.5 OS/2 compiler contains 20 calls of this type, in important functions such as read(), write(), etc.</p>
+<p>Plain comparison of these functions yields nothing. The only way to distinguish those functions is to discover what other function they call. Generally, all short functions (consisting merely of 2-3 instructions) are difficult to recognize and the probability of wrong recognition is very high. However not recognizing them is undesirable, as it can lead to cascade failures : if we do not recognize the function tolower(), we may fail to recognize strlwr() which refers to tolower().</p>
+<h3 id="copyright"><a class="header" href="#copyright"><strong>Copyright</strong></a></h3>
+<p>Finally, there is an obvious copyright problem: standard libraries may simply not be distributed with a disassembler.</p>
+<h2 id="the-idea"><a class="header" href="#the-idea">The idea <a href="#idea" id="idea"></a></a></h2>
+<p>To address those issues, we created a database of all the functions from all libraries we wanted to recognize. IDA now checks, at each byte of the program being disassembled, whether this byte can mark the start of a standard library function.</p>
+<p>The information required by the recognition algorithm is kept in a <strong>signature</strong> file. Each function is represented by a <strong>pattern</strong>. Patterns are first 32 bytes of a function where all variant bytes are marked.</p>
+<p>For example:</p>
+<pre><code>558BEC0EFF7604..........59595DC3558BEC0EFF7604..........59595DC3 _registerbgidriver
+558BEC1E078A66048A460E8B5E108B4E0AD1E9D1E980E1C0024E0C8A6E0A8A76 _biosdisk
+558BEC1EB41AC55604CD211F5DC3.................................... _setdta
+558BEC1EB42FCD210653B41A8B5606CD21B44E8B4E088B5604CD219C5993B41A _findfirst
+  
+</code></pre>
+<p>where variant bytes are displayed as “..” Several functions start with the same byte sequence. Therefore a tree structure seems particularly well suited to the storage of those functions :</p>
+<pre><code>558BEC
+      0EFF7604..........59595DC3558BEC0EFF7604..........59595DC3 _registerbgidriver
+      1E
+        078A66048A460E8B5E108B4E0AD1E9D1E980E1C0024E0C8A6E0A8A76 _biosdisk
+        B4
+          1AC55604CD211F5DC3                                       _setdta
+          2FCD210653B41A8B5606CD21B44E8B4E088B5604CD219C5993B41A   _findfirst
+</code></pre>
+<p>Sequences of bytes are kept in the nodes of the tree. In this example, the root of the tree contains the sequence “558BEC”, three subtrees stem from the root, respectively starting with bytes 0E, 1E, B4. The subtree starting with B4 gives birth to two subtrees. Each subtree ends with leaves . The information about the function is kept in that (only the name is visible in the above example).</p>
+<p>The tree data structure simultaneously achieves two goals :</p>
+<ul>
+<li>Memory requirements are decreased since we store bytes common to several functions in tree nodes. This saving is, of course, proportional to the number of functions starting with the same bytes.</li>
+<li>It is well suited to fast fast pattern matching. The number of comparisons required to match a specific location within a program to all functions in a signature file grows logarithmically with the number of functions.</li>
+</ul>
+<p>It would not be very wise to take a decision based on the first 32 bytes of a function alone. As already suggested, modern real-world libraries contain several functions starting with the same bytes:</p>
+<pre><code>558BEC
+      56
+        1E
+          B8....8ED8
+                   33C050FF7608FF7606..........83C406
+                                                      8BF083FEFF
+                    0. _chmod   (20 5F33)
+                    1. _access  (18 9A62)
+  
+</code></pre>
+<p>When two functions have the same first 32 bytes, they are stored in the same leaf of the tree. To resolve that situation, we calculate the CRC16 of the bytes starting from position 33 until till the first variant byte. The CRC is stored in the signature file. The number of bytes used to calculate that CRC also needs to be saved, as it differs from function to function. In the above example, the CRC16 is calculated on 20 bytes for the _chmod (bytes 33..52) function and 18 _access function.</p>
+<p>There is, of course, a possibility that the first variant byte will be at the 33d position. The length of the sequence of bytes used to calculate the CRC16 is then equal to zero. In practice, this happens rarely and this algorithm gives very low number of false recognitions.</p>
+<p>Sometimes functions have the same initial 32-byte pattern and the same CRC16, as in the example below</p>
+<pre><code>05B8FFFFEB278A4606B4008BD8B8....8EC0
+          0. _tolower (03 41CB) (000C:00)
+          1. _toupper (03 41CB) (000C:FF)
+  
+</code></pre>
+<p>We are unlucky: only 3 bytes were used to calculate the CRC16 and they were the same for both functions. In this case we will try to find a position at which all functions in a leaf have different bytes. (in our example this position is 32+3+000C)</p>
+<p>But even this method does not allow to recognize all functions. Here is another example:</p>
+<pre><code>... (partial tree is shown here)
+                0D8A049850E8....83C402880446803C0075EE8BC7:
+                  0. _strupr (04 D19F) (REF 0011: _toupper)
+                  1. _strlwr (04 D19F) (REF 0011: _tolower)
+  
+</code></pre>
+<p>These functions are identical at non-variant bytes and differ only by the functions they call. In this example the only way to distinguish functions is to examine the name referenced from the instruction at offset 11.</p>
+<p>The last method has a disadvantage: proper recognition of functions _strupr() and _strlwr() depends on the recognition of functions _toupper() and _tolower(). It means that in the case of failure because of the absence of reference to _toupper() or _tolower() we should defer recognition and repeat it later, after finding _tolower() or _toupper(). This has an impact on the general design of the algorithm : we need a second pass to resolve those deferred recognitions. Luckily, subsequent passes are only applied to a few locations in the program.</p>
+<p>Finally, one can find functions that are identical in non-variant bytes, refer to the same names but are called differently. Those functions have the same implementation but different names. Surprisingly, this is a frequent situation in standard libraries, especially in C++ libraries.</p>
+<p>We call this situation a _collision_ which occurs when functions attached to a leaf cannot be distinguished from each other by using the described methods. A classical example is:</p>
+<pre><code>558BEC1EB441C55606CD211F720433C0EB0450E8....5DCB................
+   0. _remove (00 0000)
+   1. _unlink (00 0000)
+
+   or
+8BDC36834702FAE9....8BDC36834702F6E9............................
+   0. @iostream@$vsn            (00 0000)
+   1. @iostream_withassign@$vsn (00 0000)
+  
+</code></pre>
+<p>Artificial Intelligence is the only way to resolve those cases. Since our goal was efficiency and speed, we decided to leave artificial intelligence for the future developments of the algorithm.</p>
+<h2 id="the-implementation"><a class="header" href="#the-implementation">The Implementation <a href="#implementation" id="implementation"></a></a></h2>
+<p>In IDA version 3.6, the practical implementation of the algorithm matches the above description almost perfectly. We have limited ourselves to the C and C++ language but it will be, without doubt, possible to write pre-processors for other libraries in the future.</p>
+<p>A separate signature file is provided for each compiler. This segregation decreases the probability of cross-compiler identification collisions. A special signature file, called startup signature file is applied to the entry point of the disassembled program to determine the generating compiler. Once it has been identified, we know which signature file should be used for the rest of the disassembly. Our algorithm successfully discerns the startup modules of most popular compilers on the market.</p>
+<p>Since we store all functions’ signatures for one compiler in one signature file, it is not necessary to discriminate the memory models (small,compact, medium, large, huge) of the libraries and/or versions of the compilers.</p>
+<p>We use special startup-signatures for every format of disassembled file. The signature exe.sig is used for programs running under MS DOS, lx.sig or ne.sig – for OS/2, etc.</p>
+<p>To decrease a probability of false recognition of short functions, we must absolutely remember any reference to an external name if such a reference exists. It may decrease, to some degree, the probability of the recognition of the function in general but we believe that such an approach is justified. It is better not to recognize than to recognize wrongly. Short functions (shorter than 4 bytes) that do no contain references to external names are not used in the creation of a signature file and no attempt is made to recognize such functions.</p>
+<p>The functions from &lt;ctype.h&gt; are short and refer to the array of types of the symbols, therefore we decided to consider the references to this array as an exception : we calculate the CRC16 of the array of the types of the symbols and store it in the signature file.</p>
+<p>Without artificial intelligence, the collisions are solved by natural intelligence. The human creator of a signature file chooses the functions to include and to discard from the signature file. This choice is very easy and is practically implemented by the edition of a text file.</p>
+<p>The patterns of the functions are not stored in a signature file under their original form (i.e., they do not look like the example figures). In place of the patterns, we store the arrays of bits determining the changing bytes and the values of the individual bytes are stored. Therefore the signature file contains <strong>no byte from the original libraries</strong>, except for the names of the functions. The creation of a signature file involves in 2 stages: the preprocessing of the libraries and the creation of a signature file. In the first stage the program ‘parselib’ is used. It preprocesses *.obj and *.lib files to produce a pattern-file. The pattern-file contains the patterns of the functions, their names, their CRC16 and all other information necessary to create the signature file. At the second stage the ‘sigmake’ program builds the signature file from the pattern-file.</p>
+<p>This division into 2 stages allows sigmake utility to be independent of the format of the input file. Therefore it will be possible to write other preprocessors for files differing from *.obj and *.lib in future.</p>
+<p>We decided to compress (using the InfoZip algorithm) the created signature files to decrease the disk space necessary for their storage.</p>
+<p>For the sake of user’s convenience we attempted to recognize the main() function as often as it was possible. The algorithm for identifying this function differs from compiler to compiler and from program to program. (DOS/OS2/Windows/GUI/Console…).</p>
+<p>This algorithm is written, as a text string, in a signature file. Unfortunately we have not yet been able to automate the creation of this algorithm.</p>
+<h2 id="the-results"><a class="header" href="#the-results">The Results <a href="#results" id="results"></a></a></h2>
+<p>As it turns out the signature files compress well; they may be compressed by a factor bigger than 2. The reason of this compressibility is that about 95% of a signature file are function names. (Example: the signature file for MFC 2.x was 2.5MB before compression, 700Kb after. It contains 33634 function names; an average of 21 bytes is stored per function. Generally, the ratio of the size of a library size to the size of a signature file varies from 100 to 500.</p>
+<p>The percentage of properly recognized functions is very high. Our algorithm recognized all but one function of the “Hello World” program. The unrecognized function consists of only one instruction:</p>
+<pre><code>        jmp     off_1234
+  
+</code></pre>
+<p>We were especially pleased with the fact that there was no false recognition. However it does not mean that they will not occur in the future. It should be noted that the algorithm only works with functions.</p>
+<p>Data is sometimes located in the code segment and therefore we need to mark some names as “data names”, not as “function names”. It is not easy to examine all names in a modern large library and mark all data names.</p>
+<p>The implementation of these data names is planned, some time in the future.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../user-guide/signatures/flirt.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../user-guide/signatures/flirt/generate-flirt-signature-file.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../user-guide/signatures/flirt.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../user-guide/signatures/flirt/generate-flirt-signature-file.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../highlight-abc7f01d.js"></script>
+        <script src="../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

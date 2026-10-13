@@ -1,0 +1,1959 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>hv command reference manual - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="hv-command-reference-manual"><a class="header" href="#hv-command-reference-manual">hv command reference manual</a></h1>
+<h2 id="hv-credentials"><a class="header" href="#hv-credentials">hv credentials</a></h2>
+<p>In order to connect to the vault server, hv must at least have:</p>
+<ul>
+<li>a username</li>
+<li>a password</li>
+<li>a hostname</li>
+</ul>
+<p>For example:</p>
+<pre><code>$ hv -hhexvault.acme.com:65433 -uadmin -psecret users
+LastActive Adm    Login        Email
+---------- --- ------------ ------------
+2022-06-27  *  admin
+2022-06-22     alice       Alice &lt;alice@acme.com&gt;
+Never          bob         Bob &lt;bob@acme.com&gt;
+...
+</code></pre>
+<p>There are 3 ways to specify credentials (in decreasing order of priority):</p>
+<ul>
+<li>providing them as command-line arguments (as in the example above)</li>
+<li>storing them in <a href="#environment-variables">environment variables</a></li>
+<li>storing them in <a href="#registry--keychain">the registry+keychain</a> (recommended)</li>
+</ul>
+<p>All credentials, including usernames, are case-senstive, meaning that “Joe” and “joe” would be different users.</p>
+<h3 id="command-line"><a class="header" href="#command-line">Command line</a></h3>
+<p>Passing credentials on the command line will always take precedence over <a href="#environment-variables">environment variables</a> and <a href="#registry--keychain">registry+keychain</a>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-uUSERNAME</code></td><td>specify username</td></tr>
+<tr><td><code>-pPASSWORD</code></td><td>specify password</td></tr>
+<tr><td><code>-hHOST</code></td><td>specify host (server:port) (if port is omitted, defaults to 65433)</td></tr>
+<tr><td><code>-sSITENAME</code></td><td>specify site</td></tr>
+<tr><td><code>--set</code></td><td>remember credentials. This option doesn’t require the credentials to be passed through the command line, credentials passed through environment variables will work as well</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h3>
+<p>Credentials can also be passed through environment variables. They will take precedence over those possibly found in the <a href="#registry--keychain">registry+keychain</a>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>VAULT_HOST</code></td><td>the server host name</td></tr>
+<tr><td><code>VAULT_PORT</code></td><td>the server port</td></tr>
+<tr><td><code>VAULT_USER</code></td><td>the username to connect to the server</td></tr>
+<tr><td><code>VAULT_PASS</code></td><td>the user’s password</td></tr>
+<tr><td><code>VAULT_SITE</code></td><td>the site to use (most commands need a site to operate)</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="registry--keychain"><a class="header" href="#registry--keychain">Registry + keychain</a></h3>
+<p>Unless environment variables or command-line arguments are provided, <code>hv</code> will look for credentials in <a href="#the-registry">the registry</a> (and <a href="#passwords-storage-in-the-oss-keychain">the OS’s keychain</a> for passwords.)</p>
+<p>Credentials can be stored in the registry (and keychain) like so:</p>
+<pre><code>alice@alice_PC$ hv --set -ualice -palice -hvaultserver -salice_on_alicepc
+</code></pre>
+<p>The user, host (and optional site) will be persisted in <a href="#the-registry">the registry</a>, while the password will be saved to <a href="#passwords-storage-in-the-oss-keychain">the OS’s keychain</a>.</p>
+<p>For this operation to succeed, at least a user and host must be provided</p>
+<p>In order to keep the various commands’ syntax as clear as possible, we will assume that the user has stored credentials (in either the <a href="#registry--keychain">registry+keychain</a> or <a href="#environment-variables">environment variables</a>) for the rest of this manual.</p>
+<h3 id="best-practices"><a class="header" href="#best-practices">Best practices</a></h3>
+<p>We recommend persisting credentials using <a href="#registry--keychain">the registry+keychain method</a>.</p>
+<p>Once that is done, commands will become cleaner:</p>
+<pre><code>&gt;./hv info
+
+Hex-Rays Vault Server v1
+Vault time: 2022-04-14 15:36:29, up since 2022-04-14 15:17:25
+...
+</code></pre>
+<p>if you login to the server using <code>hvui</code> and save the login information, it will end up in the <a href="#registry--keychain">the registry+keychain method</a>, and thus <code>hv</code> will then be able to use that information as well.</p>
+<h2 id="path-formats"><a class="header" href="#path-formats">Path formats</a></h2>
+<p><strong>Local paths</strong> refer to a file on the host file system.</p>
+<p><strong>Vault paths</strong> refer to a file mapped on the vault. They can start with <code>//</code> to refer to the root of the vault.</p>
+<p>Some vault paths can optionally specify the revision of the path.</p>
+<p>Special symbols were created to access specific revisions:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>^</code></td><td>last revision available on the vault</td></tr>
+<tr><td><code>=</code></td><td>current revision, that is synced on the site</td></tr>
+<tr><td><code>*</code></td><td>all revisions</td></tr>
+</tbody>
+</table>
+</div>
+<p>Special file revision symbols</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>subdir/</code></td><td>means all files in all subdirectories</td></tr>
+<tr><td><code>subdir</code></td><td>means all files in all subdirectories (same as subdir/)</td></tr>
+<tr><td><code>subdir/*</code></td><td>means all files in the directory</td></tr>
+</tbody>
+</table>
+</div>
+<p>Directories and wildcards</p>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p>Get the first revision of a file:</p>
+<pre><code>$ hv sync //malware/Ransomware.WannaCry/41aa.exe.i64#1
+ok synced //malware/Ransomware.WannaCry/41aa.exe.i64#1 (838724 bytes)
+ok sync completed
+</code></pre>
+<p>Sync to the last version of a file:</p>
+<pre><code>$ hv sync malware/Ransomware.WannaCry/41aa.exe.i64#^
+ok synced //malware/Ransomware.WannaCry/41aa.exe.i64#3 (846916 bytes)
+ok sync completed
+</code></pre>
+<p>Force sync to the current revision (we must specify -f to force a file transfer):</p>
+<pre><code>$ hv sync -f malware/Ransomware.WannaCry/41aa.exe.i64#=
+ok synced //malware/Ransomware.WannaCry/41aa.exe.i64#2 (846916 bytes)
+ok sync completed
+</code></pre>
+<p>Display md5 checksums of all revisions of a file:</p>
+<pre><code>$ hv md5 malware/Ransomware.WannaCry/41aa.exe.i64#*
+ok 8F464140FA3DA4A20B03166F2E80325B //malware/Ransomware.WannaCry/41aa.exe.i64#1
+ok E0F7B984151FEF497985F375C64FA5C7 //malware/Ransomware.WannaCry/41aa.exe.i64#2
+ok 5C3B88306CF0D93DC35FFD67A710AE3B //malware/Ransomware.WannaCry/41aa.exe.i64#3
+</code></pre>
+<p>List Hex-Rays Vault server’s toplevel directory contents:</p>
+<pre><code>$ hv dir //
+2022-06-02 10:29:30       140267 CL29/edit //malware/cppobj_virtcall.i64#9
+2022-06-14 16:44:19      2173541 CL36/edit //iOS/dyld_ios16.i64#3
+</code></pre>
+<p>Plan to add a file to the vault:</p>
+<pre><code>$ hv add /path/to/local_rootdir/enable.png
+ok added '//enabled.png'
+</code></pre>
+<p>Plan to add a directory:</p>
+<pre><code>$ hv add /path/to/local_rootdir/REsearch
+ok added '//REsearch/vm2vm.dat'
+ok added '//REsearch/vm2vm.exe'
+ok added '//REsearch/vm2vm.i64'
+</code></pre>
+<p>Plan to delete a file:</p>
+<pre><code>$ hv del /path/to/local_rootdir/REsearch/*.dat
+ok checked out '//REsearch/vm2vm.dat' for 'del' (worklist 1)
+</code></pre>
+<p>Show worklist to which files were added:</p>
+<pre><code>$ hv worklist show
+WL 1 add  //REsearch/vm2vm.exe#0
+WL 1 add  //REsearch/vm2vm.i64#0
+WL 1 edit //cppobj_virtcall.i64#9
+WL 1 add  //enabled.png#0
+</code></pre>
+<p>It is safe to interrupt a command using Ctrl-C. The file transfers in action will be gracefully terminated, so that no partially received files will be left on the disk. However, the requests that were delivered to the server will still be carried out up to the completion. For example, if the user asked to check out thousands of files for editing, this will be performed even if the user presses Ctrl-C after invoking the command.</p>
+<p>If the command syntax specifies ellipsis (…​), it means that multiple path patterns can be specified. The path patterns can be specified using local paths or vault paths, which start with a double slash (<code>//</code>).</p>
+<h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
+<h3 id="sites"><a class="header" href="#sites">Sites</a></h3>
+<p>Commands in this section manipulate <a href="#what-is-a-site">sites</a>.</p>
+<p>A user must be <a href="#hv-credentials">using</a> a site in order for most commands to work correctly.</p>
+<h4 id="site-add"><a class="header" href="#site-add"><code>site add</code></a></h4>
+<p><strong>site add [-u USER] SITENAME ROOTDIR [HOST]</strong></p>
+<p>Creates a new <a href="#what-is-a-site">site</a>.</p>
+<p>The specified user will be the owner of the new site.
+If the user is not specified, the current user will own the site.
+Only the site owner can use a site.</p>
+<p>Only admins can create sites for other users.</p>
+<p>To use a site, it must be specified as described in the <a href="#hv-credentials">credentials</a> section.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-u USER</code></td><td>The user (owner) of the new site, must be an existing username. Defaults to the current user. Admins can specify a different user.</td></tr>
+<tr><td><code>SITENAME</code></td><td>The name of the site that will be created, it must be unique (no site can already exist with that name). It must not exceed 64 characters, and it must be composed of alphanumerics or underscore or dash. The first character cannot be a digit or a dash.</td></tr>
+<tr><td><code>ROOTDIR</code></td><td>The absolute path to the directory that will hold the vault files.</td></tr>
+<tr><td><code>HOST</code></td><td>The computer from which the site can be used. It can be specified as an empty string. In this case the server will let the site to be used by any computer. However, since it is a safety feature that prevents from inadvertently using a site from a wrong computer, we do not recommend to specify it as an empty string. When creating a site for the current user, the host defaults to the current computer.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Create a new site:
+alice@alice_PC$ hv site add alicepc /home/alice/vault_site
+</code></pre>
+<pre><code class="language-shell"># Example: Ensure that is exists:
+alice@alice_PC$ hv sites
+Site name User  Host     Last Used  Rootdir
+--------- ----- -------- ---------- ------------
+alicepc   alice alice_PC Never     /home/alice/vault_site
+</code></pre>
+<pre><code class="language-shell"># Example: Remember the new site in the registry:
+alice@alice_PC$ hv --set -salicepc
+Information has been saved into the registry.
+</code></pre>
+<pre><code class="language-shell"># Example: The new site is used in all future commands:
+alice@alice_PC$ hv info |grep site
+Client site: alicepc
+</code></pre>
+<hr>
+<h4 id="site-del"><a class="header" href="#site-del"><code>site del</code></a></h4>
+<p><strong>site del [-f] SITENAME</strong></p>
+<p>Deletes a site.</p>
+<p>If <code>-f</code> was passed and the site has some pending worklists, they will be deleted.</p>
+<p>This is not a reversible operation, so we recommend caution.</p>
+<p>Only admins can delete sites that belong to other users.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-f</code></td><td>Force the deletion even if the site still has worklists.</td></tr>
+<tr><td><code>SITENAME</code></td><td>Name of the site to delete.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell"># Example: Delete the site, forcing deletion of the site's worklists
+alice@alice_PC$ hv site del alice_old_laptop
+'alice_old_laptop' not empty
+
+alice@alice_PC$ hv site del -f alice_old_laptop
+</code></pre>
+<hr>
+<h4 id="site-edit"><a class="header" href="#site-edit"><code>site edit</code></a></h4>
+<p><strong>site edit [-u USER] SITENAME ROOTDIR [HOST]</strong></p>
+<p>Edits an existing site’s details, such as the
+<a href="#root-directory">rootdir</a> and the host it is bound to.</p>
+<p>Admins can reassign a site to a new user or edit sites of other users.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-u USER</code></td><td>The new user (owner) of the site, can only be different than the previous owner if the current user is admin.</td></tr>
+<tr><td><code>SITENAME</code></td><td>The name of the site that will be edited. It must exist and be owned by the current user, unless if the current user is admin.</td></tr>
+<tr><td><code>ROOTDIR</code></td><td>The new absolute path to the directory that will hold the site files.</td></tr>
+<tr><td><code>HOST</code></td><td>The new hostname that will be used for the site. It can be omitted if no changes are desired.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Change the root directory of a site:
+alice@alice_PC$ hv site edit alicepc /home/alice/vault
+
+</code></pre>
+<pre><code class="language-shell"># Example: Transfer ownership of site "local_on_shared_machine" to Bob:
+alice@alice_PC$ hv site edit -u bob local_on_shared_machine /home/shared/projects re.acme.com
+
+</code></pre>
+<hr>
+<h4 id="sites-1"><a class="header" href="#sites-1"><code>sites</code></a></h4>
+<p><strong>sites [SITENAME]</strong></p>
+<p>Lists all sites.</p>
+<p>Show a list of sites, and their associated information.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>SITENAME</code></td><td>Name of the site to show.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv sites 
+Site name  User   Host       Last Used  Rootdir                Cur
+---------- ------ ---------- ---------- ---------------------- ---
+alicepc    alice  alice_PC   2022-06-22 /home/alice/vault_site  *
+joe_laptop joe    ThinkPad14 2022-05-30 c:/work/vault
+chrispc    chris  chris_PC   Never      W:/vault
+</code></pre>
+<hr>
+<h4 id="site-filters"><a class="header" href="#site-filters">Site filters</a></h4>
+<h5 id="filt-get"><a class="header" href="#filt-get"><code>filt get</code></a></h5>
+<p><strong>filt get [-s SITENAME]</strong></p>
+<p>Displays the <a href="#path-filters">filter table</a> associated with the site.</p>
+<p>Only admins can see filter tables of other users.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s SITENAME</code></td><td>The sitename whose filter table should be displayed. If omitted, defaults to the current site.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Show the default (i.e., empty) filter table
+alice@alice_PC$ hv filt get 
+##### If the site filters were not set yet, the following info will be displayed:
+alice@alice_PC$ hv filt get
+##### By default all vault files are visible.
+##### The admin can set up permissions to deny access
+##### to some files. The user too can set up filter
+##### patterns to make some files invisible. For that,
+##### each site has a user-controlled filter table.
+#####
+##### The below table controls vault file visibility.
+##### The table is scanned from the beginning to the end.
+##### Lines starting with '!' hide the matching files.
+##### Other lines make the matching files visible.
+##### If the first line starts with '!', all files are
+##### visible by default. Otherwise, all files are
+##### invisible by default.
+# Example: !*.mov will hide all *.mov files.
+
+</code></pre>
+<pre><code class="language-shell"># Example: Set site filters from the standard input:
+alice@alice_PC$ hv filt set
+/work/research/
+&lt;Ctrl-D&gt;
+
+</code></pre>
+<pre><code class="language-shell"># Example: Verify the new filters:
+alice@alice_PC$ hv filt get 
+/work/research/
+##### The files outside of /work/research/ are not visible anymore
+</code></pre>
+<hr>
+<h5 id="filt-set"><a class="header" href="#filt-set"><code>filt set</code></a></h5>
+<p><strong>filt set [-s SITENAME] [@file]</strong></p>
+<p>Sets the <a href="#path-filters">filter table</a> associated to the
+site, either interactively or from @file.</p>
+<p>Information about the format of site filters can be retrieved by
+issuing the <a href="#site-filters">filt get</a> command.</p>
+<p>Only admins can modify filter tables of other users.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s SITENAME</code></td><td>The sitename whose filter table should be set. If omitted, defaults to current site.</td></tr>
+<tr><td><code>@file</code></td><td>File containing the new table.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Make everything in the current site hidden, but `.bak` files
+alice@alice_PC$ echo *.bak | hv filt set
+
+</code></pre>
+<pre><code class="language-shell"># Example: Set site filters, from a file
+alice@alice_PC$ cat @tablefile
+*.idb
+*.exe
+alice@alice_PC$ hv filt set -s site1 @tablefile
+</code></pre>
+<hr>
+<h3 id="file-manipulation"><a class="header" href="#file-manipulation">File manipulation</a></h3>
+<h4 id="add"><a class="header" href="#add"><code>add</code></a></h4>
+<p><strong>add [-s] [-w WORKLIST_ID] <a href="#path-formats">PATH_PATTERN…</a></strong></p>
+<p>Adds new file(s) to a worklist.</p>
+<p>Issuing this command will not upload the file(s) to the server right away: the new
+file name(s) will be placed into a worklist, which then needs to be
+<a href="#committing-a-worklist-to-the-server">committed</a> to the server. Once a worklist is committed,
+its files will be available to other users.</p>
+<p>The specified file(s) are not required to exist, it is possible to add a file
+that does not exist yet.</p>
+<p>The files must be inside the site’s <a href="#root-directory">rootdir</a>.</p>
+<p>The files will be filtered using <a href="#hvignore-and-.hvignore-files">hvignore</a> rules.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>-w WORKLIST_ID</code></td><td>The id of the worklist that the file(s) will be added to. If omitted, defaults to worklist 1.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Local path to file(s) to add to the vault.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv add new.idb
+ok added '//new.idb'
+
+</code></pre>
+<pre><code class="language-shell"># Example: add files to worklist 2
+alice@alice_PC$ hv add -w 2 cuda_demo_suite/*
+ok added '//cuda_demo_suite/bandwidthTest'
+ok added '//cuda_demo_suite/busGrind'
+ok added '//cuda_demo_suite/deviceQuery'
+ok added '//cuda_demo_suite/nbody'
+ok added '//cuda_demo_suite/nbody_data_files/nbody_galaxy_20K.bin'
+ok added '//cuda_demo_suite/oceanFFT'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ocean.frag'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ocean.vert'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ref_slopeShading.bin'
+ok added '//cuda_demo_suite/oceanFFT_data_files/ref_spatialDomain.bin'
+ok added '//cuda_demo_suite/randomFog'
+ok added '//cuda_demo_suite/randomFog_data_files/ref_randomFog.bin'
+ok added '//cuda_demo_suite/vectorAdd'
+</code></pre>
+<hr>
+<h4 id="copy"><a class="header" href="#copy"><code>copy</code></a></h4>
+<p><strong>copy [-s] [-w WORKLIST_ID] <a href="#path-formats">SRC_PATH</a> <a href="#path-formats">DST_PATH</a></strong></p>
+<p>Makes a copy of vault file(s).</p>
+<p>This command creates a copy of the original file at the requested
+destination, and place the new file into a worklist. Once the worklist is
+committed, the new file will be visible to other users.</p>
+<p>NOTE: The source file will be downloaded from the server to the new file.
+If the source file was modified locally, those modifications won’t be part of the copy.
+This implies that if a file has just been <a href="#add">added</a> to the
+{hrvsrv} but not committed yet, it can’t be copied because it does not exist
+on the server yet.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>-w WORKLIST_ID</code></td><td>The id of the worklist that the files will be added to. If omitted, defaults to worklist 1.</td></tr>
+<tr><td><a href="#path-formats">SRC_PATH</a></td><td>The source path.</td></tr>
+<tr><td><a href="#path-formats">DST_PATH</a></td><td>The destination path.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Copy `newfile` into the `rust_samples` subdirectory. The worklist #2 will hold the change.
+alice@alice_PC$ hv copy -w 2 newfile rust_samples/newfile
+ok copied '//newfile#1' to '//rust_samples/newfile'
+
+</code></pre>
+<pre><code class="language-shell"># Example: Copy an entire subdirectory (note the trailing slash at the destination):
+alice@alice_PC$ hv copy source_subdir/ destination/subdir/
+ok copied '//source_subdir/aaa/sample.idb#1' to '//destination/subdir/aaa/sample.idb'
+ok copied '//source_subdir/common.idb#1' to '//destination/subdir/common.idb'
+
+</code></pre>
+<pre><code class="language-shell"># Example: Copy a subdirectory without recursion:
+alice@alice_PC$ hv copy source_subdir/* destination/subdir/
+ok copied '//source_subdir/common.idb#1' to '//destination/subdir/common.idb'
+
+</code></pre>
+<pre><code class="language-shell"># Example: Copy a file that was just added but not yet committed, it will fail:
+alice@alice_PC$ hv add test.text
+ok added '//test.text'
+alice@alice_PC$ hv copy test.text test.text.copy
+no matching files for '//test.text'
+
+</code></pre>
+<hr>
+<h4 id="move"><a class="header" href="#move"><code>move</code></a></h4>
+<p><strong>move [-s] [-w WORKLIST_ID] <a href="#path-formats">SRC_PATH</a> <a href="#path-formats">DST_PATH</a></strong></p>
+<p>Opens tracked file(s) for moving/renaming.</p>
+<p>This is similar to performing a <a href="#copy">copy</a>, followed by a
+<a href="#del">del</a>: the new file will be checked out for copy while the
+original file will be checked out for deletion.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>-w WORKLIST_ID</code></td><td>The id of the worklist that the file(s) will be added to. If omitted, defaults to the worklist 1.</td></tr>
+<tr><td><a href="#path-formats">SRC_PATH</a></td><td>The source path.</td></tr>
+<tr><td><a href="#path-formats">DST_PATH</a></td><td>The destination path.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv move //VxWorks/CP05x/info.txt //VxWorks/CP05x/info.md
+ok moved '//VxWorks/CP05x/info.txt#1' to '//VxWorks/CP05x/info.md'
+
+alice@alice_PC$ hv wk show 1
+WL 1 copy //VxWorks/CP05x/info.md#0
+WL 1 del  //VxWorks/CP05x/info.txt#1
+
+alice@alice_PC$ hv edit //VxWorks/CP05x/info.txt
+file '//VxWorks/CP05x/info.txt' is already checked out
+</code></pre>
+<hr>
+<h4 id="del"><a class="header" href="#del"><code>del</code></a></h4>
+<p><strong>del [-s] [-w WORKLIST_ID] <a href="#path-formats">PATH_PATTERN…</a></strong></p>
+<p>Opens tracked file(s) for deletion, adding them to a worklist.</p>
+<p>Once the worklist is committed, the file(s) won’t be tracked anymore
+by the {hrvsrv}, and will be removed from the local filesystem.</p>
+<p>NOTE: That this does not remove all revisions of the file on the
+server: that is the role of the <a href="#others">purge</a> command.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>-w WORKLIST_ID</code></td><td>The id of the worklist that the file(s) will be added to. If omitted, defaults to worklist 1.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Vault path of file(s) to delete.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ ls /path/to/site_rootdir/cat
+/path/to/site_rootdir/cat
+
+alice@alice_PC$ hv del -w2 cat
+ok checked out '//cat' for 'del' (worklist 2)
+
+alice@alice_PC$ ls /path/to/site_rootdir/cat
+/path/to/site_rootdir/cat
+
+alice@alice_PC$ hv commit 2 "Deleted 'cat'"
+ok commit #39 completed
+
+alice@alice_PC$ ls /path/to/site_rootdir/cat
+ls: cannot access '/path/to/site/rootdir/cat': No such file or directory
+</code></pre>
+<hr>
+<h4 id="edit"><a class="header" href="#edit"><code>edit</code></a></h4>
+<p><strong>edit [-s] [-w WORKLIST_ID] <a href="#path-formats">PATH_PATTERN…</a></strong></p>
+<p>Opens tracked file(s) for edit, adding them to a worklist.</p>
+<p>This command is used to instruct the {hrvsrv} that we will be working
+on files, so that it knows what revision of the file(s) that work
+will be based on and so later <a href="#diff">diff</a> or <a href="#resolve">resolve</a>
+commands can work correctly.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>-w WORKLIST_ID</code></td><td>The id of the worklist that the file(s) will be added to. If omitted, defaults to worklist 1.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Vault path of file(s) to checkout for edit.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv edit cat.i64
+ok checked out '//cat.i64' for 'edit' (worklist 1)
+
+(...do some work...)
+
+alice@alice_PC$ hv commit 1 "Analyzed 'main' function"
+ok commit #12 completed
+</code></pre>
+<hr>
+<h4 id="scan"><a class="header" href="#scan"><code>scan</code></a></h4>
+<p><strong>scan [-a] [-e] [-d] [-s] [<a href="#path-formats">PATH_PATTERN…</a>]</strong></p>
+<p>Reconciles the contents of the current directory (or the one(s)
+provided) on the local filesystem, with those of the corresponding
+path(s) on the server.</p>
+<p>This command will recursively look for:</p>
+<ul>
+<li>new files (if <code>-a</code> is provided)</li>
+<li>deleted files (if <code>-d</code> is provided)</li>
+<li>modified files (if <code>-e</code> is provided)</li>
+</ul>
+<p>If any is found will create a new worklist and, add those for
+addition/deletion/modification.</p>
+<p>This command is particularly useful if the user didn’t have access to
+the server at a time it was necessary (e.g., to issue an
+<a href="#edit">edit</a> command, while flying across the Atlantic.)
+Users can still get work done in such cases, and once they gain access
+to the server again, issue a <a href="#scan">scan</a> to commit the changes.</p>
+<p>NOTE: The <code>-e</code> option causes the <a href="#scan">scan</a> command to compute
+checksums of the local files, in order to compare them against those
+known to the server, in order to spot modifications.</p>
+<p>NOTE: If no options were given, defaults to <code>-e -d</code>.</p>
+<p>The files found by the <code>scan</code> command will be filtered by <a href="#hvignore-and-.hvignore-files">hvignore</a>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-a</code></td><td>Checkout for add files that are present only on the client side.</td></tr>
+<tr><td><code>-e</code></td><td>Checkout for edit files that are present on both the vault and the client side but differ.</td></tr>
+<tr><td><code>-d</code></td><td>Checkout for delete files that are present only on the server side.</td></tr>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Local path of file(s) to scan, if omitted defaults to current directory.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv scan -a -e -d //
+added worklist 3
+checked out '//afile' for 'del' (worklist 3)
+checked out '//Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.i64' for 'edit' (worklist 3)
+</code></pre>
+<hr>
+<h3 id="working-with-worklists"><a class="header" href="#working-with-worklists">Working with worklists</a></h3>
+<h4 id="worklists"><a class="header" href="#worklists"><code>worklists</code></a></h4>
+<p><strong>worklists [WORKLIST_ID] [USER]</strong></p>
+<p>Lists information about worklists.</p>
+<p>Show a (possibly filtered) list of pending worklists, and their
+metadata:</p>
+<ul>
+<li>the timestamp of when they were last changed</li>
+<li>the number of files they contain</li>
+<li>the owner</li>
+<li>the site</li>
+<li>their description</li>
+</ul>
+<p>See also <a href="#worklist-show">worklist show</a></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>WORKLIST_ID</code></td><td>Restrict to the provided worklist, defaults to showing all worklists.</td></tr>
+<tr><td><code>USER</code></td><td>Restrict to user USER, defaults to the current user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv worklists 
+WL 4 2022-06-27 17:24:51 2 files; $USER@$ALICE_SITE More work on L30DS2 firmware
+
+</code></pre>
+<hr>
+<h4 id="manipulating-a-worklist"><a class="header" href="#manipulating-a-worklist">Manipulating a worklist</a></h4>
+<p>The following <code>worklist</code> commands will also work with the shorter <code>wk</code> alias.</p>
+<h5 id="worklist-add"><a class="header" href="#worklist-add"><code>worklist add</code></a></h5>
+<p><strong>worklist add DESCRIPTION</strong></p>
+<p>Creates a new worklist, with the provided description.</p>
+<p>The worklist will initially be empty, and assigned a free ID.</p>
+<p>Files can be associated to that new worklist when they are marked for
+<a href="#add">addition</a>, <a href="#del">deletion</a>, or
+<a href="#edit">edition</a>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>DESCRIPTION</code></td><td>The description of the new worklist.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv worklist add "Working on the 'TMutexLocker' vtable"
+added worklist 3
+alice@alice_PC$ hv edit -w 3 //cppobj*
+ok checked out '//cppobj_virtcall.i64' for 'edit' (worklist 3)
+alice@alice_PC$ hv worklist add "vm2vm: WIP"
+added worklist 4
+alice@alice_PC$ hv edit -w 4 //REsearch/*
+ok checked out '//REsearch/vm2vm.exe' for 'edit' (worklist 4)
+ok checked out '//REsearch/vm2vm.i64' for 'edit' (worklist 4)
+</code></pre>
+<hr>
+<h5 id="worklist-show"><a class="header" href="#worklist-show"><code>worklist show</code></a></h5>
+<p><strong>worklist show [-s SITE] [-u USER] [WORKLIST_ID]</strong></p>
+<p>Lists worklist contents.</p>
+<p>Show a list of files opened for editing, addition or deletion,
+and their associated worklist(s).</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s SITE</code></td><td>Restrict to site SITE. If omitted, defaults to the current site.</td></tr>
+<tr><td><code>-u USER</code></td><td>Restrict to user USER. If omitted, defaults to the current user.</td></tr>
+<tr><td><code>WORKLIST_ID</code></td><td>Restrict to the provided worklist, defaults to showing all worklists.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv worklist show 3
+WL 3 edit //cppobj_virtcall.i64#9
+alice@alice_PC$ hv worklist show 4
+WL 4 edit //REsearch/vm2vm.exe#1
+WL 4 edit //REsearch/vm2vm.i64#1
+alice@alice_PC$ hv worklist show 
+WL 4 edit //REsearch/vm2vm.exe#1
+WL 4 edit //REsearch/vm2vm.i64#1
+WL 3 edit //cppobj_virtcall.i64#9
+
+</code></pre>
+<pre><code class="language-shell"># Example: Show the worklist contents of another user
+alice@alice_PC$ hv worklist show -u ted
+WL 4 edit //malware/unk_2022#1/6 SITE=ted_laptop
+WL 2 copy //docs/onboarding.md#0 SITE=TEDPC
+WL 1 del  //ida64.i64#6 SITE=TEDPC
+
+</code></pre>
+<hr>
+<h5 id="worklist-edit"><a class="header" href="#worklist-edit"><code>worklist edit</code></a></h5>
+<p><strong>worklist edit WORKLIST_ID DESCRIPTION</strong></p>
+<p>Edits a worklist description.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>WORKLIST_ID</code></td><td>The worklist to modify.</td></tr>
+<tr><td><code>DESCRIPTION</code></td><td>The new description for the worklist.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell"># Example: change description of worklist 4
+alice@alice_PC$ hv worklist edit 4 "vm2vm: resolved all offsets in 'main' function"
+</code></pre>
+<hr>
+<h5 id="worklist-del"><a class="header" href="#worklist-del"><code>worklist del</code></a></h5>
+<p><strong>worklist del WORKLIST_ID</strong></p>
+<p>Deletes a worklist.</p>
+<p>This command will only succeed if the worklist is currently empty.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>WORKLIST_ID</code></td><td>The worklist to delete.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv worklist del 3
+worklist 3 is not empty
+alice@alice_PC$ hv revert //cppobj*
+ok reverted //cppobj_virtcall.i64
+alice@alice_PC$ hv worklist del 3
+</code></pre>
+<hr>
+<h4 id="committing-a-worklist-to-the-server"><a class="header" href="#committing-a-worklist-to-the-server">Committing a worklist to the server</a></h4>
+<h5 id="commit"><a class="header" href="#commit"><code>commit</code></a></h5>
+<p><strong>commit [-f] [-s] WORKLIST_ID [DESCRIPTION]</strong></p>
+<p>Commits files to the vault (push).</p>
+<p>This command uploads files from the local computer to the vault.</p>
+<p>After a successful commit, the modifications made to the files contained
+in the worklist will be made available for other users.</p>
+<p>A commit may fail if another user uploaded another revision of the changed
+files meanwhile. In this case <a href="#syncing-files-resolving-and-reverting">resolve</a> is necessary to merge
+the changes.</p>
+<p>If the worklist does not yet have a proper description, the DESCRIPTION
+is mandatory.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-f</code></td><td>Force commit of unchanged files.</td></tr>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>WORKLIST_ID</code></td><td>The id of the worklist to commit to the vault.</td></tr>
+<tr><td><code>DESCRIPTION</code></td><td>A description for the commit.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv commit 1
+worklist 1 has empty description
+alice@alice_PC$ hv commit 1 "more samples"
+ok accepted //newfile#1 (5 bytes)
+ok commit #2 completed
+</code></pre>
+<hr>
+<h4 id="syncing-files-resolving--reverting"><a class="header" href="#syncing-files-resolving--reverting">Syncing files, resolving &amp; reverting</a></h4>
+<h5 id="sync"><a class="header" href="#sync"><code>sync</code></a></h5>
+<p><strong>sync [-f] [-p] [-s] [@COMMIT_ID] [<a href="#path-formats">PATH_PATTERN[=REVISION]</a>…]</strong></p>
+<p>Downloads the requested revisions of the files from the server, and
+stores them on the local filesystem.</p>
+<p>NOTE: If no paths are provided, all files from the server will be retrieved.</p>
+<p>Requires that a site to be currently selected.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-f</code></td><td>Force sync. This will force a download of the files, even when the server thinks the client has the desired revision. This is a dangerous operation: any modification made to local files will be lost.</td></tr>
+<tr><td><code>-p</code></td><td>The server will perform sync without really transferring files. This options is useful if the local files are already in sync but the server has stale info about them.</td></tr>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>@COMMIT_ID</code></td><td>Sync to state right after <code>COMMIT_ID</code> was committed, cannot be used with <code>=REVISION</code>.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN[=REVISION]</a>…</td><td>Vault path of file(s) to sync, if path is omitted, defaults to current directory, if no revision is specified, defaults to last revision available on vault (<code>#^</code>).</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: Sync all
+alice@alice_PC$ hv sync 
+
+</code></pre>
+<pre><code class="language-shell"># Example: Sync only the specified subtree
+alice@alice_PC$ hv sync -f //work/ds1_10
+
+</code></pre>
+<pre><code class="language-shell"># Example: Sync a file to specific revision
+alice@alice_PC$ hv sync //malware/Trojan.Shylock.Skype/D57D.i64#1
+ok synced //malware/Trojan.Shylock.Skype/D57D.i64#1 (4374263 bytes)
+ok sync completed
+</code></pre>
+<hr>
+<h5 id="resolve"><a class="header" href="#resolve"><code>resolve</code></a></h5>
+<p><strong>resolve METHOD <a href="#path-formats">PATH_PATTERN</a></strong></p>
+<p>Resolves conflicts in a file, using the specified <a href="#resolving-conflicts-in-a-file">strategy</a>.</p>
+<p>After the strategy is successfully applied and the local file has
+incorporated both the “local” and “remote” changes, it will be ready
+to be committed.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>METHOD</code></td><td>One of “auto”, “lmerge”, “rmerge”, “manual”, “local” or “remote”.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN</a></td><td>Vault path of file(s) to resolve.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv resolve lmerge depot/file1.txt
+</code></pre>
+<hr>
+<h5 id="revert"><a class="header" href="#revert"><code>revert</code></a></h5>
+<p><strong>revert [-a] [-p] [-s] <a href="#path-formats">PATH_PATTERN…</a></strong></p>
+<p>Reverts opened files to their current revisions.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-a</code></td><td>Revert only unchanged files.</td></tr>
+<tr><td><code>-p</code></td><td>The server will revert the files without transferring files.</td></tr>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages. This options is useful if the local files are already in sync but the server has stale info about them.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Vault path of file(s) to revert.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv revert -a //
+ok reverted //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin
+ok reverted //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.asm
+ok reverted //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.log
+</code></pre>
+<hr>
+<h5 id="migrate"><a class="header" href="#migrate"><code>migrate</code></a></h5>
+<p><strong>migrate [-s] <a href="#path-formats">PATH_PATTERN…</a> WORKLIST_ID</strong></p>
+<p>Moves opened files between worklists.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent Mode; do not output any messages.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Vault path of file(s) to move.</td></tr>
+<tr><td><code>WORKLIST_ID</code></td><td>The id of the worklist to move the files to, the worklist must already exist.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv migrate afile subdir/for/fred/interfaces 3
+ok migrated //afile#1 to worklist 3
+ok migrated //subdir/for/fred/interfaces#0 to worklist 3
+</code></pre>
+<hr>
+<h3 id="various-information"><a class="header" href="#various-information">Various information</a></h3>
+<h4 id="files"><a class="header" href="#files"><code>files</code></a></h4>
+<p><strong>files [-d] [-s] [<a href="#path-formats">PATH_PATTERN_OR_SUBSTRING[=REVISION]</a>…]</strong></p>
+<p>Displays the list of the files present in the vault.</p>
+<p>The command will collect files from the vault (that match the selection)
+and display for each file:</p>
+<ul>
+<li>the file path</li>
+<li>the revision</li>
+<li>the file size if it hasn’t been deleted</li>
+<li>the last commit id</li>
+<li>the last action</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-d</code></td><td>Include deleted files.</td></tr>
+<tr><td><code>-s</code></td><td>Search for substring instead of using a path.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN_OR_SUBSTRING[=REVISION]</a>…</td><td>Vault path of file(s) to include in search or substring to search for if <code>-s</code>. If revision is not specified, defaults to current revision (<code>#=</code>). If no path is specified, defaults to the root directory of the vault.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv files -d //malware/Ransomware.WannaCry
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe#1 (size 3514368 CL1/add)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.asm#2 (CL2/del)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.i64#1 (size 838724 CL1/add)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.log#2 (CL2/del)
+
+</code></pre>
+<pre><code class="language-shell">alice@alice_PC$ hv files -s i64
+//malware/EquationGroup.GrayFish/GrayFish_9B1CA66AAB784DC5F1DFE635D8F8A904.i64#1 (size 2929035 CL1/add)
+//malware/Ransomware.WannaCry/ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa.exe.i64#1 (size 838724 CL1/add)
+//malware/Trojan.Ransom.Petya/eefa052da01c3faa1d1f516ddfefa8ceb8a5185bb9b5368142ffdf839aea4506.i64#1 (size 4535045 CL1/add)
+//malware/Trojan.Shylock.Skype/Shylock-skype_8FBEB78B06985C3188562E2F1B82D57D.i64#1 (size 4374263 CL1/add)
+//malware/Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.i64#1 (size 319858 CL1/add)
+
+</code></pre>
+<hr>
+<h4 id="dir"><a class="header" href="#dir"><code>dir</code></a></h4>
+<p><strong>dir [-d] [-s] [-u] <a href="#path-formats">PATH_PATTERN_OR_SUBSTRING…</a></strong></p>
+<p>Displays vault directory listing (current revisions).</p>
+<p>For each file entry the command will display:</p>
+<ul>
+<li>the timestamp of when the file was committed</li>
+<li>the file size</li>
+<li>the commit id</li>
+<li>the type of action that was executed on the file in the commit</li>
+<li>the path</li>
+<li>the current revision on disk</li>
+<li>an extra label if the file is unsynced</li>
+</ul>
+<p>Directories will be displayed as: <code>&lt;subdir&gt; PATH</code></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-d</code></td><td>Include deleted files.</td></tr>
+<tr><td><code>-s</code></td><td>Path patterns are simple substrings.</td></tr>
+<tr><td><code>-u</code></td><td>Include unsynced files.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN_OR_SUBSTRING…</a></td><td>Vault path of file(s) to include in search or substring to search for if <code>-s</code>.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv dir -u -d //
+1970-02-04 01:52:08       573440 CL1/add  //malware/EquationGroup.GrayFish/A904#1
+2022-06-29 11:30:10            0 CL2/del  //malware/EquationGroup.GrayFish/A904.asm#0/2 UNSYNCED
+1970-02-04 01:52:08      2929035 CL1/add  //malware/EquationGroup.GrayFish/A904.i64#1
+2022-06-29 11:30:10            0 CL2/del  //malware/EquationGroup.GrayFish/A904.log#0/2 UNSYNCED
+1970-02-04 01:52:08      3514368 CL1/add  //malware/Ransomware.WannaCry/41aa.exe#1
+2022-06-29 11:30:10            0 CL2/del  //malware/Ransomware.WannaCry/41aa.exe.asm#0/2 UNSYNCED
+2022-06-29 13:52:57       846916 CL3/edit //malware/Ransomware.WannaCry/41aa.exe.i64#2/3 UNSYNCED
+
+</code></pre>
+<pre><code class="language-shell">alice@alice_PC$ hv dir "//*"
+                    &lt;subdir&gt;              //malware
+</code></pre>
+<hr>
+<h4 id="show"><a class="header" href="#show"><code>show</code></a></h4>
+<p><strong>show <a href="#path-formats">PATH_PATTERN[=REVISION]</a></strong></p>
+<p>Writes the contents of a file on the vault to the command line.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#path-formats">PATH_PATTERN[=REVISION]</a></td><td>Vault path to file(s) to display. If no revision is specified, defaults to current revision (<code>#=</code>). If the file revision denotes a deleted revision of the file, the contents will not be displayed.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv show patterns/ubuntu-libgcc-10.pat
+415729CE415641554D89C54154554C89CD5389D34881EC280100004C8BBC2470 FF 15C2 14AD :0000 add_and_round.constprop.0 010000F30F6F842470010000C7442474000000004C8B842480010000C7442478000000000F294424504C8B742458F30F6F8C24800100004C897C2428488B9424
+415729CE415641554D89C54154554C89CD5389D34881EC280100004C8BBC2470 FF 90F7 14A0 :0000 add_and_round.constprop.0 010000F30F6F842470010000C7442474000000004C8B842480010000C7442478000000000F294424504C8B742458F30F6F8C24800100004C897C2428488B9424
+415729CE415641554D89C54154554C89CD5389D34881EC380100004C8BBC2480 FF 2016 157D :0000 add_and_round.constprop.0 0100004C8B842490010000C784248400000000000000F30F6F842480010000F30F6F8C2490010000C7842488000000000000004C897C2438488B842470010000
+415741564155415455534881EC780100004889542410488B9424B80100004889 FF 26D7 8168 :0000 bid128_ext_fma 4C24184C8BB424B001000048B9DDBADDBADDBADDBA4889742408488B8424C801000048..................48893C244C89F34C8B9C24C001000048898C24C0
+415741564155415455534881EC780100004889542410488B9424B80100004889 FF D77A 80B0 :0000 bid128_ext_fma 4C24184C8BB424B001000048B9DDBADDBADDBADDBA4889742408488B8424C801000048..................48893C244C89F34C8B9C24C001000048898C24C0
+ ...
+</code></pre>
+<hr>
+<h4 id="diff"><a class="header" href="#diff"><code>diff</code></a></h4>
+<p><strong>diff <a href="#path-formats">PATH[=REVISION]</a> <a href="#path-formats">PATH_OR_REV[=REVISION]</a></strong></p>
+<p>Compares two databases, will launch IDA in diff mode.</p>
+<p>Only IDA databases (<code>.i64</code>, <code>.idb</code>) can be diffed with this command.
+If revisions of databases requested for comparison are currently not in the site,
+they will be downloaded to a temporary directory and will be deleted when IDA exits.
+On unix the temporary directory can be specified with <code>$TMPDIR</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#path-formats">PATH[=REVISION]</a></td><td>Database 1.</td></tr>
+<tr><td><a href="#path-formats">PATH_OR_REV[=REVISION]</a></td><td>Database 2. If no path is specified, it will default to the path of Database 1. If no revision is specified, it will default to the current revision (<code>#=</code>).</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: with `interfaces.i64` opened for edit and changed, this will open IDA and show the differences with the current revision on vault
+alice@alice_PC$ hv diff interfaces.i64
+
+</code></pre>
+<pre><code class="language-shell">alice@alice_PC$ hv changes interfaces.i64
+CM 9 2022-06-30 23:55:33 edit alice@alicepc interfaces.i64: deobfuscated some string
+CM 8 2022-06-28 23:30:17 edit john@johnpc interfaces.i64: annotated areas to inves
+CM 1 1970-02-04 01:52:08 add  john@johnpc added samples
+alice@alice_PC$ hv diff interfaces.i64 "#2"
+</code></pre>
+<hr>
+<h4 id="md5"><a class="header" href="#md5"><code>md5</code></a></h4>
+<p><strong>md5 <a href="#path-formats">PATH_PATTERN[=REVISION]</a></strong></p>
+<p>Prints the md5 checksum of a file on the vault.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#path-formats">PATH_PATTERN[=REVISION]</a></td><td>Vault path of file(s) to process, if no revision is specified, defaults to the current revision (<code>#=</code>).</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv md5 Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin
+ok D243C0B2DBA37565CE3601AD78A73E07 //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin#1
+</code></pre>
+<hr>
+<h4 id="info"><a class="header" href="#info"><code>info</code></a></h4>
+<p><strong>info</strong></p>
+<p>Displays info about the vault and current session.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv info 
+Hex-Rays Vault Server v1
+Vault time: 2022-06-29 00:13:55, up since 2022-06-28 09:40:53
+License user : Johnny Appleseed
+License email: john@appleseed.net
+License: IDAULTTL; 10 users out of 30; expires on 2023-10-13
+MAC address: 7F:A7:B3:C1:8D:79
+Vault directory: /opt/hexvault/files
+Client name: john *ADMIN*
+Client site: johnpc
+Client host: johnpc (127.0.0.1)
+Client root: /home/john/vault
+Login time : 2022-06-29 00:13:55
+Last active: 2022-06-29 00:13:55
+</code></pre>
+<hr>
+<h4 id="changes"><a class="header" href="#changes"><code>changes</code></a></h4>
+<p><strong>changes [-s SITENAME] [-u USERNAME] [-c MIN_COMMIT] [-C MAX_COMMIT] [-m MAX_REPORTED_ENTRIES] [-d MIN_DATE] [-D MAX_DATE] [-l] [<a href="#path-formats">PATH_PATTERN…</a>]</strong></p>
+<p>Displays list of commits that affect a path.</p>
+<p>List can be refined using options.</p>
+<p>For each commit the following info will be displayed:</p>
+<ul>
+<li>the commit id</li>
+<li>the timestamp of the commit</li>
+<li>if only one file was changed, the action that was done to it (e.g. <code>edit</code>)</li>
+<li>the user who sent the commit</li>
+<li>the site from which the commit was sent</li>
+<li>a description of the commit, truncated to 40 chars unless if <code>-l</code> is enabled</li>
+</ul>
+<p>[horizontal]
+TIP:: This command is also available under the alias <code>commits</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s SITENAME</code></td><td>Restrict to commits from SITENAME.</td></tr>
+<tr><td><code>-u USERNAME</code></td><td>Restrict to commits from USERNAME.</td></tr>
+<tr><td><code>-c MIN_COMMIT</code></td><td>Restrict to commits after commit: MIN_COMMIT.</td></tr>
+<tr><td><code>-C MAX_COMMIT</code></td><td>Restrict to commits prior to commit: MAX_COMMIT.</td></tr>
+<tr><td><code>-m MAX_REPORTED_ENTRIES</code></td><td>Limit number of reported commits to: MAX_REPORTED_ENTRIES.</td></tr>
+<tr><td><code>-d MIN_DATE</code></td><td>Restrict to commits after MIN_DATE using format <code>YYYY-MM-DD</code>.</td></tr>
+<tr><td><code>-D MAX_DATE</code></td><td>Restrict to commits prior to MAX_DATE using format <code>YYYY-MM-DD</code>.</td></tr>
+<tr><td><code>-l</code></td><td>Display long (&gt;40 characters) commit descriptions.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Filter commits by vault paths. If omitted, defaults to all files.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell"># Example: find all commits made by john
+alice@alice_PC$ hv changes -u john
+CM 109 2022-04-05 17:09:18 john@johnpc reverted commit 85
+CM 108 2022-04-05 17:00:02 john@johnpc added more malware samples
+CM 107 2022-04-05 16:37:02 john@johnpc WannaCry: annotated a few funcs
+CM 106 2022-04-05 16:35:57 john@johnpc removed unused files
+
+</code></pre>
+<pre><code class="language-shell"># Example: show last 2 commits on a file with full descriptions
+alice@alice_PC$ hv changes -m 2 -l //iOS/dyld_ios16.i64
+Commit 42 2022-06-14 16:44:19 edit gregm@gregpc
+        iOS: dyld iOS 16 WIP
+
+        annotated more struct members
+
+Commit 35 2022-06-14 00:35:43 edit gregm@gregpc
+        iOS: RE of ios16 split cache loading
+
+        discovered some structures and their members
+
+</code></pre>
+<hr>
+<h4 id="users"><a class="header" href="#users"><code>users</code></a></h4>
+<p><strong>users</strong></p>
+<p>Shows users.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv users 
+LastActive Adm Login   RealName/Email         Notes
+---------- --- ------- ---------------------- -----
+2022-07-27  *  admin   
+2022-09-16     alice   Alice &lt;alice@acme.com&gt;
+Never          bob     Bob &lt;bob@acme.com&gt;
+</code></pre>
+<hr>
+<h4 id="groups"><a class="header" href="#groups"><code>groups</code></a></h4>
+<p><strong>groups</strong></p>
+<p>Displays all the existing groups and their users.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv groups 
+malware: alice michael matt sarah jason
+audit: stephen ilse
+interns: russ
+</code></pre>
+<hr>
+<h4 id="group-show"><a class="header" href="#group-show"><code>group show</code></a></h4>
+<p><strong>group show GROUP_NAME</strong></p>
+<p>Displays the list of users in a group.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>GROUP_NAME</code></td><td>A group name.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv group show "malware"
+malware: alice michael matt sarah jason
+</code></pre>
+<hr>
+<h4 id="user-show"><a class="header" href="#user-show"><code>user show</code></a></h4>
+<p><strong>user show USERNAME</strong></p>
+<p>Displays the full details of a specific user.</p>
+<p>The following details will be displayed:</p>
+<ul>
+<li>the timestamp of when the user was last active</li>
+<li>the username, with a <code>*</code> next to it if the user has admin privileges</li>
+<li>the license id of the user</li>
+<li>the full name of the user</li>
+<li>the email address of the user</li>
+<li>notes about the user</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The username of the user to display.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv user show johndoe
+2022-06-27     johndoe      99-9999-9999-99 John doe &lt;johndoe@doe.net&gt; NOTES
+</code></pre>
+<hr>
+<h4 id="commit-show"><a class="header" href="#commit-show"><code>commit show</code></a></h4>
+<p><strong>commit show COMMIT_ID</strong></p>
+<p>Displays the contents of a commit.</p>
+<p>This will list all of the files that were changed by the commit.</p>
+<p>For each file the following details will be displayed:</p>
+<ul>
+<li>the action that was performed on it in the commit</li>
+<li>the path</li>
+<li>the revision</li>
+<li>if it’s unsynced, an extra label will be displayed</li>
+<li>the size of the file</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>COMMIT_ID</code></td><td>The id of the commit to display.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv commit show 5
+add  //cat.i64#1 (size 503909)
+</code></pre>
+<hr>
+<h3 id="misc"><a class="header" href="#misc">Misc.</a></h3>
+<h4 id="passwd"><a class="header" href="#passwd"><code>passwd</code></a></h4>
+<p><strong>passwd PASS [USER]</strong></p>
+<p>Sets a new password for a user.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>PASS</code></td><td>The new password.</td></tr>
+<tr><td><code>USER</code></td><td>The username whose password should be changed. Only admins can change other users’ passwords. If omitted, defaults to the current user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Examples:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv passwd newpw
+
+</code></pre>
+<pre><code class="language-shell">alice@alice_PC$ hv passwd newpw user1
+</code></pre>
+<hr>
+<h4 id="commit-edit"><a class="header" href="#commit-edit"><code>commit edit</code></a></h4>
+<p><strong>commit edit COMMIT_ID DESCRIPTION</strong></p>
+<p>Edits a commit description.</p>
+<p>Regular users may modify only their own commits. Admins may modify any commit.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>COMMIT_ID</code></td><td>The id of the commit to amend.</td></tr>
+<tr><td><code>DESCRIPTION</code></td><td>New description of the commit.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv commit edit 42 "removed unused file, it had been wrongfully added with commit #39"
+</code></pre>
+<hr>
+<h4 id="licenses"><a class="header" href="#licenses"><code>licenses</code></a></h4>
+<p><strong>licenses</strong></p>
+<p>Shows active licenses</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv licenses 
+Vault licenses:
+  99-9999-9999-99 IDAULTTW: used 2 out of 10 seat(s)
+  Expires: 2023-04-15
+  Online users: john@johnpc (99.999.99.99): 1 IDA instance(s)
+</code></pre>
+<hr>
+<h4 id="borrow"><a class="header" href="#borrow"><code>borrow</code></a></h4>
+<p><strong>borrow PRODUCT END_DATE</strong></p>
+<p>Borrow a license</p>
+<p>A borrowed license can be used offline but other users will not have access to it.</p>
+<p>A borrowed license can be returned to the vault using <a href="#return">return</a>.
+If not returned earlier, it will automatically be returned to the vault at the expiration time.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>PRODUCT</code></td><td>The product code or license id.</td></tr>
+<tr><td><code>END_DATE</code></td><td>YYYY-MM-DD - exact date, +Nd - N days since now, +Nw - N weeks since now. DD-MON-YYYY can be used to specify an exact date too.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv borrow IDAULTTW 2022-07-31
+License IDAULTTW 99-9999-9999-99 has been borrowed until 2022-07-31 00:00:00
+alice@alice_PC$ hv borrow IDAULTTL +6d
+License IDAULTTL 99-9999-9999-99 has been borrowed until 2022-07-31 13:53:23
+</code></pre>
+<hr>
+<h4 id="return"><a class="header" href="#return"><code>return</code></a></h4>
+<p><strong>return PRODUCT</strong></p>
+<p>Return a borrowed license</p>
+<p>A returned license becomes available to other vault users.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>PRODUCT</code></td><td>The product code or license id.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv return IDAULTTW
+Licence 99-9999-9999-99 has been returned
+</code></pre>
+<hr>
+<h4 id="gc"><a class="header" href="#gc"><code>gc</code></a></h4>
+<p><strong>gc [-r] [-s] MAX_SIZE <a href="#path-formats">PATH_PATTERN…</a></strong></p>
+<p>Deletes old files from the vault cache on the client.</p>
+<p>This command examines the contents of the .vault subdirectory in the specified
+directories and deletes old files from them, so that the total size of files
+does not exceed MAX_SIZE. MAX_SIZE can be specified as a plain number of bytes
+or using the k,M,G suffixes to denote KBs, MBs, GBs. The default value is 1GB.</p>
+<p>If <code>-r</code> is specified, all subdirectories of the current directory will be
+processed.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-r</code></td><td>Recursive</td></tr>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>MAX_SIZE</code></td><td>max size of the cache.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Local directories to process</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv gc 3G /mydir
+deleted /mydir/.vault/B52C6B8E8039752CE8BC6793816EB490: 120M freed, still 4.19G used
+deleted /mydir/.vault/C693254A5A370F609CC86A1F31CE5B84: 149M freed, still 4.05G used
+deleted /mydir/.vault/90CFB553818B2C44DE25759C0D14C811: 670M freed, still 3.39G used
+deleted /mydir/.vault/E8652439192CD33E8D4417C468AFFA49: 213M freed, still 3.18G used
+deleted /mydir/.vault/D0F3CF8A94A646E6EBBB15BD54847B31: 404M freed, still 2.79G used
+</code></pre>
+<hr>
+<h3 id="administrative-commands"><a class="header" href="#administrative-commands">Administrative commands</a></h3>
+<p>These commands require that the user executing them has admin privileges.</p>
+<h4 id="managing-users"><a class="header" href="#managing-users">Managing users</a></h4>
+<h5 id="user-add"><a class="header" href="#user-add"><code>user add</code></a></h5>
+<p><strong>user add USERNAME REALNAME EMAIL IS_ADMIN NOTES</strong></p>
+<p>Adds a user.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The username of the user.</td></tr>
+<tr><td><code>REALNAME</code></td><td>The full name of the user.</td></tr>
+<tr><td><code>EMAIL</code></td><td>The email address of the user.</td></tr>
+<tr><td><code>IS_ADMIN</code></td><td>Should be 1 if the user is admin, otherwise 0.</td></tr>
+<tr><td><code>NOTES</code></td><td>Extra notes about the user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv user add johndoe "John Doe" johndoe@doe.net 0 "NOTES"
+</code></pre>
+<hr>
+<h5 id="user-edit"><a class="header" href="#user-edit"><code>user edit</code></a></h5>
+<p><strong>user edit USERNAME REALNAME EMAIL IS_ADMIN NOTES</strong></p>
+<p>Edits a user definition.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The username of the user to modify.</td></tr>
+<tr><td><code>REALNAME</code></td><td>The full name of the user.</td></tr>
+<tr><td><code>EMAIL</code></td><td>The email address of the user.</td></tr>
+<tr><td><code>IS_ADMIN</code></td><td>Should be 1 if the user is admin, otherwise 0.</td></tr>
+<tr><td><code>NOTES</code></td><td>Extra notes about the user.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv user edit johndoe "John Doe" john_doe@doe.net 0 "NOTES"
+</code></pre>
+<hr>
+<h5 id="user-del"><a class="header" href="#user-del"><code>user del</code></a></h5>
+<p><strong>user del [-b] [-f] USERNAME</strong></p>
+<p>Deletes a user.</p>
+<p>Cuation: deleting a user with borrowed licenses will make the borrowed licenses
+unavailable until their expiration date.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-b</code></td><td>Force deletion even if the user has borrowed licenses.</td></tr>
+<tr><td><code>-f</code></td><td>Force deletion even if the user has checked out files.</td></tr>
+<tr><td><code>USERNAME</code></td><td>The name of the user to delete from the vault.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv user del -f johndoe
+</code></pre>
+<hr>
+<h4 id="managing-groups"><a class="header" href="#managing-groups">Managing groups</a></h4>
+<h5 id="group-add"><a class="header" href="#group-add"><code>group add</code></a></h5>
+<p><strong>group add GROUP_NAME</strong></p>
+<p>Adds a new group.</p>
+<p>An empty group with the specified name is created.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>GROUP_NAME</code></td><td>the name of the new group.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv group add my_group
+</code></pre>
+<hr>
+<h5 id="group-edit"><a class="header" href="#group-edit"><code>group edit</code></a></h5>
+<p><strong>group edit GROUP_NAME USER ADD_OR_DELETE</strong></p>
+<p>Edits a group by adding or deleting users.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>GROUP_NAME</code></td><td>the name of the group.</td></tr>
+<tr><td><code>USER</code></td><td>the name of the user.</td></tr>
+<tr><td><code>ADD_OR_DELETE</code></td><td>add or delete the specified user from the group, 0 is delete, 1 is add.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv group edit "my_group" "user1" 1
+alice@alice_PC$ hv group edit "my_group" "user1" 0
+</code></pre>
+<hr>
+<h5 id="group-del"><a class="header" href="#group-del"><code>group del</code></a></h5>
+<p><strong>group del GROUP_NAME</strong></p>
+<p>Deletes a group.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>GROUP_NAME</code></td><td>the name of the group to delete.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv group del my_group
+</code></pre>
+<hr>
+<h4 id="managing-permissions"><a class="header" href="#managing-permissions">Managing permissions</a></h4>
+<h5 id="perm-get"><a class="header" href="#perm-get"><code>perm get</code></a></h5>
+<p><strong>perm get</strong></p>
+<p>Displays <a href="#managing-permissions-on-a-vault">permission table</a>.</p>
+<p>The current permission table is printed to the standard output.</p>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv perm get 
+##### The permission for each vault file is determined as the result of applying
+##### all matching lines, from the beginning of the permission table to the end.
+##### An empty permission table grants all access to everyone.
+##### A non-empty permission table starts by denying all access to everyone.
+grant user fred write //subdir-for-fred/
+deny group remote list //local-secret
+grant group analysts write //subdir/for/idbs/
+grant user * read //subdir/for/idbs/
+</code></pre>
+<hr>
+<h5 id="perm-set"><a class="header" href="#perm-set"><code>perm set</code></a></h5>
+<p><strong>perm set [@FILE]</strong></p>
+<p>Sets new <a href="#managing-permissions-on-a-vault">permissions table</a> from STDIN or from file.</p>
+<p>The installed permission table becomes active immediately.</p>
+<p>We recommend using <a href="#managing-permissions">perm check</a> to ensure that the new permission
+table works correctly.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>@FILE</code></td><td>The file from which to set the new permissions table.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv perm set &lt;perms.txt
+</code></pre>
+<hr>
+<h5 id="perm-check"><a class="header" href="#perm-check"><code>perm check</code></a></h5>
+<p><strong>perm check USERNAME <a href="#path-formats">PATH_PATTERN</a></strong></p>
+<p>Checks <a href="#managing-permissions-on-a-vault">permissions</a> for a user.</p>
+<p>The list of files that are visible to the user is printed, along with the
+permissions that the user has. The read access is denoted by ‘r’ and the write
+access is denoted by ‘w’.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>USERNAME</code></td><td>The USERNAME of the user whose permissions that will be tested.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN</a></td><td>Vault path of file(s) that will be tested.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv perm check fred
+rw //subdir-for-fred/afile
+rw //subdir-for-fred/anotherfile
+r- //subdir/for/idbs/interfaces.i64
+
+alice@alice_PC$ hv perm check fred //local-secret
+</code></pre>
+<hr>
+<h4 id="others"><a class="header" href="#others">Others</a></h4>
+<h5 id="sessions"><a class="header" href="#sessions"><code>sessions</code></a></h5>
+<p><strong>sessions</strong></p>
+<p>Displays the sessions info.</p>
+<p>For each session on the vault, the following info will be displayed:</p>
+<ul>
+<li>the site</li>
+<li>the user</li>
+<li>the hostname</li>
+<li>the timestamp of the login time</li>
+<li>the timestamp of the last activity</li>
+<li>“ADM” if the user has admin privileges</li>
+<li>“*” for the session executing the command</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv sessions 
+gregpc       gregm        GREGPC-554HW             LOGIN=2022-07-04 LAST=2022-07-04 ADM *
+lindapc      linda        lindasmac                LOGIN=2022-07-02 LAST=2022-07-04
+</code></pre>
+<hr>
+<h5 id="purge"><a class="header" href="#purge"><code>purge</code></a></h5>
+<p><strong>purge [-s] [-y] <a href="#path-formats">PATH_PATTERN…</a></strong></p>
+<p>Purges file(s) from the Vault server, permanently deleting it and all of its history.</p>
+<p>The path patterns must be specified using full paths, starting with //</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>-s</code></td><td>Silent mode; do not output any messages.</td></tr>
+<tr><td><code>-y</code></td><td>Really purge the files, without this parameter the command does a dry-run.</td></tr>
+<tr><td><a href="#path-formats">PATH_PATTERN…</a></td><td>Vault path of file(s) to purge from the vault.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<pre><code class="language-shell">alice@alice_PC$ hv purge -s -y //work/ds1_10 //work/more_work
+</code></pre>
+<hr>
+<h2 id="concepts"><a class="header" href="#concepts">Concepts</a></h2>
+<h3 id="what-is-a-site"><a class="header" href="#what-is-a-site">What is a “site”?</a></h3>
+<p>A site represents a mapping of the server files to the local filesystem.
+Normally each computer has a site associated with it.
+A site has the following attributes:</p>
+<ul>
+<li>A site name</li>
+<li>A host name</li>
+<li>The path to a folder on the filesystem (a.k.a., “root directory”)</li>
+<li>Path filters (optional)</li>
+</ul>
+<p><img src="images/hv_user_manual/site_details.png" alt="site details"></p>
+<h4 id="root-directory"><a class="header" href="#root-directory">Root directory</a></h4>
+<p>The root directory is the essential attribute of a site. It denotes
+where all files from the vault server will be mapped to the local disk.
+Everything inside the root directory can potentially be uploaded to the vault
+server and shared with other team members.</p>
+<p>The vault server cannot manage files located outside the root directory.
+However, this limitation is straightforward to overcome: create a symbolic
+link (or, on Windows, a junction point) from the root directory to the directory
+of your choice. This will make the target of the symbolic link visible as part
+of the root directory.</p>
+<p>The vault server keeps track of each site’s state: what files have been
+downloaded to the local disk, what files have been checked out for editing, etc.
+This simplifies the housekeeping tasks, especially for big repositories
+with millions of files. Even for them, downloading the latest files
+or reconciling the local disk with the server, are almost instantaneous.</p>
+<p>The host name is a security feature that prevents from using a site on a wrong
+computer. Since the server keeps track of the files downloaded to
+each site, using a wrong site may lead to an inconsistent mapping between the
+server and local disk. However, if the user does not want this protection, it is
+possible to erase the host name in the site definition.</p>
+<p>Sites can be edited from the “Sites” view.</p>
+<h4 id="path-filters"><a class="header" href="#path-filters">Path filters</a></h4>
+<p>By default all server files are visible, but for servers that manage
+gigabytes of data this can be problematic: it may be undesirable
+for users to download all files to their local computer.</p>
+<p>Site filters provide a mechanism that lets users restrict the set of
+files their IDA Teams client works with.
+Users who want to work on some specific projects can set a filter that
+restricts the visibility only to selected subdirectories.</p>
+<p>Each site has its own filters, that con be modified at any
+time. Filters do not directly affect any files on the local disk, or
+on the server: they are strictly about visibility.</p>
+<p>WARNING: Site filters are meant simplify a user’s life by
+letting them focus on specific projects. Since they can be modified by
+users, they should <em>not</em> be considered a security measure: that would
+be the role of the permissions system, which can only be managed by
+vault_server administrators.</p>
+<p>NOTE: The purpose of site filters is to create a subset of the full
+set of files provided by the server. Site filters don’t directly
+affect what locally-available files (i.e., present in the site’s
+rootdir, but not tracked by the server) are visible by IDA Teams
+clients.</p>
+<p>There is another mechanism to specify what files should not be added to the vault.
+See <a href="#hvignore-and-.hvignore-files"><code>.hvignore</code></a> for more info.</p>
+<h5 id="examples-1"><a class="header" href="#examples-1">Examples</a></h5>
+<p><strong>An empty filter</strong></p>
+<pre><code>$ cat empty_filter.txt
+$
+</code></pre>
+<p><strong>Hide all files, except those in <code>malware/</code></strong></p>
+<pre><code>$ cat only_malware.txt
+malware/
+$
+</code></pre>
+<p><strong>Show all files, except those from the pentesting team</strong></p>
+<pre><code>$ cat hide_pentest.txt
+!pentesting/
+$
+</code></pre>
+<p><strong>Show all files but those from the pentesting team, except their produced documents</strong></p>
+<pre><code>$ cat hide_pentest_but_docs.txt
+!pentesting/
+pentesting/research_docs/
+$
+</code></pre>
+<h3 id="resolving-conflicts-in-a-file"><a class="header" href="#resolving-conflicts-in-a-file">Resolving conflicts in a file</a></h3>
+<p>When a user needs to commit changes made to a file, but that same file
+has received other modifications (likely from other users) in the
+meantime, it is necessary to first “merge” the two sets of
+modifications together.</p>
+<p>When the two sets of modifications do not overlap, merging is trivial</p>
+<ul>
+<li>at least conceptually. But when they do overlap, they produce
+conflict(s).</li>
+</ul>
+<p>Since IDA Teams focuses on collaboration over IDA database files,
+the rest of this section will focus on the different strategies that
+are available for resolving conflicts among those.</p>
+<p>IDA Teams comes with multiple strategies to help in conflict
+resolution of IDA database files:</p>
+<h4 id="auto-resolve-if-no-conflicts"><a class="header" href="#auto-resolve-if-no-conflicts">Auto-resolve (if no conflicts)</a></h4>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform
+all merging automatically.</p>
+<p>If any conflict is discovered, bail out of the merge process, and
+don’t modify the local database.</p>
+<h4 id="auto-resolve-prefer-local"><a class="header" href="#auto-resolve-prefer-local">Auto-resolve, prefer local</a></h4>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform
+all merging automatically.</p>
+<p>If a conflict is discovered, assume that the “local” change (i.e.,
+the current user’s change) is the correct one, and apply that.</p>
+<p>Once all merging is done and conflicts are resolved, write those to
+the local database and exit IDA</p>
+<h4 id="auto-resolve-prefer-remote"><a class="header" href="#auto-resolve-prefer-remote">Auto-resolve, prefer remote</a></h4>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform
+all merging automatically.</p>
+<p>If a conflict is discovered, assume that the “remote” change (i.e.,
+the change made by another user) is the correct one, and apply that.</p>
+<p>Once all merging is done and conflicts are resolved, write those to
+the local database and exit IDA</p>
+<h4 id="interactive-merge-mode"><a class="header" href="#interactive-merge-mode">Interactive merge mode</a></h4>
+<p>Manual merge mode.</p>
+<p>This will launch IDA in an interactive, 3-pane mode, allowing the
+user to decide how to resolve each conflict.</p>
+<p>Once all merging is done and conflicts are resolved, exit IDA and
+write the changes to the local database.</p>
+<h4 id="use-local-discard-remote"><a class="header" href="#use-local-discard-remote">Use local, discard remote</a></h4>
+<p>Select the local database, ignoring all changes in the remote
+database.</p>
+<p>No IDA process is run.</p>
+<h4 id="use-remote-discard-local"><a class="header" href="#use-remote-discard-local">Use remote, discard local</a></h4>
+<p>Select the remote database, ignoring all changes in the local
+database.</p>
+<p>No IDA process is run.</p>
+<h3 id="hvignore-and-hvignore-files"><a class="header" href="#hvignore-and-hvignore-files"><code>hvignore</code> (and <code>.hvignore</code>) files</a></h3>
+<p>IDA Teams comes with a mechanism that lets users specify what files
+should be ignored when adding files from their local machines to the vault_server.</p>
+<h4 id="the-main-hvignore-file-pathtoinstall-dirhvignore"><a class="header" href="#the-main-hvignore-file-pathtoinstall-dirhvignore">The main <code>hvignore</code> file (<code>path/to/install-dir/hvignore</code>)</a></h4>
+<p>In IDA Teams’ install directory, you will find the “main”
+<code>hvignore</code> file, that is pre-populated with a list of files that you
+would typically not want to add to the vault_server, such as <code>.bak</code> backup
+files and unpacked IDA database files: <code>.id0</code>, <code>.nam</code>, etc…</p>
+<p>The syntax for <code>hvignore</code> is very close to that of <code>.gitignore</code>
+files.</p>
+<h4 id="additional-hvignore-files"><a class="header" href="#additional-hvignore-files">Additional <code>.hvignore</code> files</a></h4>
+<p>In addition to that file, you can have <code>.hvignore</code> file (notice the
+<code>.</code> - dot) placed in your <a href="#what-is-a-site">site</a>’s directory structure.</p>
+<p>When found, those files’ contents will be appended to the
+main file’s contents.</p>
+<h3 id="the-registry"><a class="header" href="#the-registry">The registry</a></h3>
+<p>On Microsoft Windows, IDA Teams will store certain bits of
+information in the registry (host name, user name, site name.)</p>
+<p>On macOS and Linux, it will use a pseudo-registry file, located at
+<code>$HOME/.idapro/hvui.reg</code>.</p>
+<h3 id="passwords-storage-in-the-oss-keychain"><a class="header" href="#passwords-storage-in-the-oss-keychain">Passwords storage in the OS’s keychain</a></h3>
+<p>While hosts, user names &amp; <a href="#what-is-a-site">site names</a> are
+persisted to the <a href="#the-registry">registry</a>, passwords are
+stored securely in the operating system’s keychain.</p>
+<ul>
+<li>On Windows, the Windows Credential Store is used (therefore
+requiring Windows 7 or newer)</li>
+<li>On macOS, the macOS Keychain is used</li>
+<li>On Linux, the “Secret service” is used (through <code>libsecret-1</code>)</li>
+</ul>
+<h3 id="managing-permissions-on-a-vault"><a class="header" href="#managing-permissions-on-a-vault">Managing permissions on a vault</a></h3>
+<p>The vault_server includes a way to restrict the access of users and groups
+to the data stored in the vault_server.</p>
+<p>The permission file is a text file that contains the permission table.
+The file consists of lines that grant or deny access to certain path patterns in the vault.
+The syntax for an entry is the following:</p>
+<p><code>grant/deny group/user NAME PERMISSION VAULT_PATH_PATTERN</code></p>
+<p>Possible <code>PERMISSION</code> values are: <code>list</code>, <code>read</code> and <code>write</code>.
+<code>read</code> includes <code>list</code>, <code>write</code> includes <code>read</code> (and thus also includes <code>list</code>).</p>
+<p>Example of a permission file:</p>
+<pre><code># deny everything to everyone. no need to specify it explicitly,
+# it is the default for a non-empty permission table:
+# deny  user *      list  //*
+
+deny  user *      list  //secret/   # nobody can see //secret. this line is superfluous
+                                    # because everything is denied by default.
+grant user hughes write //secret/   # but hughes can write to secret and its subdirs
+grant user john   read  //secret/   # and john can read the entire directory.
+deny  user *      list  //secret/supersecret # supersecret is not visible to anyone
+grant user hughes write //secret/supersecret # but hughes can modify it (john cannot)
+grant user *      write //local_files/ # everyone can work with 'local_files'
+deny group remote list //local_files/  # except that the 'remote' group cannot see 'local_files'
+</code></pre>
+<p>An empty permission table means that no permissions are enforced rendering all files
+accessible by everyone. As soon as a non-empty permission table is specified,
+all access is denied to everyone by default.</p>
+<p>Path patterns may refer to (yet) unexisting files. Users and groups too may refer
+to unexisting users and groups.</p>
+<p>The order of the permission file is important as the last lines will take precedence over
+the preceding lines (if there are conflicts).</p>
+<p>Admins are not affected by the permission table, they are granted all access.</p>
+<p>To install a new permission table, use <a href="#managing-permissions">perm set</a>.</p>
+<p>The current permissions can be retrieved using <a href="#managing-permissions">perm get</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/teams/merge.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/teams/hvui_user_manual.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/teams/merge.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/teams/hvui_user_manual.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

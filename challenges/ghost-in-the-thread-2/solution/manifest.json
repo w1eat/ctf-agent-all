@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "current_key": "1639ba490c6c3c35a606:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "1639ba490c6c3c35a606:platform_confirmed",
+      "flag": "Gallium",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "ghost in the thread - 2",
+        "category": "Forensics",
+        "description": "ghost in the thread - 2 (Forensics). VM image: https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing (GhostInTheThread.ova).",
+        "connection_info": "https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing",
+        "value": 0,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Forensic VM analysis: downloaded the challenge OVA (GhostInTheThread.ova) from the Google Drive link, converted the streamOptimized VMDK to raw with qemu-img, located the GPT root ext4 partition (sector 135168), extracted the sysadmin's custom XKB layout (/usr/share/X11/xkb/symbols/custom, inode 65300) with Sleuth Kit icat, reconstructed the QWERTY key->letter mapping, and identified it as the Gallium (Colstag) layout by exact row match against the upstream Gallium repo. The challenge explicitly stated no sun{} wrapper, just the layout name.: Gallium | Evidence: Challenge text (from submission page): 'ghost in the thread - 2' — 'What keyboard layout was the sysadmin here using? refer to ghost in the thread (1) for the challenge.' / 'No sun{} flag format, just the layout name.' ; GhostInTheThread.ova (tar, 126,945,280 B) downloaded from https://drive.usercontent.google.com/download?id=1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W ; contains GhostInTheThread.ovf + GhostInTheThread-disk1.vmdk (2 GiB streamOptimized). ; qemu-img info: vmdk, create type streamOptimized, compressed; qemu-img convert -O raw -> 2 GiB disk.raw. GPT shows ext4 '/' partition starting at sector 135168. ; fls/icat (offset 135168) lists /usr/share/X11/xkb/symbols/custom (inode 65300). Content: name[Group1] = 'my layout'; keys: <AD01>b <AD02>l <AD03>d <AD04>c <AD05>v <AD06>j <AD07>y <AD08>o <AD09>u <AD10>',' <AC01>n <AC02>r <AC03>t <AC04>s <AC05>g <AC06>p <AC07>h <AC08>a <AC09>e <AC10>i <AC11>'/' <AB01>x <AB02>q <AB03>m <AB04>w <AB05>z <AB06>k <AB07>f <AB08>apostrophe <AB09>semicolon <AB10>period. ; Layout rows reconstructed in QWERTY key order: 'bldcvjyou,' / 'nrtsgphaei' / 'xqmwzkf';.'. This is a byte-for-byte exact match to the canonical Gallium (Colstag) layout rows fetched from https://cdn.jsdelivr.net/gh/GalileoBlues/Gallium@main/Images/Gallium_Colstag.svg which read 'B L D C V J Y O U , N R T S G P H A E I X Q M W Z K F ' ; .' (Gallium by GalileoBlues, https://github.com/GalileoBlues/Gal",
+      "solution_steps": [
+        "从题目描述拿到 Google Drive 链接，用 curl 处理 Google Drive 的病毒扫描确认页（提取 confirm=t 和 uuid），下载 GhostInTheThread.ova（tar，约 126 MB）。",
+        "解包 OVA 得到 GhostInTheThread-disk1.vmdk（streamOptimized 稀疏格式）。安装/调用 qemu-img convert -O raw 转为 disk.raw（2 GiB）。",
+        "用 GPT 解析或 mmls 得知 ext4 根分区从扇区 135168 开始；用 fls -o 135168 列出文件，找到挑战相关文件（/usr/share/X11/xkb/symbols/custom、/srv/sunchan/*、/var/lib/sunchan/board.sqlite 等）。",
+        "用 icat -o 135168 disk.raw 65300 > custom.txt 取出 xkb 自定义布局文件，内容为 name[Group1]=\"my layout\" 及 31 个 key 映射（含 name[Group1]）。",
+        "按 XKB 键位约定（AD01=Q…AC01=A…AB01=Z）把映射还原成三行键盘布局：bldcvjyou, / nrtsgphaei / xqmwzkf';.。",
+        "与公开布局比对，发现与 Gallium（Colstag 变体）完全一致（Gallium 由 GalileoBlues 设计，见 github.com/GalileoBlues/Gallium；getreuer.info 的 alt-layouts 指南也推荐 Gallium）。",
+        "题目说明无 sun{} 格式，只需布局名，提交 'Gallium'，页面返回 Correct 且该题标记为 ✦ Solved。"
+      ],
+      "evidence": [
+        "Challenge text (from submission page): 'ghost in the thread - 2' — 'What keyboard layout was the sysadmin here using? refer to ghost in the thread (1) for the challenge.' / 'No sun{} flag format, just the layout name.'",
+        "GhostInTheThread.ova (tar, 126,945,280 B) downloaded from https://drive.usercontent.google.com/download?id=1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W ; contains GhostInTheThread.ovf + GhostInTheThread-disk1.vmdk (2 GiB streamOptimized).",
+        "qemu-img info: vmdk, create type streamOptimized, compressed; qemu-img convert -O raw -> 2 GiB disk.raw. GPT shows ext4 '/' partition starting at sector 135168.",
+        "fls/icat (offset 135168) lists /usr/share/X11/xkb/symbols/custom (inode 65300). Content: name[Group1] = 'my layout'; keys: <AD01>b <AD02>l <AD03>d <AD04>c <AD05>v <AD06>j <AD07>y <AD08>o <AD09>u <AD10>',' <AC01>n <AC02>r <AC03>t <AC04>s <AC05>g <AC06>p <AC07>h <AC08>a <AC09>e <AC10>i <AC11>'/' <AB01>x <AB02>q <AB03>m <AB04>w <AB05>z <AB06>k <AB07>f <AB08>apostrophe <AB09>semicolon <AB10>period.",
+        "Layout rows reconstructed in QWERTY key order: 'bldcvjyou,' / 'nrtsgphaei' / 'xqmwzkf';.'. This is a byte-for-byte exact match to the canonical Gallium (Colstag) layout rows fetched from https://cdn.jsdelivr.net/gh/GalileoBlues/Gallium@main/Images/Gallium_Colstag.svg which read 'B L D C V J Y O U , N R T S G P H A E I X Q M W Z K F ' ; .' (Gallium by GalileoBlues, https://github.com/GalileoBlues/Gallium).",
+        "Submitted flag 'Gallium' -> submission page alert strong 'Correct', and the challenge row changed to 'Forensics ✦ Solved ghost in the thread - 2 (137 solves)'.",
+        "Independent extra confirmation: the VM's /usr/lib/security/pam_unix.so (inode 3195) is a planted backdoor exporting symbols artifact_description and configured_password (used by the sibling part 4), showing this OVA is the shared 'ghost in the thread' forensic image."
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "a40066d807cdba104aa4b4eb95a2e789c8c132383ee2bdaced8895ee7ba05217",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T05:37:26.392563+00:00",
+      "updated_at": "2026-09-27T05:37:32.458961+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

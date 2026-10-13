@@ -1,0 +1,27 @@
+version: beta2
+platform: unknown
+native_id: '40'
+name: Locked ???
+category: ???
+description: Hidden/locked challenge - not yet visible on the board.
+value: 0
+files: []
+challenge_mode: remote
+connection_info: ''
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#Locked-40
+environment:
+  status: not_required
+  source: platform-page
+  url: ''
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'Hidden/locked challenge (id 40): no description, no attachment, not visible
+      on public board. Likely unlocked by solving prerequisite challenges; needs operator
+      input on unlock condition.'
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: waiting_for_decision
+reason: ''

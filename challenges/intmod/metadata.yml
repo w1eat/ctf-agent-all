@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '44'
+name: IntMod
+category: RE
+description: '"IntMod?? Do you mean integer modulus??" "No. I do not mean that." "Then
+  what, pretell, could it mean?" "Just put the agent on the case."'
+value: 483
+files:
+- distfiles/intmod
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#IntMod-44
+environment: {}
+capabilities: []
+attachments:
+- filename: intmod
+  name: intmod
+  sha256: d697850eea882b87ff1cf02b4559117d7d1279d015ab248c4125cb4dc994b3b2
+  size: 44008
+  url: https://2026.sunshinectf.org/files/460cb8699cdec86b41de5f262bfdc1e0/intmod
+attachments_scanned: false
+state: solved
+reason: ''

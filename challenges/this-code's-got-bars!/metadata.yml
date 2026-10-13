@@ -1,0 +1,27 @@
+version: beta2
+platform: ctfd
+native_id: '21'
+name: This Code's Got Bars!
+category: BSides Orlando
+description: ''
+value: 0
+files: []
+challenge_mode: remote
+connection_info: https://2026.sunshinectf.org/challenges#21
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#This%20Code's%20Got%20Bars!-21
+environment:
+  status: not_required
+  source: remote
+  url: https://2026.sunshinectf.org/challenges#21
+  host: ''
+  compose_project: ''
+  metadata:
+    note: Physical/on-site barcode challenge; no hosted environment. Remote attempt
+      via OSINT on badge artwork/photos + barcode decoding.
+    source: platform-page
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: solved
+reason: ''

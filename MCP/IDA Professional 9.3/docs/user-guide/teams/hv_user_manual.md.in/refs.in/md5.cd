@@ -1,0 +1,7 @@
+.$NCAT_VAULT_PATH_WITH_REV:PATH_PATTERN Vault path of file(s) to process, if no revision is specified, defaults to the current revision (`#=`).
+
+>Prints the md5 checksum of a file on the vault.
+
+!
+$$ Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin
+ok D243C0B2DBA37565CE3601AD78A73E07 //Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin#1

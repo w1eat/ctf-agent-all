@@ -1,0 +1,12 @@
+.WORKLIST_ID The worklist to delete.
+
+>Deletes a worklist.
+
+This command will only succeed if the worklist is currently empty.
+
+!
+$$ 3
+worklist 3 is not empty
+$ hv revert //cppobj*
+ok reverted //cppobj_virtcall.i64
+$$ 3

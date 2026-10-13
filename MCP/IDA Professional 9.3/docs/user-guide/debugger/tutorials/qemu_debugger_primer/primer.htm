@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <head>
+  <title>Debugging ARM code snippets in IDA Pro 5.6 using QEMU emulator</title>
+ </head>
+
+ <body>
+<h2>Introduction</h2>
+<p>IDA Pro 5.6 has a new feature: automatic running of the QEMU emulator. It can be used to debug small code snippets directly from the database.
+In this tutorial we will show how to dynamically run code that can be difficult to analyze statically.</p>
+
+<h2>Target</h2>
+<p>As an example we will use shellcode from the article <a href="http://www.phrack.com/issues.html?issue=66&id=12">"Alphanumeric RISC ARM Shellcode"</a> in Phrack 66.
+It is self-modifying and because of alphanumeric limitation can be quite hard to undestand. So we will use the debugging feature to decode it.</p>
+<p>The sample code is at the bottom of the article but here it is repeated:</p>
+<code><blockquote style="background-color:lightblue">80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR80AR<br/>
+80AR80AR80AR80AR80AR80AR80AR80AR80AR00OB00OR00SU00SE9PSB9PSR0pMB80SBcACP<br/>
+daDPqAGYyPDReaOPeaFPeaFPeaFPeaFPeaFPeaFPd0FU803R9pCRPP7R0P5BcPFE6PCBePFE<br/>
+BP3BlP5RYPFUVP3RAP5RWPFUXpFUx0GRcaFPaP7RAP5BIPFE8p4B0PMRGA5X9pWRAAAO8P4B<br/>
+gaOP000QxFd0i8QCa129ATQC61BTQC0119OBQCA169OCQCa02800271execme22727</blockquote></code>
+<p>Copy this text to a new text file, <b>remove all line breaks</b> (i.e. make it a single long line) and save. Then load it into IDA.</p>
+
+<h2>Loading binary files into IDA</h2>
+<p>IDA displays the following dialog when it doesn't recognize the file format (as in this case):</p>
+<blockquote><img src="qemu_load.gif"></blockquote>
+<p>Since we know that the code is for ARM processor, choose ARM in the "Processor type" dropdown and click Set. Then click OK. The following dialog appears:</p>
+<blockquote><img src="qemu_ram.gif"></blockquote>
+<p>When you analyze a real firmware dumped from address 0, these settings are good.
+However, since our shellcode is not address-dependent, we can choose any address. For example, enter 0x10000 in "ROM start address" and "Loading address" fields.</p>
+<blockquote><img src="qemu_disass1.gif"></blockquote>
+<p>IDA doesn't know anything about this file so it didn't create any code. Press C to start disassembly.</p>
+<blockquote><img src="qemu_disass2.gif"></blockquote>
+
+<h2>Configuring QEMU</h2>
+<p>Before starting debug session, we need to set up automatic running of QEMU.</p>
+<ol>
+<li>Download a recent version of QEMU with ARM support (e.g. from <a href="http://homepage3.nifty.com/takeda-toshiya/qemu/index.html">http://homepage3.nifty.com/takeda-toshiya/qemu/index.html</a>). 
+If qemu-system-arm.exe is in a subdirectory, move it next to qemu.exe and all DLLs.<br/>
+<b>Note</b>: if you're running Windows 7 or Vista, it's recommended to use QEMU 0.11 or 0.10.50 ("Snapshot" on Takeda Toshiya's page), 
+as the older versions listen for GDB connections only over IPv6 and IDA can't connect to it.</li>
+<li>Edit cfg/gdb_arch.cfg and change "set QEMUPATH" line to point to the directory where you unpacked QEMU. Change "set QEMUFLAGS" if you're using an older version.</li>
+<blockquote><img src="qemu_cfg.gif"></blockquote>
+<li>In IDA, go to Debug-Debugger options..., Set specific options.</li>
+<li>Enable "Run a program before starting debugging".</li>
+<li>Click "Choose a configuration". Choose Versatile or Integrator board. The command line and Initial SP fields will be filled in.</li>
+<blockquote><img src="qemu_options.gif"></blockquote>
+<li>Memory map will be filled from the config file too. You can edit it by clicking the "Memory map" button, or from the Debugger-Manual memory regions menu item. See below for more details</li>
+</ol>
+
+<p>Now on every start of debugging session QEMU will be started automatically.</p>
+
+<h2>Executing the code</h2>
+<p>By default, initial execution point is the entry point of the database. If you want to execute some other part of it, there are two ways:</p>
+<ol>
+<li>Select the code range that you want to execute, or</li>
+<li>Rename starting point <b>ENTRY</b> and ending point <b>EXIT</b> (convention similar to Bochs debugger)</li>
+</ol>
+
+<p>In our case we do want to start at the entry point so we don't need to do anything. If you press F9 now, IDA will write the database contents to an ELF file (<b>database.elfimg</b>) and start QEMU, passing the ELF file name as the "kernel" parameter. 
+QEMU will load it, and stop at the initial point.</p>
+<blockquote><img src="qemu_start.gif"></blockquote>
+<p>Now you can step through the code and inspect what it does. Most of the instructions "just work", however, there is a syscall at 0x0010118:<p>
+
+<span style="white-space: pre; font-family: Courier New; color: blue; background: white">
+<span style="color:maroon">ROM:00010118 </span><span style="color:navy">SVCMI   </span><span style="color:green">0x414141</span>
+</span>
+<p>Since the QEMU configuration we use is "bare metal", without any operating system, this syscall won't be handled. So we need to skip it.
+<ol>
+<li>Navigate to 010118 and press F4 (Run to cursor). Notice that the code was changed (patched by preceding instructions):</li>
+<blockquote><img src="qemu_syscall.gif"></blockquote>
+(Incidentally, 0x9F0002 is sys_cacheflush for ARM Linux.)
+<li>Right-click next line (0001011C) and choose Set IP.</li>
+<li>Press F7 three times. Once you're on BXPL R6 line, IDA will detect the mode switch and add a change point to Thumb code:</li>
+<blockquote><img src="qemu_bx.gif"></blockquote>
+However, the following, previously existing code will (incorrectly) stay in ARM mode. We need to fix that.
+<li>Go to 01012C and press U (Undefine).</li>
+<li>Press Alt-G (Change Segment Register Value) and set value of T to 1. The erroneous CODE32 will disappear.</li>
+<li>Go back to 00010128 and press C (Make code). Nice Thumb code will appear:</li>
+<blockquote><img src="qemu_thumb.gif"></blockquote>
+<li>In Thumb code, there is another syscall at 00010152. If you trace or run until it, you can see that R7 becomes 0xB (sys_execve) and R0 points to 00010156.</li>
+If you undefine code at 00010156 and make it a string ('A' key), it will look like following:
+<blockquote><img src="qemu_thumb2.gif"></blockquote>
+Thus we can conclude that the shellcode tries to execute a file at the path "/execme".
+</ol>
+<p><b>Hint</b>: if the code you're investigating has many syscalls and you don't want to handle them one by one, put a breakpoint at the address 0000000C (ARM's vector for syscalls). Return address will be in LR.</b>
+
+<h2>Saving results to database</h2>
+<p>If you want to keep the modified code or data for later analysis, you'll need to copy it to the database. For that:</p>
+<ol>
+<li>Edit segment attributes (Alt-S) and make sure that segments with the data you need have the "Loader segment" attribute set.</li>
+<blockquote><img src="qemu_segm.gif"></blockquote>
+<li>Choose Debugger-Take memory snapshot and answer "Loader segments".</li>
+<b>Note</b>: if you answer "All segments", IDA will try to read the whole RAM segment (usually 128M) which can take a VERY long time.<br/>
+<li>Now you can stop the debugging and inspect the new data.<br/>
+<b>Note</b>: this will update your database with the new data and discard the old. Repeated execution probably will not be correct.</li>
+</ol>
+
+<p>Happy debugging! <br/> Please send any comments or questions to <a href="mailto:support@hex-rays.com">support@hex-rays.com</a></p>
+</body>
+</html>

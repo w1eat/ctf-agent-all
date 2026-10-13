@@ -1,0 +1,3460 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Examples - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<p>{% hint style=“info” %}
+This page is currently a stub. We’re working on additional examples tailored for beginners, so expect more samples soon.
+{% endhint %}</p>
+<p>The IDA SDK, that can be accessed directly from our <a href="https://github.com/HexRaysSA/ida-sdk/">GitHub repository</a>, provides sample code in addition to necessary libraries and headers. These exemplary plugins, processor modules, or file loaders are designed to help you create your own plugins, modules, and more.</p>
+<h2 id="where-can-i-find-all-the-examples"><a class="header" href="#where-can-i-find-all-the-examples">Where can I find all the examples?</a></h2>
+<p>The IDA SDK is shipped with plenty of samples (including, for example, sample processor modules or loaders) and exemplary plugins that you can find in the <a href="https://github.com/HexRaysSA/ida-sdk/">IDA SDK GitHub repository</a>. To kickstart your journey with the IDA SDK, we encourage you to check out the included samples, compile them, and run them.</p>
+<h2 id="sample-plugins"><a class="header" href="#sample-plugins">Sample plugins</a></h2>
+<p>The <code>plugins</code> folder contains sample plugins written in C++. Usually, the subfolders contains at minimum the cpp file(s) and a makefile.</p>
+<p>Below, we present only a selection of samples to familiarize yourself with the possibilities of the C++ SDK. All of these samples and their corresponding makefiles can be found in your <code>plugins</code> folder inside the SDK directory.</p>
+<h3 id="hello"><a class="header" href="#hello">hello</a></h3>
+<p>Simple hello word plugin ideal to get started with IDA SDK.</p>
+<pre><code class="language-cpp">#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  virtual bool idaapi run(size_t) override;
+};
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  msg("Hello, world! (cpp)\n");
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_UNL            // Unload the plugin immediately after calling 'run'
+  | PLUGIN_MULTI,       // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  nullptr,              // long comment about the plugin
+  nullptr,              // multiline help about the plugin
+  "Hello, world",       // the preferred short name of the plugin
+  nullptr,              // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="vcsample"><a class="header" href="#vcsample">vcsample</a></h3>
+<p>Sample plugin, ideal to get familiar with plugins structure.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin module
+ *
+ *  It can be compiled by any of the supported compilers:
+ *
+ *      - Visual C++
+ *      - GCC
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;expr.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//#define INSTALL_SAMPLE_CALLBACK
+//#define HAS_USER_DEFINED_PREFIX
+
+//--------------------------------------------------------------------------
+//lint -e754 struct member not referenced
+struct plugin_data_t : public plugmod_t, public event_listener_t
+{
+  ea_t old_ea = BADADDR;
+  int old_lnnum = -1;
+  virtual ssize_t idaapi on_event(ssize_t event_id, va_list) override;
+  virtual bool idaapi run(size_t arg) override;
+
+  idaapi ~plugin_data_t();
+};
+
+//--------------------------------------------------------------------------
+// Example of a user-defined IDC function in C++
+
+//#define DEFINE_IDC_FUNC
+#ifdef DEFINE_IDC_FUNC
+static error_t idaapi myfunc5(idc_value_t *argv, idc_value_t *res)
+{
+  msg("myfunc is called with arg0=%x and arg1=%s\n", argv[0].num, argv[1].c_str());
+  res-&gt;num = 5;     // let's return 5
+  return eOk;
+}
+static const char myfunc5_args[] = { VT_LONG, VT_STR, 0 };
+static const ext_idcfunc_t myfunc5_desc =
+{
+  { "MyFunc5", myfunc5, myfunc5_args, nullptr, 0, 0 }
+};
+#endif // DEFINE_IDC_FUNC
+
+//--------------------------------------------------------------------------
+// This callback is called for UI notification events
+ssize_t idaapi plugin_data_t::on_event(ssize_t event_id, va_list)
+{
+  if ( event_id != ui_msg     // avoid recursion
+    &amp;&amp; event_id != ui_refreshmarked ) // ignore uninteresting events
+  {
+    msg("ui_callback %" FMT_ZS "\n", event_id);
+  }
+  return 0; // 0 means "continue processing the event"
+            // otherwise the event is considered as processed
+}
+
+//--------------------------------------------------------------------------
+// A sample how to generate user-defined line prefixes
+#ifdef HAS_USER_DEFINED_PREFIX
+static const int prefix_width = 8;
+
+struct sample_prefix_t : public user_defined_prefix_t
+{
+  plugin_data_t *pd;
+  sample_prefix_t(plugin_data_t *d) :
+    user_defined_prefix_t(prefix_width, d), pd(d) {}
+  virtual void idaapi get_user_defined_prefix(
+        qstring *out,
+        ea_t ea,
+        const insn_t &amp; /*insn*/,
+        int lnnum,
+        int indent,
+        const char *line) override
+  {
+    out-&gt;qclear();        // empty prefix by default
+
+    // We want to display the prefix only the lines which
+    // contain the instruction itself
+
+    if ( indent != -1 )           // a directive
+      return;
+
+    if ( line[0] == '\0' )        // empty line
+      return;
+
+    if ( tag_advance(line,1)[-1] == ash.cmnt[0] ) // comment line...
+      return;
+
+    // We don't want the prefix to be printed again for other lines of the
+    // same instruction/data. For that we remember the line number
+    // and compare it before generating the prefix
+
+    if ( pd-&gt;old_ea == ea &amp;&amp; pd-&gt;old_lnnum == lnnum )
+      return;
+
+    // Ok, seems that we found an instruction line.
+
+    // Let's display the size of the current item as the user-defined prefix
+    asize_t our_size = get_item_size(ea);
+
+    // We don't bother about the width of the prefix
+    // because it will be padded with spaces by the kernel
+
+    out-&gt;sprnt(" %" FMT_64 "d", our_size);
+
+    // Remember the address and line number we produced the line prefix for:
+    pd-&gt;old_ea = ea;
+    pd-&gt;old_lnnum = lnnum;
+  }
+};
+#endif // HAS_USER_DEFINED_PREFIX
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  if ( inf_get_filetype() == f_ELF )
+    return nullptr; // we do not want to work with this idb
+
+  plugin_data_t *pd = new plugin_data_t;
+
+  // notifications
+#ifdef INSTALL_SAMPLE_CALLBACK
+  hook_event_listener(HT_UI, pd, pd);
+#endif // INSTALL_SAMPLE_CALLBACK
+
+  // user-defined prefix. will be automatically uninstalled by the kernel
+  // when our plugin gets unloaded.
+#ifdef HAS_USER_DEFINED_PREFIX
+  new sample_prefix_t(pd);
+#endif // HAS_USER_DEFINED_PREFIX
+
+  // custom IDC function
+#ifdef DEFINE_IDC_FUNC
+  add_idc_func(myfunc5_desc);
+#endif // DEFINE_IDC_FUNC
+
+  // an example how to retrieve plugin options
+  const char *options = get_plugin_options("vcsample");
+  if ( options != nullptr )
+    warning("command line options: %s", options);
+
+  return pd;
+}
+
+//--------------------------------------------------------------------------
+plugin_data_t::~plugin_data_t()
+{
+#ifdef DEFINE_IDC_FUNC
+  del_idc_func(myfunc5_desc.name);
+#endif
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_data_t::run(size_t arg)
+{
+  warning("vcsample plugin has been called with arg %" FMT_Z, arg);
+  // msg("just fyi: the current screen address is: %a\n", get_screen_ea());
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static const char comment[] = "This is a sample plugin. It does nothing useful";
+
+static const char help[] =
+  "A sample plugin module\n"
+  "\n"
+  "This module shows you how to create plugin modules.\n"
+  "\n"
+  "It does nothing useful - just prints a message that is was called\n"
+  "and shows the current address.\n";
+
+//--------------------------------------------------------------------------
+// This is the preferred name of the plugin module in the menu system
+// The preferred name may be overridden in plugins.cfg file
+
+static const char wanted_name[] = "Sample plugin";
+
+
+// This is the preferred hotkey for the plugin module
+// The preferred hotkey may be overridden in plugins.cfg file
+
+static const char wanted_hotkey[] = "";
+
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // plugin flags
+  init,                 // initialize
+
+  nullptr,              // terminate. this pointer may be nullptr.
+
+  nullptr,              // invoke plugin
+
+  comment,              // long comment about the plugin
+                        // it could appear in the status line
+                        // or as a hint
+
+  help,                 // multiline help about the plugin
+
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey         // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="calle"><a class="header" href="#calle">calle</a></h3>
+<p>Sample plugin that allows the user to change the address of the called function.</p>
+<pre><code class="language-cpp">/*
+ *  Change the callee address for constructions like
+ *
+ *  call esi    ; LocalFree
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;auto.hpp&gt;
+#include &lt;segregs.hpp&gt;
+#define T 20
+
+struct callee_vars_t : public plugmod_t
+{
+  processor_t &amp;ph;
+  callee_vars_t(processor_t &amp;_ph) : ph(_ph) {}
+  virtual bool idaapi run(size_t arg) override;
+};
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  processor_t &amp;ph = PH;
+  if ( ph.id != PLFM_386 &amp;&amp; ph.id != PLFM_MIPS &amp;&amp; ph.id != PLFM_ARM )
+    return nullptr; // only for x86, MIPS and ARM
+  return new callee_vars_t(ph);
+}
+
+//--------------------------------------------------------------------------
+static const char comment[] = "Change the callee address";
+static const char help[] =
+  "This plugin allows the user to change the address of the called function\n"
+  "in constructs like\n"
+  "\n"
+  "       call esi\n"
+  "\n"
+  "You can enter a function name instead of its address\n";
+
+//--------------------------------------------------------------------------
+static const char *const form =
+  "HELP\n"
+  "%s\n"
+  "ENDHELP\n"
+  "Enter the callee address\n"
+  "\n"
+  "  &lt;~C~allee:$::40:::&gt;\n"
+  "\n"
+  "\n";
+
+bool idaapi callee_vars_t::run(size_t)
+{
+  const char *nname;
+  if ( ph.id == PLFM_MIPS )
+    nname = "$ mips";
+  else if ( ph.id == PLFM_ARM )
+    nname = " $arm";
+  else
+    nname = "$ vmm functions";
+  netnode n(nname);
+  ea_t ea = get_screen_ea();    // get current address
+  if ( !is_code(get_flags(ea)) )
+    return false; // not an instruction
+  // get the callee address from the database
+  ea_t callee = node2ea(n.altval_ea(ea)-1);
+  // remove thumb bit for arm
+  if ( ph.id == PLFM_ARM )
+    callee &amp;= ~1;
+  char buf[MAXSTR];
+  qsnprintf(buf, sizeof(buf), form, help);
+  if ( ask_form(buf, &amp;callee) )
+  {
+    if ( callee == BADADDR )
+    {
+      n.altdel_ea(ea);
+    }
+    else
+    {
+      if ( ph.id == PLFM_ARM &amp;&amp; (callee &amp; 1) == 0 )
+      {
+        // if we're calling a thumb function, set bit 0
+        sel_t tbit = get_sreg(callee, T);
+        if ( tbit != 0 &amp;&amp; tbit != BADSEL )
+          callee |= 1;
+      }
+      // save the new address
+      n.altset_ea(ea, ea2node(callee)+1);
+    }
+    gen_idb_event(idb_event::callee_addr_changed, ea, callee);
+    plan_ea(ea);                 // reanalyze the current instruction
+  }
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static const char wanted_name[] = "Change the callee address";
+static const char wanted_hotkey[] = "Alt-F11";
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // plugin flags
+  init,                 // initialize
+
+  nullptr,              // terminate. this pointer may be nullptr.
+  nullptr,              // invoke plugin
+
+  comment,              // long comment about the plugin
+                        // it could appear in the status line
+                        // or as a hint
+
+  help,                 // multiline help about the plugin
+
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey         // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="choose"><a class="header" href="#choose">choose</a></h3>
+<p>Sample plugin module that demonstrates the use of the choose() function.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin module
+ *
+ *  It demonstrates the use of the choose() function
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+struct plugin_ctx_t : public plugmod_t
+{
+  virtual bool idaapi run(size_t arg) override;
+};
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//-------------------------------------------------------------------------
+// non-modal call instruction chooser
+struct calls_chooser_t : public chooser_t
+{
+protected:
+  static const int widths_[];
+  static const char *const header_[];
+
+public:
+  // remember the call instruction addresses in this qvector
+  eavec_t list;
+
+  // this object must be allocated using `new`
+  calls_chooser_t(const char *title, bool ok, func_item_iterator_t *fii);
+
+  // function that is used to decide whether a new chooser should be opened
+  // or we can use the existing one.
+  // The contents of the window are completely determined by its title
+  virtual const void *get_obj_id(size_t *len) const override
+  {
+    *len = strlen(title);
+    return title;
+  }
+
+  // function that returns number of lines in the list
+  virtual size_t idaapi get_count() const override { return list.size(); }
+
+  // function that generates the list line
+  virtual void idaapi get_row(
+        qstrvec_t *cols,
+        int *icon_,
+        chooser_item_attrs_t *attrs,
+        size_t n) const override;
+
+  // function that is called when the user hits Enter
+  virtual cbret_t idaapi enter(size_t n) override
+  {
+    if ( n &lt; list.size() )
+      jumpto(list[n]);
+    return cbret_t(); // nothing changed
+  }
+
+protected:
+  void build_list(bool ok, func_item_iterator_t *fii)
+  {
+    insn_t insn;
+    while ( ok )
+    {
+      ea_t ea = fii-&gt;current();
+      if ( decode_insn(&amp;insn, ea) &gt; 0 &amp;&amp; is_call_insn(insn) ) // a call instruction is found
+        list.push_back(ea);
+      ok = fii-&gt;next_code();
+    }
+  }
+};
+
+// column widths
+const int calls_chooser_t::widths_[] =
+{
+  CHCOL_HEX | 8,  // Address
+  32,             // Instruction
+};
+// column headers
+const char *const calls_chooser_t::header_[] =
+{
+  "Address",      // 0
+  "Instruction",  // 1
+};
+
+inline calls_chooser_t::calls_chooser_t(
+        const char *title_,
+        bool ok,
+        func_item_iterator_t *fii)
+  : chooser_t(0, qnumber(widths_), widths_, header_, title_),
+    list()
+{
+  CASSERT(qnumber(widths_) == qnumber(header_));
+
+  // build the list of calls
+  build_list(ok, fii);
+}
+
+void idaapi calls_chooser_t::get_row(
+        qstrvec_t *cols_,
+        int *,
+        chooser_item_attrs_t *,
+        size_t n) const
+{
+  // assert: n &lt; list.size()
+  ea_t ea = list[n];
+
+  // generate the line
+  qstrvec_t &amp;cols = *cols_;
+  cols[0].sprnt("%08a", ea);
+  generate_disasm_line(&amp;cols[1], ea, GENDSM_REMOVE_TAGS);
+  CASSERT(qnumber(header_) == 2);
+}
+
+
+//--------------------------------------------------------------------------
+// The plugin method
+// This is the main function of the plugin.
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  qstring title;
+  // Let's display the functions called from the current one
+  // or from the selected area
+
+  // First we determine the working area
+  func_item_iterator_t fii;
+  bool ok;
+  ea_t ea1, ea2;
+  if ( read_range_selection(nullptr, &amp;ea1, &amp;ea2) ) // the selection is present?
+  {
+    callui(ui_unmarksel);                       // unmark selection
+    title.sprnt("Functions called from %08a..%08a", ea1, ea2);
+    ok = fii.set_range(ea1, ea2);
+  }
+  else                                          // nothing is selected
+  {
+    func_t *pfn = get_func(get_screen_ea());    // try the current function
+    if ( pfn == nullptr )
+    {
+      warning("Please position the cursor on a function or select an area");
+      return true;
+    }
+    ok = fii.set(pfn);
+    get_func_name(&amp;title, pfn-&gt;start_ea);
+    title.insert("Functions called from ");
+  }
+
+  // now open the window
+  calls_chooser_t *ch = new calls_chooser_t(title.c_str(), ok, &amp;fii);
+  ch-&gt;choose(); // the default cursor position is 0 (first row)
+  return true; //-V773
+}
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  // plugin flags
+  PLUGIN_MULTI,
+  // initialize
+  init,
+  nullptr,
+  nullptr,
+  // long comment about the plugin
+  // it could appear in the status line
+  // or as a hint
+  "This is a sample plugin. It displays the chooser window",
+  // multiline help about the plugin
+  "A sample plugin module\n"
+  "\n"
+  "This module shows you how to use choose() function.\n",
+
+  // the preferred short name of the plugin
+  "Called functions",
+  // the preferred hotkey to run the plugin
+  ""
+};
+</code></pre>
+<h3 id="custdata"><a class="header" href="#custdata">custdata</a></h3>
+<p>This sample plugin demonstates how to install a custom data type and a custom data format.</p>
+<h3 id="custview"><a class="header" href="#custview">custview</a></h3>
+<p>This sample plugin demonstates how to create and manipulate a simple custom viewer, that allows you to create a view which displays colored lines.</p>
+<h3 id="cvt64_sample"><a class="header" href="#cvt64_sample">cvt64_sample</a></h3>
+<p>Plugin with CVT64 examples.</p>
+<h3 id="dwarf"><a class="header" href="#dwarf">dwarf</a></h3>
+<p>The source code of the dwarf plugin</p>
+<h3 id="ex_debidc"><a class="header" href="#ex_debidc">ex_debidc</a></h3>
+<p>This sample Debugger IDC Helper executes IDC script when the process is launched and allows to hook IDC scripts to various debugger events.</p>
+<pre><code class="language-cpp">// Debugger IDC Helper
+// Executes IDC script when the process is launched
+// In fact, this approach can be used to hook IDC scripts to various debugger
+// events.
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;dbg.hpp&gt;
+#include &lt;expr.hpp&gt;
+#include &lt;loader.hpp&gt;
+
+int data_id;
+
+//--------------------------------------------------------------------------
+// The plugin stores the IDC file name in the database
+// It will create a node for this purpose
+static const char node_name[] = "$ debugger idc file";
+
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t;
+
+DECLARE_LISTENER(dbg_listener_t, plugin_ctx_t, ctx);
+DECLARE_LISTENER(idp_listener_t, plugin_ctx_t, ctx);
+
+struct plugin_ctx_t : public plugmod_t
+{
+  dbg_listener_t dbg_listener = dbg_listener_t(*this);
+  idp_listener_t idp_listener = idp_listener_t(*this);
+  plugin_ctx_t()
+  {
+    hook_event_listener(HT_DBG, &amp;dbg_listener);
+#ifdef ENABLE_MERGE
+    hook_event_listener(HT_IDP, &amp;idp_listener);
+#endif
+    set_module_data(&amp;data_id, this);
+  }
+  ~plugin_ctx_t()
+  {
+    clr_module_data(data_id);
+    // listeners are uninstalled automatically
+    // when the owner module is unloaded
+  }
+
+  virtual bool idaapi run(size_t) override;
+};
+
+//--------------------------------------------------------------------------
+// Get the IDC file name from the database
+static bool get_idc_name(char *buf, size_t bufsize)
+{
+  // access the node
+  netnode mynode(node_name);
+  // retrieve the value
+  return mynode.valstr(buf, bufsize) &gt; 0;
+}
+
+//--------------------------------------------------------------------------
+// Store the IDC file name in the database
+static void set_idc_name(const char *idc)
+{
+  // access the node
+  netnode mynode;
+  // if it doesn't exist yet, create it
+  // otherwise get its id
+  mynode.create(node_name);
+  // store the value
+  mynode.set(idc, strlen(idc)+1);
+}
+
+//--------------------------------------------------------------------------
+ssize_t idaapi idp_listener_t::on_event(ssize_t code, va_list va)
+{
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+ssize_t idaapi dbg_listener_t::on_event(ssize_t code, va_list /*va*/)
+{
+  switch ( code )
+  {
+    case dbg_process_start:
+    case dbg_process_attach:
+      // it is time to run the script
+      char idc[QMAXPATH];
+      if ( get_idc_name(idc, sizeof(idc)) )
+      {
+        qstring errbuf;
+        if ( !exec_idc_script(nullptr, idc, "main", nullptr, 0, &amp;errbuf) )
+          warning("%s", errbuf.c_str());
+      }
+      break;
+  }
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  // retrieve the old IDC name from the database
+  char idc[QMAXPATH];
+  if ( !get_idc_name(idc, sizeof(idc)) )
+    qstrncpy(idc, "*.idc", sizeof(idc));
+
+  char *newidc = ask_file(false, idc, "Specify the script to run upon debugger launch");
+  if ( newidc != nullptr )
+  {
+    // store it back in the database
+    set_idc_name(newidc);
+    msg("Script %s will be run when the debugger is launched\n", newidc);
+  }
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  // Our plugin works only for x86 PE executables
+  processor_t &amp;ph = PH;
+  if ( ph.id != PLFM_386 || inf_get_filetype() != f_PE )
+    return nullptr;
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+static const char wanted_name[] = "Specify Debugger IDC Script";
+static const char wanted_hotkey[] = "";
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  wanted_name,          // long comment about the plugin
+  wanted_name,          // multiline help about the plugin
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey         // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="ex_events1"><a class="header" href="#ex_events1">ex_events1</a></h3>
+<p>Sample plugin illustrating analysis improvement; it checks branch targets for newly created instructions.</p>
+<pre><code class="language-cpp">/*
+        This is a sample plugin.
+
+        It illustrates how the analysis can be improved
+
+        The plugin checks branch targets for newly created instructions.
+        If the target does not exist in the program, the plugin
+        forbids the instruction creation.
+
+*/
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+#include &lt;allins.hpp&gt;
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t, public event_listener_t
+{
+  plugin_ctx_t()
+  {
+    hook_event_listener(HT_IDB, this);
+  }
+  ~plugin_ctx_t()
+  {
+    // listeners are uninstalled automatically
+    // when the owner module is unloaded
+  }
+
+  virtual bool idaapi run(size_t) override;
+  virtual ssize_t idaapi on_event(ssize_t code, va_list va) override;
+};
+
+//--------------------------------------------------------------------------
+// This callback is called by the kernel when database related events happen
+ssize_t idaapi plugin_ctx_t::on_event(ssize_t event_id, va_list va)
+{
+  switch ( event_id )
+  {
+    case idb_event::make_code:  // An instruction is being created
+                                // args: insn_t *
+                                // returns: 1-ok, &lt;=0-the kernel should stop
+      insn_t *insn = va_arg(va, insn_t *);
+      // we are interested in the branch instructions
+      if ( insn-&gt;itype &gt;= NN_ja &amp;&amp; insn-&gt;itype &lt;= NN_jmpshort )
+      {
+        // the first operand contains the jump target
+        ea_t target = to_ea(insn-&gt;cs, insn-&gt;Op1.addr);
+        if ( !is_mapped(target) )
+          return -1;
+      }
+  }
+  return 0; // event not processed
+            // let other plugins handle it
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  // since the plugin is fully automatic, there is nothing to do
+  warning("Branch checker is fully automatic");
+  return true;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_HIDE           // Plugin should not appear in the Edit, Plugins menu
+  | PLUGIN_MULTI,       // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  nullptr,              // long comment about the plugin
+  nullptr,              // multiline help about the plugin
+  "Branch checker",     // the preferred short name of the plugin
+  nullptr,              // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="extlang"><a class="header" href="#extlang">extlang</a></h3>
+<p>Sample plugin that illustrates how to register a thid party language interpreter.</p>
+<pre><code class="language-cpp">/*
+        This is a sample plugin. It illustrates
+
+          how to register a thid party language interpreter
+
+*/
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;expr.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//--------------------------------------------------------------------------
+static bool idaapi compile_expr(// Compile an expression
+        const char *name,       // in: name of the function which will
+                                //     hold the compiled expression
+        ea_t current_ea,        // in: current address. if unknown then BADADDR
+        const char *expr,       // in: expression to compile
+        qstring *errbuf)        // out: error message if compilation fails
+{                               // Returns: success
+  qnotused(name);
+  qnotused(current_ea);
+  qnotused(expr);
+  // our toy interpreter doesn't support separate compilation/evaluation
+  // some entry fields in ida won't be useable (bpt conditions, for example)
+  if ( errbuf != nullptr )
+    *errbuf = "compilation error";
+  return false;
+}
+
+//--------------------------------------------------------------------------
+static bool idaapi call_func(   // Evaluate a previously compiled expression
+        idc_value_t *result,    // out: function result
+        const char *name,       // in: function to call
+        const idc_value_t args[], // in: input arguments
+        size_t nargs,           // in: number of input arguments
+        qstring *errbuf)        // out: error message if compilation fails
+{                               // Returns: success
+  qnotused(name);
+  qnotused(nargs);
+  qnotused(args);
+  qnotused(result);
+  if ( errbuf != nullptr )
+    *errbuf = "evaluation error";
+  return false;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi eval_expr(          // Compile and evaluate expression
+        idc_value_t *rv,        // out: expression value
+        ea_t current_ea,        // in: current address. if unknown then BADADDR
+        const char *expr,       // in: expression to evaluation
+        qstring *errbuf)        // out: error message if compilation fails
+{                               // Returns: success
+  qnotused(current_ea);
+  // we know to parse and decimal and hexadecimal numbers
+  int radix = 10;
+  const char *ptr = skip_spaces(expr);
+  bool neg = false;
+  if ( *ptr == '-' )
+  {
+    neg = true;
+    ptr = skip_spaces(ptr+1);
+  }
+  if ( *ptr == '0' &amp;&amp; *(ptr+1) == 'x' )
+  {
+    radix = 16;
+    ptr += 2;
+  }
+  sval_t value = 0;
+  while ( radix == 10 ? qisdigit(*ptr) : qisxdigit(*ptr) )
+  {
+    int d = *ptr &lt;= '9' ? *ptr-'0' : qtolower(*ptr)-'a'+10;
+    value *= radix;
+    value += d;
+    ptr++;
+  }
+  if ( neg )
+    value = -value;
+  ptr = skip_spaces(ptr);
+  if ( *ptr != '\0' )
+  {
+    msg("EVAL FAILED: %s\n", expr);
+    if ( errbuf != nullptr )
+      *errbuf = "syntax error";
+    return false;
+  }
+
+  // we have the result, store it in the return value
+  if ( rv != nullptr )
+  {
+    rv-&gt;clear();
+    rv-&gt;num = value;
+  }
+  msg("EVAL %" FMT_EA "d: %s\n", value, expr);
+  return true;
+}
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  extlang_t my_extlang =
+  {
+    sizeof(extlang_t),            // Size of this structure
+    0,                            // Language features, currently 0
+    0,                            // refcnt
+    "extlang sample",             // Language name
+    nullptr,                      // fileext
+    nullptr,                      // syntax highlighter
+    compile_expr,
+    nullptr,                      // compile_file
+    call_func,
+    eval_expr,
+    nullptr,                      // create_object
+    nullptr,                      // get_attr
+    nullptr,                      // set_attr
+    nullptr,                      // call_method
+    nullptr,                      // eval_snippet
+    nullptr,                      // load_procmod
+    nullptr,                      // unload_procmod
+  };
+  bool installed = false;
+
+  plugin_ctx_t()
+  {
+    installed = install_extlang(&amp;my_extlang) &gt;= 0;
+  }
+  ~plugin_ctx_t()
+  {
+    if ( installed )
+      remove_extlang(&amp;my_extlang);
+  }
+
+  virtual bool idaapi run(size_t) override { return false; }
+};
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  plugin_ctx_t *ctx = new plugin_ctx_t;
+  if ( !ctx-&gt;installed )
+  {
+    msg("extlang: install_extlang() failed\n");
+    delete ctx;
+    ctx = nullptr;
+  }
+  return ctx;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_HIDE           // Plugin should not appear in the Edit, Plugins menu
+  | PLUGIN_FIX          // Load plugin when IDA starts and keep it in the
+                        // memory until IDA stops
+  | PLUGIN_MULTI,       // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  nullptr,              // long comment about the plugin
+  nullptr,              // multiline help about the plugin
+  "Sample third party language", // the preferred short name of the plugin
+  nullptr,              // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="formsample"><a class="header" href="#formsample">formsample</a></h3>
+<p>This plugin demonstrates how to use complex forms.</p>
+<pre><code class="language-cpp">/*
+ *  This plugin demonstrates how to use complex forms.
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  virtual bool idaapi run(size_t) override;
+};
+
+//--------------------------------------------------------------------------
+static int idaapi btn_cb(int, form_actions_t &amp;)
+{
+  warning("button pressed");
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+static int idaapi modcb(int fid, form_actions_t &amp;fa)
+{
+  switch ( fid )
+  {
+    case CB_INIT:
+      msg("initializing\n");
+      break;
+    case CB_YES:
+      msg("terminating\n");
+      break;
+    case 5:     // operand
+      msg("changed operand\n");
+      break;
+    case 6:     // check
+      msg("changed check\n");
+      break;
+    case 7:     // button
+      msg("changed button\n");
+      break;
+    case 8:     // color button
+      msg("changed color button\n");
+      break;
+    default:
+      msg("unknown id %d\n", fid);
+      break;
+  }
+
+  bool is_gui = is_idaq();
+
+  qstring buf0;
+  if ( !fa.get_string_value(5, &amp;buf0) )
+    INTERR(30145);
+
+  if ( buf0 == "on" )
+    fa.enable_field(12, true);
+
+  if ( buf0 == "off" )
+    fa.enable_field(12, false);
+
+  ushort buf1;
+  if ( !fa.get_cbgroup_value(12, &amp;buf1) )
+    INTERR(30146);
+
+  fa.show_field(7, (buf1 &amp; 1) != 0);
+  fa.enable_field(8, (buf1 &amp; 2) != 0);
+
+
+  ushort c13;
+  if ( !fa.get_checkbox_value(13, &amp;c13) )
+    INTERR(30147);
+  fa.enable_field(10, c13 != 0);
+
+  ushort c14;
+  if ( !fa.get_checkbox_value(14, &amp;c14) )
+    INTERR(30148);
+  fa.enable_field(5, c14 != 0);
+
+  ushort c15;
+  if ( !fa.get_checkbox_value(15, &amp;c15) )
+    INTERR(30149);
+
+  if ( (buf1 &amp; 8) != 0 )
+  {
+    sval_t x, y, w, h;
+    fa.get_signed_value(4, &amp;x);
+    fa.get_signed_value(3, &amp;y);
+    fa.get_signed_value(2, &amp;w);
+    fa.get_signed_value(1, &amp;h);
+    fa.move_field(5, x, y, w, h);
+    if ( x != -1 &amp;&amp; c15 )
+      fa.move_field(-5, x-7, y, w, h);
+  }
+
+  // get_field_value() for buttons must return false always
+  if ( fa._get_field_value(7, nullptr) )
+    INTERR(30150);
+
+  bgcolor_t bgc = -1;
+  if ( is_gui &amp;&amp; !fa.get_color_value(8, &amp;bgc) )
+    INTERR(30151);
+  msg("  op=%s change=%x color=%x\n", buf0.c_str(), buf1, bgc);
+
+  fa.set_label_value(9, buf0.c_str());
+  return 1;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  static const char form[] =
+    "@0:477[]\n"
+    "Manual operand\n"
+    "\n"
+    "%/Enter alternate string for the %9X operand\n"
+    "\n"
+    "  &lt;~O~perand:q5:100:40::&gt;\n"
+    "  &lt;~X~:D4:100:10::&gt;\n"
+    "  &lt;~Y~:D3:100:10::&gt;\n"
+    "  &lt;~W~:D2:100:10::&gt;\n"
+    "  &lt;~H~:D1:100:10::&gt;\n"
+    "\n"
+    "  &lt;S~h~ow Button:C10&gt;\n"
+    "  &lt;~E~nable color Button:C11&gt;\n"
+    "  &lt;~E~nable C10:C13&gt;\n"
+    "  &lt;~S~et operand bounds:C6&gt;\n"
+    "  &lt;Enable operand:C14&gt;\n"
+    "  &lt;Move label:C15&gt;12&gt;\n"
+    "\n"
+    " &lt;~B~utton:B7:0:::&gt; &lt;~C~olor button:K8::::&gt;\n"
+    "\n"
+    "\n";
+  qstring buf("original");
+  ushort check = 0x12;
+  bgcolor_t bgc = 0x556677;
+  uval_t x = -1;
+  uval_t y = -1;
+  uval_t w = -1;
+  uval_t h = -1;
+  CASSERT(IS_FORMCHGCB_T(modcb));
+  CASSERT(IS_QSTRING(buf));
+  if ( ask_form(form, modcb, buf.c_str(), &amp;buf, &amp;x, &amp;y, &amp;w, &amp;h, &amp;check, btn_cb, &amp;bgc) &gt; 0 )
+  {
+    msg("operand: %s\n", buf.c_str());
+    msg("check = %d\n", check);
+    msg("dim = %a %a %a %a\n", x, y, w, h);
+    msg("bgc = %x\n", bgc);
+  }
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+</code></pre>
+<h3 id="funclist"><a class="header" href="#funclist">funclist</a></h3>
+<p>This sample plugin demonstrates how to get the the entry point prototypes.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin module
+ *
+ *      It demonstrates how to get the the entry point prototypes
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;auto.hpp&gt;
+#include &lt;entry.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+#include &lt;typeinf.hpp&gt;
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  virtual bool idaapi run(size_t) override;
+};
+
+//-------------------------------------------------------------------------
+// non-modal entry point chooser
+struct entry_chooser_t : public chooser_t
+{
+protected:
+  struct item_t
+  {
+    ea_t ea;
+    qstring decl;
+    int ord;
+    uint32 argsize;
+  };
+  // remember the information about an entry point in this qvector
+  qvector&lt;item_t&gt; list;
+
+  static const int widths_[];
+  static const char *const header_[];
+
+public:
+  // this object must be allocated using `new`
+  entry_chooser_t();
+
+  // function that is used to decide whether a new chooser should be opened
+  // or we can use the existing one.
+  // There should be the only window as the entry points data are static.
+  virtual const void *get_obj_id(size_t *len) const override { *len = 1; return ""; }
+
+  // function that returns number of lines in the list
+  virtual size_t idaapi get_count() const override { return list.size(); }
+
+  // function that generates the list line
+  virtual void idaapi get_row(
+        qstrvec_t *cols,
+        int *icon_,
+        chooser_item_attrs_t *attrs,
+        size_t n) const override;
+
+  // function that is called when the user hits Enter
+  virtual cbret_t idaapi enter(size_t n) override
+  {
+    if ( n &lt; list.size() )
+      jumpto(list[n].ea);
+    return cbret_t(); // nothing changed
+  }
+
+  // function that is called when the chooser is initialized
+  virtual bool idaapi init() override
+  {
+    // rebuild the list
+    list.clear();
+    size_t n = get_entry_qty();
+    // gather information about the entry points
+    for ( size_t i = 0; i &lt; n; ++i )
+    {
+      asize_t ord = get_entry_ordinal(int(i));
+      ea_t ea = get_entry(ord);
+      if ( ord == ea )
+        continue;
+      tinfo_t type;
+      qstring decl;
+      qstring long_name;
+      qstring true_name;
+      asize_t argsize = 0;
+      qstring entry_name;
+      get_entry_name(&amp;entry_name, ord);
+      if ( get_tinfo(&amp;type, ea) &amp;&amp; type.print(&amp;decl, entry_name.c_str()) )
+      {
+        // found type info, calc the size of arguments
+        func_type_data_t fi;
+        if ( type.get_func_details(&amp;fi) &amp;&amp; !fi.empty() )
+        {
+          for ( int k=0; k &lt; fi.size(); k++ )
+          {
+            int s1 = fi[k].type.get_size();
+            uchar szi = inf_get_cc_size_i();
+            s1 = qmax(s1, szi);
+            argsize += s1;
+          }
+        }
+      }
+      else if ( get_long_name(&amp;long_name, ea) &gt; 0
+             &amp;&amp; get_name(&amp;true_name, ea, GN_NOT_DUMMY) &gt; 0
+             &amp;&amp; long_name != true_name )
+      {
+        // found mangled name
+      }
+      else
+      {
+        // found nothing, just show the name
+        if ( get_visible_name(&amp;decl, ea) &lt;= 0 )
+          continue;
+      }
+      if ( argsize == 0 )
+      {
+        func_t *pfn = get_func(ea);
+        if ( pfn != nullptr )
+          argsize = pfn-&gt;argsize;
+      }
+      item_t x;
+      x.ord = ord;
+      x.ea = ea;
+      x.decl.swap(decl);
+      x.argsize = uint32(argsize);
+      list.push_back(x);
+    }
+    return true;
+  }
+
+  // function that is called when the user wants to refresh the chooser
+  virtual cbret_t idaapi refresh(ssize_t n) override
+  {
+    init();
+    if ( n &lt; 0 )
+      return NO_SELECTION;
+    return adjust_last_item(n);  // try to preserve the cursor
+  }
+};
+DECLARE_TYPE_AS_MOVABLE(entry_chooser_t::item_t);
+
+// column widths
+const int entry_chooser_t::widths_[] =
+{
+  CHCOL_DEC | 4,  // Ordinal
+  CHCOL_HEX | 8,  // Address
+  CHCOL_HEX | 6,  // ArgSize
+  70,             // Declaration
+};
+// column headers
+const char *const entry_chooser_t::header_[] =
+{
+  "Ordinal",      // 0
+  "Address",      // 1
+  "ArgSize",      // 2
+  "Declaration",  // 3
+};
+
+inline entry_chooser_t::entry_chooser_t()
+  : chooser_t(CH_CAN_REFRESH, // user can refresh the chooser using Ctrl-U
+              qnumber(widths_), widths_, header_,
+              "Exported functions"),
+    list()
+{
+  CASSERT(qnumber(widths_) == qnumber(header_));
+}
+
+void idaapi entry_chooser_t::get_row(
+        qstrvec_t *cols_,
+        int *,
+        chooser_item_attrs_t *,
+        size_t n) const
+{
+  // assert: n &lt; list.size()
+  const item_t &amp;item = list[n];
+
+  // generate the line
+  qstrvec_t &amp;cols = *cols_;
+  cols[0].sprnt("%d", item.ord);
+  cols[1].sprnt("%08a", item.ea);
+  if ( item.argsize != 0 )
+    cols[2].sprnt("%04x", item.argsize);
+  cols[3] = item.decl;
+  CASSERT(qnumber(header_) == 4);
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  if ( !auto_is_ok()
+    &amp;&amp; ask_yn(ASKBTN_NO,
+              "HIDECANCEL\n"
+              "The autoanalysis has not finished yet.\n"
+              "The result might be incomplete.\n"
+              "Do you want to continue?") &lt; ASKBTN_YES )
+  {
+    return true;
+  }
+
+  // open the window
+  entry_chooser_t *ch = new entry_chooser_t();
+  ch-&gt;choose();
+  return true; //-V773
+} //lint !e429 'ch' has not been freed or returned
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  if ( get_entry_qty() == 0 )
+    return nullptr;
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  "Generate list of exported function prototypes",
+  "Generate list of exported function prototypes",
+  "List of exported functions",
+  "Ctrl-F11",
+};
+</code></pre>
+<h3 id="getlines"><a class="header" href="#getlines">getlines</a></h3>
+<p>This sample plugin demonstrates how to get the disassembly lines for one address.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin module
+ *
+ *      It demonstrates how to get the disassembly lines for one address
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  virtual bool idaapi run(size_t) override;
+};
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  ea_t ea = get_screen_ea();
+  if ( ask_addr(&amp;ea, "Please enter the disassembly address")
+    &amp;&amp; is_mapped(ea) )                              // address belongs to disassembly
+  {
+    int flags = calc_default_idaplace_flags();
+    linearray_t ln(&amp;flags);
+    idaplace_t pl;
+    pl.ea = ea;
+    pl.lnnum = 0;
+    ln.set_place(&amp;pl);
+    msg("printing disassembly lines:\n");
+    int n = ln.get_linecnt();                // how many lines for this address?
+    for ( int i=0; i &lt; n; i++ )              // process all of them
+    {
+      qstring buf;
+      tag_remove(&amp;buf, *ln.down());          // get line and remove color codes
+      msg("%d: %s\n", i, buf.c_str());       // display it on the message window
+    }
+    msg("total %d lines\n", n);
+  }
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+static const char comment[] = "Generate disassembly lines for one address";
+static const char help[] = "Generate disassembly lines for one address\n";
+
+
+//--------------------------------------------------------------------------
+// This is the preferred name of the plugin module in the menu system
+// The preferred name may be overridden in plugins.cfg file
+
+static const char wanted_name[] = "Disassembly lines sample";
+
+
+// This is the preferred hotkey for the plugin module
+// The preferred hotkey may be overridden in plugins.cfg file
+
+static const char wanted_hotkey[] = "";
+
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  comment,              // long comment about the plugin
+  help,                 // multiline help about the plugin
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey         // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="highlighter"><a class="header" href="#highlighter">highlighter</a></h3>
+<p>This plugin will display a colored box at the executed instructions.</p>
+<pre><code class="language-cpp">// Highlighter plugin v1.0
+// Highlights executed instructions
+
+// This plugin will display a colored box at the executed instructions.
+// It will take into account only the instructions where the application
+// has been suspended.
+
+// http://www.hexblog.com/2005/11/the_highlighter.html
+
+// Copyright 2005 Ilfak Guilfanov, &lt;ig@hexblog.com&gt;
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;dbg.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t;
+struct idd_post_events_t : public post_event_visitor_t
+{
+  plugin_ctx_t &amp;ctx;
+  idd_post_events_t(plugin_ctx_t &amp;_ctx) : ctx(_ctx) {}
+  virtual ssize_t idaapi handle_post_event(
+        ssize_t code,
+        int notification_code,
+        va_list va) override;
+};
+
+//--------------------------------------------------------------------------
+struct exec_prefix_t : public user_defined_prefix_t
+{
+  static const int prefix_width = 1;
+
+  plugin_ctx_t &amp;ctx;
+  exec_prefix_t(plugin_ctx_t &amp;_ctx)
+    : user_defined_prefix_t(prefix_width, &amp;_ctx), ctx(_ctx) {}
+
+  virtual void idaapi get_user_defined_prefix(
+        qstring *out,
+        ea_t ea,
+        const insn_t &amp;insn,
+        int lnnum,
+        int indent,
+        const char *line) override;
+};
+
+//--------------------------------------------------------------------------
+typedef std::set&lt;ea_t&gt; easet_t;
+struct plugin_ctx_t : public plugmod_t, public event_listener_t
+{
+  idd_post_events_t idd_post_events = idd_post_events_t(*this);
+
+  exec_prefix_t *exec_prefix = nullptr;
+
+  // List of executed addresses
+  easet_t execset;
+
+  ea_t old_ea = BADADDR;
+  int old_lnnum = 0;
+
+  plugin_ctx_t()
+  {
+    hook_event_listener(HT_DBG, this);
+  }
+  ~plugin_ctx_t()
+  {
+    // listeners are uninstalled automatically
+    // when the owner module is unloaded
+    exec_prefix = nullptr; // make lint happy
+  }
+
+  virtual bool idaapi run(size_t) override;
+  virtual ssize_t idaapi on_event(ssize_t code, va_list va) override;
+};
+
+//--------------------------------------------------------------------------
+// A sample how to generate user-defined line prefixes
+static const char highlight_prefix[] = { COLOR_INV, ' ', COLOR_INV, 0 };
+void idaapi exec_prefix_t::get_user_defined_prefix(
+        qstring *buf,
+        ea_t ea,
+        const insn_t &amp;,
+        int lnnum,
+        int indent,
+        const char *line)
+{
+  buf-&gt;qclear();        // empty prefix by default
+
+  // We want to display the prefix only the lines which
+  // contain the instruction itself
+
+  if ( indent != -1 )
+    return;           // a directive
+  if ( line[0] == '\0' )
+    return;        // empty line
+  if ( tag_advance(line,1)[-1] == ASH.cmnt[0] )
+    return; // comment line...
+
+  // We don't want the prefix to be printed again for other lines of the
+  // same instruction/data. For that we remember the line number
+  // and compare it before generating the prefix
+
+  if ( ctx.old_ea == ea &amp;&amp; ctx.old_lnnum == lnnum )
+    return;
+
+  if ( ctx.execset.find(ea) != ctx.execset.end() )
+    *buf = highlight_prefix;
+
+  // Remember the address and line number we produced the line prefix for:
+  ctx.old_ea = ea;
+  ctx.old_lnnum = lnnum;
+}
+
+//--------------------------------------------------------------------------
+ssize_t idaapi idd_post_events_t::handle_post_event(
+        ssize_t retcode,
+        int notification_code,
+        va_list va)
+{
+  switch ( notification_code )
+  {
+    case debugger_t::ev_get_debug_event:
+      {
+        gdecode_t *code = va_arg(va, gdecode_t *);
+        debug_event_t *event = va_arg(va, debug_event_t *);
+        if ( *code == GDE_ONE_EVENT )    // got an event?
+          ctx.execset.insert(event-&gt;ea);
+      }
+      break;
+  }
+  return retcode;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  info("AUTOHIDE NONE\n"
+       "This is the highlighter plugin.\n"
+       "It highlights executed instructions if a debug event occurs at them.\n"
+       "The plugins is fully automatic and has no parameters.\n");
+  return true;
+}
+
+//--------------------------------------------------------------------------
+ssize_t idaapi plugin_ctx_t::on_event(ssize_t code, va_list /*va*/)
+{
+  // We set our debug event handler at the beginning and remove it at the end
+  // of a debug session
+  switch ( code )
+  {
+    case dbg_process_start:
+    case dbg_process_attach:
+      exec_prefix = new exec_prefix_t(*this);
+      register_post_event_visitor(HT_IDD, &amp;idd_post_events, this);
+      break;
+    case dbg_process_exit:
+      // do not unregister idd_post_events - it should be removed automatically
+      delete exec_prefix;
+      exec_prefix = nullptr;
+      execset.clear();
+      break;
+  }
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+static const char wanted_name[] = "Highlighter";
+static const char wanted_hotkey[] = "";
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  wanted_name,          // long comment about the plugin
+  wanted_name,          // multiline help about the plugin
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey,        // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="ht_output"><a class="header" href="#ht_output">ht_output</a></h3>
+<p>This sample plugin demonstrates receiving output window notification callbacks and usage of new output window functions.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin demonstrating receiving output window notification callbacks
+ *  and using of new output window functions: get_output_curline, get_output_cursor,
+ *  get_output_selected_text, add_output_popup
+ *
+ */
+
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//-------------------------------------------------------------------------
+struct ht_output_plugin_t : public plugmod_t, public event_listener_t
+{
+  form_actions_t *fa = nullptr;
+  qstring selected_data;
+
+  virtual bool idaapi run(size_t arg) override;
+  virtual ssize_t idaapi on_event(ssize_t code, va_list va) override;
+
+  void desc_notification(
+        const char *notification_name) const;
+  ~ht_output_plugin_t();
+};
+
+//-------------------------------------------------------------------------
+AS_PRINTF(2, 3) static void form_msg(form_actions_t *fa, const char *format, ...)
+{
+  textctrl_info_t ti;
+  fa-&gt;get_text_value(1, &amp;ti);
+  va_list va;
+  va_start(va, format);
+  ti.text.cat_vsprnt(format, va);
+  va_end(va);
+  fa-&gt;set_text_value(1, &amp;ti);
+}
+
+//---------------------------------------------------------------------------
+void ht_output_plugin_t::desc_notification(
+        const char *notification_name) const
+{
+  form_msg(fa, "Received notification from output window: \"%s\"\n",
+           notification_name);
+}
+
+//-------------------------------------------------------------------------
+struct printsel_ah_t : public action_handler_t
+{
+  ht_output_plugin_t *plugmod;
+
+  printsel_ah_t(ht_output_plugin_t *_plgmod) : plugmod(_plgmod) {}
+
+  virtual int idaapi activate(action_activation_ctx_t *) override
+  {
+    form_msg(plugmod-&gt;fa,
+             "User menu item is called for selection: \"%s\"\n",
+             plugmod-&gt;selected_data.c_str());
+    return 1;
+  }
+
+  virtual action_state_t idaapi update(action_update_ctx_t *) override
+  {
+    return AST_ENABLE_ALWAYS;
+  }
+};
+
+//---------------------------------------------------------------------------
+// Callback for ui notifications
+static ssize_t idaapi ui_callback(void *ud, int notification_code, va_list va)
+{
+  switch ( notification_code )
+  {
+    // called when IDA is preparing a context menu for a view
+    // Here dynamic context-depending user menu items can be added.
+    case ui_populating_widget_popup:
+      {
+        TWidget *f = va_arg(va, TWidget *);
+        if ( get_widget_type(f) == BWN_OUTPUT )
+        {
+          TPopupMenu *p = va_arg(va, TPopupMenu *);
+          ht_output_plugin_t *plgmod = (ht_output_plugin_t *) ud;
+          plgmod-&gt;selected_data.qclear();
+          if ( get_output_selected_text(&amp;plgmod-&gt;selected_data) )
+          {
+            action_desc_t desc = DYNACTION_DESC_LITERAL(
+                    "Print selection",
+                    new printsel_ah_t(plgmod),
+                    nullptr, nullptr, -1);
+            attach_dynamic_action_to_popup(nullptr, p, desc);
+          }
+          plgmod-&gt;desc_notification("msg_popup");
+        }
+      }
+      break;
+  }
+  return 0;
+}
+
+//---------------------------------------------------------------------------
+ht_output_plugin_t::~ht_output_plugin_t()
+{
+  unhook_from_notification_point(HT_UI, ui_callback, this);
+}
+
+//---------------------------------------------------------------------------
+// Callback for view notifications
+ssize_t idaapi ht_output_plugin_t::on_event(
+        ssize_t notification_code,
+        va_list va)
+{
+  switch ( notification_code )
+  {
+    case msg_activated:
+      desc_notification("msg_activated");
+      break;
+    case msg_deactivated:
+      desc_notification("msg_deactivated");
+      break;
+    case msg_keydown:
+      {
+        desc_notification("msg_keydown");
+        int key = va_arg(va, int);
+        int state = va_arg(va, int);
+        form_msg(fa, "Parameters: Key:%d(\'%c\') State:%d\n", key, key, state);
+      }
+      break;
+    case msg_click:
+    case msg_dblclick:
+      {
+        desc_notification(notification_code == msg_click ? "msg_click" : "msg_dblclick");
+        int px = va_arg(va, int);
+        int py = va_arg(va, int);
+        int state = va_arg(va, int);
+        qstring buf;
+        if ( get_output_curline(&amp;buf, false) )
+          form_msg(fa, "Clicked string: %s\n", buf.c_str());
+        int cx,cy;
+        get_output_cursor(&amp;cx, &amp;cy);
+        msg("Parameters: x:%d, y:%d, state:%d\n", px, py, state);
+        msg("Cursor position:(%d, %d)\n", cx, cy);
+      }
+      break;
+    case msg_closed:
+      desc_notification("msg_closed");
+  }
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new ht_output_plugin_t;
+}
+
+//--------------------------------------------------------------------------
+// this callback is called when something happens in our editor form
+static int idaapi editor_modcb(int fid, form_actions_t &amp;f_actions)
+{
+  ht_output_plugin_t *plgmod = (ht_output_plugin_t *) f_actions.get_ud();
+  if ( fid == CB_INIT ) // Initialization
+  {
+    /* set callback for output window notifications */
+    hook_to_notification_point(HT_UI, ui_callback, plgmod);
+    hook_event_listener(HT_OUTPUT, plgmod, plgmod);
+    plgmod-&gt;fa = &amp;f_actions;
+  }
+  else if ( fid == CB_CLOSE )
+  {
+    unhook_event_listener(HT_OUTPUT, plgmod);
+    unhook_from_notification_point(HT_UI, ui_callback, plgmod);
+  }
+  return 1;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi ht_output_plugin_t::run(size_t)
+{
+  static const char formdef[] =
+    "BUTTON NO NONE\n"        // we do not want the standard buttons on the form
+    "BUTTON YES NONE\n"
+    "BUTTON CANCEL NONE\n"
+    "Editor form\n"           // the form title. it is also used to refer to the form later
+    "\n"
+    "%/%*"                    // placeholder for the 'editor_modcb' callback, and its userdata
+    "&lt;Text:t1::40:::&gt;\n"      // text edit control
+    "\n";
+
+  // structure for text edit control
+  textctrl_info_t ti;
+  ti.cb = sizeof(textctrl_info_t);
+  ti.text = "";
+
+  open_form(formdef, 0, editor_modcb, this, &amp;ti);
+  return true;
+}
+
+static const char wanted_name[] = "HT_OUTPUT notifications handling example";
+static const char wanted_hotkey[] = "Ctrl-Alt-F11";
+//--------------------------------------------------------------------------
+static const char comment[] = "HT_OUTPUT notifications handling";
+static const char help[] =
+        "This pluging demonstrates handling of output window\n"
+        "notifications: Activation/Desactivation, adding\n"
+        "popup menus, keyboard and mouse events, changing of current\n"
+        "cursor position and closing of view\n";
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // plugin flags
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  comment,              // long comment about the plugin
+                        // it could appear in the status line
+                        // or as a hint
+
+  help,                 // multiline help about the plugin
+
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey         // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="ht_view"><a class="header" href="#ht_view">ht_view</a></h3>
+<p>This sample plugin demonstrates usage of the view callbacks and adding custom menu items to popup menus.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin demonstrating usage of the view callbacks
+ *  and adding custom menu items to popup menus
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;graph.hpp&gt;
+
+#define ACTION1_NAME "ht_view:Act1"
+#define ACTION2_NAME "ht_view:Act2"
+
+//-------------------------------------------------------------------------
+struct ht_view_plugin_t : public plugmod_t, public event_listener_t
+{
+  bool hooked = false;
+
+  ht_view_plugin_t();
+  virtual ~ht_view_plugin_t();
+  virtual bool idaapi run(size_t arg) override;
+  virtual ssize_t idaapi on_event(ssize_t code, va_list va) override;
+
+  void desc_notification(
+        const char *notification_name,
+        TWidget *view) const;
+  void desc_mouse_event(
+        const view_mouse_event_t *event) const;
+};
+
+//---------------------------------------------------------------------------
+// Callback for ui notifications
+static ssize_t idaapi ui_callback(void *ud, int notification_code, va_list va)
+{
+  switch ( notification_code )
+  {
+    // called when IDA is preparing a context menu for a view
+    // Here dynamic context-depending user menu items can be added.
+    case ui_populating_widget_popup:
+      {
+        TWidget *view = va_arg(va, TWidget *);
+        if ( get_widget_type(view) == BWN_DISASM )
+        {
+          TPopupMenu *p = va_arg(va, TPopupMenu *);
+          ht_view_plugin_t *plgmod = (ht_view_plugin_t *) ud;
+          plgmod-&gt;desc_notification("view_popup", view);
+          attach_action_to_popup(view, p, ACTION1_NAME);
+          attach_action_to_popup(view, p, ACTION2_NAME);
+        }
+      }
+      break;
+  }
+  return 0;
+}
+
+//-------------------------------------------------------------------------
+struct ahandler_t : public action_handler_t
+{
+  bool first;
+  ahandler_t(bool _first) : first(_first) {}
+  virtual int idaapi activate(action_activation_ctx_t *) override
+  {
+    msg("User %s menu item is called\n", first ? "first" : "second");
+    return true;
+  }
+
+  virtual action_state_t idaapi update(action_update_ctx_t *) override
+  {
+    return AST_ENABLE_ALWAYS;
+  }
+};
+static ahandler_t ah1(true);
+static ahandler_t ah2(false);
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new ht_view_plugin_t;
+}
+
+//-------------------------------------------------------------------------
+ht_view_plugin_t::ht_view_plugin_t()
+{
+  // Register actions
+  const action_desc_t actions[] =
+  {
+#define ROW(name, label, handler) ACTION_DESC_LITERAL_PLUGMOD(name, label, handler, this, nullptr, nullptr, -1)
+    ROW(ACTION1_NAME, "First ht_view's popup menu item", &amp;ah1),
+    ROW(ACTION2_NAME, "Second ht_view's popup menu item", &amp;ah2),
+#undef ROW
+  };
+
+  for ( size_t i = 0, n = qnumber(actions); i &lt; n; ++i )
+    register_action(actions[i]);
+}
+
+//-------------------------------------------------------------------------
+ht_view_plugin_t::~ht_view_plugin_t()
+{
+  unhook_from_notification_point(HT_UI, ui_callback, this);
+}
+
+//-------------------------------------------------------------------------
+bool idaapi ht_view_plugin_t::run(size_t)
+{
+  /* set callback for view notifications */
+  if ( !hooked )
+  {
+    hook_event_listener(HT_VIEW, this);
+    hook_to_notification_point(HT_UI, ui_callback, this);
+    hooked = true;
+    msg("HT_VIEW: installed view notification hook.\n");
+  }
+
+  return true;
+}
+
+//---------------------------------------------------------------------------
+ssize_t idaapi ht_view_plugin_t::on_event(
+        ssize_t notification_code,
+        va_list va)
+{
+  TWidget *view = va_arg(va, TWidget *);
+  switch ( notification_code )
+  {
+    case view_activated:
+      desc_notification("view_activated", view);
+      break;
+    case view_deactivated:
+      desc_notification("view_deactivated", view);
+      break;
+    case view_keydown:
+      {
+        desc_notification("view_keydown", view);
+        int key = va_arg(va, int);
+        int state = va_arg(va, int);
+        msg("Parameters: Key:%d(\'%c\') State:%d\n", key, key, state);
+      }
+      break;
+    case view_click:
+    case view_dblclick:
+      {
+        desc_notification(notification_code == view_click ? "view_click" : "view_dblclick", view);
+        desc_mouse_event(va_arg(va, view_mouse_event_t*));
+        int cx,cy;
+        get_cursor(&amp;cx, &amp;cy);
+        msg("Cursor position:(%d, %d)\n", cx, cy);
+      }
+      break;
+    case view_curpos:
+      {
+        desc_notification("view_curpos", view);
+        if ( is_idaview(view) )
+        {
+          char buf[MAXSTR];
+          ea2str(buf, sizeof(buf), get_screen_ea());
+          msg("New address: %s\n", buf);
+        }
+      }
+      break;
+    case view_mouse_over:
+      {
+        desc_notification("view_mouse_over", view);
+        desc_mouse_event(va_arg(va, view_mouse_event_t*));
+      }
+      break;
+    case view_close:
+      desc_notification("view_close", view);
+  }
+  return 0;
+}
+
+//-------------------------------------------------------------------------
+void ht_view_plugin_t::desc_notification(
+        const char *notification_name,
+        TWidget *view) const
+{
+  qstring buffer;
+  get_widget_title(&amp;buffer, view);
+  msg("Received notification from view %s: \"%s\"\n",
+      buffer.c_str(),
+      notification_name);
+}
+
+//-------------------------------------------------------------------------
+void ht_view_plugin_t::desc_mouse_event(
+        const view_mouse_event_t *event) const
+{
+  int px = event-&gt;x;
+  int py = event-&gt;y;
+  int state = event-&gt;state;
+  qstring over_txt;
+  const selection_item_t *item = event-&gt;location.item;
+  if ( event-&gt;rtype != TCCRT_FLAT &amp;&amp; item != nullptr )
+  {
+    if ( item-&gt;is_node )
+      over_txt.sprnt("node %d", item-&gt;node);
+    else
+      over_txt.sprnt("edge %d -&gt; %d", item-&gt;elp.e.src, item-&gt;elp.e.dst);
+  }
+  else
+  {
+    over_txt = "(nothing)";
+  }
+  msg("Parameters: x:%d, y:%d, state:%d, over:%s\n", px, py, state, over_txt.c_str());
+}
+
+
+//-------------------------------------------------------------------------
+static const char wanted_name[] = "HT_VIEW notification handling example";
+static const char wanted_hotkey[] = "";
+//--------------------------------------------------------------------------
+static const char comment[] = "HT_VIEW notification Handling";
+static const char help[] =
+        "This pluging demonstrates handling of custom and IdaView\n"
+        "notifications: Activation/Desactivation of views, adding\n"
+        "popup menus, keyboard and mouse events, changing of current\n"
+        "address and closing of view\n";
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // plugin flags
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  comment,              // long comment about the plugin
+                        // it could appear in the status line
+                        // or as a hint
+
+  help,                 // multiline help about the plugin
+
+  wanted_name,          // the preferred short name of the plugin
+  wanted_hotkey         // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="mtsample"><a class="header" href="#mtsample">mtsample</a></h3>
+<p>Sample multi-threaded plugin module.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample multi-threaded plugin module
+ *
+ *  It creates 3 new threads. Each threads sleeps and prints a message in a loop
+ *
+ */
+
+#ifdef __NT__
+#include &lt;windows.h&gt;
+#endif
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+#ifdef __NT__
+#include &lt;windows.h&gt;
+#endif
+
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  qthread_t children[10] = { nullptr };
+  int nchilds = 0;
+
+  ~plugin_ctx_t() { term(); }
+  void term()
+  {
+    if ( nchilds &gt; 0 )
+    {
+      msg("Killing all threads\n");
+      for ( int i=0; i &lt; nchilds; i++ )
+      {
+        qthread_kill(children[i]);
+        qthread_join(children[i]);
+        // cancel all pending requests from the killed thread
+        cancel_thread_exec_requests(children[i]);
+        qthread_free(children[i]);
+      }
+      msg("Killed all threads\n");
+      nchilds = 0;
+    }
+  }
+  virtual bool idaapi run(size_t) override;
+};
+
+//--------------------------------------------------------------------------
+static void say_hello(size_t id, qthread_t tid, int cnt)
+{
+  struct ida_local hello_t : public exec_request_t
+  {
+    uint64 nsecs;
+    size_t id;
+    qthread_t tid;
+    int cnt;
+    int idaapi execute(void) override
+    {
+      uint64 now = get_nsec_stamp();
+      int64 delay = now - nsecs;
+      msg("Hello %d from thread %" FMT_Z ". tid=%p. current tid=%p (delay=%" FMT_64 "d)\n",
+          cnt, id, tid, qthread_self(), delay);
+      return 0;
+    }
+    hello_t(size_t _id, qthread_t _tid, int _cnt) : id(_id), tid(_tid), cnt(_cnt)
+    {
+      nsecs = get_nsec_stamp();
+    }
+  };
+  hello_t hi(id, tid, cnt);
+
+  int mff;
+  switch ( id % 3 )
+  {
+    case 0: mff = MFF_FAST;  break;
+    case 1: mff = MFF_READ;  break;
+    default:
+    case 2: mff = MFF_WRITE; break;
+  }
+  execute_sync(hi, mff);
+}
+
+//--------------------------------------------------------------------------
+static int idaapi thread_func(void *ud)
+{
+  size_t id = (size_t)ud;
+  qthread_t tid = qthread_self();
+  int cnt = 0;
+  srand(id ^ (size_t)tid);
+  while ( true )
+  {
+    say_hello(id, tid, cnt++);
+    int r = rand() % 1000;
+    qsleep(r);
+  }
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  if ( nchilds == 0 )
+  {
+    children[nchilds] = qthread_create(thread_func, (void *)(ssize_t)nchilds); nchilds++;
+    children[nchilds] = qthread_create(thread_func, (void *)(ssize_t)nchilds); nchilds++;
+    children[nchilds] = qthread_create(thread_func, (void *)(ssize_t)nchilds); nchilds++;
+    msg("Three new threads have been created. Main thread id %p\n", qthread_self());
+    for ( int i=0; i &lt; 5; i++ )
+      say_hello(-1, 0, 0);
+  }
+  else
+  {
+    term();
+  }
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  nullptr,              // long comment about the plugin
+  nullptr,              // multiline help about the plugin
+  "Multi-threaded sample", // the preferred short name of the plugin
+  nullptr,              // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="navcolor"><a class="header" href="#navcolor">navcolor</a></h3>
+<p>This sample plugin demonstrates how to customize navigation band colors.</p>
+<pre><code class="language-cpp">/*
+ *  This plugin demonstrates how to customize navigation band colors.
+ *  Launch the plugin like so:
+ *    - to install: ida_loader.load_and_run_plugin("navcolor", 1)
+ *    - to uninstall: ida_loader.load_and_run_plugin("navcolor", 0)
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  nav_colorizer_t *old_col_fun = nullptr;
+  void *old_col_ud = nullptr;
+  bool installed = false;
+
+  //lint -esym(1540, plugin_ctx_t::old_col_fun, plugin_ctx_t::old_col_ud)
+  ~plugin_ctx_t()
+  {
+    // uninstall our callback for navigation band, otherwise ida will crash
+    maybe_uninstall();
+  }
+  virtual bool idaapi run(size_t) override;
+
+  bool maybe_install();
+  bool maybe_uninstall();
+};
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t code)
+{
+  return code == 1 ? maybe_install() : maybe_uninstall();
+}
+
+//--------------------------------------------------------------------------
+// Callback that calculates the pixel color given the address and the number of bytes
+static uint32 idaapi my_colorizer(ea_t ea, asize_t nbytes, void *ud)
+{
+  plugin_ctx_t &amp;ctx = *(plugin_ctx_t *)ud;
+  // you are at your own here. just for the sake of illustrating how things work
+  // we will invert all colors
+  uint32 color = ctx.old_col_fun(ea, nbytes, ctx.old_col_ud);
+  return ~color;
+}
+
+//-------------------------------------------------------------------------
+bool plugin_ctx_t::maybe_install()
+{
+  bool ok = !installed;
+  if ( ok )
+  {
+    set_nav_colorizer(&amp;old_col_fun, &amp;old_col_ud, my_colorizer, this);
+    installed = true;
+  }
+  return ok;
+}
+
+//-------------------------------------------------------------------------
+bool plugin_ctx_t::maybe_uninstall()
+{
+  bool ok = installed;
+  if ( ok )
+  {
+    set_nav_colorizer(nullptr, nullptr, old_col_fun, old_col_ud);
+    installed = false;
+  }
+  return ok;
+}
+
+//--------------------------------------------------------------------------
+// initialize the plugin
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  nullptr,              // long comment about the plugin
+  nullptr,              // multiline help about the plugin
+  "Modify navigation band colors",// the preferred short name of the plugin
+  nullptr,              // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="openform"><a class="header" href="#openform">openform</a></h3>
+<p>This plugin demonstrates how to use non modal forms.</p>
+<pre><code class="language-cpp">/*
+ *  This plugin demonstrates how to use non modal forms.
+ *  It creates 2 windows on the screen:
+ *      - a window with 4 buttons: dock, undock, show, hide      (CONTROL FORM)
+ *      - a window with a text edit control and a list control   (EDITOR FORM)
+ *  The buttons of the first window can be used to manage the second window.
+ *  We will call the first window 'CONTROL FORM' and the second window 'EDITOR
+ *  FORM', just to be able to reference them easily.
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+//---------------------------------------------------------------------------
+// chooser (list view) items
+static const char *const names[] =
+{
+  "Item one",
+  "Item two",
+  "Item three"
+};
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  // the editor form
+  TWidget *editor_widget = nullptr;
+
+  // contents of the text field for each item
+  qstring txts[qnumber(names)] =
+  {
+    "Text one:\n This is text for item one",
+    "Text two:\n And this is text for item two",
+    "Text three:\n And finally text for the last item"
+  };
+
+  // Current index for chooser list view
+  size_t curidx = 0;
+  // Form actions for control dialog
+  form_actions_t *control_fa = nullptr;
+  // Defines where to place new/existing editor window
+  bool dock = false;
+
+  virtual bool idaapi run(size_t) override;
+
+  int editor_modcb(int fid, form_actions_t &amp;fa);
+  void open_editor_form(int options = 0);
+  void close_editor_form();
+  int control_modcb(int fid, form_actions_t &amp;fa);
+  void update_buttons(form_actions_t &amp;fa);
+};
+
+//---------------------------------------------------------------------------
+struct of_chooser_t : public chooser_t
+{
+public:
+  // this object must be allocated using `new`
+  // as it used in the non-modal form
+  of_chooser_t() : chooser_t()
+  {
+    columns = 1;
+    static const int widths_[] = { 12 };
+    static const char *const header_[] = { "Name" };
+    widths = widths_;
+    header = header_;
+  }
+
+  virtual size_t idaapi get_count() const override { return qnumber(names); }
+  virtual void idaapi get_row(
+        qstrvec_t *cols,
+        int *,
+        chooser_item_attrs_t *,
+        size_t n) const override
+  {
+    (*cols)[0] = names[n];
+  }
+};
+
+// Form actions for editor window
+enum editor_form_actions
+{
+  TEXT_CHANGED  = 1,
+  ITEM_SELECTED = 2,
+};
+
+// Form actions for control window
+enum control_form_actions
+{
+  BTN_DOCK   = 10,
+  BTN_UNDOCK = 11,
+  BTN_OPEN   = 12,
+  BTN_CLOSE  = 13,
+};
+
+//--------------------------------------------------------------------------
+inline void enable_button(form_actions_t &amp;fa, int fid, bool enabled)
+{
+  fa.enable_field(fid, enabled);
+}
+
+//--------------------------------------------------------------------------
+// Update control window buttons state
+void plugin_ctx_t::update_buttons(form_actions_t &amp;fa)
+{
+  bool visible = editor_widget != nullptr;
+  enable_button(fa, 10, !dock &amp;&amp; visible);
+  enable_button(fa, 11, dock &amp;&amp; visible);
+  enable_button(fa, 12, !visible);
+  enable_button(fa, 13, visible);
+}
+
+//--------------------------------------------------------------------------
+// this callback is called when the user clicks on a button
+static int idaapi btn_cb(int, form_actions_t &amp;)
+{
+  msg("button has been pressed -&gt; \n");
+  return 0;
+}
+
+//--------------------------------------------------------------------------
+// this callback is called when something happens in our non-modal editor form
+static int idaapi editor_modcb_(int fid, form_actions_t &amp;fa)
+{
+  plugin_ctx_t &amp;ctx = *(plugin_ctx_t *)fa.get_ud();
+  return ctx.editor_modcb(fid, fa);
+}
+int plugin_ctx_t::editor_modcb(int fid, form_actions_t &amp;fa)
+{
+  switch ( fid )
+  {
+    case CB_INIT:     // Initialization
+      msg("init editor form\n");
+      break;
+    case CB_CLOSE:    // Closing the form
+      msg("closing editor form\n");
+      // mark the form as closed
+      editor_widget = nullptr;
+      // If control form exists then update buttons
+      if ( control_fa != nullptr )
+        update_buttons(*control_fa);
+      break;
+    case TEXT_CHANGED:     // Text changed
+      {
+        textctrl_info_t ti;
+        fa.get_text_value(1, &amp;ti);
+        txts[curidx] = ti.text;
+      }
+      msg("text has been changed\n");
+      break;
+    case ITEM_SELECTED:    // list item selected
+      {
+        sizevec_t sel;
+        if ( fa.get_chooser_value(2, &amp;sel) )
+        {
+          curidx = sel[0];
+          textctrl_info_t ti;
+          ti.cb = sizeof(textctrl_info_t);
+          ti.text = txts[curidx];
+          fa.set_text_value(1, &amp;ti);
+        }
+      }
+      msg("selection has been changed\n");
+      break;
+    default:
+      msg("unknown id %d\n", fid);
+      break;
+  }
+  return 1;
+}
+//---------------------------------------------------------------------------
+// create and open the editor form
+void plugin_ctx_t::open_editor_form(int options)
+{
+  static const char formdef[] =
+    "BUTTON NO NONE\n"        // we do not want the standard buttons on the form
+    "BUTTON YES NONE\n"
+    "BUTTON CANCEL NONE\n"
+    "Editor form\n"           // the form title. it is also used to refer to the form later
+    "\n"
+    "%/%*"                    // placeholder for the 'editor_modcb' callback
+    "\n"
+    "&lt;List:E2::30:1::&gt;&lt;|&gt;&lt;Text:t1::60:::&gt;\n" // text edit control and chooser control separated by splitter
+    "\n";
+  // structure for text edit control
+  textctrl_info_t ti;
+  ti.cb = sizeof(textctrl_info_t);
+  ti.text = txts[0];
+  // structure for chooser list view
+  of_chooser_t *ofch = new of_chooser_t();
+  // selection for chooser list view
+  sizevec_t selected;
+  selected.push_back(0);  // first item by default
+  editor_widget = open_form(formdef,
+                            options,
+                            editor_modcb_, this,
+                            ofch, &amp;selected,
+                            &amp;ti);
+} //lint !e429 custodial pointer 'ofch' likely not freed nor returned
+
+
+//---------------------------------------------------------------------------
+void plugin_ctx_t::close_editor_form()
+{
+  msg("closing editor widget\n");
+  close_widget(editor_widget, WCLS_CLOSE_LATER);
+  editor_widget = nullptr;
+}
+//--------------------------------------------------------------------------
+inline void dock_form(bool _dock)
+{
+  set_dock_pos("Editor form",
+               "IDA View-A",
+               _dock ? DP_TAB : DP_FLOATING);
+}
+
+//--------------------------------------------------------------------------
+// this callback is called when something happens in our non-modal control form
+static int idaapi control_modcb_(int fid, form_actions_t &amp;fa)
+{
+  plugin_ctx_t &amp;ctx = *(plugin_ctx_t *)fa.get_ud();
+  return ctx.control_modcb(fid, fa);
+}
+int plugin_ctx_t::control_modcb(int fid, form_actions_t &amp;fa)
+{
+  switch ( fid )
+  {
+    case CB_INIT:   // Initialization
+      msg("init control form\n");
+      dock = false;
+      control_fa = &amp;fa;   // remember the 'fa' for the future
+      break;
+    case CB_CLOSE:  // Closing
+      msg("closing control form\n");
+      control_fa = nullptr;
+      return 1;
+    case BTN_DOCK:
+      msg("dock editor form\n");
+      dock = true;
+      dock_form(dock);
+      break;
+    case BTN_UNDOCK:
+      msg("undock editor form\n");
+      dock = false;
+      dock_form(dock);
+      break;
+    case BTN_OPEN:
+      msg("open editor form\n");
+      open_editor_form(WOPN_DP_TAB|WOPN_RESTORE);
+      dock_form(dock);
+      break;
+    case BTN_CLOSE:
+      close_editor_form();
+      break;
+    default:
+      msg("unknown id %d\n", fid);
+      return 1;
+  }
+  update_buttons(fa);
+  return 1;
+}
+
+//--------------------------------------------------------------------------
+// the main function of the plugin
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  // first open the editor form
+  open_editor_form(WOPN_RESTORE);
+
+  static const char control_form[] =
+    "BUTTON NO NONE\n"          // do not display standard buttons at the bottom
+    "BUTTON YES NONE\n"
+    "BUTTON CANCEL NONE\n"
+    "Control form\n"            // the title. it is used to refer to the form later
+    "%/%*"                      // placeholder for control_modcb
+    "&lt;Dock:B10:30:::&gt;&lt;Undock:B11:30:::&gt;&lt;Show:B12:30:::&gt;&lt;Hide:B13:30:::&gt;\n"; // Create control buttons
+
+  open_form(control_form,
+            WOPN_RESTORE,
+            control_modcb_, this,
+            btn_cb, btn_cb, btn_cb, btn_cb);
+  set_dock_pos("Control form", nullptr, DP_FLOATING, 0, 0, 300, 100);
+  return true;
+}
+
+//--------------------------------------------------------------------------
+// initialize the plugin
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,
+  nullptr,
+  nullptr,
+  nullptr,
+  nullptr,
+  "Open non-modal form sample",// the preferred short name of the plugin
+  nullptr,
+};
+</code></pre>
+<h3 id="procext"><a class="header" href="#procext">procext</a></h3>
+<p>Sample plugin that extends the IBM PC processor module to disassemble some NEC V20 instructions.</p>
+<pre><code class="language-cpp">/*
+ *  This is a sample plugin module
+ *  It extends the IBM PC processor module to disassemble some NEC V20 instructions
+ *  This is a sample file, it supports just two instructions!
+ *
+ */
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;bytes.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+int data_id;
+
+//--------------------------------------------------------------------------
+// Context data for the plugin. This object is created by the init()
+// function and hold all local data.
+struct plugin_ctx_t : public plugmod_t, public event_listener_t
+{
+  ea_t ea = 0; // current address within the instruction
+
+  netnode nec_node;
+  bool hooked = false;
+
+  plugin_ctx_t();
+  ~plugin_ctx_t();
+
+  // This function is called when the user invokes the plugin.
+  virtual bool idaapi run(size_t) override;
+  // This function is called upon some events.
+  virtual ssize_t idaapi on_event(ssize_t code, va_list va) override;
+
+  size_t ana(insn_t &amp;insn);
+  void process_rm(insn_t &amp;insn, op_t &amp;x, uchar postbyte);
+};
+
+static const char node_name[] = "$ sample NEC processor extender parameters";
+
+
+// Some definitions from IBM PC:
+
+#define segrg specval_shorts.high  // IBM PC expects the segment address
+                                   // to be here
+#define aux_short       0x0020  // short (byte) displacement used
+#define aux_basess      0x0200  // SS based instruction
+
+#define R_ss  18
+#define R_ds  19
+//--------------------------------------------------------------------------
+// This plugin supports just 2 instructions:
+// Feel free to add more...
+
+// 0FH 20H                      ADD4S       ; Addition for packed BCD strings
+// 0FH 12H Postbyte     CLEAR1  reg/mem8,CL ; Clear one bit
+
+enum nec_insn_type_t
+{
+  NEC_add4s = CUSTOM_INSN_ITYPE,
+  NEC_clear1,
+};
+
+//----------------------------------------------------------------------
+static int get_dataseg(insn_t &amp;insn, int defseg)
+{
+  if ( defseg == R_ss )
+    insn.auxpref |= aux_basess;
+  return defseg;
+}
+
+//--------------------------------------------------------------------------
+//
+//              process r/m byte of the instruction
+//
+void plugin_ctx_t::process_rm(insn_t &amp;insn, op_t &amp;x, uchar postbyte)
+{
+  int Mod = (postbyte &gt;&gt; 6) &amp; 3;
+  x.reg = postbyte &amp; 7;
+  if ( Mod == 3 )               // register
+  {
+    if ( x.dtype == dt_byte )
+      x.reg += 8;
+    x.type = o_reg;
+  }
+  else                          // memory
+  {
+    if ( Mod == 0 &amp;&amp; x.reg == 6 )
+    {
+      x.type = o_mem;
+      x.offb = uchar(ea-insn.ea);
+      x.addr = get_word(ea); ea+=2;
+      x.segrg = (uint16)get_dataseg(insn, R_ds);
+    }
+    else
+    {
+      x.type = o_phrase;        // x.phrase contains the base register
+      x.addr = 0;
+      int reg = (x.phrase == 2 || x.phrase == 3 || x.phrase == 6) ? R_ss : R_ds;
+      x.segrg = (uint16)get_dataseg(insn, reg);
+                                // [bp+si],[bp+di],[bp] by SS
+      if ( Mod != 0 )
+      {
+        x.type = o_displ;       // i.e. phrase + offset
+        x.offb = uchar(ea-insn.ea);
+        if ( Mod == 1 )
+        {
+          x.addr = char(get_byte(ea++));
+          insn.auxpref |= aux_short;
+        }
+        else
+        {
+          x.addr = get_word(ea); ea+=2;
+        }
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------------------------
+// Analyze an instruction and fill the 'insn' structure
+size_t plugin_ctx_t::ana(insn_t &amp;insn)
+{
+  int code = get_byte(ea++);
+  if ( code != 0x0F )
+    return 0;
+  code = get_byte(ea++);
+  switch ( code )
+  {
+    case 0x20:
+      insn.itype = NEC_add4s;
+      return 2;
+    case 0x12:
+      insn.itype = NEC_clear1;
+      {
+        uchar postbyte = get_byte(ea++);
+        process_rm(insn, insn.Op1, postbyte);
+        insn.Op2.type = o_reg;
+        insn.Op2.reg  = 9; // 9 is CL for IBM PC
+        return size_t(ea - insn.ea);
+      }
+    default:
+      return 0;
+  }
+}
+
+//--------------------------------------------------------------------------
+// Return the instruction mnemonics
+const char *get_insn_mnem(const insn_t &amp;insn)
+{
+  if ( insn.itype == NEC_add4s )
+    return "add4s";
+  return "clear1";
+}
+
+//--------------------------------------------------------------------------
+// This function can be hooked to various kernel events.
+// In this particular plugin we hook to the HT_IDP group.
+// As soon the kernel needs to decode and print an instruction, it will
+// generate some events that we intercept and provide our own response.
+//
+// We extend the processor module to disassemble opcode 0x0F
+// (This is a hypothetical example)
+// There are 2 different possible approaches for the processor extensions:
+//  A. Quick &amp; dirty
+//       Implement reaction to ev_ana_insn and ev_out_insn.
+//       The first checks if the instruction is valid.
+//       The second generates its text.
+//  B. Thourough and clean
+//       Implement all relevant callbacks.
+//       ev_ana_insn fills the 'insn' structure.
+//       ev_emu_insn creates all xrefs using ua_add_[cd]ref functions.
+//       ev_out_insn generates the textual representation of the instruction.
+//          It is required only if the instruction requires special processing
+//          or the processor module cannot handle the custom instruction for
+//          any reason.
+//       ev_out_operand generates the operand representation (only if the
+//          operand requires special processing).
+//       ev_out_mnem generates the instruction mnemonics.
+// The main difference between these 2 approaches is in the creation of
+// cross-references and the amount of special processing required by the
+// new instructions.
+
+// The quick &amp; dirty approach.
+// We just produce the instruction mnemonics along with its operands.
+// No cross-references are created. No special processing.
+ssize_t idaapi plugin_ctx_t::on_event(ssize_t code, va_list va)
+{
+  switch ( code )
+  {
+    case processor_t::ev_ana_insn:
+      {
+        insn_t *insn = va_arg(va, insn_t *);
+        ea = insn-&gt;ea;
+        size_t length = ana(*insn);
+        if ( length )
+        {
+          insn-&gt;size = (uint16)length;
+          return insn-&gt;size;       // event processed
+        }
+      }
+      break;
+    case processor_t::ev_out_mnem:
+      {
+        outctx_t *ctx = va_arg(va, outctx_t *);
+        const insn_t &amp;insn = ctx-&gt;insn;
+        if ( insn.itype &gt;= CUSTOM_INSN_ITYPE )
+        {
+          ctx-&gt;out_line(get_insn_mnem(insn), COLOR_INSN);
+          return 1;
+        }
+      }
+      break;
+#ifdef ENABLE_MERGE
+#endif
+    case processor_t::ev_privrange_changed:
+      // recreate node as it was migrated
+      if ( nec_node != BADNODE )
+        nec_node.create(node_name);
+      break;
+  }
+  return 0;                     // event is not processed
+}
+
+//--------------------------------------------------------------------------
+// Initialize the plugin.
+// IDA will call this function only once.
+// If this function returns nullptr, IDA will unload the plugin.
+// Otherwise the plugin returns a pointer to a newly created context structure.
+//
+// In this example we check the processor type and make the decision.
+// You may or may not check any other conditions to decide what you do:
+// whether your plugin wants to work with the database or not.
+
+static plugmod_t *idaapi init()
+{
+  processor_t &amp;ph = PH;
+  if ( ph.id != PLFM_386 )
+    return nullptr;
+  auto plugmod = new plugin_ctx_t;
+  set_module_data(&amp;data_id, plugmod);
+  return plugmod;
+}
+
+//-------------------------------------------------------------------------
+plugin_ctx_t::plugin_ctx_t()
+{
+  nec_node.create(node_name);
+  hooked = nec_node.altval(0) != 0;
+  if ( hooked )
+  {
+    hook_event_listener(HT_IDP, this);
+    msg("NEC V20 processor extender is enabled\n");
+  }
+}
+
+//--------------------------------------------------------------------------
+// Terminate the plugin.
+// This destructor will be called before unloading the plugin.
+plugin_ctx_t::~plugin_ctx_t()
+{
+  clr_module_data(data_id);
+  // listeners are uninstalled automatically
+  // when the owner module is unloaded
+}
+
+//--------------------------------------------------------------------------
+// The plugin method
+// This is the main function of plugin.
+// It will be called when the user selects the plugin from the menu.
+// The input argument is usually zero. Non-zero values can be specified
+// by using load_and_run_plugin() or through plugins.cfg file (discouraged).
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  if ( hooked )
+    unhook_event_listener(HT_IDP, this);
+  else
+    hook_event_listener(HT_IDP, this);
+  hooked = !hooked;
+  nec_node.create(node_name);
+  nec_node.altset(0, hooked);
+  info("AUTOHIDE NONE\n"
+       "NEC V20 processor extender now is %s", hooked ? "enabled" : "disabled");
+  return true;
+}
+
+//--------------------------------------------------------------------------
+static const char comment[] = "NEC V20 processor extender";
+static const char help[] =
+  "A sample plugin module\n"
+  "\n"
+  "This module shows you how to create plugin modules.\n"
+  "\n"
+  "It supports some NEC V20 instructions\n"
+  "and shows the current address.\n";
+
+//--------------------------------------------------------------------------
+// This is the preferred name of the plugin module in the menu system
+// The preferred name may be overridden in plugins.cfg file
+
+static const char desired_name[] = "NEC V20 processor extender";
+
+// This is the preferred hotkey for the plugin module
+// The preferred hotkey may be overridden in plugins.cfg file
+
+static const char desired_hotkey[] = "";
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_PROC           // this is a processor extension plugin
+| PLUGIN_MULTI,         // this plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  comment,              // long comment about the plugin. not used.
+  help,                 // multiline help about the plugin. not used.
+  desired_name,         // the preferred short name of the plugin
+  desired_hotkey        // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="ui_requests"><a class="header" href="#ui_requests">ui_requests</a></h3>
+<p>This plugin demonstrates the UI requests and the process_ui_action()</p>
+<pre><code class="language-cpp">/*
+* This is a sample plugin to demonstrate the UI requests and the process_ui_action()
+* One process_ui_action() can be processed during an UI request.
+* The UI request is a nice example to show how to schedule UI actions for sequential execution
+*/
+
+#include &lt;ida.hpp&gt;
+#include &lt;idp.hpp&gt;
+#include &lt;graph.hpp&gt;
+#include &lt;loader.hpp&gt;
+#include &lt;kernwin.hpp&gt;
+
+
+//--------------------------------------------------------------------------
+struct plugin_ctx_t : public plugmod_t
+{
+  int req_id = 0;
+
+  ~plugin_ctx_t()
+  {
+    if ( req_id != 0 &amp;&amp; cancel_exec_request(req_id) )
+      msg("Cancelled unexecuted ui_request\n");
+  }
+
+  virtual bool idaapi run(size_t) override;
+};
+
+//--------------------------------------------------------------------------
+bool idaapi plugin_ctx_t::run(size_t)
+{
+  class msg_req_t: public ui_request_t
+  {
+    const char *_msg;
+  public:
+    msg_req_t(const char *mesg): _msg(qstrdup(mesg)) {}
+    ~msg_req_t() { qfree((void *)_msg); }
+    virtual bool idaapi run() override
+    {
+      msg("%s", _msg);
+      return false;
+    }
+  };
+
+  class msgs_req_t: public ui_request_t
+  {
+    int count;
+  public:
+    msgs_req_t(int cnt): count(cnt) {}
+    virtual bool idaapi run() override
+    {
+      msg("%d\n", count);
+      return --count != 0;
+    }
+  };
+
+  req_id = execute_ui_requests(
+    new msg_req_t("print "),
+    new msg_req_t("3 countdown "),
+    new msg_req_t("mesages:\n"),
+    new msgs_req_t(3),
+    nullptr);
+  return true;
+}
+
+
+//--------------------------------------------------------------------------
+static plugmod_t *idaapi init()
+{
+  return new plugin_ctx_t;
+}
+
+//--------------------------------------------------------------------------
+//
+//      PLUGIN DESCRIPTION BLOCK
+//
+//--------------------------------------------------------------------------
+plugin_t PLUGIN =
+{
+  IDP_INTERFACE_VERSION,
+  PLUGIN_MULTI,         // The plugin can work with multiple idbs in parallel
+  init,                 // initialize
+  nullptr,
+  nullptr,
+  "This is a sample ui_requests plugin.",
+                        // long comment about the plugin
+  "A sample ui_requests and process_ui_commands plugin",
+                        // multiline help about the plugin
+  "UI requests demo",   // the preferred short name of the plugin
+  "Shift-F8"            // the preferred hotkey to run the plugin
+};
+</code></pre>
+<h3 id="more-plugin-samples"><a class="header" href="#more-plugin-samples">More plugin samples</a></h3>
+<p>We encourage you to browse the <code>plugins</code> folder inside the SDK directory to check out all of examples, including more complex and advances ones, like FindCrypt program, that finds constants used in crypto algorithms, or qproject, that demonstrates how to fully use the Qt environment in IDA.</p>
+<h2 id="modules-samples"><a class="header" href="#modules-samples">Modules samples</a></h2>
+<p>The <code>modules</code> folder contains sample processor modules, that are used to add support for new instruction sets or architectures to IDA. Inside the README file you will find instructions on how to compile and run the modules.</p>
+<p>If you are going to write a new processor module, it’s recommended to follow the below steps:</p>
+<ol>
+<li>copy the sample module files to a new directory</li>
+<li>edit <code>ins.cpp</code> and <code>ins.hpp</code> files</li>
+<li>write the analyser <code>ana.cpp</code></li>
+<li>then outputter</li>
+<li>and emulator (you can start with an almost empty emulator)</li>
+<li>describe the processor &amp; assembler, write the notify() function</li>
+</ol>
+<h2 id="loaders-samples"><a class="header" href="#loaders-samples">Loaders samples</a></h2>
+<p>The <code>ldr</code> folder includes source code for new file format loaders:</p>
+<ul>
+<li><code>aif</code> ARM Image File</li>
+<li><code>amiga</code> Amige Hunk File</li>
+<li><code>aof</code> ARM Object File</li>
+<li><code>aout</code> a.out</li>
+<li><code>dos</code> MS DOS File</li>
+<li><code>dump</code> Memory Dump File</li>
+<li><code>geos</code> GEOS File</li>
+<li><code>hex</code> Intel/Motorola HEX File</li>
+<li><code>hpsom</code> HP SOM</li>
+<li><code>intelomf</code> Intel Object File</li>
+<li><code>javaldr</code> Java Class Loader</li>
+<li><code>mas</code> Macro Assembler</li>
+<li><code>nlm</code> Netware Loader Module</li>
+<li><code>os9</code> FLEX/9</li>
+<li><code>pef</code> Portable Executable Format (MAC)</li>
+<li><code>pilot</code> Palm Pilot</li>
+<li><code>qnx</code> Qnx</li>
+<li><code>rt11</code> RT/11</li>
+<li><code>w32run</code> Watcom RUN32</li>
+</ul>
+<p>ready to be compiled, similarly as processor module samples.</p>
+<h2 id="decompiler-sdk-sample-plugins"><a class="header" href="#decompiler-sdk-sample-plugins">Decompiler SDK sample plugins</a></h2>
+<p>The exemplary decompiler plugins are shipped with the C++ SDK and can be found in the <code>plugins</code> folder (vds1-vds20) alongside other plugins.</p>
+<p>Below are descriptions of sample decompiler plugins.</p>
+<h2 id="sample-1"><a class="header" href="#sample-1">Sample 1</a></h2>
+<p>This plugin decompiles the current function and prints the result in the message window. It is useful to learn how to initialize a decompiler plugin. Please note that all decompiler sample plugins have the “hexrays_” prefix in their names. This is done to make sure that the decompiler plugins are loaded after the hexrays plugin. Otherwise they would see that the decompiler is missing and immediately terminate.</p>
+<p>We recommend you to keep the same naming scheme: please use the “hexrays_” prefix for your decompiler plugins.</p>
+<p>N.B.: if you’re writing a plugin for non-x86 version of the decompiler, you should use another prefix. For example, the x64 decompiler is named “hexx64”, ARM is “hexarm” and so on. To be certain, check IDA’s “plugins” directory. To debug plugin loading issues, you can use -z20 switch when running IDA.</p>
+<h2 id="sample-2"><a class="header" href="#sample-2">Sample 2</a></h2>
+<p>This plugin shows how to hook to decompiler events and react to them. It also shows how to visit all ctree elements and modify them.</p>
+<p>This plugin waits for the decompilation result to be ready and replaces zeroes in pointer contexts with NULLs. One might say that this is just cosmetic change, but it makes the output more readable.</p>
+<p>Since the plugin hooks to events, it is fully automatic. The user can disable it by selecting it from the Edit, Plugins menu.</p>
+<h2 id="sample-3"><a class="header" href="#sample-3">Sample 3</a></h2>
+<p>This plugin shows</p>
+<pre><code>- how to add a new popup menu item
+- how to map the cursor position to ctree element
+- how to modify ctree
+- how to make the changes persistent
+</code></pre>
+<p>This is a quite complex plugin but it is thoroughly commented.</p>
+<h2 id="sample-4"><a class="header" href="#sample-4">Sample 4</a></h2>
+<p>This plugin dumps all user-defined information to the message window. Read the source code to learn how to access various user-defined data from your plugins:</p>
+<pre><code>- label names
+- indented comments
+- number formats
+- local variable names, types, comments
+</code></pre>
+<h2 id="sample-5"><a class="header" href="#sample-5">Sample 5</a></h2>
+<p>This plugin generates a graph from the current pseudocode and displays it with wingraph32.</p>
+<p>The source code can be used to learn ctree details.</p>
+<h2 id="sample-6"><a class="header" href="#sample-6">Sample 6</a></h2>
+<p>This plugin modifies the decompilation output: removes some space characters.</p>
+<p>The source code can be used to learn the output text.</p>
+<h2 id="sample-7"><a class="header" href="#sample-7">Sample 7</a></h2>
+<p>This plugin demonstrates how to use the cblock_t::iterator class. It enumerates all instructions of a block statement.</p>
+<h2 id="sample-8"><a class="header" href="#sample-8">Sample 8</a></h2>
+<p>This plugin demonstrates how to use the udc_filter_t (User-Defined Call generator) class, which allows replacing cryptic function calls, with a simpler/more-readable counterpart.</p>
+<h2 id="sample-9"><a class="header" href="#sample-9">Sample 9</a></h2>
+<p>This plugin demonstrates how to generate microcode for a given function and print it into the output window. It displays fully optimized microcode but it is also possible to retrieve microcode from earlier stages of decompilation. Generating the microcode text should be used only for debugging purposes. Printing microcode in production code may lead to crashes or wrong info.</p>
+<h2 id="sample-10"><a class="header" href="#sample-10">Sample 10</a></h2>
+<p>This plugin installs a custom microcode optimization rule: call !DbgRaiseAssertionFailure <a href="https://fast">fast:</a>.0 =&gt; call !DbgRaiseAssertionFailure &lt;fast:“char *” “assertion text”&gt;.0</p>
+<p>See also sample19 for another example.</p>
+<h2 id="sample-11"><a class="header" href="#sample-11">Sample 11</a></h2>
+<p>This plugin installs a custom inter-block optimization rule:</p>
+<pre><code>goto L1     =&gt;        goto L@
+...
+</code></pre>
+<p>L1: goto L2</p>
+<p>In other words we fix a goto target if it points to a chain of gotos. This improves the decompiler output is some cases.</p>
+<h2 id="sample-12"><a class="header" href="#sample-12">Sample 12</a></h2>
+<p>This plugin displays list of direct references to a register from the current instruction.</p>
+<h2 id="sample-13"><a class="header" href="#sample-13">Sample 13</a></h2>
+<p>This plugin generates microcode for selection and dumps it to the output window.</p>
+<h2 id="sample-14"><a class="header" href="#sample-14">Sample 14</a></h2>
+<p>This plugin shows xrefs to the called function as the decompiler output. All calls are displayed with the call arguments.</p>
+<h2 id="sample-15"><a class="header" href="#sample-15">Sample 15</a></h2>
+<p>This plugin shows list of possible values of a register using the value range analysis.</p>
+<h2 id="sample-16"><a class="header" href="#sample-16">Sample 16</a></h2>
+<p>This plugin installs a custom instruction optimization rule:</p>
+<pre><code>mov #N, var.4                  mov #N, var.4
+xor var@1.1, #M, var@1.1    =&gt; mov #NM, var@1.1
+                                 where NM == (N&gt;&gt;8)^M
+</code></pre>
+<p>We need this rule because the decompiler cannot propagate the second byte of VAR into the xor instruction.</p>
+<p>The XOR opcode can be replaced by any other, we do not rely on it. Also operand sizes can vary.</p>
+<h2 id="sample-17"><a class="header" href="#sample-17">Sample 17</a></h2>
+<p>This plugin shows how to use “Select offsets” widget (select_udt_by_offset() API). This plugin repeats the Alt-Y functionality.</p>
+<h2 id="sample-18"><a class="header" href="#sample-18">Sample 18</a></h2>
+<p>This plugin shows how to specify a register value at a desired location. Such a functionality may be useful when the code to decompile is obfuscated and uses opaque predicates.</p>
+<h2 id="sample-19"><a class="header" href="#sample-19">Sample 19</a></h2>
+<p>This plugin shows how to install a custom microcode optimization rule. Custom rules are useful to handle obfuscated code. See also sample10 for another example.</p>
+<h2 id="sample-20"><a class="header" href="#sample-20">Sample 20</a></h2>
+<p>This plugin shows how to modify the decompiler output on the fly by adding dynamic comments.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../developer-guide/c++-sdk/using-the-decompiler-sdk-decompiler-plug-in.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../developer-guide/c++-sdk/how-to-create-a-plugin.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../developer-guide/c++-sdk/using-the-decompiler-sdk-decompiler-plug-in.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../developer-guide/c++-sdk/how-to-create-a-plugin.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

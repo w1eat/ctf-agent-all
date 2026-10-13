@@ -1,0 +1,8 @@
+.GROUP_NAME the name of the new group.
+
+>Adds a new group.
+
+An empty group with the specified name is created.
+
+!
+$$ my_group

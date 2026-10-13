@@ -1,0 +1,462 @@
+[
+  {
+    "id": 1,
+    "name": "Greetings",
+    "category": "misc",
+    "value": 1,
+    "solves": 484,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Greetings! Here's a flag! `sun{heres_a_flag}`"
+  },
+  {
+    "id": 20,
+    "name": "If you have questions!",
+    "category": "misc",
+    "value": 50,
+    "solves": 368,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "If you have questions, let us know in discord at the #helpdesk channel! Read the channel's topic for this challenge :D https://sunshinectf.org/discord"
+  },
+  {
+    "id": 21,
+    "name": "This Code's Got Bars!",
+    "category": "BSides Orlando",
+    "value": 50,
+    "solves": 41,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "1-Dimensional and Patented!"
+  },
+  {
+    "id": 22,
+    "name": "Serious Business",
+    "category": "BSides Orlando",
+    "value": 136,
+    "solves": 19,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Go check out the Career Village and grab a Bingo Card! Fill it out for more prizes at the end of the day :D"
+  },
+  {
+    "id": 13,
+    "name": "NAS coal",
+    "category": "Forensics",
+    "value": 374,
+    "solves": 319,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": "someone put coal in my gem collection :^("
+  },
+  {
+    "id": 23,
+    "name": "suntrail",
+    "category": "Forensics",
+    "value": 385,
+    "solves": 305,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 1,
+    "desc": "im lost, but you can find the way!"
+  },
+  {
+    "id": 27,
+    "name": "my eyes burn",
+    "category": "Forensics",
+    "value": 398,
+    "solves": 287,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": "anon hasn't been outside in years, so he put the sun in his keyboard. find the flag he types to bring it out."
+  },
+  {
+    "id": 11,
+    "name": "Used Goods of Tomorrow",
+    "category": "web",
+    "value": 407,
+    "solves": 274,
+    "connection_info": "https://usedgoods.web.2026.sunshinectf.games/",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Come to Tommorow-Mart for all your used goods! We even have a partnership with FutureBank to grant you 500 free credeits to start! I wonder who the first millionare will be to purchase the deed to Founders' Vault?"
+  },
+  {
+    "id": 26,
+    "name": "you cut me off",
+    "category": "Forensics",
+    "value": 422,
+    "solves": 251,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": "Here's a flag! It's uhhh ....... .............. .....................uhhhhhhhhh......................... hmm....."
+  },
+  {
+    "id": 12,
+    "name": "You Are Kidding Me",
+    "category": "web",
+    "value": 427,
+    "solves": 244,
+    "connection_info": "https://kidding.web.2026.sunshinectf.games/",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Ever wanted to read up on the cars of the future? We got a blog for that!"
+  },
+  {
+    "id": 25,
+    "name": "Welcome Call!",
+    "category": "Forensics",
+    "value": 435,
+    "solves": 230,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": "Welcome to Bsides Orlando! I just got a call from the flag factory, they said they were looking for their favorite CTFer?"
+  },
+  {
+    "id": 36,
+    "name": "A Hardy Mystery",
+    "category": "BSides Orlando",
+    "value": 460,
+    "solves": 7,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Someone from the future went into the past, and made a mess of the conference! Instead of sane challenges that we could just one-shot, they... left us a message. I think... I think we're going to have to touch grass this conference. Start with the message. The"
+  },
+  {
+    "id": 47,
+    "name": "FlameOn",
+    "category": "RE",
+    "value": 460,
+    "solves": 181,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": "I seem to have gotten my hands on a weird copy of Super Mario World. The fire flower especially seems to be acting strange. Note: You will need Floating IPS (https://www.romhacking.net/utilities/1040/) for this challenge. This is used to install the bps patch "
+  },
+  {
+    "id": 28,
+    "name": "ghost in the thread - 1 - start here",
+    "category": "Forensics",
+    "value": 464,
+    "solves": 173,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": ">be moot >never update >get pwned >mfw https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing (use virtualbox) The imageboard's last known posts are attached as a .html"
+  },
+  {
+    "id": 8,
+    "name": "Total Recall",
+    "category": "Pwn",
+    "value": 469,
+    "solves": 159,
+    "connection_info": "nc chal.sunshinectf.games 26003",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Can you recall how to get out of this one? Files: * [total_recall](https://sunshinectf.games/files/54cf6a/total_recall)"
+  },
+  {
+    "id": 50,
+    "name": "Groundhog Day",
+    "category": "web",
+    "value": 470,
+    "solves": 158,
+    "connection_info": "https://odyssey.web.2026.sunshinectf.games",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "The Punxsutawney Orbital Weather Authority has been broadcasting the same forecast since 1993. Every reading is fresh. Every date is February 2. The Bureau insists this is fine, and the groundhog has declined to comment. Their public console is up. Have a look"
+  },
+  {
+    "id": 30,
+    "name": "ghost in the thread - 3",
+    "category": "Forensics",
+    "value": 472,
+    "solves": 153,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "a week ago moot went on vacation, someone leaked where, but thankfully our faithful, unpaid janitors cleaned it up. where'd moot go on vacation to? refer to ghost in the thread (1) for the challenge. no sun{} format, just the location name."
+  },
+  {
+    "id": 32,
+    "name": "Lil Chompy and the World's Fair",
+    "category": "BSides Orlando",
+    "value": 472,
+    "solves": 6,
+    "connection_info": "UART 115200 8n1",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Go on an adventure with Lil Chompy to the World's Fair! Connect to the badge's UART interface that's accessible via the SAO connector. Baud rate is 115200, 8 data bits, no parity bits, one stop bit. If you're in the CTF room, we have a handful of USB serial ad"
+  },
+  {
+    "id": 39,
+    "name": "Drop dead, like an alligator.",
+    "category": "BSides Orlando",
+    "value": 472,
+    "solves": 6,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Or is it dead drop? I can never remember these things. I'm not wired that way. Challenge sponsored by [The Coding Hackers](https://www.thecodinghackers.com/). _Psst solve \"A Hardy Mystery\" first._ ## REMINDER: DO NOT REMOVE THE DEAD DROP DO NOT REMOVE PARTS OF"
+  },
+  {
+    "id": 29,
+    "name": "ghost in the thread - 2",
+    "category": "Forensics",
+    "value": 481,
+    "solves": 125,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "What keyboard layout was the sysadmin here using? refer to ghost in the thread (1) for the challenge. No sun{} flag format, just the layout name."
+  },
+  {
+    "id": 31,
+    "name": "ghost in the thread - 4",
+    "category": "Forensics",
+    "value": 482,
+    "solves": 124,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "A backdoored password was planted, what is it? refer to ghost in the thread (1) for the challenge. No sun{} flag format, just the password."
+  },
+  {
+    "id": 44,
+    "name": "IntMod",
+    "category": "RE",
+    "value": 483,
+    "solves": 120,
+    "connection_info": null,
+    "files": [
+      {}
+    ],
+    "tags": [],
+    "hints": 0,
+    "desc": "\"IntMod?? Do you mean integer modulus??\" \"No. I do not mean that.\" \"Then what, pretell, could it mean?\" \"Just put the agent on the ghidra dawg\" Author: Bradley Fernandez Flag format: sun{flag_content}"
+  },
+  {
+    "id": 4,
+    "name": "Mad Libs",
+    "category": "Pwn",
+    "value": 484,
+    "solves": 116,
+    "connection_info": "nc chal.sunshinectf.games 26001",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Fill in the blanks! Our Mad Libs game prints back whatever you type. It's just a simple word game... right? Files: * [mad_libs](https://sunshinectf.games/files/fbf35f/mad_libs) * [libc.so.6](https://sunshinectf.games/files/fbf35f/libc.so.6) * [ld-linux-x86-64."
+  },
+  {
+    "id": 5,
+    "name": "Print Print Revolution",
+    "category": "Pwn",
+    "value": 484,
+    "solves": 116,
+    "connection_info": "nc chal.sunshinectf.games 26002",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "The arcade's score printer has been spitting out strange tickets all week. Step up to the renderer and see what it's really printing. Files: * [revolution](https://sunshinectf.games/files/cc3135/revolution)"
+  },
+  {
+    "id": 2,
+    "name": "Cache Money",
+    "category": "Pwn",
+    "value": 485,
+    "solves": 114,
+    "connection_info": "nc chal.sunshinectf.games 26004",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "The arcade's credit manager tracks every wallet in the house. The books haven't been audited in years, so help yourself. Files: * [cache_money](https://sunshinectf.games/files/4995ef/cache_money) * [libc.so.6](https://sunshinectf.games/files/4995ef/libc.so.6) "
+  },
+  {
+    "id": 14,
+    "name": "Homemaker",
+    "category": "Pwn",
+    "value": 485,
+    "solves": 111,
+    "connection_info": "nc sunshinectf.games 26008",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "# A SERVANT IN EVERY HOME, BY 1975! APEX ATOMIC HOUSEHOLD INDUSTRIES, INC IS PROUD TO ANNOUNCE THE MODEL 7 \"HOMEMAKER\" DOMESTIC AUTOMATON POWERED THROUGH USE OF PUNCH CARDS, THE MODEL 7 IS EQUIPPED WITH THOUSANDS OF BYTES OF MEMORY! THE FUTURE IS HERE, NOW! Fi"
+  },
+  {
+    "id": 24,
+    "name": "RoboCall",
+    "category": "RE",
+    "value": 486,
+    "solves": 109,
+    "connection_info": "nc sunshinectf.games 26199",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Welcome to robocall! Let's see how nimbly you navigate this stack. Files: * [robocall](https://sunshinectf.games/files/42969e/robocall)"
+  },
+  {
+    "id": 3,
+    "name": "Code Breaker",
+    "category": "Pwn",
+    "value": 488,
+    "solves": 101,
+    "connection_info": "nc chal.sunshinectf.games 26005",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "CodeBreaker: enterprise-grade encrypted key-value storage. All traffic is encrypted with our proprietary cipher. Your data has never been safer. Files: * [code_breaker](https://sunshinectf.games/files/734617/code_breaker) * [libc.so.6](https://sunshinectf.game"
+  },
+  {
+    "id": 9,
+    "name": "CookieCorp",
+    "category": "web",
+    "value": 488,
+    "solves": 101,
+    "connection_info": "https://tomorrow.web.2026.sunshinectf.games",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "*\"A Better Cookie for a Brighter Tomorrow!\"* Welcome to **CookieCorp**, the Space Age's finest custom-cookie fabrication service. Design a batch from any ingredients you can dream up, then submit it to our tireless robotic **Quality Inspector**. Every recipe i"
+  },
+  {
+    "id": 7,
+    "name": "Safe House",
+    "category": "Pwn",
+    "value": 489,
+    "solves": 97,
+    "connection_info": "nc chal.sunshinectf.games 26007",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "The safe house processes reports and files notes for the field. Get past the front desk and into the vault. Files: * [service](https://sunshinectf.games/files/4a5ed2/service)"
+  },
+  {
+    "id": 10,
+    "name": "SiteCheck",
+    "category": "web",
+    "value": 489,
+    "solves": 96,
+    "connection_info": "https://spaceship.web.2026.sunshinectf.games",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Welcome to **SiteCheck**, the SkyCity fleet's favorite web-diagnostics service since 2062! Enlist for a free inspector account and put any website through its paces: our autonomous inspection drone flies out to the address you provide, clocks how long the page"
+  },
+  {
+    "id": 41,
+    "name": "Ishq FM 104.8?",
+    "category": "BSides Orlando",
+    "value": 490,
+    "solves": 4,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "I thought we were in Orlando. What are we doing listening to them here in Orlando? I didn't even think radio FM went that far. Challenge sponsored by [The Coding Hackers](https://www.thecodinghackers.com/). _Psst solve \"A Hardy Mystery\" first._ ## REMINDER You"
+  },
+  {
+    "id": 15,
+    "name": "Planetary Probe",
+    "category": "web",
+    "value": 496,
+    "solves": 61,
+    "connection_info": "https://planetary.web.2026.sunshinectf.games/ ",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "The Galactic Federation has opened public access to its Planetary Probe Directory, a database of known planets and their telemetry signatures. Your mission is to interface with the probe console and uncover hidden data the Federation would rather keep secret. "
+  },
+  {
+    "id": 16,
+    "name": "Layers of Secrets",
+    "category": "BSides Orlando",
+    "value": 496,
+    "solves": 3,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "That copper-and-FR4 sandwich hanging from your neck is hiding a buried secret..."
+  },
+  {
+    "id": 40,
+    "name": "???",
+    "category": "???",
+    "value": 0,
+    "solves": null,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": ""
+  },
+  {
+    "id": 51,
+    "name": "Vecnet",
+    "category": "misc",
+    "value": 496,
+    "solves": 63,
+    "connection_info": "https://vec.web.2026.sunshinectf.games/",
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "VecNet makes use of AI embedding technologies to speed up your database needs. Get started today!"
+  },
+  {
+    "id": 46,
+    "name": "Get rotated, man!",
+    "category": "BSides Orlando",
+    "value": 499,
+    "solves": 2,
+    "connection_info": null,
+    "files": [],
+    "tags": [],
+    "hints": 0,
+    "desc": "Uh... this one's weird. There's like a spinny thing at the front of the room. What the heck does it mean? I don't even know if the phrase exists? What even should we rotate? I don't know. Rotate twice for maximum security. Challenge sponsored by [The Coding Ha"
+  }
+]

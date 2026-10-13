@@ -1,0 +1,8 @@
+.USERNAME The name of the user to delete.
+.EMAIL The email address of the user.
+.LICENSE_ID The license of the user.
+
+>Deletes a user.
+
+!
+$$ damiank damiank@acme.com XX-XXXX-XXXX-XX

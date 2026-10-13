@@ -1,0 +1,11 @@
+.USERNAME The username of the user.
+.EMAIL The email address of the user.
+.IS_ADMIN Should be 1 if the user is admin, otherwise 0.
+.LICENSE_ID The license of the user.
+
+>Adds a user.
+
+The [`passwd`](#passwd) command must be used after creating a user; otherwise the new user will not be able to login to the Lumina server and use it.
+
+!
+$$ damiank damian@acme.com 0 XX-XXXX-XXXX-XX

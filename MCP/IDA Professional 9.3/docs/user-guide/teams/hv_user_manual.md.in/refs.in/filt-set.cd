@@ -1,0 +1,19 @@
+.[-s SITENAME] The sitename whose filter table should be set. If omitted, defaults to current site.
+.[@file] File containing the new table.
+
+>Sets the [filter table](#path-filters) associated to the
+site, either interactively or from @file.
+
+Information about the format of site filters can be retrieved by
+issuing the [filt get](#site-filters) command.
+
+Only admins can modify filter tables of other users.
+
+! Make everything in the current site hidden, but `.bak` files
+$ echo *.bak | hv filt set
+
+! Set site filters, from a file
+$ cat @tablefile
+*.idb
+*.exe
+$$ -s site1 @tablefile

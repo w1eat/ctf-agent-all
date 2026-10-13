@@ -1,0 +1,22 @@
+.[-r] Recursive
+.[-s] Silent mode; do not output any messages.
+.MAX_SIZE max size of the cache.
+.$NCAT_LOCAL_PATH...:PATH_PATTERN Local directories to process
+
+>Deletes old files from the vault cache on the client.
+
+This command examines the contents of the .vault subdirectory in the specified
+directories and deletes old files from them, so that the total size of files
+does not exceed MAX_SIZE. MAX_SIZE can be specified as a plain number of bytes
+or using the k,M,G suffixes to denote KBs, MBs, GBs. The default value is 1GB.
+
+If `-r` is specified, all subdirectories of the current directory will be
+processed.
+
+!
+$$ 3G /mydir
+deleted /mydir/.vault/B52C6B8E8039752CE8BC6793816EB490: 120M freed, still 4.19G used
+deleted /mydir/.vault/C693254A5A370F609CC86A1F31CE5B84: 149M freed, still 4.05G used
+deleted /mydir/.vault/90CFB553818B2C44DE25759C0D14C811: 670M freed, still 3.39G used
+deleted /mydir/.vault/E8652439192CD33E8D4417C468AFFA49: 213M freed, still 3.18G used
+deleted /mydir/.vault/D0F3CF8A94A646E6EBBB15BD54847B31: 404M freed, still 2.79G used

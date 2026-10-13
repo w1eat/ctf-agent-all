@@ -1,0 +1,632 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hex-Rays v7.2 vs. v7.1 Decompiler Comparison Page - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="hex-rays-v72-vs-v71-decompiler-comparison-page"><a class="header" href="#hex-rays-v72-vs-v71-decompiler-comparison-page">Hex-Rays v7.2 vs. v7.1 Decompiler Comparison Page</a></h1>
+<p>Below you will find side-by-side comparisons of v7.1 and v7.2 decompilations. Please maximize the window too see both columns simultaneously.</p>
+<p>The following examples are displayed on this page:</p>
+<ol>
+<li><a href="#magic-divisions-in-64-bit-code">Magic divisions in 64-bit code</a></li>
+<li><a href="#more-aggressive-if-to-boolean-folding">More aggressive ‘if’ to ‘boolean’ folding</a></li>
+<li><a href="#improved-union-field-selection">Better type of ‘this’ argument</a></li>
+<li><a href="#improved-union-field-selection">Improved union field selection</a></li>
+<li><a href="#improved-recognition-of-for-loops">Improved recognition of ‘for’ loops</a></li>
+<li><a href="#added-support-for-shifted-pointers">Added support for shifted pointers</a></li>
+<li><a href="#better-recognition-of-inlined-standard-functions">Better recognition of inlined standard functions</a></li>
+<li><a href="#improved-application-of-pre-increment-and-pre-decrement">Improved application of pre-increment and pre-decrement</a></li>
+<li><a href="#added-support-for-rrx-addressing-mode-in-arm">Added support for RRX addressing mode in ARM</a></li>
+<li><a href="#improved-constant-propagation-in-global-memory">Improved constant propagation in global memory</a></li>
+<li><a href="#added-support-for-objective-c-blocks">Added support for Objective C blocks</a></li>
+<li><a href="#improved-recognition-of-64-bit-comparisons">Improved recognition of 64-bit comparisons</a></li>
+<li><a href="#merged-common-code-in-if-branches">Merged common code in ‘if’ branches</a></li>
+<li><a href="#added-forced-stack-variables">Added forced stack variables</a></li>
+<li><a href="#added-support-for-virtual-calls">Added support for virtual calls</a></li>
+</ol>
+<p>NOTE: these are just some selected examples that can be illustrated as side-by-side differences. There are many other improvements and new features that are not mentioned on this page.</p>
+<hr>
+<h3 id="magic-divisions-in-64-bit-code"><a class="header" href="#magic-divisions-in-64-bit-code">Magic divisions in 64-bit code</a></h3>
+<p>In the past the Decompiler was able to recognize magic divisions in 32-bit code. We now support magic divisions in 64-bit code too.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">return 21600 * (t / 21600);
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">  return 21600
+       * (((signed __int64)((unsigned __int128)(1749024623285053783LL
+         * (signed __int128)t) &gt;&gt; 64) &gt;&gt; 11) - (t &gt;&gt; 63));
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="more-aggressive-if-to-boolean-folding"><a class="header" href="#more-aggressive-if-to-boolean-folding">More aggressive ‘if’ to ‘boolean’ folding</a></h3>
+<p>More aggressive folding of if_one_else_zero constructs; the output is much shorter and easier to grasp.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">return a1 &lt;&lt; 28 != 0 &amp;&amp; (a1 &amp; (unsigned __int8)(a1 - 1)) == 0;
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">  v1 = 1;
+  v2 = 1;
+  if ( !(a1 &lt;&lt; 28) )
+    v2 = 0;
+  if ( !((unsigned __int8)a1 &amp; (unsigned __int8)(a1 - 1)) )
+    v1 = 0;
+  return v2 &amp;&amp; !v1;
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="better-type-of-this-argument"><a class="header" href="#better-type-of-this-argument">Better type of ‘this’ argument</a></h3>
+<p>The decompiler tries to guess the type of the first argument of a constructor. This leads to improved listing.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">XImage *__fastcall XImage::setHotSpot(XImage *this, int a2, int a3)
+{
+  LOWORD(this-&gt;height) = a2;
+  HIWORD(this-&gt;height) = a3;
+  return this;
+}
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">int __fastcall XImage::setHotSpot(int this, int a2, int a3)
+{
+  *(_WORD *)(this + 4) = a2;
+  *(_WORD *)(this + 6) = a3;
+  return this;
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="improved-union-field-selection"><a class="header" href="#improved-union-field-selection">Improved union field selection</a></h3>
+<p>The decompiler has a better algorithm to find the correct union field. This reduces the number of casts in the output.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">float __fastcall ret4f(__n128 a1)
+{
+  return a1.n128_f32[2];
+}
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">float __fastcall ret4f(__n128 a1)
+{
+  return *(float *)&amp;a1.n128_u32[2];
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="improved-recognition-of-for-loops"><a class="header" href="#improved-recognition-of-for-loops">Improved recognition of ‘for’ loops</a></h3>
+<p>We improved recognition of ‘for’ loops, they are shorter and much easier to understand.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">  for ( i = 0; i &lt; 16; ++i )
+  {
+    printf("%x", *(unsigned __int8 *)(i + v2) &gt;&gt; 4);
+    printf("%x", *(_BYTE *)(i + v2) &amp; 0xF);
+  }
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">v3 = 0;
+do
+{
+  printf("%x", (unsigned int)*(unsigned __int8 *)(v3 + v2) &gt;&gt; 4);
+  printf("%x", *(_BYTE *)(v3++ + v2) &amp; 0xF);
+}
+while ( v3 &lt; 16 );
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="added-support-for-shifted-pointers"><a class="header" href="#added-support-for-shifted-pointers">Added support for shifted pointers</a></h3>
+<p>Please note that the code on the left is completely illegible; the assembler code is probably easier to work with in this case.<br>However, the code on the right is very neat.<br>JFYI, below is the class hierarchy for this example:</p>
+<pre><code>struct __cppobj B1
+{
+  B1_vtbl *__vftable /*VFT*/;
+  char d1[4];
+};
+struct __cppobj B2
+{
+  B2_vtbl *__vftable /*VFT*/;
+  char d2[4];
+};
+struct __cppobj A : B1, B2
+{
+  char d3[4];
+};
+  
+</code></pre>
+<p>Also please note that the source code had</p>
+<pre><code>A::a2(A *this)
+</code></pre>
+<p>but at the assembler level we have</p>
+<pre><code>A::a2(B2 *this)
+</code></pre>
+<p>Visual Studio plays such tricks.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre class="language-javascript"><code class="lang-javascript"><strong>int __thiscall A::a2(B2 *__shifted(A,8) this)
+</strong>{
+  printf("A::a2 %p\n", ADJ(this));
+  printf("A::d2 %p\n", ADJ(this)-&gt;d2);
+  return ADJ(this)-&gt;d3[0];
+}
+</code></pre>
+
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">int __thiscall A::a2(B2 *this)
+{
+  B2 *v1; // ST08_4
+
+  v1 = this;
+  printf("A::a2 %p\n", this - 1);
+  printf("A::d2 %p\n", (char *)v1 + 4);
+  return *((char *)v1 + 8);
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="better-recognition-of-inlined-standard-functions"><a class="header" href="#better-recognition-of-inlined-standard-functions">Better recognition of inlined standard functions</a></h3>
+<p>Yes, the code on the left and on the right do the same. We prefer the right side, very much.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">if ( !memcmp(i + 10, "AMIBIOSC", 8u) )
+      return i + 10;
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">    v2 = 0;
+    v3 = 1;
+    v4 = i + 10;
+    v5 = "AMIBIOSC";
+    v6 = 8;
+    do
+    {
+      if ( !v6 )
+        break;
+      v2 = *v4 &lt; (const unsigned __int8)*v5;
+      v3 = *v4++ == *v5++;
+      --v6;
+    }
+    while ( v3 );
+    if ( (!v2 &amp;&amp; !v3) == v2 )
+      return i + 10;
+
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="improved-application-of-pre-increment-and-pre-decrement"><a class="header" href="#improved-application-of-pre-increment-and-pre-decrement">Improved application of pre-increment and pre-decrement</a></h3>
+<p>Minor stuff, one would say, and we’d completely agree. However, these minor details make reading the output a pleasure.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">    v5 = *++v4;
+    result = --a4;
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">    v5 = (v4++)[1];
+    result = a4-- - 1;
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="added-support-for-rrx-addressing-mode-in-arm"><a class="header" href="#added-support-for-rrx-addressing-mode-in-arm">Added support for RRX addressing mode in ARM</a></h3>
+<p>This is a rare addressing mode that is nevertheless used by compilers. Now we support it nicely.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">__int64 __fastcall sar64(__int64 a1)
+{
+  return a1 &gt;&gt; 1;
+}
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">__int64 __fastcall sar64(__int64 a1)
+{
+  __int64 result; // r0
+
+  SHIDWORD(a1) &gt;&gt;= 1;
+  __asm { MOV     R0, R0,RRX }
+  return result;
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="improved-constant-propagation-in-global-memory"><a class="header" href="#improved-constant-propagation-in-global-memory">Improved constant propagation in global memory</a></h3>
+<p>The new decompiler managed to disentangle the obfuscation code and convert it into a nice strcpy()</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">strcpy((char *)&amp;dword_1005DF9A, "basic_string");
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">  dword_1005DF9A = 0xADB0A3A3;
+  dword_1005DF9E = 0xBCB499A6;
+  dword_1005DFA2 = 0xABA5A3BB;
+  LOBYTE(dword_1005DF9A) = 'b';
+  BYTE1(dword_1005DF9A) ^= 0xC2u;
+  HIWORD(dword_1005DF9A) = 'is';
+  LOBYTE(dword_1005DF9E) = 'c';
+  BYTE1(dword_1005DF9E) ^= 0xC6u;
+  HIWORD(dword_1005DF9E) = 'ts';
+  LOBYTE(dword_1005DFA2) = 'r';
+  BYTE1(dword_1005DFA2) ^= 0xCAu;
+  HIWORD(dword_1005DFA2) = 'gn';
+  byte_1005DFA6 = 0;
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="added-support-for-objective-c-blocks"><a class="header" href="#added-support-for-objective-c-blocks">Added support for Objective C blocks</a></h3>
+<p>The new version knows about ObjC blocks and can represent them correctly in the output. See <code>Edit, Other, Objective-C</code> submenu in IDA, it contains the necessary actions to analyze the blocks.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">__int64 __fastcall sub_181450634(__int64 a1, __int64 a2, __int64 a3)
+{
+  Block_layout_18145064C blk; // [xsp+0h] [xbp-30h]
+
+  blk.isa = _NSConcreteStackBlock;
+  *(_QWORD *)&amp;blk.flags = 0x42000000LL;
+  blk.invoke = sub_181450694;
+  blk.descriptor = (Block_descriptor_1 *)&amp;unk_1B0668958;
+  blk.lvar1 = *(_QWORD *)(a1 + 32);
+  blk.lvar2 = a3;
+  return sub_18144BD0C(a2, &amp;blk);
+}
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">__int64 __fastcall sub_181450634(__int64 a1, __int64 a2, __int64 a3)
+{
+  void *(*v4)[32]; // [xsp+0h] [xbp-30h]
+  __int64 v5; // [xsp+8h] [xbp-28h]
+  __int64 (__fastcall *v6)(); // [xsp+10h] [xbp-20h]
+  void *v7; // [xsp+18h] [xbp-18h]
+  __int64 v8; // [xsp+20h] [xbp-10h]
+  __int64 v9; // [xsp+28h] [xbp-8h]
+
+  v4 = _NSConcreteStackBlock;
+  v5 = 1107296256LL;
+  v6 = sub_181450694;
+  v7 = &amp;unk_1B0668958;
+  v8 = *(_QWORD *)(a1 + 32);
+  v9 = a3;
+  return sub_18144BD0C(a2, &amp;v4);
+}
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="improved-recognition-of-64-bit-comparisons"><a class="header" href="#improved-recognition-of-64-bit-comparisons">Improved recognition of 64-bit comparisons</a></h3>
+<p>We continue to improve recognition of 64-bit arithmetics. While it is impossible to handle all cases, we do not give up.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">  gettimeofday(&amp;tv, 0);
+  v0 = 90 * (v3 / 1000 + 1000LL * *(_QWORD *)&amp;tv);
+  if ( v0 &lt; 0xFFFFFFFFFFFFFFFFLL )
+    stamp = 90 * (v3 / 1000 + 1000LL * *(_QWORD *)&amp;tv);
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">  gettimeofday(&amp;tv, 0);
+  v0 = 1000LL * (unsigned int)tv.tv_usec;
+  HIDWORD(v0) = (unsigned __int64)(1000LL * *(_QWORD *)&amp;tv) &gt;&gt; 32;
+  v1 = 90LL * (unsigned int)(v4 / 1000 + v0);
+  HIDWORD(v1) = (unsigned __int64)(90 * (v4 / 1000 + v0)) &gt;&gt; 32;
+  if ( HIDWORD(v1) &lt; 0xFFFFFFFF || -1 == HIDWORD(v1) &amp;&amp; (unsigned int)stamp &gt; (unsigned int)v1 )
+    stamp = v1;
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="merged-common-code-in-if-branches"><a class="header" href="#merged-common-code-in-if-branches">Merged common code in ‘if’ branches</a></h3>
+<p>Yet another optimization rule that lifts common code from ‘if’ branches. We made it even more aggressive.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">    mywcscpy();
+    if ( a3 &lt; 0 )
+      v4 = -a3;
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">    if ( a3 &gt;= 0 )
+    {
+      mywcscpy();
+    }
+    else
+    {
+      mywcscpy();
+      v4 = -a3;
+    }
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="added-forced-stack-variables"><a class="header" href="#added-forced-stack-variables">Added forced stack variables</a></h3>
+<p>Sometimes compilers reuse the same stack slot for different purposes. Many our users asked us to add a feature to handle this situation. The new decompiler addresses this issue by adding a command to <a href="https://hex-rays.com/products/decompiler/manual/cmd_force_lvar.shtml">force creation of a new variable</a> at the specified point. Currently we support only aliasable stack variables because this is the most common case.</p>
+<p>In the sample above the slot of the <code>p_data_format</code> variable is reused. Initially it holds a pointer to an integer (data_format) and then it holds a simple integer (errcode). Previous versions of the decompiler could not handle this situation nicely and the output would necessarily have casts and quite difficult to read. The two different uses of the slot would be represented just by one variable. You can see it in the left listing.</p>
+<p>The new version produces clean code and displays two variables. Naturally it happens after applying the <code>force new variable</code> command.</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">    data_format = *p_data_format;
+    if ( *p_data_format &lt; 0 || data_format &gt; 13 )
+    {
+      errcode = 2;
+      SetError(&amp;this-&gt;status, &amp;errcode, "format not one of accepted types");
+    }
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">    data_format = *p_data_format;
+    if ( *p_data_format &lt; 0 || data_format &gt; 13 )
+    {
+      p_data_format = (int *)2;
+      SetError(&amp;this-&gt;status, (errcode_t *)&amp;p_data_format, "format not one of accepted types");
+    }
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+<h3 id="added-support-for-virtual-calls"><a class="header" href="#added-support-for-virtual-calls">Added support for virtual calls</a></h3>
+<p>Well, these listings require no comments, the new version apparently wins!</p>
+<p>{% tabs %}
+{% tab title=“PSEUDOCODE V7.2” %}</p>
+<pre><code class="language-javascript">void __cdecl test3(D7 *a1)
+{
+  a1-&gt;f1(&amp;a1-&gt;A1);
+  a1-&gt;f2(&amp;a1-&gt;D3);
+  a1-&gt;f3(&amp;a1-&gt;D5);
+  a1-&gt;f4(&amp;a1-&gt;A4);
+  a1-&gt;f5(a1);
+  a1-&gt;f6(a1);
+  a1-&gt;g0(&amp;a1-&gt;D5);
+  a1-&gt;g5(&amp;a1-&gt;D5);
+  a1-&gt;g7(a1);
+  if ( a1 )
+    a1-&gt;~D7(a1);
+}
+</code></pre>
+<p>{% endtab %}</p>
+<p>{% tab title=“PSEUDOCODE V7.1” %}</p>
+<pre><code class="language-python">void __cdecl test3(D7 *a1)
+{
+  (**((void (__cdecl ***)(char *))a1 + 12))((char *)a1 + 48);
+  (*(void (__cdecl **)(char *))(*((_DWORD *)a1 + 10) + 12))((char *)a1 + 40);
+  (**((void (__cdecl ***)(char *))a1 + 6))((char *)a1 + 24);
+  (**((void (__cdecl ***)(char *))a1 + 26))((char *)a1 + 104);
+  (**(void (__cdecl ***)(D7 *))a1)(a1);
+  (*(void (__cdecl **)(D7 *))(*(_DWORD *)a1 + 12))(a1);
+  (*(void (__cdecl **)(char *))(*((_DWORD *)a1 + 6) + 4))((char *)a1 + 24);
+  (*(void (__cdecl **)(char *))(*((_DWORD *)a1 + 6) + 16))((char *)a1 + 24);
+  (*(void (__cdecl **)(D7 *))(*(_DWORD *)a1 + 16))(a1);
+  if ( a1 )
+    (*(void (__cdecl **)(D7 *))(*(_DWORD *)a1 + 8))(a1);
+}
+
+</code></pre>
+<p>{% endtab %}
+{% endtabs %}</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly/hex-rays-v7.3-vs-v7.2-decompiler-comparison-page.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../user-guide/decompiler/decompiler-manual/interactive.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../user-guide/decompiler/introduction-to-decompilation-vs-disassembly/hex-rays-v7.3-vs-v7.2-decompiler-comparison-page.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../user-guide/decompiler/decompiler-manual/interactive.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../searcher-c2a407aa.js"></script>
+
+        <script src="../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../highlight-abc7f01d.js"></script>
+        <script src="../../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

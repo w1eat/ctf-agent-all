@@ -1,0 +1,19 @@
+.[-u USER] The new user (owner) of the site, can only be different than the
+previous owner if the current user is admin.
+.SITENAME The name of the site that will be edited. It must exist and be
+owned by the current user, unless if the current user is admin.
+.ROOTDIR The new absolute path to the directory that will hold the site files.
+.[HOST] The new hostname that will be used for the site. It can be omitted
+if no changes are desired.
+
+>Edits an existing site's details, such as the
+[rootdir](#root-directory) and the host it is bound to.
+
+Admins can reassign a site to a new user or edit sites of other users.
+
+! Change the root directory of a site:
+$$ alicepc /home/alice/vault
+
+! Transfer ownership of site "local_on_shared_machine" to Bob:
+$$ -u bob local_on_shared_machine /home/shared/projects re.acme.com
+

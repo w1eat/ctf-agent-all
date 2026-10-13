@@ -1,0 +1,26 @@
+version: beta2
+platform: unknown
+native_id: '28'
+name: ghost in the thread - 1 - start here
+category: Forensics
+description: '>be moot >never update >get pwned >mfw https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing
+  (use virtual machine / sandbox). Part 1 of 4 - start here. Attached: sunchan.html.
+  External imagepack on Google Drive.'
+value: 463
+files:
+- distfiles/sunchan.html
+challenge_mode: attachment
+connection_info: ''
+environment_required: false
+challenge_url: https://2026.sunshinectf.org/challenges#ghost%20in%20the%20thread%20-%201%20-%20start%20here-28
+environment: {}
+capabilities: []
+attachments:
+- filename: sunchan.html
+  name: sunchan.html
+  sha256: d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e
+  size: 40034
+  url: https://2026.sunshinectf.org/files/00e4726e95ac014b970a678ca6d18ace/sunchan.html
+attachments_scanned: false
+state: solved
+reason: ''

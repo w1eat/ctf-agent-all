@@ -1,0 +1,28 @@
+version: beta2
+platform: unknown
+native_id: '20'
+name: If you have questions!
+category: misc
+description: 'If you have questions, let us know in discord at the #helpdesk channel!
+  Read the channel''s topic for this challenge :D https://sunshinectf.org/discord'
+value: 50
+files: []
+challenge_mode: remote
+connection_info: https://sunshinectf.org/discord
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#If%20you%20have%20questions!-20
+environment:
+  status: not_required
+  source: remote
+  url: https://sunshinectf.org/discord
+  host: ''
+  compose_project: ''
+  metadata:
+    note: 'No hosted environment; flag is in the SunshineCTF Discord #helpdesk channel
+      topic'
+    source: platform-page
+capabilities: []
+attachments: []
+attachments_scanned: true
+state: ready
+reason: ''

@@ -1,0 +1,20 @@
+.DESCRIPTION The description of the new worklist.
+
+>Creates a new worklist, with the provided description.
+
+The worklist will initially be empty, and assigned a free ID.
+
+Files can be associated to that new worklist when they are marked for
+[addition](#add), [deletion](#del), or
+[edition](#edit).
+
+!
+$$ "Working on the 'TMutexLocker' vtable"
+added worklist 3
+$ hv edit -w 3 //cppobj*
+ok checked out '//cppobj_virtcall.i64' for 'edit' (worklist 3)
+$$ "vm2vm: WIP"
+added worklist 4
+$ hv edit -w 4 //REsearch/*
+ok checked out '//REsearch/vm2vm.exe' for 'edit' (worklist 4)
+ok checked out '//REsearch/vm2vm.i64' for 'edit' (worklist 4)

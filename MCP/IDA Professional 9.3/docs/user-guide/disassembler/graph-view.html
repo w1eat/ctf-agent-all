@@ -1,0 +1,419 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Graph view - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="graph-view"><a class="header" href="#graph-view">Graph view</a></h1>
+<p>In the graph view, the current function is represented as a collection of nodes linked together with edges. Nodes represent basic blocks and edges represent code cross-references between them.</p>
+<p>Only code items are visible in the graph view, data items are hidden. To display them, switch to text mode by pressing Space. The graph view is available for the instructions belonging to functions. IDA automatically switches to text mode if the current item cannot be displayed in graph mode. It also displays a warning, which we recommend to hide away as soon as you become familiar with the concept.</p>
+<p>The Space key can be used to toggle between the graph and text views.</p>
+<p>Please select one of the following topic to learn more about graphs:</p>
+<ul>
+<li><a href="graph-view.html#the-current-node">The current node</a></li>
+<li><a href="graph-view.html#selections-in-graphs">Selections in graphs</a></li>
+<li><a href="graph-view.html#customizing-graph-layout">Customizing graph layout</a></li>
+<li><a href="graph-view.html#zooming-graphs">Zooming graphs</a></li>
+<li><a href="graph-view.html#scrolling-graphs">Scrolling graphs</a></li>
+<li><a href="graph-view.html#graph-node-groups">Graph node groups</a></li>
+<li><a href="graph-view.html#graph-overview-window">Graph overview window</a></li>
+<li><a href="graph-view.html#graph-colors">Graph colors</a></li>
+<li><a href="graph-view.html#graph-options">Graph options</a></li>
+<li><a href="graph-view.html#various-graph-hints">Various graph hints</a></li>
+</ul>
+<h3 id="the-current-node"><a class="header" href="#the-current-node">The current node</a></h3>
+<p>There are two concepts: the current node and the selected nodes. The node with the keyboard cursor is considered as the current node. If the user clicks on the graph background, the keyboard cursor will disappear and there will be no current node. In the absence of the current node, IDA uses the last valid address for the user commands (like <a href="../user-interface/menu-bar/edit/give-name-to-the-location.html">rename</a> and similar commands). For example, if the user invokes the ‘rename’ command by pressing N and if there is no current node, IDA will still display the ‘rename’ dialog box for the last valid address.</p>
+<p>Clicking on the node title will make the clicked node the current one. The keyboard cursor will be moved to the clicked node. Any selection of the disassembly text will be cancelled upon switching the current node.</p>
+<p>The default color for the title of the current node is dark gray.</p>
+<p>In addition to the obvious method of clicking with the mouse left-button to select the current node, IDA supports many other methods:</p>
+<pre><code> - Clicking with the mouse wheel selects the clicked node and centers
+   the clicked point in the window
+ - Keyboard arrows can be used to move from one node to another. When
+   the keyboard cursor reaches the node border and the user presses
+   the arrow once more, IDA finds a node in the specified direction
+   and makes it the current.
+ - The Ctrl-Up key displays the list of nodes referring to the current
+   node and allows jumping to them. The Ctrl-Down key does the same
+   with the referenced nodes.
+ - Pressing '5' on the keypad positions the keyboard cursor at
+   the window center
+ - Left-click on an edge makes one of its ends (source or destination)
+   the current node. The node farthest from the click point is selected
+ - Ctrl-click on an edge jumps to its destination
+ - Alt-click on an edge jumps to its source
+</code></pre>
+<p>Clicking with the mouse on the node text (disassembly listing) has the usual meaning: IDA will move the keyboard cursor to the clicked location. It is also possible to select the disassembly listing within one node.</p>
+<h3 id="selections-in-graphs"><a class="header" href="#selections-in-graphs">Selections in graphs</a></h3>
+<p>Many graph operations are applied to the selected nodes. The current node is considered to be part of the node selection for all operations.</p>
+<p>The graph nodes can be selected using the mouse. To select many nodes at once, press and hold the Ctrl key during the mouse operation. The Alt key removes nodes from the current selection.</p>
+<p>Internally, IDA keeps track of the selected nodes and edge layout points. Edge layout points are the points where edges are bent. If the current selection is moved in the graph, the selected edge layout points are moved too.</p>
+<p>The default color for the title of the selected nodes is light gray. Other node titles are displayed with white color.</p>
+<p>See also <a href="proximity-view.html">proximity view</a>.</p>
+<h3 id="customizing-graph-layout"><a class="header" href="#customizing-graph-layout">Customizing graph layout</a></h3>
+<p>Each node has a title bar with title buttons. The title bar can be used to displace the node. Displacing nodes or edges creates a custom layout. The custom layouts are automatically saved in the database. If there is a custom layout for the function, IDA never destroys it without your explicit permission. This behavior has its drawbacks: when the nodes are resized (because of added comments, for example), the old layout will be retained and the nodes could overlap. In this case, the user can ask IDA to redo the layout or manually move the overlapping nodes. To avoid displacing nodes inadvertently, turn on the <a href="graph-view.html#graph-options">lock graph layout</a> option.</p>
+<p>The user can also click on the edge layout points (edge bending points) and drag them. If two edge layout points are too close, one of them will be deleted. To create new edge layout points, use Shift-DoubleClick on the edge.</p>
+<h3 id="zooming-graphs"><a class="header" href="#zooming-graphs">Zooming graphs</a></h3>
+<p>The graph can be zoomed in and out. There are several ways of zooming the graph:</p>
+<pre><code> - Use Ctrl-Wheel. The current mouse position will be the zoom center
+   point (i.e. this point will not move during the zoom operation)
+ - Use the predefined 'Zoom 100%' and 'Fit window' commands. They are
+   available from the right-click menu or by their shortcuts: '1' and
+   'W' respectively. The current mouse position is the zoom center
+   point for the 'zoom 100%' command.
+ - Use Ctrl-KeypadPlus or Ctrl-KeypadMinus keys. The current keyboard
+   cursor is the zoom center for these commands.
+ - Use Ctrl-Shift-drag. This lets you draw a rectangle to which IDA
+   will zoom.
+</code></pre>
+<p>There are two options linked to the graph zooming:</p>
+<pre><code> - Auto fit graph to window: will fit the current graph to the window
+   size. Default: off
+ - Fit window max zoom level 100%: the 'fit window' command does not
+   use zoom levels higher than 100%. Default: on
+</code></pre>
+<p>The zoom level is never greater than 1000% and less than 1%. IDA remembers the current zoom level for each location in the navigation history.</p>
+<p>See also <a href="proximity-view.html">proximity view</a>.</p>
+<h3 id="scrolling-graphs"><a class="header" href="#scrolling-graphs">Scrolling graphs</a></h3>
+<p>The user can pan (shift) the graph by clicking with the left mouse button on the graph background and dragging it. In the rare case when there is no graph background visible on the screen, the Shift-click can be used to move the graph. This can happen on very high zoom levels, when the current node occupies the whole window.</p>
+<p>The mouse wheel scrolls the graph vertically. If the Alt key is pressed, it will scroll the graph horizontally.</p>
+<p>The Page Up and Page Down keys scroll the graph vertically. The keyboard arrows can scroll the graph if they reach the node border and cannot jump to another node in the specified direction.</p>
+<p>Scrolling the graph does not change the keyboard cursor position. As soon as the graph is refreshed on the screen, IDA will scroll the graph so that the keyboard cursor becomes visible.</p>
+<p>See also <a href="proximity-view.html">proximity view</a>.</p>
+<h3 id="graph-node-groups"><a class="header" href="#graph-node-groups">Graph node groups</a></h3>
+<p>Any number of nodes can be collapsed into a single synthetic node. Such a synthetic node contains a user-provided text instead of normal disassembly listing. The ‘group’ command is available from the right-click menu if there are selected nodes.</p>
+<p>Even a single node can be used to create a group. This feature can be used to collapse huge nodes into something manageable or to hide a group that consists of one node.</p>
+<p>After creating a group, IDA automatically refreshes the graph layout. If a custom layout was present, it is not applied to the reduced graph. However, the existing custom layout is not destroyed and will be re-used as soon as the user switches to the full graph by deleting the group or uncollapsing it.</p>
+<p>The node groups can be nested: synthetic nodes can be used to create other groups. This feature allows reducing the graph into a single node. Each node can belong to only one group at a time.</p>
+<p>Groups can be uncollapsed to display the original node content. The node frames of the current uncollapsed group (the one with the mouse pointer) are displayed with a special color. The default group frame color is yellow. This way, the existing uncollapsed groups can be visualized by hovering the mouse over the graph nodes.</p>
+<p>There are also commands to collapse and uncollapse all groups in the graph. They are available from the right click menu.</p>
+<p>To edit the contents of synthetic nodes, use the ‘set node text’ button on the node title. The ‘rename’ command can be used too.</p>
+<p>IDA automatically remembers the graph groups and their state for each function.</p>
+<h3 id="graph-overview-window"><a class="header" href="#graph-overview-window">Graph overview window</a></h3>
+<p>IDA has a small graph overview window. It displays the whole graph in the zoom out form and gives the user an idea about which part of the graph is visualized on the main window.</p>
+<p>Clicking on the graph overview window visualizes different parts of the graph in the main window. It is also possible to click and drag the focus frame - the main window will be refreshed accordingly.</p>
+<p>The graph overview window is visible only in the graph view node. As soon as another non-modal window gets focus, the graph overview is closed. It automatically opens when a graph view is activated.</p>
+<p>The graph overview is displayed by default. To hide it, right click on the main toolbar background and select Navigation, Graph overview menu item.</p>
+<p>The graph overview window can be resized to accommodate really huge graphs.</p>
+<h3 id="graph-colors"><a class="header" href="#graph-colors">Graph colors</a></h3>
+<p>Graph edges can have several colors. In graph view:</p>
+<pre><code> - Blue: a normal edge
+ - Green: if the jump is taken (its condition is satisfied)
+ - Red: if the jump is not taken
+ - Blinking: when in the debugger, the edge that will be followed blinks
+</code></pre>
+<p>And, in proximity view:</p>
+<pre><code> - Blue: Code cross-reference edge
+ - Gray: Data cross-reference edge
+</code></pre>
+<p>IDA highlights the current mouse items. If the mouse is hovered over an edge, it is highlighted. If the mouse is hovered over a node, all adjacent edges are highlighted. To turn off the highlighting, specify the ‘current edge’ color as an undefined custom color.</p>
+<p>The ‘highlighted edge’ and ‘foreign node’ colors are not used yet.</p>
+<p>See also <a href="proximity-view.html">proximity view</a>.</p>
+<h3 id="graph-options"><a class="header" href="#graph-options">Graph options</a></h3>
+<p>Use graph view by default</p>
+<pre><code>        IDA switches to graph mode for each 'jump' command.
+</code></pre>
+<p>Enable graph animation</p>
+<pre><code>        Animate the graph layout, movement, and group collapsing/uncollapsing.
+        While animation takes time, it gives the user some idea what's going on.
+</code></pre>
+<p>Draw node shadows</p>
+<pre><code>        Display shadows for each graph node. Shadows are not displayed
+        for really huge or ridiculously small nodes.
+</code></pre>
+<p>Auto fit graph into window</p>
+<pre><code>        Zoom the graph so that it occupies the whole window.
+</code></pre>
+<p>Fit window max zoom level 100%</p>
+<pre><code>        The 'fit window' command maximal zoom level is 100%.
+</code></pre>
+<p>Re-layout graph if nodes overlap</p>
+<pre><code>        IDA recomputes the graph layout if a node overlap is detected.
+        The presence of a custom layout (if the user has displaced
+        some graph nodes) effectively turns off this option.
+</code></pre>
+<p>Re-layout graph upon screen refresh</p>
+<pre><code>        IDA recomputes the graph layout at each screen refresh.
+        Turning this option off accelerates IDA but then
+        a manual layout might be required after some operations.
+</code></pre>
+<p>Truncate at the right margin</p>
+<pre><code>        All nodes at truncated at the right margin. The right margin
+        is specified in the Options, General, Disassembly tab.
+        This option narrows the graph but hides some information
+        by truncating long lines.
+</code></pre>
+<p>Lock graph layout</p>
+<pre><code>        Locks the graph layout by ignoring attempts to displace
+        nodes. This prevents the creation of custom layouts that might lead
+        to ugly graph layouts when nodes change their sizes.
+</code></pre>
+<p>PROXIMITY VIEW</p>
+<p>Show data references</p>
+<pre><code>        Show data cross-referenced items in proximity view.
+</code></pre>
+<p>Hide library functions</p>
+<pre><code>        Do not show data or code cross-references to library functions,
+        only show cross-referenced local functions.
+</code></pre>
+<p>Unlimited children recursion</p>
+<pre><code>        Recurse until there are no more callees (children) of the currently
+        selected central node and all of his children.
+</code></pre>
+<p>Recurse into library functions</p>
+<pre><code>        Displays children data or code cross-references from library
+        functions.
+</code></pre>
+<p>Max parents recursion</p>
+<pre><code>        Maximum recursion level for displaying parents of the currently
+        selected central node. The value '0' disables parents recursion.
+</code></pre>
+<p>Max children recursion</p>
+<pre><code>        Maximum recursion level for displaying children of the currently
+        selected central node. The value '0' means no maximum recursion
+        level.
+</code></pre>
+<p>Max nodes per level</p>
+<pre><code>        Maximum number of nodes to show per level of children and parents.
+</code></pre>
+<p>See also: <a href="../user-interface/menu-bar/options.html#text-representation-dialog">right margin</a></p>
+<h3 id="various-graph-hints"><a class="header" href="#various-graph-hints">Various graph hints</a></h3>
+<ol>
+<li>The following actions can improve the speed of graph drawing:</li>
+</ol>
+<pre><code> - Turn off animation
+ - Turn off node shadows
+ - Specify identical top and bottom background colors
+ - Turn off 'relayout' options (might lead to stale graph contents)
+ - Turn off the graph overview window
+</code></pre>
+<ol start="2">
+<li> Printing the graph: the ‘print’ command is available at the graph toolbar. The graph toolbar is visible by default but if you have saved a <a href="../user-interface/desktops.html#save-desktop">custom desktop</a> configuration in the past, it will not be visible. To set it on, check the View, Toolbars, Graph view menu item.</li>
+<li> Working with huge graphs: do not forget about the node groups and use them to make the graph simpler.</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/disassembler/background-analysis.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/disassembler/proximity-view.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/disassembler/background-analysis.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/disassembler/proximity-view.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,10 @@
+.[-s] Silent mode; do not output any messages.
+.[-y] Really purge the files, without this parameter the command does a dry-run.
+.$NCAT_VAULT_PATH...:PATH_PATTERN Vault path of file(s) to purge from the vault.
+
+>Purges file(s) from the Vault server, permanently deleting it and all of its history.
+
+The path patterns must be specified using full paths, starting with //
+
+!
+$$ -s -y //work/ds1_10 //work/more_work

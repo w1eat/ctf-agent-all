@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "current_key": "fbb58109347fb1306df8:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "fbb58109347fb1306df8:platform_confirmed",
+      "flag": "sun{F1aM3_oN_M4r10}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "FlameOn",
+        "category": "RE",
+        "description": "I seem to have gotten my hands on a weird copy of Super Mario World. The fire flower especially seems to be acting strange. Note: this challenge is a ROM hack patch (bps).",
+        "connection_info": "",
+        "value": 460,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via BPS ROM-hack patch analysis: parsed the byuu-format BPS container (high bit of each varint byte = STOP), recovering source_size=0x80000 (512KB SMW) and target_size=0x100000 (expanded 1MB). The patch overwrites offset 0x1C3 with '22 00 80 10 EA EA' (JSL $108000; NOP; NOP) and offset 0xC5F9 with '22 36 80 10 EA' (JSL $108036; NOP), redirecting into injected code at file offset 0x80000. The injected 65816 routine is LDA $8022,X / EOR #$5A / STA $7EC100,X ... a null-terminated XOR-0x5A string decryptor. The encrypted flag bytes are embedded in the same TargetRead literal (file offset 524299+23); XOR each byte with 0x5A to reveal the flag.: sun{F1aM3_oN_M4r10} | Evidence: ctf.bps magic = 'BPS1'; 140 bytes ; Correct BPS varint parse (byte&0x7f added at running shift; HIGH bit set = break) gives source_size=0x80000, target_size=0x100000, metadata_size=0 ; Actions list includes TargetRead at output offset 451 (22 00 80 10 ea ea = JSL $108000; NOP; NOP) and at 50681 (22 36 80 10 ea = JSL $108036; NOP) ; 65816 disasm of literal at 524299: 5a 48 a2 00 bd 22 80 f0 09 49 5a 9f 00 c1 7e e8 80 f2 68 7a fa ab 6b => loop LDA $8022,X / EOR #$5A / STA $7EC100,X (XOR-0x5A string decryptor) ; Embedded encrypted bytes 29 2f 34 21 1c 6b 3b 17 69 05 35 14 05 17 6e 28 6b 6a 27 00 XOR 0x5A => 'sun{F1aM3_oN_M4r10}'",
+      "solution_steps": [
+        "用正确 BPS 变长整数解析 ctf.bps（每字节低7位累加，最高位=终止）：source_size=0x80000，target_size=0x100000。",
+        "解析动作：补丁在 0x1C3 处写入 22 00 80 10 EA EA（JSL $108000;NOP;NOP），在 0xC5F9 处写入 22 36 80 10 EA（JSL $108036;NOP），跳入新增代码区 0x80000。",
+        "对新增区 TargetRead 字面量按 65816 反汇编，得到循环：LDA $8022,X / EOR #$5A / STA $7EC100,X —— 即用 0x5A 异或解密的字符串例程。",
+        "同一字面量内嵌密文 292f34211c6b3b176905351405176e286b6a2700（以 0x00 结尾），逐字节异或 0x5A 得到 sun{F1aM3_oN_M4r10}。",
+        "提交该 flag，平台弹窗显示 Correct，确认通过。"
+      ],
+      "evidence": [
+        "ctf.bps magic = 'BPS1'; 140 bytes",
+        "Correct BPS varint parse (byte&0x7f added at running shift; HIGH bit set = break) gives source_size=0x80000, target_size=0x100000, metadata_size=0",
+        "Actions list includes TargetRead at output offset 451 (22 00 80 10 ea ea = JSL $108000; NOP; NOP) and at 50681 (22 36 80 10 ea = JSL $108036; NOP)",
+        "65816 disasm of literal at 524299: 5a 48 a2 00 bd 22 80 f0 09 49 5a 9f 00 c1 7e e8 80 f2 68 7a fa ab 6b => loop LDA $8022,X / EOR #$5A / STA $7EC100,X (XOR-0x5A string decryptor)",
+        "Embedded encrypted bytes 29 2f 34 21 1c 6b 3b 17 69 05 35 14 05 17 6e 28 6b 6a 27 00 XOR 0x5A => 'sun{F1aM3_oN_M4r10}'",
+        "Platform page showed alert 'Correct' after submission; confirm_submission returned CORRECT"
+      ],
+      "saved_exp_paths": [],
+      "exp_run_command": "python3 /challenge/workspace/solve.py",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "b0370663d22e825359e58c3d3b017c1b402307ed9fbf683e0b94edc2321c2f79",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:11:51.828922+00:00",
+      "updated_at": "2026-09-27T03:11:57.935448+00:00",
+      "exp_sha256": {}
+    }
+  ]
+}

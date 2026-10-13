@@ -1,0 +1,32 @@
+.[-d] Include deleted files.
+.[-s] Path patterns are simple substrings.
+.[-u] Include unsynced files.
+.$NCAT_VAULT_PATH...:PATH_PATTERN_OR_SUBSTRING Vault path of file(s) to include in search or substring to search for if `-s`.
+
+>Displays vault directory listing (current revisions).
+
+For each file entry the command will display:
+
+* the timestamp of when the file was committed
+* the file size
+* the commit id
+* the type of action that was executed on the file in the commit
+* the path
+* the current revision on disk
+* an extra label if the file is unsynced
+
+Directories will be displayed as: `<subdir> PATH`
+
+!
+$$ -u -d //
+1970-02-04 01:52:08       573440 CL1/add  //malware/EquationGroup.GrayFish/A904#1
+2022-06-29 11:30:10            0 CL2/del  //malware/EquationGroup.GrayFish/A904.asm#0/2 UNSYNCED
+1970-02-04 01:52:08      2929035 CL1/add  //malware/EquationGroup.GrayFish/A904.i64#1
+2022-06-29 11:30:10            0 CL2/del  //malware/EquationGroup.GrayFish/A904.log#0/2 UNSYNCED
+1970-02-04 01:52:08      3514368 CL1/add  //malware/Ransomware.WannaCry/41aa.exe#1
+2022-06-29 11:30:10            0 CL2/del  //malware/Ransomware.WannaCry/41aa.exe.asm#0/2 UNSYNCED
+2022-06-29 13:52:57       846916 CL3/edit //malware/Ransomware.WannaCry/41aa.exe.i64#2/3 UNSYNCED
+
+!
+$$ "//*"
+                    <subdir>              //malware

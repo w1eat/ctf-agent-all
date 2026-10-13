@@ -1,0 +1,25 @@
+.[-f] Force commit of unchanged files.
+.[-s] Silent mode; do not output any messages.
+.WORKLIST_ID The id of the worklist to commit to the vault.
+.[DESCRIPTION] A description for the commit.
+
+>Commits files to the vault (push).
+
+This command uploads files from the local computer to the vault.
+
+After a successful commit, the modifications made to the files contained
+in the worklist will be made available for other users.
+
+A commit may fail if another user uploaded another revision of the changed
+files meanwhile. In this case [resolve](#syncing-files-resolving-and-reverting) is necessary to merge
+the changes.
+
+If the worklist does not yet have a proper description, the DESCRIPTION
+is mandatory.
+
+!
+$$ 1
+worklist 1 has empty description
+$$ 1 "more samples"
+ok accepted //newfile#1 (5 bytes)
+ok commit #2 completed

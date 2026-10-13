@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "current_key": "a05271b76ca50ba8bf4e:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "a05271b76ca50ba8bf4e:platform_confirmed",
+      "flag": "sun{r3caLl_ev3Ry_reGist3r_sR0p}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Total Recall",
+        "category": "Pwn",
+        "description": "Can you recall how to get out of this one? Binary: https://sunshinectf.games/files/54cf6a/total_recall",
+        "connection_info": "nc chal.sunshinectf.games 26003",
+        "value": 469,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via SROP (sigreturn-oriented programming) exploit against a tiny static x86-64 binary that only uses raw syscalls. The program leaks 8 bytes of the stack pointer (write(1,rsp,8)), then does read(0,rsp-0x40,0x18), then read(0,rsp-0x80,0x400) which overflows a 128-byte stack buffer. The stack is NX so ret2shellcode fails. Using the stack leak, overwrite the saved return address to re-enter the reading routine; read() return value lands in rax. Sending exactly 15 bytes on the second read makes rax=15 (rt_sigreturn), then return to the syscall;ret gadget at 0x401069 so the kernel performs rt_sigreturn, restoring a staged SigreturnFrame with rax=59 (execve), rdi=pointer to /bin/sh on the stack, rsi=0, rdx=0, rip=syscall gadget, yielding a shell.: sun{r3caLl_ev3Ry_reGist3r_sR0p} | Evidence: Disassembly: 0x401016 leaks stack via write(1,rsp,8); 0x40104f does read(0,rsp-0x80,0x400) = stack overflow; /proc/pid/maps shows stack is rw-p (NX). ; Gadgets: syscall;ret at 0x401069, ret at 0x40104e, read-func entry at 0x40104f. ; Two-stage SROP: first big read stages SigreturnFrame at leaked stack address; second read of exactly 15 bytes makes read() return 15 so rax=15 = rt_sigreturn. ; Local reproduction with setarch -R produced a root shell (PWNED_MARKER_42). ; Remote run gave uid=1337(total_recall) shell and printed flag: sun{r3caLl_ev3Ry_reGist3r_sR0p}.",
+      "solution_steps": [
+        "Download binary from https://sunshinectf.games/files/54cf6a/total_recall; it is static, stripped, syscall-only.",
+        "Disassembly shows write(1,rsp,8) leak at 0x401016, and an overflow read(0,rsp-0x80,0x400) at 0x40104f into a 128-byte buffer; stack is non-executable.",
+        "Overwrite f2 return address with 0x40104f to re-enter the read function, and place a fake SigreturnFrame (rax=59 execve, rdi=stack pointer to /bin/sh, rsi=0, rdx=0, rip=0x401069 syscall;ret) after it.",
+        "Second read sends exactly 15 bytes so read() returns 15, setting rax=15 (rt_sigreturn); return to 0x401069 to trigger rt_sigreturn, kernel restores the frame and runs execve(/bin/sh).",
+        "Both local (setarch -R) and remote yielded a shell; cat /flag* on remote returned sun{r3caLl_ev3Ry_reGist3r_sR0p}."
+      ],
+      "evidence": [
+        "Disassembly: 0x401016 leaks stack via write(1,rsp,8); 0x40104f does read(0,rsp-0x80,0x400) = stack overflow; /proc/pid/maps shows stack is rw-p (NX).",
+        "Gadgets: syscall;ret at 0x401069, ret at 0x40104e, read-func entry at 0x40104f.",
+        "Two-stage SROP: first big read stages SigreturnFrame at leaked stack address; second read of exactly 15 bytes makes read() return 15 so rax=15 = rt_sigreturn.",
+        "Local reproduction with setarch -R produced a root shell (PWNED_MARKER_42).",
+        "Remote run gave uid=1337(total_recall) shell and printed flag: sun{r3caLl_ev3Ry_reGist3r_sR0p}.",
+        "Platform submission returned CORRECT (page alert Correct)."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/a05271b76ca50ba8bf4e/deepseek-deepseek-flash-5403e74e/3b1a66e7b6068e70/exp2.py",
+        ".writeup-drafts/a05271b76ca50ba8bf4e/deepseek-deepseek-flash-5403e74e/b74322b842c0f5e8/exp.py"
+      ],
+      "exp_run_command": "[unsupported]",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "275ddb0f5e3dd5717838ddc1a7d6cd8885f08c3a0352091243fc9364df84493a",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T03:17:17.828023+00:00",
+      "updated_at": "2026-09-27T03:17:26.124087+00:00",
+      "exp_sha256": {
+        "exp/exp2.py": "3b1a66e7b6068e70e1bffd0487fff05740178a9f719825b1ab8b0a93369c3274",
+        "exp/exp.py": "b74322b842c0f5e824eaef6d4559f14c6cd17eabd700d3f8fc3105f43153521b"
+      }
+    }
+  ]
+}

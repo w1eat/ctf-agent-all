@@ -1,0 +1,46 @@
+{
+  "runtime_dir": ".runtime/solver-mcp",
+  "max_archive_depth": 2,
+  "max_extracted_bytes": 2147483648,
+  "max_archive_entries": 10000,
+  "ida_concurrency": 4,
+  "connect_timeout_seconds": 90,
+  "tool_timeout_seconds": 300,
+  "jadx_ready_timeout_seconds": 180,
+  "jadx_gui": {
+    "command": "E:\\code\\java\\jdk-21.0.7\\bin\\java.exe",
+    "args": [
+      "-jar",
+      "E:\\CTF\\AI_MCP_CTF\\jadx\\jadx-gui-1.5.5-win\\lib\\jadx-gui-1.5.5-all.jar",
+      "{file}"
+    ]
+  },
+  "servers": {
+    "ida": {
+      "command": "E:\\code\\python311\\Scripts\\idalib-mcp.exe",
+      "env": {
+        "IDADIR": "E:\\CTF\\ctf\\reverse\\IDA Professional 9.3"
+      },
+      "args": ["--stdio", "--max-workers", "4"]
+    },
+    "jadx": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "E:\\CTF\\AI_MCP_CTF\\jadx\\jadx-mcp-server",
+        "run",
+        "jadx_mcp_server.py",
+        "--jadx-port",
+        "8650"
+      ]
+    },
+    "kali": {
+      "command": "E:\\code\\python311\\python.exe",
+      "args": [
+        "E:\\CTF\\AI_MCP_CTF\\MCP-Kali-Server\\client.py",
+        "--server",
+        "http://192.168.218.128:5000"
+      ]
+    }
+  }
+}

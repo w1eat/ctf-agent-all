@@ -1,0 +1,36 @@
+.[-u USER] The user (owner) of the new site, must be an existing username.
+Defaults to the current user. Admins can specify a different user.
+.SITENAME The name of the site that will be created, it must be unique (no site can already exist with that name).
+It must not exceed 64 characters, and it must be composed of alphanumerics or underscore or dash.
+The first character cannot be a digit or a dash.
+.ROOTDIR The absolute path to the directory that will hold the vault files.
+.[HOST] The computer from which the site can be used. It can be specified
+as an empty string. In this case the server will let the site to be used by
+any computer. However, since it is a safety feature that prevents from
+inadvertently using a site from a wrong computer, we do not recommend
+to specify it as an empty string. When creating a site for the current user,
+the host defaults to the current computer.
+
+>Creates a new [site](#what-is-a-site).
+
+The specified user will be the owner of the new site.
+If the user is not specified, the current user will own the site.
+Only the site owner can use a site.
+
+Only admins can create sites for other users.
+
+To use a site, it must be specified as described in the [credentials](#hv-credentials) section.
+
+! Create a new site:
+$$ alicepc /home/alice/vault_site
+! Ensure that is exists:
+$ hv sites
+Site name User  Host     Last Used  Rootdir
+--------- ----- -------- ---------- ------------
+alicepc   alice alice_PC Never     /home/alice/vault_site
+! Remember the new site in the registry:
+$ hv --set -salicepc
+Information has been saved into the registry.
+! The new site is used in all future commands:
+$ hv info |grep site
+Client site: alicepc

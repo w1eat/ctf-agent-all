@@ -1,0 +1,14 @@
+>Displays [permission table](#managing-permissions-on-a-vault).
+
+The current permission table is printed to the standard output.
+
+!
+$$
+# The permission for each vault file is determined as the result of applying
+# all matching lines, from the beginning of the permission table to the end.
+# An empty permission table grants all access to everyone.
+# A non-empty permission table starts by denying all access to everyone.
+grant user fred write //subdir-for-fred/
+deny group remote list //local-secret
+grant group analysts write //subdir/for/idbs/
+grant user * read //subdir/for/idbs/

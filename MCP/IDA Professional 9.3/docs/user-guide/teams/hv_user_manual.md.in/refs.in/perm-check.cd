@@ -1,0 +1,16 @@
+.USERNAME The USERNAME of the user whose permissions that will be tested.
+.$NCAT_VAULT_PATH:PATH_PATTERN Vault path of file(s) that will be tested.
+
+>Checks [permissions](#managing-permissions-on-a-vault) for a user.
+
+The list of files that are visible to the user is printed, along with the
+permissions that the user has. The read access is denoted by 'r' and the write
+access is denoted by 'w'.
+
+!
+$$ fred
+rw //subdir-for-fred/afile
+rw //subdir-for-fred/anotherfile
+r- //subdir/for/idbs/interfaces.i64
+
+$$ fred //local-secret

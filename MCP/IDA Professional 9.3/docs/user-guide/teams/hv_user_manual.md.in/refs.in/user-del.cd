@@ -1,0 +1,11 @@
+.[-b] Force deletion even if the user has borrowed licenses.
+.[-f] Force deletion even if the user has checked out files.
+.USERNAME The name of the user to delete from the vault.
+
+>Deletes a user.
+
+Cuation: deleting a user with borrowed licenses will make the borrowed licenses
+unavailable until their expiration date.
+
+!
+$$ -f johndoe

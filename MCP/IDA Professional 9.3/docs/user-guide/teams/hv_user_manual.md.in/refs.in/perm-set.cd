@@ -1,0 +1,11 @@
+.[@FILE] The file from which to set the new permissions table.
+
+>Sets new [permissions table](#managing-permissions-on-a-vault) from STDIN or from file.
+
+The installed permission table becomes active immediately.
+
+We recommend using [perm check](#managing-permissions) to ensure that the new permission
+table works correctly.
+
+!
+$$ <perms.txt

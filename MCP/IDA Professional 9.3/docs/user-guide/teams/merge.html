@@ -1,0 +1,836 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Diffing and Merging Databases with IDA Teams - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="diffing-and-merging-databases-with-ida-teams"><a class="header" href="#diffing-and-merging-databases-with-ida-teams">Diffing and Merging Databases with IDA Teams</a></h1>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>IDA 8.0 introduces IDA Teams - a mechanism that provides revision control for your IDA database files. Perhaps the most essential feature of this new product is the ability to natively diff and merge databases using IDA, allowing multiple reverse engineers to manage work on the same IDA database.</p>
+<p>This document discusses in detail the steps involved when diffing and merging IDA databases.</p>
+<p>Before continuing, you might want to take a quick look at the tutorial for HVUI, the GUI client for IDA Teams’ revision control functionality. It will be referenced multiple times in this document, although here we will focus specifically on the merging functionality.</p>
+<h2 id="inspecting-changes"><a class="header" href="#inspecting-changes">Inspecting changes</a></h2>
+<p>After having done some reverse-engineering work on an IDA database, it is possible to view those changes in a special mode in IDA: right-click, and choose the diff action:</p>
+<figure><img src="images/merge/diffing_and_merging/open_ida_for_diff.png" alt="Opening IDA for diff"><figcaption></figcaption></figure>
+<p>Here a new instance of IDA will be launched in a special “diff” mode:</p>
+<figure><img src="images/merge/diffing_and_merging/ida_in_diff_mode.png" alt="IDA in &quot;diff&quot; mode"><figcaption></figcaption></figure>
+<h3 id="idas-diff-mode"><a class="header" href="#idas-diff-mode">IDA’s diff mode</a></h3>
+<p>This new IDA mode lets the user compare two databases, in a traditional “diff” fashion: essentially a two-panel window, showing the unmodified file on the left and the version with your changes on the right.</p>
+<h4 id="the-progress-widget"><a class="header" href="#the-progress-widget">The “Progress” widget</a></h4>
+<figure><img src="images/merge/diffing_and_merging/ida_in_diff_mode_diff_progress.png" alt="Diff progress"><figcaption></figcaption></figure>
+<p>Represents the current <a href="merge.html#diffing_and_merging_diff_steps">step</a> in the diff process.</p>
+<h4 id="the-left-panel"><a class="header" href="#the-left-panel">The left panel</a></h4>
+<figure><img src="images/merge/diffing_and_merging/ida_in_diff_mode_left_panel.png" alt="The left panel"><figcaption></figcaption></figure>
+<p>Shows the “untouched” version of the database (i.e., the one without your changes)</p>
+<h4 id="the-right-panel"><a class="header" href="#the-right-panel">The right panel</a></h4>
+<figure><img src="images/merge/diffing_and_merging/ida_in_diff_mode_right_panel.png" alt="The right panel"><figcaption></figcaption></figure>
+<p>Shows your version of the database (i.e., featuring your changes)</p>
+<h4 id="diff-region-details"><a class="header" href="#diff-region-details">Diff region details</a></h4>
+<figure><img src="images/merge/diffing_and_merging/ida_in_diff_mode_panel_details.png" alt="The details area"><figcaption></figcaption></figure>
+<p>Notice how both panels have a little area at the bottom, that is labeled “Details”.</p>
+<p>Details are available on certain steps of the diffing process, and provide additional information about the change that is currently displayed.</p>
+<h4 id="the-diffing-toolbar"><a class="header" href="#the-diffing-toolbar">The “diffing” toolbar</a></h4>
+<figure><img src="images/merge/diffing_and_merging/ida_in_diff_mode_toolbar.png" alt="The diff toolbar"><figcaption></figcaption></figure>
+<p>The actions in the toolbar are:</p>
+<ul>
+<li><a href="merge.html#previous-chunk">Previous chunk</a></li>
+<li><a href="merge.html#center-chunk">Center chunk</a></li>
+<li><a href="merge.html#next-chunk">Next chunk</a></li>
+<li><a href="merge.html#proceed-to-the-next-step">Proceed to the next step</a></li>
+<li><a href="merge.html#toggle-details">Toggle ‘Details’</a></li>
+</ul>
+<p>Using actions in the toolbar, you can now iterate through the differences between the two databases, with each change shown in context as if viewed through a normal IDA window.</p>
+<p>The ability to view changes in context was a major factor in the decision to use IDA itself as the diffing/merging tool for IDA Teams.</p>
+<h3 id="diff-mode-idas-toolbar-actions"><a class="header" href="#diff-mode-idas-toolbar-actions"><strong>Diff mode IDA’s toolbar actions</strong></a></h3>
+<h4 id="previous-chunk"><a class="header" href="#previous-chunk"><strong>Previous chunk</strong></a></h4>
+<p>Move to the previous change</p>
+<h4 id="center-chunk"><a class="header" href="#center-chunk"><strong>Center chunk</strong></a></h4>
+<p>Re-center the panels to show the current chunk (useful if you navigated around to get more context)</p>
+<h4 id="next-chunk"><a class="header" href="#next-chunk"><strong>Next chunk</strong></a></h4>
+<p>Move to the next change</p>
+<h4 id="proceed-to-the-next-step"><a class="header" href="#proceed-to-the-next-step"><strong>Proceed to the next step</strong></a></h4>
+<p>Move to the next <a href="merge.html#diffing_and_merging_diff_steps">step</a> in the diffing process.</p>
+<h4 id="toggle-details"><a class="header" href="#toggle-details"><strong>Toggle ‘Details’</strong></a></h4>
+<p>Toggle the visibility of the “Details” widgets in the various panels (note that some steps do not provide details, so even if the “Details” are requested, they might not be currently visible.)</p>
+<h3 id="terminology"><a class="header" href="#terminology">Terminology</a></h3>
+<p>It is important to note the difference between the terms “diff” and “merge”.</p>
+<p>This document will sometimes use the two terms interchangeably. This is because to IDA, a diff is just a specialized merge. Both diffing and merging are handled by IDA’s “merge mode”, which involves up to 3 databases, one of which <em>can</em> be modified to contain the result of the merge.</p>
+<p>A diff is simply a merge operation that involves only 2 databases, neither of which are modified.</p>
+<p>This is why often times you will see the term “merge” used in the context of a diff. In this case “merge” is referring to IDA’s “merge mode”, rather than the process of merging multiple databases together into a combined database.</p>
+<h3 id="using-ida-as-a-diffing-tool"><a class="header" href="#using-ida-as-a-diffing-tool">Using IDA as a diffing tool</a></h3>
+<p>We must stress the fact that performing a merge between two IDA databases is quite different than performing a merge between, say, two text files. A change in a chunk of text file will not have an impact over another chunk.</p>
+<p>IDA databases are not so simple. A change in one place in an idb will often have an impact on another place. For example, if a structure <code>mystruct</code> changed between two databases, it will have an impact not only on the name of the structure, but on cross-references to structure members, function prototypes, etc.</p>
+<p>This is why IDA’s merge mode is split into a strict series of “steps”:</p>
+<figure><img src="images/merge/diffing_and_merging/merge_progress_steps.png" alt="Progress steps"><figcaption></figcaption></figure>
+<p>Within a single step it is possible to go forward &amp; backward between different chunks. But because of possible inter-dependencies between steps, it is not possible to move backwards between steps, you can only go forward:</p>
+<figure><img src="images/merge/diffing_and_merging/apply_button.png" alt="Apply changes button"><figcaption></figcaption></figure>
+<p>Since IDA’s diff mode is just a variation of its merge mode, diffing databases is also subject to this sequential application of steps in order to view certain bits of information. That is why, in some steps (e.g., the “Disassembly/Items”) IDA might not report some changes that were performed at another level.</p>
+<p>For instance, if a user marked a function as <code>noret</code>, the listings that will be shown in “Disassembly/Items” step, will not advertise that there was a change at that place (even though the <code>"Attributes: noreturn"</code> is visible in the left-hand listing), only the changes to the instructions (and data, …​) are visible in the current step:</p>
+<figure><img src="images/merge/diffing_caveat/listings_noret_not_visible.png" alt="`noret` attribute missing"><figcaption></figcaption></figure>
+<p>The change will, however, be visible at a later step (i.e., “Functions/Registry”):</p>
+<figure><img src="images/merge/diffing_caveat/functions_noret_visible.png" alt="`noret` attribute visible"><figcaption></figcaption></figure>
+<p>The changes applied during the “diff” process are only temporary. Exiting IDA (at any moment) will not alter the files being compared.</p>
+<h3 id="merging-concurrent-modifications-conflicts"><a class="header" href="#merging-concurrent-modifications-conflicts">Merging concurrent modifications (conflicts)</a></h3>
+<p>As with any collaborative tool, it may happen that two coworkers work on the same dataset (e.g., IDA database), and make modifications to the same areas, resulting in “conflicts”. Conflicts must be “resolved” prior to committing.</p>
+<figure><img src="images/merge/diffing_and_merging/worklists_pending_resolve.png" alt="File in worklist requiring resolve"><figcaption></figcaption></figure>
+<p>To do that, right-click and pick one of the “resolve” options:</p>
+<figure><img src="images/merge/diffing_and_merging/resolve_pp.png" alt="The different resolve options"><figcaption></figcaption></figure>
+<p>IDA Teams provides <a href="merge.html#resolving-conflicts-in-a-file">the following merge strategies.</a></p>
+<h4 id="interactive-merging"><a class="header" href="#interactive-merging">Interactive merging</a></h4>
+<p>If the option that was chosen (e.g., <a href="merge.html#interactive-merge-mode">Interactive merge mode</a>) requires user interaction due to conflicts, IDA will show in 3-pane “merge” mode.</p>
+<figure><img src="images/merge/diffing_and_merging/ida_interactive_merge.png" alt="IDA in interactive merge mode"><figcaption></figcaption></figure>
+<p>When a conflict is encountered, you’ll have the ability to pick, for all conflicts, which change should be kept (yours, or the other). Every time you pick a change (and thus resolve a conflict), IDA will proceed with the merging, applying all the non-conflicting changes it can, until the next conflict - if any. When all conflicts are resolved, you can leave IDA, and the new resulting file is ready to be submitted.</p>
+<h2 id="appendix-a"><a class="header" href="#appendix-a">Appendix A</a></h2>
+<h3 id="merge-steps"><a class="header" href="#merge-steps">Merge Steps</a></h3>
+<p>This section provides a detailed overview of the steps involved in the merge process. The list of predefined merge steps is defined in <code>merge.hpp</code> of the IDASDK:</p>
+<pre><code class="language-c">enum merge_kind_t
+{
+  MERGE_KIND_NETNODE,           ///&lt; netnode (no merging, to be used in idbunits)
+  MERGE_KIND_AUTOQ,             ///&lt; auto queues
+  MERGE_KIND_INF,               ///&lt; merge the inf variable (global settings)
+  MERGE_KIND_ENCODINGS,         ///&lt; merge encodings
+  MERGE_KIND_ENCODINGS2,        ///&lt; merge default encodings
+  MERGE_KIND_SCRIPTS2,          ///&lt; merge scripts common info
+  MERGE_KIND_SCRIPTS,           ///&lt; merge scripts
+  MERGE_KIND_CUSTDATA,          ///&lt; merge custom data type and formats
+  MERGE_KIND_STRUCTS,           ///&lt; merge structs (globally: add/delete structs entirely)
+  MERGE_KIND_STRMEM,            ///&lt; merge struct members
+  MERGE_KIND_ENUMS,             ///&lt; merge enums
+  MERGE_KIND_TILS,              ///&lt; merge type libraries
+  MERGE_KIND_TINFO,             ///&lt; merge tinfo
+  MERGE_KIND_UDTMEM,            ///&lt; merge UDT members (local types)
+  MERGE_KIND_SELECTORS,         ///&lt; merge selectors
+  MERGE_KIND_STT,               ///&lt; merge flag storage types
+  MERGE_KIND_SEGMENTS,          ///&lt; merge segments
+  MERGE_KIND_SEGGRPS,           ///&lt; merge segment groups
+  MERGE_KIND_SEGREGS,           ///&lt; merge segment registers
+  MERGE_KIND_ORPHANS,           ///&lt; merge orphan bytes
+  MERGE_KIND_BYTEVAL,           ///&lt; merge byte values
+  MERGE_KIND_FIXUPS,            ///&lt; merge fixups
+  MERGE_KIND_MAPPING,           ///&lt; merge manual memory mapping
+  MERGE_KIND_EXPORTS,           ///&lt; merge exports
+  MERGE_KIND_IMPORTS,           ///&lt; merge imports
+  MERGE_KIND_PATCHES,           ///&lt; merge patched bytes
+  MERGE_KIND_FLAGS,             ///&lt; merge flags_t
+  MERGE_KIND_EXTRACMT,          ///&lt; merge extra next or prev lines
+  MERGE_KIND_AFLAGS_EA,         ///&lt; merge aflags for mapped EA
+  MERGE_KIND_IGNOREMICRO,       ///&lt; IM ("$ ignore micro") flags
+  MERGE_KIND_HIDDENRANGES,      ///&lt; merge hidden ranges
+  MERGE_KIND_SOURCEFILES,       ///&lt; merge source files ranges
+  MERGE_KIND_FUNC,              ///&lt; merge func info
+  MERGE_KIND_FRAMEMGR,          ///&lt; merge frames (globally: add/delete frames entirely)
+  MERGE_KIND_FRAME,             ///&lt; merge function frame info (frame members)
+  MERGE_KIND_STKPNTS,           ///&lt; merge SP change points
+  MERGE_KIND_FLOWS,             ///&lt; merge flows
+  MERGE_KIND_CREFS,             ///&lt; merge crefs
+  MERGE_KIND_DREFS,             ///&lt; merge drefs
+  MERGE_KIND_BPTS,              ///&lt; merge breakpoints
+  MERGE_KIND_WATCHPOINTS,       ///&lt; merge watchpoints
+  MERGE_KIND_BOOKMARKS,         ///&lt; merge bookmarks
+  MERGE_KIND_TRYBLKS,           ///&lt; merge try blocks
+  MERGE_KIND_DIRTREE,           ///&lt; merge std dirtrees
+  MERGE_KIND_VFTABLES,          ///&lt; merge vftables
+  MERGE_KIND_SIGNATURES,        ///&lt; signatures
+  MERGE_KIND_PROBLEMS,          ///&lt; problems
+  MERGE_KIND_UI,                ///&lt; UI
+  MERGE_KIND_NOTEPAD,           ///&lt; notepad
+  MERGE_KIND_LOADER,            ///&lt; loader data
+  MERGE_KIND_DEBUGGER,          ///&lt; debugger data
+  MERGE_KIND_LAST,              ///&lt; last predefined merge handler type.
+                                ///&lt; please note that there can be more merge handler types,
+                                ///&lt; registered by plugins and processor modules.
+};
+</code></pre>
+<p>The list of merge steps is not final. If for example there is a conflict in structure members then the new merge phase to resolve this conflict will be created. The same is hold for UDT, functions, frames and so on. In other words in general case the exact number of merge steps is undefined and depends on the databases.</p>
+<p>Each item in a merge step is assigned to a difference position named <code>diffpos</code>. It may be an EA (effective address), enum id, structure member offset, artificial index and so on. In other words, a <code>diffpos</code> is a way of addressing something in the database.</p>
+<p>Every merge step starts with the calculation of differences and conflicts between items at the corresponding difference positions. As the result there is a list of <code>diffpos</code> with differences or conflicts. The <code>diffpos`s without differences are not included in the list. Adjacent `diffpos`s are combined into a difference range called `diffrange</code>.</p>
+<p>The merging process operates on a difference range <code>diffrange</code>. For one <code>diffrange</code>, a single merge policy can be selected.</p>
+<h4 id="global-settingsdatabase-attributes"><a class="header" href="#global-settingsdatabase-attributes">Global settings/Database attributes</a></h4>
+<p>Merging of global database attributes. These attributes are mainly stored in the <code>idainfo</code> structure. This phase has two subphases:</p>
+<ul>
+<li>Global settings/Database attributes/Graph mode</li>
+<li>Global settings/Database attributes/Text mode</li>
+</ul>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_inf.png" alt="merge mh inf"><figcaption></figcaption></figure>
+<h4 id="global-settingsprocessor-specific"><a class="header" href="#global-settingsprocessor-specific">Global settings/Processor specific</a></h4>
+<p>Merging of global processor options. Usually these options are stored in the <code>idpflags</code> netnode.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_proc_global.png" alt="merge mh proc global"><figcaption></figcaption></figure>
+<h4 id="encodingsregistry"><a class="header" href="#encodingsregistry">Encodings/Registry</a></h4>
+<p>Merging of registered string literal encodings. These encodings are used to properly display string literal in the disassembly listing.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_encodings.png" alt="merge mh encodings"><figcaption></figcaption></figure>
+<h4 id="encodingssettings"><a class="header" href="#encodingssettings">Encodings/Settings</a></h4>
+<p>Merging of default string encodings: what string encoding among the registered ones are considered as the default ones.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_encodings2.png" alt="merge mh encodings2"><figcaption></figcaption></figure>
+<h4 id="scriptsregistry"><a class="header" href="#scriptsregistry">Scripts/Registry</a></h4>
+<p>Merging of embedded script snippets.</p>
+<p>When merging of embedded script snippets, the script name/language is displayed, and the “Detail” pane contains the script source with the highlighted differences:</p>
+<figure><img src="images/merge/merge_step/merge_mh_scripts.png" alt="merge mh scripts"><figcaption></figcaption></figure>
+<h4 id="scriptssettings"><a class="header" href="#scriptssettings">Scripts/Settings</a></h4>
+<p>Merging of the default snippet and tabulation size.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_scripts2.png" alt="merge mh scripts2"><figcaption></figcaption></figure>
+<h3 id="custom-datatypes-and-custom-dataformats"><a class="header" href="#custom-datatypes-and-custom-dataformats">Custom data/Types and Custom data/Formats</a></h3>
+<p>Merging of the registered custom data types and formats.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_custdata.png" alt="merge mh custdata"><figcaption></figcaption></figure>
+<h4 id="typesenums"><a class="header" href="#typesenums">Types/Enums</a></h4>
+<p>Merging of assembler level enums (<code>enum_t</code>). Ghost enums are skipped in this phase, they will be merged when handling local types.</p>
+<p>To calculate <code>diffpos</code>, IDA Teams matches enum members by name and maps all enums with common member names into one <code>diffpos</code>.</p>
+<p>An example of enum merging:</p>
+<pre><code>local_idb
+  ;--------------------------
+  ; enum enum_1, mappedto_1
+  A                = 0
+  B                = 1
+
+remote_idb
+  ;--------------------------
+  ; enum enum_1, mappedto_1
+  A                = 0
+  ;--------------------------
+  ; enum enum_2, mappedto_2
+  B                = 1
+</code></pre>
+<p>In both idbs, enum constant “B” is present. However, in the remote idb “B” has a different parent enum, “enum_2”. Therefore enum_1 in the local idb corresponds to enum_1 and enum_2 in the remote idb. The user can select either enum_1 from the local idb or enum_1 and enum_2 from the remote idb.</p>
+<p>In other words, IDA will display both enum_1 and enum_2 in the Remote pane, indicating that the difference between the Local and Remote databases corresponds to two separate enums, but they are treated as a single difference location. The “Detail” pane will display the full enum definitions, with the differences highlighted:</p>
+<figure><img src="images/merge/merge_step/merge_mh_enums.png" alt="merge mh enums"><figcaption></figcaption></figure>
+<h4 id="typesstructs"><a class="header" href="#typesstructs">Types/Structs</a></h4>
+<p>Merging of assembler level structures (<code>struc_t</code>).</p>
+<p>To calculate <code>diffpos</code>, IDA Teams matches structs by the following attributes, in this order:</p>
+<ol>
+<li>the structure name</li>
+<li>the structure <code>tid</code> and size</li>
+</ol>
+<p>If we fail to match a structure, then it will stay unmatched. Such an unmatched structure will have it own <code>diffpos</code>, allowing the user to copy it to the other idb or to delete it altogether.</p>
+<p>This merge phase deals with the entire structure types and their attributes. Entire structure types may be added or deleted, and/or conflicts in the structure attributes are resolved.</p>
+<p>If members of matched structures (at the same <code>diffpos</code>) differ, the conflict will be resolved later, during the <strong>Types/Struct members/…​</strong> merge phase.</p>
+<p>In the UI, IDA will display the list of structure names, with the “Detail” pane showing the structure attributes:</p>
+<figure><img src="images/merge/merge_step/merge_mh_structs.png" alt="merge mh structs"><figcaption></figcaption></figure>
+<h4 id="typestype-libraries"><a class="header" href="#typestype-libraries">Types/Type libraries</a></h4>
+<p>Merging of the loaded type libraries.</p>
+<p>This merge phase uses the standard “Type libraries” widget.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_tils.png" alt="merge mh tils"><figcaption></figcaption></figure>
+<h4 id="typeslocal-types"><a class="header" href="#typeslocal-types">Types/Local types</a></h4>
+<p>Merging of local types.</p>
+<p>To calculate <code>diffpos</code>, IDA Teams matches local types by the following attributes, in this order:</p>
+<ol>
+<li>the type name</li>
+<li>the ordinal number and base type</li>
+</ol>
+<p>If we fail to match a type, then it will stay unmatched. Such an unmatched type will have it own <code>diffpos</code>, allowing the user to copy it to the other idb or to delete it altogether.</p>
+<p>This merge phase deals with entire types and their attributes. Entire local types may be added or deleted, and/or conflicts in their attributes are resolved. Differences in type members (e.g., struct members) will be resolved in a separate phase: <strong>Types/Local type members</strong></p>
+<p>This merge phase uses the standard “Local types” widget. The “Detail” pane displays the type definition and its attributes.</p>
+<figure><img src="images/merge/merge_step/merge_mh_tinfo.png" alt="merge mh tinfo"><figcaption></figcaption></figure>
+<h4 id="typesstruct-members-and-typeslocal-type-members"><a class="header" href="#typesstruct-members-and-typeslocal-type-members">Types/Struct members/…​ and Types/Local type members/…​</a></h4>
+<p>For example:</p>
+<ul>
+<li>Types/Struct members/struct_t</li>
+<li>Types/Local type members/struct conflict_t</li>
+</ul>
+<p>These merge phases merges the conflicting members of a structure or a local type.</p>
+<p>The “Detail” pane displays full information about the current member along with its attributes.</p>
+<figure><img src="images/merge/merge_step/merge_mh_udtmem.png" alt="merge mh udtmem"><figcaption></figcaption></figure>
+<h4 id="typesghost-struct-comments"><a class="header" href="#typesghost-struct-comments">Types/Ghost struct comments</a></h4>
+<p>Ghost structs may have comments attached to them.</p>
+<p>This merge phase handles these comments:</p>
+<figure><img src="images/merge/merge_step/merge_mh_ghstrcmt.png" alt="merge mh ghstrcmt"><figcaption></figcaption></figure>
+<p>We need a separate phase for these comments in order not to lose them during merging because by default ghost types are considered secondary to the corresponding non-ghost type. Normally during merge ghost types may be overwritten. However, local types cannot have comments at all. This is why ghost structure comments, if created, are valuable.</p>
+<h4 id="typesstruct-members-comments"><a class="header" href="#typesstruct-members-comments">Types/Struct members comments/…​</a></h4>
+<p>Similarly to comments attached to entire structures, each structure member may have a comment.</p>
+<p>The same logic applies to ghost struct member comments:</p>
+<figure><img src="images/merge/merge_step/merge_mh_strmemcmt.png" alt="merge mh strmemcmt"><figcaption></figcaption></figure>
+<h3 id="addressingselectors"><a class="header" href="#addressingselectors">Addressing/Selectors</a></h3>
+<p>Merging of selectors.</p>
+<p>This merge phase uses the standard widget “Selectors”.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_selectors.png" alt="merge mh selectors"><figcaption></figcaption></figure>
+<h4 id="addressingstorage-types"><a class="header" href="#addressingstorage-types">Addressing/Storage types</a></h4>
+<p>IDA Pro allocates so-called <code>flags</code> for each program address. These flags describe how to display the corresponding bytes in the disassembly listing: as instruction or data.</p>
+<p>There are two different storage methods for <code>flags</code>: virtual array (VA) and sparse storage (MM). The virtual array method is the default one, it allocates 32 bits for each program address. However, for huge segments this method is not efficient and may lead to unnecessarily huge databases. Therefore for huge segments IDA Pro uses sparse storage.</p>
+<p>This merge phase handles the defined program ranges and their storage types.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_stt.png" alt="merge mh stt"><figcaption></figcaption></figure>
+<h4 id="addressingsegmentation"><a class="header" href="#addressingsegmentation">Addressing/Segmentation</a></h4>
+<p>This merge phase handles the program segmentation.</p>
+<p>When merging segments, IDA combines them into non-overlapping groups. Each group will have its own <code>diffpos</code>. For example, the following segmentations:</p>
+<pre><code>local_idb
+  seg000:00000000
+  ...
+  seg000:00000020
+  ...
+
+remote_idb
+  seg000:00000000
+  ...
+  seg001:00000010
+  ...
+  seg001:00000020
+</code></pre>
+<p>will result in a single <code>diffpos</code>:</p>
+<figure><img src="images/merge/merge_step/merge_mh_segments.png" alt="merge mh segments"><figcaption></figcaption></figure>
+<p>The “Detail” pane displays segments in the combined group with their attributes.</p>
+<p>When merging segment, IDA tries to move the segment boundaries in a way that preserves the segment contents. If it fails to do so, the conflicting segments are deleted and new ones are created.</p>
+<h4 id="addressingsegment-groups"><a class="header" href="#addressingsegment-groups">Addressing/Segment groups</a></h4>
+<p>Merging of segment groups. Segment groups are used only in OMF files. They correspond to the <code>group</code> keyword in assembler.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_seggrps.png" alt="merge mh seggrps"><figcaption></figcaption></figure>
+<h4 id="addressingsegment-register"><a class="header" href="#addressingsegment-register">Addressing/Segment register/…​</a></h4>
+<p>Some processor have so-called segment registers. IDA Pro knows about them and can remember their value (one value per address range).</p>
+<p>For example, the x86 processor has <code>ds</code>, <code>ss</code>, and many other registers. IDA Pro can remember that, say, <code>ds</code> has the value of 1000 at the range 401000..402000.</p>
+<p>This merge phase handles segment registers. For each register, a separate merge phase is created. It contains address ranges: inside each address range the value of the segment register stays the same.</p>
+<p>To prepare <code>diffpos</code>, IDA Teams combines segment register ranges into non-overlapping ranges. <code>diffpos</code> is a range number.</p>
+<p>The “Detail” pane displays segment register ranges in <code>diffpos</code> with the value and the suffix that denotes the range type (u-user defined, a-automatically inherited from the previous range)</p>
+<figure><img src="images/merge/merge_step/merge_mh_segregs.png" alt="merge mh segregs"><figcaption></figcaption></figure>
+<h4 id="addressingorphan-bytes"><a class="header" href="#addressingorphan-bytes">Addressing/Orphan bytes</a></h4>
+<p>The database may have bytes that do not belong to any segment.</p>
+<p>To prepare <code>diffpos</code>, IDA Teams groups orphan bytes in the databases into nonintersecting ranges. <code>diffpos</code> is a range number.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_orphans.png" alt="merge mh orphans"><figcaption></figcaption></figure>
+<h4 id="addressingpatched"><a class="header" href="#addressingpatched">Addressing/Patched</a></h4>
+<p>Merging of the patched bytes.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_patches.png" alt="merge mh patches"><figcaption></figcaption></figure>
+<h4 id="addressingbyte-values"><a class="header" href="#addressingbyte-values">Addressing/Byte values</a></h4>
+<p>Byte values in segments may differ even for non-patched addresses, for example if a snapshot of the process memory was taken during a debugger session.</p>
+<p>IDA Teams combines the sequential bytes in one <code>diffpos</code>.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays the conflicting byte values.</p>
+<figure><img src="images/merge/merge_step/merge_mh_byteval.png" alt="merge mh byteval"><figcaption></figcaption></figure>
+<h4 id="addressingfixups"><a class="header" href="#addressingfixups">Addressing/Fixups</a></h4>
+<p>Merging of fixup records.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_fixups.png" alt="merge mh fixups"><figcaption></figcaption></figure>
+<h4 id="addressingmanual-memory-mapping"><a class="header" href="#addressingmanual-memory-mapping">Addressing/Manual memory mapping</a></h4>
+<p>Merging of memory mappings.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_mapping.png" alt="merge mh mapping"><figcaption></figcaption></figure>
+<h4 id="symbolsexports"><a class="header" href="#symbolsexports">Symbols/Exports</a></h4>
+<p>Merging of exported symbols.</p>
+<p>Merge phase uses the standard “Exports” widget.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_exports.png" alt="merge mh exports"><figcaption></figcaption></figure>
+<h4 id="symbolsimports"><a class="header" href="#symbolsimports">Symbols/Imports</a></h4>
+<p>Merging of imported symbols.</p>
+<p>Merge phase uses the standard “Imports” widget.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_imports.png" alt="merge mh imports"><figcaption></figcaption></figure>
+<h4 id="disassemblyitems"><a class="header" href="#disassemblyitems">Disassembly/Items</a></h4>
+<p>When merging, IDA Teams compares disassembly items (instructions and data). IDA Teams compares disassembly items by length, flags, opinfo, name, comment, and netnode information (NALT_* and NSUP_* flags).</p>
+<p>This merge step uses the standard “IDA-View” widget so that items can be viewed in their context. For example:</p>
+<figure><img src="images/merge/merge_step/merge_mh_flags.png" alt="merge mh flags"><figcaption></figcaption></figure>
+<h4 id="commentsanterior-lines-and-commentsposterior-lines"><a class="header" href="#commentsanterior-lines-and-commentsposterior-lines">Comments/Anterior lines and Comments/Posterior lines</a></h4>
+<p>Merging of extra comments.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays comment content.</p>
+<figure><img src="images/merge/merge_step/merge_mh_extracmt.png" alt="merge mh extracmt"><figcaption></figcaption></figure>
+<h4 id="disassemblyea-additional-flags"><a class="header" href="#disassemblyea-additional-flags">Disassembly/EA additional flags</a></h4>
+<p>Merging of additional flags <code>aflags_t</code>.</p>
+<p>Each disassembly item may have additional flags that further describe it.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays additional flags.</p>
+<figure><img src="images/merge/merge_step/merge_mh_aflags_ea.png" alt="merge mh aflags ea"><figcaption></figcaption></figure>
+<h4 id="disasemblyhidden-ranges"><a class="header" href="#disasemblyhidden-ranges">Disasembly/Hidden ranges</a></h4>
+<p>To prepare <code>diffpos</code>, IDA Teams groups hidden ranges into nonintersecting ranges. <code>diffpos</code> is a range number.</p>
+<p>The “Detail” pane displays the hidden range description.</p>
+<figure><img src="images/merge/merge_step/merge_mh_hiddenranges.png" alt="merge mh hiddenranges"><figcaption></figcaption></figure>
+<h4 id="disassemblysource-file-ranges"><a class="header" href="#disassemblysource-file-ranges">Disassembly/Source file ranges</a></h4>
+<p>To prepare <code>diffpos</code>, IDA Teams groups source file ranges into nonintersecting ranges. <code>diffpos</code> is a range number.</p>
+<p>The “Detail” pane displays source file definition.</p>
+<figure><img src="images/merge/merge_step/merge_mh_sourcefiles.png" alt="merge mh sourcefiles"><figcaption></figcaption></figure>
+<h4 id="functionsregistry"><a class="header" href="#functionsregistry">Functions/Registry</a></h4>
+<p>Function definitions (<code>func_t</code>) are merged using the standard “Functions” widget, while the “Detail” pane displays function attributes:</p>
+<figure><img src="images/merge/merge_step/merge_mh_func.png" alt="merge mh func"><figcaption></figcaption></figure>
+<h4 id="functionsim-flags"><a class="header" href="#functionsim-flags">Functions/IM flags</a></h4>
+<p>Merging of instruction kinds.</p>
+<p>To simplify decompilation, IDA has the notion of the instruction kind:</p>
+<ul>
+<li>PROLOG instruction</li>
+<li>EPILOG instruction</li>
+<li>SWITCH instruction</li>
+</ul>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays instruction kind.</p>
+<figure><img src="images/merge/merge_step/merge_mh_ignoremicro.png" alt="merge mh ignoremicro"><figcaption></figcaption></figure>
+<h4 id="functionsframes-global"><a class="header" href="#functionsframes-global">Functions/Frames (global)</a></h4>
+<p>This merge phase deals with the entire function frames. Function frame may be added or deleted.</p>
+<p>If members of the matched function frame differ, the conflict will be resolved later during the <strong>Functions/Frame/…​</strong> merge phase. Each differing frame will be assigned its own merge step.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_framemgr.png" alt="merge mh framemgr"><figcaption></figcaption></figure>
+<h4 id="functionsframe"><a class="header" href="#functionsframe">Functions/Frame</a></h4>
+<p>Merging of function frame details.</p>
+<p>A separate phase is created for each function. For example:</p>
+<ul>
+<li><strong>Functions/Frames/sub_401200 at 401200</strong></li>
+<li><strong>Functions/Frames/_main at 4014E0</strong></li>
+</ul>
+<p>Every of these phases merges the conflicting members of the function frame.</p>
+<p>The “Detail” pane displays the detailed information about the current function frame member.</p>
+<figure><img src="images/merge/merge_step/merge_mh_frame.png" alt="merge mh frame"><figcaption></figcaption></figure>
+<h4 id="functionssp-change-points"><a class="header" href="#functionssp-change-points">Functions/SP change points</a></h4>
+<p>Merging of function SP change points.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays the SP change point details.</p>
+<figure><img src="images/merge/merge_step/merge_mh_stkpnts.png" alt="merge mh stkpnts"><figcaption></figcaption></figure>
+<h4 id="cross-referencesflow"><a class="header" href="#cross-referencesflow">Cross-references/Flow</a></h4>
+<p>Merging of regular execution flow from the previous instruction. IDA stores cross-references that correspond to regular execution flow in a special format, different from other cross-reference types.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_flows.png" alt="merge mh flows"><figcaption></figcaption></figure>
+<h4 id="cross-referencescode"><a class="header" href="#cross-referencescode">Cross-references/Code</a></h4>
+<p>Merging of code cross-references.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays code references to address (<code>diffpos</code>).</p>
+<figure><img src="images/merge/merge_step/merge_mh_crefs.png" alt="merge mh crefs"><figcaption></figcaption></figure>
+<h4 id="cross-referencesdata"><a class="header" href="#cross-referencesdata">Cross-references/Data</a></h4>
+<p>Merging of data cross-references.</p>
+<p>This merge phase uses the standard “IDA-View” widget.</p>
+<p>The “Detail” pane displays data references to address (<code>diffpos</code>).</p>
+<figure><img src="images/merge/merge_step/merge_mh_drefs.png" alt="merge mh drefs"><figcaption></figcaption></figure>
+<h4 id="marked-positions"><a class="header" href="#marked-positions">Marked positions/…​</a></h4>
+<p>The following merge phases exist:</p>
+<ul>
+<li><strong>Marked positions/structplace_t</strong></li>
+<li><strong>Marked positions/enumplace_t</strong></li>
+<li><strong>Marked position/idaplace_t</strong></li>
+</ul>
+<p>They deal with merging of bookmarks for:</p>
+<ul>
+<li>structures</li>
+<li>enums</li>
+<li>addresses</li>
+</ul>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_bookmarks.png" alt="merge mh bookmarks"><figcaption></figcaption></figure>
+<h4 id="debugbreakpoints"><a class="header" href="#debugbreakpoints">Debug/Breakpoints/…​</a></h4>
+<p>The following merge phases exist:</p>
+<ul>
+<li><strong>Breakpoints/Absolute bpts</strong></li>
+<li><strong>Breakpoints/Relative bpts</strong></li>
+<li><strong>Breakpoints/Symbolic bpts</strong></li>
+<li><strong>Breakpoints/Source level bpts</strong></li>
+</ul>
+<p>They deal with merging of various debugger breakpoints.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_bpts.png" alt="merge mh bpts"><figcaption></figcaption></figure>
+<h4 id="debugwatchpoints"><a class="header" href="#debugwatchpoints">Debug/Watchpoints</a></h4>
+<p>Merging of watch points.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_watchpoints.png" alt="merge mh watchpoints"><figcaption></figcaption></figure>
+<h4 id="dirtree-dirtree"><a class="header" href="#dirtree-dirtree">Dirtree/$ dirtree/…​</a></h4>
+<p>The following merge phases exist:</p>
+<ul>
+<li><strong>Dirtree/$ dirtree/tinfos</strong></li>
+<li><strong>Dirtree/$ dirtree/structs</strong></li>
+<li><strong>Dirtree/$ dirtree/enums</strong></li>
+<li><strong>Dirtree/$ dirtree/funcs</strong></li>
+<li><strong>Dirtree/$ dirtree/names</strong></li>
+<li><strong>Dirtree/$ dirtree/imports</strong></li>
+<li><strong>Dirtree/$ dirtree/bookmarks_idaplace_t</strong></li>
+<li><strong>Dirtree/$ dirtree/bookmarks_structplace_t</strong></li>
+<li><strong>Dirtree/$ dirtree/bookmarks_enumplace_t</strong></li>
+<li><strong>Dirtree/$ dirtree/bpts</strong></li>
+</ul>
+<p>They deal with merging of the standard dirtrees.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_dirtree_tinfos.png" alt="merge mh dirtree tinfos"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_dirtree_structs.png" alt="merge mh dirtree structs"><figcaption></figcaption></figure>
+<h4 id="misctry-blocks"><a class="header" href="#misctry-blocks">Misc/Try blocks</a></h4>
+<p>Merging of try and catch block info.</p>
+<p>The “Detail” pane describes try block.</p>
+<figure><img src="images/merge/merge_step/merge_mh_tryblks.png" alt="merge mh tryblks"><figcaption></figcaption></figure>
+<h4 id="miscvirtual-function-tables"><a class="header" href="#miscvirtual-function-tables">Misc/Virtual function tables</a></h4>
+<p>Merging of virtual function tables.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_vftables.png" alt="merge mh vftables"><figcaption></figcaption></figure>
+<h4 id="miscnotepad"><a class="header" href="#miscnotepad">Misc/Notepad</a></h4>
+<p>Merging of database notepads. Each line of text is a <code>diffpos</code>.</p>
+<p>The “Detail” pane is absent.</p>
+<figure><img src="images/merge/merge_step/merge_mh_notepad.png" alt="merge mh notepad"><figcaption></figcaption></figure>
+<h4 id="processor-specific"><a class="header" href="#processor-specific">Processor specific/…​</a></h4>
+<p>Each processor plugin creates its own merge steps to handle the processor plugin’s specific data.</p>
+<p>For example, the PC processor module adds the following merge steps:</p>
+<ul>
+<li><strong>Processor specific/Analyze ea for a possible offset</strong></li>
+<li><strong>Processor specific/Frame pointer info</strong></li>
+<li><strong>Processor specific/Pushinfo</strong></li>
+<li><strong>Processor specific/VXD info 2</strong></li>
+<li><strong>Processor specific/Callee EA|AH value</strong></li>
+<li>…​</li>
+</ul>
+<figure><img src="images/merge/merge_step/merge_mh_proc_pushinfo.png" alt="merge mh proc pushinfo"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_proc_vxd2.png" alt="merge mh proc vxd2"><figcaption></figcaption></figure>
+<h4 id="pluginsdecompiler"><a class="header" href="#pluginsdecompiler">Plugins/Decompiler/…​</a></h4>
+<p>Merging of the decompiler data starts with the global configuration parameters from hexrays.cfg:</p>
+<figure><img src="images/merge/merge_step/merge_mh_vd_cfg.png" alt="merge mh vd cfg"><figcaption></figcaption></figure>
+<p>To handle decompilation of specific functions, IDA stores the decompilation data in a database netnode named <strong>Hexrays node</strong>.</p>
+<p>The merge step <strong>Plugins/Decompiler/Hexrays nodes</strong> adds or deletes netnodes, indicating which functions have or haven’t been decompiled in each databases:</p>
+<figure><img src="images/merge/merge_step/merge_mh_vd_nodes.png" alt="merge mh vd nodes"><figcaption></figcaption></figure>
+<p>The decompilation data for matching functions is compared using the following attributes:</p>
+<ul>
+<li><strong>Plugins/Decompiler/…​/Numforms</strong></li>
+<li><strong>Plugins/Decompiler/…​/mflags</strong></li>
+<li><strong>Plugins/Decompiler/…​/User-defined funcargs</strong></li>
+<li><strong>Plugins/Decompiler/…​/User-defined variable mapping</strong></li>
+<li><strong>Plugins/Decompiler/…​/User-defined lvar info</strong></li>
+<li><strong>Plugins/Decompiler/…​/lvar settings</strong></li>
+<li><strong>Plugins/Decompiler/…​/IFLAGS</strong></li>
+<li><strong>Plugins/Decompiler/…​/User labels</strong></li>
+<li><strong>Plugins/Decompiler/…​/User unions</strong></li>
+<li><strong>Plugins/Decompiler/…​/User comments</strong></li>
+<li><strong>Plugins/Decompiler/…​/User-defined call</strong></li>
+</ul>
+<p>If there is a difference, each comparison criteria will be assigned its own merge step. Each step will use the standard “Pseudocode” widget so that differences can be viewed in-context with the full pseudocode:</p>
+<figure><img src="images/merge/merge_step/merge_mh_numforms.png" alt="merge mh numforms"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_mflags.png" alt="merge mh mflags"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_funcargs.png" alt="merge mh funcargs"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_vmap.png" alt="merge mh vmap"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_lvinfo.png" alt="merge mh lvinfo"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_lvar_settings.png" alt="merge mh lvar settings"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_iflags.png" alt="merge mh iflags"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_labels.png" alt="merge mh labels"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_unions.png" alt="merge mh unions"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_cmts.png" alt="merge mh cmts"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_ucall.png" alt="merge mh ucall"><figcaption></figcaption></figure>
+<h4 id="loader-data-merge-phases"><a class="header" href="#loader-data-merge-phases">Loader data merge phases</a></h4>
+<p>The file loader that was used to create the database may have stored some data in the database that is specific to the loader itself.</p>
+<p>There are merge phases for each loader, for example:</p>
+<ul>
+<li><strong>Loader/PE file/…​</strong></li>
+<li><strong>Loader/NE file/…​</strong></li>
+<li><strong>Loader/ELF file/…​</strong></li>
+<li><strong>Loader/TLS/…​</strong></li>
+<li><strong>Loader/ARM segment flags/…​</strong></li>
+</ul>
+<figure><img src="images/merge/merge_step/merge_mh_ldr_pe.png" alt="merge mh ldr pe"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_ldr_arm.png" alt="merge mh ldr arm"><figcaption></figcaption></figure>
+<h4 id="debugger-data-merge-phases"><a class="header" href="#debugger-data-merge-phases">Debugger data merge phases</a></h4>
+<p>To handle the differences in debugger data the following merge steps may be created:</p>
+<ul>
+<li><strong>Debugger/pin</strong></li>
+<li><strong>Debugger/gdb</strong></li>
+<li><strong>Debugger/xnu</strong></li>
+<li><strong>Debugger/ios</strong></li>
+<li><strong>Debugger/bochs</strong></li>
+<li><strong>Debugger/windbg</strong></li>
+<li><strong>Debugger/rmac_arm</strong></li>
+<li><strong>Debugger/lmac_arm</strong></li>
+<li><strong>Debugger/rmac</strong></li>
+<li><strong>Debugger/lmac</strong></li>
+</ul>
+<p>As can be deduced by their names, they handle debugger-specific data in the database.</p>
+<figure><img src="images/merge/merge_step/merge_mh_dbg_pin.png" alt="merge mh dbg pin"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_dbg_windbg.png" alt="merge mh dbg windbg"><figcaption></figcaption></figure>
+<h4 id="other-plugins-merge-phases"><a class="header" href="#other-plugins-merge-phases">Other plugins merge phases</a></h4>
+<p>There are a number of IDA plugins that need to merge their data.</p>
+<p>For example:</p>
+<ul>
+<li><strong>Plugins/PDB</strong></li>
+<li><strong>Plugins/golang</strong></li>
+<li><strong>Plugins/EH_PARSE</strong></li>
+<li><strong>Plugins/Callgraph</strong></li>
+<li><strong>Plugins/swift</strong></li>
+</ul>
+<p>Any third party plugin may add merge phases using the IDA SDK. We provide sample plugins that illustrate how to add support for merging into third party plugins.</p>
+<figure><img src="images/merge/merge_step/merge_mh_pdb.png" alt="merge mh pdb"><figcaption></figcaption></figure>
+<figure><img src="images/merge/merge_step/merge_mh_swift.png" alt="merge mh swift"><figcaption></figcaption></figure>
+<h2 id="appendix-b"><a class="header" href="#appendix-b">Appendix B</a></h2>
+<h3 id="using-idasdk-to-add-merge-functionality-to-plugin"><a class="header" href="#using-idasdk-to-add-merge-functionality-to-plugin">Using IDASDK to add merge functionality to plugin</a></h3>
+<h4 id="overview-1"><a class="header" href="#overview-1">Overview</a></h4>
+<p>Any plugin that stores its data in the database must implement the logic for merging its data. For that, the plugin must provide the description of its data and ask the kernel to create merge handlers based on these descriptions.</p>
+<p>The kernel will use the created handlers to perform merging and to display merged data to the users. The plugin can implement callback functions to modify some aspects of merging, if necessary.</p>
+<p>The plugin may have two kinds of data with permanent storage:</p>
+<ol>
+<li>Data that applies to entire database (e.g. the options). To describe this data, the <code>idbattr_info_t</code> type is used.</li>
+<li>Data that is tied to a particular address. To describe this data, the <code>merge_node_info_t</code> type is used.</li>
+</ol>
+<p>The kernel will notify the plugin using the <code>processor_t::ev_create_merge_handlers</code> event. On receiving it, the plugin should create the merge handlers, usually by calling the <code>create_merge_handlers()</code> function.</p>
+<h4 id="plugin"><a class="header" href="#plugin">Plugin</a></h4>
+<p>The IDA SDK provides several sample plugins to demonstrate how to add merge functionality to third party plugins:</p>
+<ul>
+<li>mex1/</li>
+<li>mex2/</li>
+<li>mex3/</li>
+<li>mex4/</li>
+</ul>
+<p>The sample plugin without the merge functionality consists of two files:</p>
+<ul>
+<li>mex.hpp</li>
+<li>mex_impl.cpp</li>
+</ul>
+<p>It is a regular implementation of a plugin that stores some data in the database. Please check the source files for more info.</p>
+<p>We demonstrate several approaches to add the merge functionality. They are implemented in different directories mex1/, mex2/, and so on.</p>
+<p>The <code>MEX_N</code> macros that are defined in makefile are used to parameterize the plugin implementation, so that all plugin examples may be used simultaneously.</p>
+<p>You may check the merge results for the plugins in one session of IDA Teams. Naturally, you should prepare databases by running plugins before launching of IDA Teams session.</p>
+<h4 id="merge-functionality"><a class="header" href="#merge-functionality">Merge functionality</a></h4>
+<p>The merge functionality is implemented in the merge.cpp file. It contains <code>create_merge_handlers()</code>, which is responsible for the creation of the merge handlers.</p>
+<p>Variants:</p>
+<p>mex1/<br>Merge values are stored in netnodes. The kernel will read the values directly from netnodes, merge them, and write back. No further actions are required from the plugin. If the data is stored in a simple way using altvals or supvals, this simple approach is recommended.</p>
+<p>mex2/<br>Merge values are stored in variables (in the memory). For more complex data that is not stored in a simple way in netnodes, (for example, data that uses database blobs), the previous approach cannot be used. This example shows how to merge the data that is stored in variables, like fields of the plugin context structure. The plugin provides the field descriptions to the kernel, which will use them to merge the data in the memory. After merging, the plugin must save the merged data to the database.</p>
+<p>mex3/<br>Uses mex1 example and illustrates how to improve the UI look.</p>
+<p>mex4/<br>Merge data that is stored in a netnode blob. Usually blob data is displayed as a sequence of hexadecimal digits in a merge chooser column. We show how to display blob contents in detail pane.</p>
+<h2 id="resolving-conflicts-in-a-file"><a class="header" href="#resolving-conflicts-in-a-file">Resolving conflicts in a file</a></h2>
+<p>When a user needs to commit changes made to a file, but that same file has received other modifications (likely from other users) in the meantime, it is necessary to first “merge” the two sets of modifications together.</p>
+<p>When the two sets of modifications do not overlap, merging is trivial - at least conceptually. But when they do overlap, they produce conflict(s).</p>
+<p>Since IDA Teams focuses on collaboration over IDA database files, the rest of this section will focus on the different strategies that are available for resolving conflicts among those.</p>
+<p>IDA Teams comes with multiple strategies to help in conflict resolution of IDA database files:</p>
+<ul>
+<li><a href="merge.html#auto-resolve-if-no-conflicts">Auto-resolve (if no conflicts)</a></li>
+<li><a href="merge.html#auto-resolve-prefer-local">Auto-resolve, prefer local</a></li>
+<li><a href="merge.html#auto-resolve-prefer-remote">Auto-resolve, prefer remote</a></li>
+<li><a href="merge.html#interactive-merge-mode">Interactive merge mode</a></li>
+<li><a href="merge.html#use-local-discard-remote">Use local, discard remote</a></li>
+<li><a href="merge.html#use-remote-discard-local">Use remote, discard local</a></li>
+</ul>
+<h3 id="auto-resolve-if-no-conflicts"><a class="header" href="#auto-resolve-if-no-conflicts">Auto-resolve (if no conflicts)</a></h3>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform all merging automatically.</p>
+<p>If any conflict is discovered, bail out of the merge process, and don’t modify the local database.</p>
+<h3 id="auto-resolve-prefer-local"><a class="header" href="#auto-resolve-prefer-local">Auto-resolve, prefer local</a></h3>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform all merging automatically.</p>
+<p>If a conflict is discovered, assume that the “local” change (i.e., the current user’s change) is the correct one, and apply that.</p>
+<p>Once all merging is done and conflicts are resolved, write those to the local database and exit IDA</p>
+<h3 id="auto-resolve-prefer-remote"><a class="header" href="#auto-resolve-prefer-remote">Auto-resolve, prefer remote</a></h3>
+<p>Launch IDA in a non-interactive batch mode, attempting to perform all merging automatically.</p>
+<p>If a conflict is discovered, assume that the “remote” change (i.e., the change made by another user) is the correct one, and apply that.</p>
+<p>Once all merging is done and conflicts are resolved, write those to the local database and exit IDA</p>
+<h3 id="interactive-merge-mode"><a class="header" href="#interactive-merge-mode">Interactive merge mode</a></h3>
+<p>Manual merge mode.</p>
+<p>This will launch IDA in an interactive, 3-pane mode, allowing the user to decide how to resolve each conflict.</p>
+<p>Once all merging is done and conflicts are resolved, exit IDA and write the changes to the local database.</p>
+<h3 id="use-local-discard-remote"><a class="header" href="#use-local-discard-remote">Use local, discard remote</a></h3>
+<p>Select the local database, ignoring all changes in the remote database.</p>
+<p>No IDA process is run.</p>
+<h3 id="use-remote-discard-local"><a class="header" href="#use-remote-discard-local">Use remote, discard local</a></h3>
+<p>Select the remote database, ignoring all changes in the local database.</p>
+<p>No IDA process is run.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/teams.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/teams/hv_user_manual.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/teams.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/teams/hv_user_manual.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

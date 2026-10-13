@@ -1,0 +1,38 @@
+.[-a] Checkout for add files that are present only on the client side.
+.[-e] Checkout for edit files that are present on both the vault and the client side but differ.
+.[-d] Checkout for delete files that are present only on the server side.
+.[-s] Silent mode; do not output any messages.
+.[$NCAT_LOCAL_PATH...:PATH_PATTERN] Local path of file(s) to scan, if omitted defaults to current directory.
+
+>Reconciles the contents of the current directory (or the one(s)
+provided) on the local filesystem, with those of the corresponding
+path(s) on the server.
+
+This command will recursively look for:
+
+* new files (if `-a` is provided)
+* deleted files (if `-d` is provided)
+* modified files (if `-e` is provided)
+
+If any is found will create a new worklist and, add those for
+addition/deletion/modification.
+
+This command is particularly useful if the user didn't have access to
+the server at a time it was necessary (e.g., to issue an
+[edit](#edit) command, while flying across the Atlantic.)
+Users can still get work done in such cases, and once they gain access
+to the server again, issue a [scan](#scan) to commit the changes.
+
+NOTE: The `-e` option causes the [scan](#scan) command to compute
+checksums of the local files, in order to compare them against those
+known to the server, in order to spot modifications.
+
+NOTE: If no options were given, defaults to `-e -d`.
+
+The files found by the `scan` command will be filtered by [hvignore](#hvignore-and-.hvignore-files).
+
+!
+$$ -a -e -d //
+added worklist 3
+checked out '//afile' for 'del' (worklist 3)
+checked out '//Win32.Emotet/29D6161522C7F7F21B35401907C702BDDB05ED47.bin.i64' for 'edit' (worklist 3)

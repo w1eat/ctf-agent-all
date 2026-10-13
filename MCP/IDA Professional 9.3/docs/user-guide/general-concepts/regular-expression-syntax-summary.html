@@ -1,0 +1,521 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Regular Expressions - Hex-Rays offline documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon-3db585bd.png">
+        <link rel="stylesheet" href="../../css/variables-4b63b451.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-e1608c42.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-ee42cce0.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-42045b7b.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hex-Rays offline documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="regular-expression-syntax-summary"><a class="header" href="#regular-expression-syntax-summary">Regular Expression Syntax Summary</a></h1>
+<p>The full syntax and semantics of the regular expressions that are supported by PCRE2 are described in the pcre2pattern documentation. This document contains a quick-reference summary of the syntax.</p>
+<p>QUOTING</p>
+<pre><code>  \x         where x is non-alphanumeric is a literal x
+  \Q...\E    treat enclosed characters as literal
+</code></pre>
+<p>ESCAPED CHARACTERS</p>
+<p>This table applies to ASCII and Unicode environments.</p>
+<pre><code>  \a         alarm, that is, the BEL character (hex 07)
+  \cx        "control-x", where x is any ASCII printing character
+  \e         escape (hex 1B)
+  \f         form feed (hex 0C)
+  \n         newline (hex 0A)
+  \r         carriage return (hex 0D)
+  \t         tab (hex 09)
+  \0dd       character with octal code 0dd
+  \ddd       character with octal code ddd, or backreference
+  \o{ddd..}  character with octal code ddd..
+  \U         "U" if PCRE2_ALT_BSUX is set (otherwise is an error)
+  \uhhhh     character with hex code hhhh (if PCRE2_ALT_BSUX is set)
+  \xhh       character with hex code hh
+  \x{hhh..}  character with hex code hhh..
+</code></pre>
+<p>Note that \0dd is always an octal code. The treatment of backslash followed by a non-zero digit is complicated; for details see the section "Non-printing characters" in the pcre2pattern documentation, where details of escape processing in EBCDIC environments are also given.</p>
+<p>When \x is not followed by {, from zero to two hexadecimal digits are read, but if PCRE2_ALT_BSUX is set, \x must be followed by two hexadecimal digits to be recognized as a hexadecimal escape; otherwise it matches a literal "x". Likewise, if \u (in ALT_BSUX mode) is not followed by four hexadecimal digits, it matches a literal "u".</p>
+<p>CHARACTER TYPES</p>
+<pre><code>  .          any character except newline;
+               in dotall mode, any character whatsoever
+  \C         one code unit, even in UTF mode (best avoided)
+  \d         a decimal digit
+  \D         a character that is not a decimal digit
+  \h         a horizontal white space character
+  \H         a character that is not a horizontal white space character
+  \N         a character that is not a newline
+  \p{xx}     a character with the xx property
+  \P{xx}     a character without the xx property
+  \R         a newline sequence
+  \s         a white space character
+  \S         a character that is not a white space character
+  \v         a vertical white space character
+  \V         a character that is not a vertical white space character
+  \w         a "word" character
+  \W         a "non-word" character
+  \X         a Unicode extended grapheme cluster
+</code></pre>
+<p>\C is dangerous because it may leave the current matching point in the middle of a UTF-8 or UTF-16 character. The application can lock out the use of \C by setting the PCRE2_NEVER_BACKSLASH_C option. It is also possible to build PCRE2 with the use of \C permanently disabled.</p>
+<p>By default, \d, \s, and \w match only ASCII characters, even in UTF-8 mode or in the 16-bit and 32-bit libraries. However, if locale-specific matching is happening, \s and \w may also match characters with code points in the range 128-255. If the PCRE2_UCP option is set, the behaviour of these escape sequences is changed to use Unicode properties and they match many more characters.</p>
+<p>GENERAL CATEGORY PROPERTIES FOR \p and \P</p>
+<pre><code>  C          Other
+  Cc         Control
+  Cf         Format
+  Cn         Unassigned
+  Co         Private use
+  Cs         Surrogate
+
+  L          Letter
+  Ll         Lower case letter
+  Lm         Modifier letter
+  Lo         Other letter
+  Lt         Title case letter
+  Lu         Upper case letter
+  L&amp;         Ll, Lu, or Lt
+
+  M          Mark
+  Mc         Spacing mark
+  Me         Enclosing mark
+  Mn         Non-spacing mark
+
+  N          Number
+  Nd         Decimal number
+  Nl         Letter number
+  No         Other number
+
+  P          Punctuation
+  Pc         Connector punctuation
+  Pd         Dash punctuation
+  Pe         Close punctuation
+  Pf         Final punctuation
+  Pi         Initial punctuation
+  Po         Other punctuation
+  Ps         Open punctuation
+
+  S          Symbol
+  Sc         Currency symbol
+  Sk         Modifier symbol
+  Sm         Mathematical symbol
+  So         Other symbol
+
+  Z          Separator
+  Zl         Line separator
+  Zp         Paragraph separator
+  Zs         Space separator
+</code></pre>
+<p>PCRE2 SPECIAL CATEGORY PROPERTIES FOR \p and \P</p>
+<pre><code>  Xan        Alphanumeric: union of properties L and N
+  Xps        POSIX space: property Z or tab, NL, VT, FF, CR
+  Xsp        Perl space: property Z or tab, NL, VT, FF, CR
+  Xuc        Univerally-named character: one that can be
+               represented by a Universal Character Name
+  Xwd        Perl word: property Xan or underscore
+</code></pre>
+<p>Perl and POSIX space are now the same. Perl added VT to its space character set at release 5.18.</p>
+<p>SCRIPT NAMES FOR \p AND \P</p>
+<p>Ahom, Anatolian_Hieroglyphs, Arabic, Armenian, Avestan, Balinese, Bamum, Bassa_Vah, Batak, Bengali, Bopomofo, Brahmi, Braille, Buginese, Buhid, Canadian_Aboriginal, Carian, Caucasian_Albanian, Chakma, Cham, Cherokee, Common, Coptic, Cuneiform, Cypriot, Cyrillic, Deseret, Devanagari, Duployan, Egyptian_Hieroglyphs, Elbasan, Ethiopic, Georgian, Glagolitic, Gothic, Grantha, Greek, Gujarati, Gurmukhi, Han, Hangul, Hanunoo, Hatran, Hebrew, Hiragana, Imperial_Aramaic, Inherited, Inscriptional_Pahlavi, Inscriptional_Parthian, Javanese, Kaithi, Kannada, Katakana, Kayah_Li, Kharoshthi, Khmer, Khojki, Khudawadi, Lao, Latin, Lepcha, Limbu, Linear_A, Linear_B, Lisu, Lycian, Lydian, Mahajani, Malayalam, Mandaic, Manichaean, Meetei_Mayek, Mende_Kikakui, Meroitic_Cursive, Meroitic_Hieroglyphs, Miao, Modi, Mongolian, Mro, Multani, Myanmar, Nabataean, New_Tai_Lue, Nko, Ogham, Ol_Chiki, Old_Hungarian, Old_Italic, Old_North_Arabian, Old_Permic, Old_Persian, Old_South_Arabian, Old_Turkic, Oriya, Osmanya, Pahawh_Hmong, Palmyrene, Pau_Cin_Hau, Phags_Pa, Phoenician, Psalter_Pahlavi, Rejang, Runic, Samaritan, Saurashtra, Sharada, Shavian, Siddham, SignWriting, Sinhala, Sora_Sompeng, Sundanese, Syloti_Nagri, Syriac, Tagalog, Tagbanwa, Tai_Le, Tai_Tham, Tai_Viet, Takri, Tamil, Telugu, Thaana, Thai, Tibetan, Tifinagh, Tirhuta, Ugaritic, Vai, Warang_Citi, Yi.</p>
+<p>CHARACTER CLASSES</p>
+<pre><code>  [...]       positive character class
+  [^...]      negative character class
+  [x-y]       range (can be used for hex characters)
+  [[:xxx:]]   positive POSIX named set
+  [[:^xxx:]]  negative POSIX named set
+
+  alnum       alphanumeric
+  alpha       alphabetic
+  ascii       0-127
+  blank       space or tab
+  cntrl       control character
+  digit       decimal digit
+  graph       printing, excluding space
+  lower       lower case letter
+  print       printing, including space
+  punct       printing, excluding alphanumeric
+  space       white space
+  upper       upper case letter
+  word        same as \w
+  xdigit      hexadecimal digit
+</code></pre>
+<p>In PCRE2, POSIX character set names recognize only ASCII characters by default, but some of them use Unicode properties if PCRE2_UCP is set. You can use \Q...\E inside a character class.</p>
+<p>QUANTIFIERS</p>
+<pre><code>  ?           0 or 1, greedy
+  ?+          0 or 1, possessive
+  ??          0 or 1, lazy
+  *           0 or more, greedy
+  *+          0 or more, possessive
+  *?          0 or more, lazy
+  +           1 or more, greedy
+  ++          1 or more, possessive
+  +?          1 or more, lazy
+  {n}         exactly n
+  {n,m}       at least n, no more than m, greedy
+  {n,m}+      at least n, no more than m, possessive
+  {n,m}?      at least n, no more than m, lazy
+  {n,}        n or more, greedy
+  {n,}+       n or more, possessive
+  {n,}?       n or more, lazy
+</code></pre>
+<p>ANCHORS AND SIMPLE ASSERTIONS</p>
+<pre><code>  \b          word boundary
+  \B          not a word boundary
+  ^           start of subject
+                also after an internal newline in multiline mode
+                (after any newline if PCRE2_ALT_CIRCUMFLEX is set)
+  \A          start of subject
+  $           end of subject
+                also before newline at end of subject
+                also before internal newline in multiline mode
+  \Z          end of subject
+                also before newline at end of subject
+  \z          end of subject
+  \G          first matching position in subject
+</code></pre>
+<p>MATCH POINT RESET</p>
+<pre><code>  \K          reset start of match
+</code></pre>
+<p>\K is honoured in positive assertions, but ignored in negative ones.</p>
+<p>ALTERNATION</p>
+<pre><code>  expr|expr|expr...
+</code></pre>
+<p>CAPTURING</p>
+<pre><code>  (...)           capturing group
+  (?&lt;name&gt;...)    named capturing group (Perl)
+  (?'name'...)    named capturing group (Perl)
+  (?P&lt;name&gt;...)   named capturing group (Python)
+  (?:...)         non-capturing group
+  (?|...)         non-capturing group; reset group numbers for
+                   capturing groups in each alternative
+</code></pre>
+<p>ATOMIC GROUPS</p>
+<pre><code>  (?&gt;...)         atomic, non-capturing group
+</code></pre>
+<p>COMMENT</p>
+<pre><code>  (?#....)        comment (not nestable)
+</code></pre>
+<p>OPTION SETTING</p>
+<pre><code>  (?i)            caseless
+  (?J)            allow duplicate names
+  (?m)            multiline
+  (?s)            single line (dotall)
+  (?U)            default ungreedy (lazy)
+  (?x)            extended (ignore white space)
+  (?-...)         unset option(s)
+</code></pre>
+<p>The following are recognized only at the very start of a pattern or after one of the newline or \R options with similar syntax. More than one of them may appear. (*LIMIT_MATCH=d) set the match limit to d (decimal number)</p>
+<pre><code>  (*LIMIT_RECURSION=d) set the recursion limit to d (decimal number)
+  (*NOTEMPTY)     set PCRE2_NOTEMPTY when matching
+  (*NOTEMPTY_ATSTART) set PCRE2_NOTEMPTY_ATSTART when matching
+  (*NO_AUTO_POSSESS) no auto-possessification (PCRE2_NO_AUTO_POSSESS)
+  (*NO_DOTSTAR_ANCHOR) no .* anchoring (PCRE2_NO_DOTSTAR_ANCHOR)
+  (*NO_JIT)       disable JIT optimization
+  (*NO_START_OPT) no start-match optimization (PCRE2_NO_START_OPTIMIZE)
+  (*UTF)          set appropriate UTF mode for the library in use
+  (*UCP)          set PCRE2_UCP (use Unicode properties for \d etc)
+</code></pre>
+<p>Note that LIMIT_MATCH and LIMIT_RECURSION can only reduce the value of the limits set by the caller of pcre2_match(), not increase them. The application can lock out the use of (*UTF) and (*UCP) by setting the PCRE2_NEVER_UTF or PCRE2_NEVER_UCP options, respectively, at compile time.</p>
+<p>NEWLINE CONVENTION</p>
+<p>These are recognized only at the very start of the pattern or after option settings with a similar syntax.</p>
+<pre><code>  (*CR)           carriage return only
+  (*LF)           linefeed only
+  (*CRLF)         carriage return followed by linefeed
+  (*ANYCRLF)      all three of the above
+  (*ANY)          any Unicode newline sequence
+</code></pre>
+<p>WHAT \R MATCHES</p>
+<p>These are recognized only at the very start of the pattern or after option setting with a similar syntax.</p>
+<pre><code>  (*BSR_ANYCRLF)  CR, LF, or CRLF
+  (*BSR_UNICODE)  any Unicode newline sequence
+</code></pre>
+<p>LOOKAHEAD AND LOOKBEHIND ASSERTIONS</p>
+<pre><code>  (?=...)         positive look ahead
+  (?!...)         negative look ahead
+  (?&lt;=...)        positive look behind
+  (?&lt;!...)        negative look behind
+</code></pre>
+<p>Each top-level branch of a look behind must be of a fixed length.</p>
+<p>BACKREFERENCES</p>
+<pre><code>  \n              reference by number (can be ambiguous)
+  \gn             reference by number
+  \g{n}           reference by number
+  \g{-n}          relative reference by number
+  \k&lt;name&gt;        reference by name (Perl)
+  \k'name'        reference by name (Perl)
+  \g{name}        reference by name (Perl)
+  \k{name}        reference by name (.NET)
+  (?P=name)       reference by name (Python)
+</code></pre>
+<p>SUBROUTINE REFERENCES (POSSIBLY RECURSIVE)</p>
+<pre><code>  (?R)            recurse whole pattern
+  (?n)            call subpattern by absolute number
+  (?+n)           call subpattern by relative number
+  (?-n)           call subpattern by relative number
+  (?&amp;name)        call subpattern by name (Perl)
+  (?P&gt;name)       call subpattern by name (Python)
+  \g&lt;name&gt;        call subpattern by name (Oniguruma)
+  \g'name'        call subpattern by name (Oniguruma)
+  \g&lt;n&gt;           call subpattern by absolute number (Oniguruma)
+  \g'n'           call subpattern by absolute number (Oniguruma)
+  \g&lt;+n&gt;          call subpattern by relative number (PCRE2 extension)
+  \g'+n'          call subpattern by relative number (PCRE2 extension)
+  \g&lt;-n&gt;          call subpattern by relative number (PCRE2 extension)
+  \g'-n'          call subpattern by relative number (PCRE2 extension)
+</code></pre>
+<p>CONDITIONAL PATTERNS</p>
+<pre><code>  (?(condition)yes-pattern)
+  (?(condition)yes-pattern|no-pattern)
+
+  (?(n)               absolute reference condition
+  (?(+n)              relative reference condition
+  (?(-n)              relative reference condition
+  (?(&lt;name&gt;)          named reference condition (Perl)
+  (?('name')          named reference condition (Perl)
+  (?(name)            named reference condition (PCRE2)
+  (?(R)               overall recursion condition
+  (?(Rn)              specific group recursion condition
+  (?(R&amp;name)          specific recursion condition
+  (?(DEFINE)          define subpattern for reference
+  (?(VERSION[&gt;]=n.m)  test PCRE2 version
+  (?(assert)          assertion condition
+</code></pre>
+<p>BACKTRACKING CONTROL</p>
+<p>The following act immediately they are reached:</p>
+<pre><code>  (*ACCEPT)       force successful match
+  (*FAIL)         force backtrack; synonym (*F)
+  (*MARK:NAME)    set name to be passed back; synonym (*:NAME)
+</code></pre>
+<p>The following act only when a subsequent match failure causes a backtrack to reach them. They all force a match failure, but they differ in what happens afterwards. Those that advance the start-of-match point do so only if the pattern is not anchored. (*COMMIT) overall failure, no advance of starting point</p>
+<pre><code>  (*PRUNE)        advance to next starting character
+  (*PRUNE:NAME)   equivalent to (*MARK:NAME)(*PRUNE)
+  (*SKIP)         advance to current matching position
+  (*SKIP:NAME)    advance to position corresponding to an earlier
+                  (*MARK:NAME); if not found, the (*SKIP) is ignored
+  (*THEN)         local failure, backtrack to next alternation
+  (*THEN:NAME)    equivalent to (*MARK:NAME)(*THEN)
+</code></pre>
+<p>CALLOUTS</p>
+<pre><code>  (?C)            callout (assumed number 0)
+  (?Cn)           callout with numerical data n
+  (?C"text")      callout with string data
+</code></pre>
+<p>The allowed string delimiters are ` ' " ^ % # $ (which are the same for the start and the end), and the starting delimiter { matched with the ending delimiter }. To encode the ending delimiter within the string, double it.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../user-guide/general-concepts/breakpoints.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../user-guide/general-concepts/problems-list.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../user-guide/general-concepts/breakpoints.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../user-guide/general-concepts/problems-list.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+.[-s SITENAME] Restrict to commits from SITENAME.
+.[-u USERNAME] Restrict to commits from USERNAME.
+.[-c MIN_COMMIT] Restrict to commits after commit: MIN_COMMIT.
+.[-C MAX_COMMIT] Restrict to commits prior to commit: MAX_COMMIT.
+.[-m MAX_REPORTED_ENTRIES] Limit number of reported commits to: MAX_REPORTED_ENTRIES.
+.[-d MIN_DATE] Restrict to commits after MIN_DATE using format `YYYY-MM-DD`.
+.[-D MAX_DATE] Restrict to commits prior to MAX_DATE using format `YYYY-MM-DD`.
+.[-l] Display long (>40 characters) commit descriptions.
+.[$NCAT_VAULT_PATH...:PATH_PATTERN] Filter commits by vault paths. If omitted, defaults to all files.
+
+>Displays list of commits that affect a path.
+
+List can be refined using options.
+
+For each commit the following info will be displayed:
+
+* the commit id
+* the timestamp of the commit
+* if only one file was changed, the action that was done to it (e.g. `edit`)
+* the user who sent the commit
+* the site from which the commit was sent
+* a description of the commit, truncated to 40 chars unless if `-l` is enabled
+
+[horizontal]
+TIP:: This command is also available under the alias `commits`.
+
+! find all commits made by john
+$$ -u john
+CM 109 2022-04-05 17:09:18 john@johnpc reverted commit 85
+CM 108 2022-04-05 17:00:02 john@johnpc added more malware samples
+CM 107 2022-04-05 16:37:02 john@johnpc WannaCry: annotated a few funcs
+CM 106 2022-04-05 16:35:57 john@johnpc removed unused files
+
+! show last 2 commits on a file with full descriptions
+$$ -m 2 -l //iOS/dyld_ios16.i64
+Commit 42 2022-06-14 16:44:19 edit gregm@gregpc
+        iOS: dyld iOS 16 WIP
+
+        annotated more struct members
+
+Commit 35 2022-06-14 00:35:43 edit gregm@gregpc
+        iOS: RE of ios16 split cache loading
+
+        discovered some structures and their members
+

@@ -1,0 +1,16 @@
+>Displays the sessions info.
+
+For each session on the vault, the following info will be displayed:
+
+* the site
+* the user
+* the hostname
+* the timestamp of the login time
+* the timestamp of the last activity
+* "ADM" if the user has admin privileges
+* "*" for the session executing the command
+
+!
+$$
+gregpc       gregm        GREGPC-554HW             LOGIN=2022-07-04 LAST=2022-07-04 ADM *
+lindapc      linda        lindasmac                LOGIN=2022-07-02 LAST=2022-07-04

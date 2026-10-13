@@ -1,0 +1,9 @@
+>Shows users.
+
+!
+$$
+LastActive Adm Login   RealName/Email         Notes
+---------- --- ------- ---------------------- -----
+2022-07-27  *  admin   
+2022-09-16     alice   Alice <alice@acme.com>
+Never          bob     Bob <bob@acme.com>

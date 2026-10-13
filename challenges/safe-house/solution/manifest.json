@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "current_key": "9ab4005c9b159454a672:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "9ab4005c9b159454a672:platform_confirmed",
+      "flag": "sun{n3gat1ve_h4ndl3s_0pen_s3cret_d00rs}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Safe House",
+        "category": "Pwn",
+        "description": "The safe house processes reports and files notes for the field. Get past the front desk and into the vault.",
+        "connection_info": "nc chal.sunshinectf.games 26007",
+        "value": 489,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via ROP stack overflow in the parent shell's SUBMIT handler to craft a type-3 vault frame with a negative slot index (-4) that reaches the pre-initialized flag-file descriptor, then RELAY reads back the vault response.: sun{n3gat1ve_h4ndl3s_0pen_s3cret_d00rs} | Evidence: Metadata: Pwn 'Safe House', nc chal.sunshinectf.games 26007, service binary sha256 40c8993c... ; Binary forks: parent reads commands (SUBMIT/RELAY/NOTE), child holds flag.txt fd and serves a 16-slot vault with 4 pre-initialized type-2 source entries at 0x405080 (entry0 fd=flag.txt); slot array base 0x4060b0. ; Child read handler checks index only with `cmp eax,0xf; jg range` (no lower bound), so index=-4 maps to 0x4060b0-0x1030=0x405080 (flag fd) and preads the flag. ; SUBMIT <size> reads `size` bytes into a 0x40 stack buffer (offset 0x48 to return), and seccomp in the parent permits read/write, enabling a ROP chain. ; Leaked the per-connection XOR key via write(1, 0x405060/61, 3) using rdx=3 carried over from the handler; keystream is key bytes reversed (k3 k2 k1 k0).",
+      "solution_steps": [
+        "Run the provided service and reach the 'sh> ' prompt.",
+        "Stage 1 (SUBMIT 255 overflow): write 3 bytes at 0x405060 and 3 at 0x405061 to stdout to leak all 4 key bytes, then MULTIPOP to set rbx/rbp/r12/r13/r14/r15 and return to the command loop (0x4014d0) with rbp/RX pointing at a BSS command buffer.",
+        "Compute keystream = leaked_key[::-1]; frame = plain XOR keystream where plain = {type=3, len=5, pad=0, payload = 0xfffffffc, pad}.",
+        "Stage 2 (SUBMIT 255 overflow): read 9 frame bytes + a '1\\0' string into BSS using read(0, ...) with rdx=3.",
+        "Stage 3 (SUBMIT 255 overflow): write the 9 frame bytes to fd 3 (three 3-byte writes) so the child processes the negative-index vault read and queues the flag.",
+        "Send 'RELAY 1': the parent reads the already-queued flag response and prints the decrypted flag."
+      ],
+      "evidence": [
+        "Metadata: Pwn 'Safe House', nc chal.sunshinectf.games 26007, service binary sha256 40c8993c...",
+        "Binary forks: parent reads commands (SUBMIT/RELAY/NOTE), child holds flag.txt fd and serves a 16-slot vault with 4 pre-initialized type-2 source entries at 0x405080 (entry0 fd=flag.txt); slot array base 0x4060b0.",
+        "Child read handler checks index only with `cmp eax,0xf; jg range` (no lower bound), so index=-4 maps to 0x4060b0-0x1030=0x405080 (flag fd) and preads the flag.",
+        "SUBMIT <size> reads `size` bytes into a 0x40 stack buffer (offset 0x48 to return), and seccomp in the parent permits read/write, enabling a ROP chain.",
+        "Leaked the per-connection XOR key via write(1, 0x405060/61, 3) using rdx=3 carried over from the handler; keystream is key bytes reversed (k3 k2 k1 k0).",
+        "Loaded 9-byte encrypted frame [03 00 05 00 fc ff ff ff 00] into BSS and wrote it to fd3, queuing the vault flag response; 'RELAY 1' then made the parent decrypt/print it."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/9ab4005c9b159454a672/deepseek-deepseek-flash-5403e74e/39e558253ddded8d/exp.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/exp.py remote",
+      "status": "complete",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 exp.py remote",
+        "exit_code": 0,
+        "stdout": "[x] Opening connection to chal.sunshinectf.games on port 26007\n[x] Opening connection to chal.sunshinectf.games on port 26007: Trying 35.211.211.18\n[+] Opening connection to chal.sunshinectf.games on port 26007: Done\n[*] leak6=2227bd27bd6d\n[*] key bytes = 2227bd6d\n[*] frame=6ebd22229142d8dd6d\nOUTPUT: b'sun{n3gat1ve_h4ndl3s_0pen_s3cret_d00rs}\\n\\nsh> '\n[*] Closed connection to chal.sunshinectf.games port 26007\n",
+        "stderr": ""
+      },
+      "writeup_sha256": "a789c049cef8fe099a788dd461715e6a0c4dbcf1b9159e02daa612ebb3f1d24e",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:32:47.975218+00:00",
+      "updated_at": "2026-09-27T04:33:03.554769+00:00",
+      "exp_sha256": {
+        "exp/exp.py": "39e558253ddded8d544ddcac93bff55afe980979d69ee4ae362c1092d9f3fe96"
+      }
+    }
+  ]
+}

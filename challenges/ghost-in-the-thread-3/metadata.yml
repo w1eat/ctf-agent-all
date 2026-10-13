@@ -1,0 +1,35 @@
+version: beta2
+platform: unknown
+native_id: '30'
+name: ghost in the thread - 3
+category: Forensics
+description: 'a week ago moot went on vacation, someone leaked where, but thankfully
+  our faithful, unpaid janitors cleaned it up. where''d moot go on vacation to? refer
+  to ghost in the thread (1) for the challenge. no sun{} format, just the location
+  name. Companion file: sunchan3.html (sha256 d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e,
+  40034 bytes).'
+value: 0
+files:
+- distfiles/sunchan3.html
+challenge_mode: hybrid
+connection_info: https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing
+environment_required: true
+challenge_url: https://2026.sunshinectf.org/challenges#ghost%20in%20the%20thread%20-%203-30
+environment:
+  status: unknown
+  source: remote
+  url: https://drive.google.com/file/d/1fFWJp6tfT8U6bh0uuhB4AkDv-sdDCf_W/view?usp=sharing
+  host: ''
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- id: '0'
+  name: sunchan3.html
+  sha256: d907888689e16f97d624734354ccc33705dc1f7cb50f7092b149478f5c7f478e
+  size: 40034
+  target: a[href^="/files/00e4726e95ac014b970a678ca6d18ace/sunchan.html"]
+  url: https://2026.sunshinectf.org/files/00e4726e95ac014b970a678ca6d18ace/sunchan.html
+attachments_scanned: true
+state: solved
+reason: ''

@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "current_key": "64a19aa5a5ceb7e1c575:platform_confirmed",
+  "status": "complete",
+  "records": [
+    {
+      "key": "64a19aa5a5ceb7e1c575:platform_confirmed",
+      "flag": "sun{s1x_m0r3_w33ks_0f_g0ph3r_ssrf}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "2e89db975cdc455fb8c92690d2211e7f",
+      "verified_by": [],
+      "challenge": {
+        "name": "Groundhog Day",
+        "category": "web",
+        "description": "The Punxsutawney Orbital Weather Authority has been broadcasting the same forecast since 1993. Every reading is fresh. Every date is always the same.",
+        "connection_info": "https://odyssey.web.2026.sunshinectf.games",
+        "value": 469,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via SSRF to gopher://127.0.0.1:8000/report with a crafted HTML/JS payload that read a local file and returned it as base64-encoded data embedded in the generated PDF, extracted via pdftotext.: sun{s1x_m0r3_w33ks_0f_g0ph3r_ssrf} | Evidence: Console page exposes a feed=<url> parameter that the server fetches server-side (feed-debug comment echoed source=http://127.0.0.1:8000/feed bytes=351). ; gopher:// SSRF reached the internal report generator on 127.0.0.1:8000 POST /report and returned JSON with base64 PDF data. ; The rendered PDF embedded ZB64START...ZB64END containing c3Vue3MxeF9tMHIzX3czM2tzXzBmX2cwcGgzcl9zc3JmfQoA which decodes to sun{s1x_m0r3_w33ks_0f_g0ph3r_ssrf}. ; Submission of sun{s1x_m0r3_w33ks_0f_g0ph3r_ssrf} returned Correct on the SunshineCTF challenge page.",
+      "solution_steps": [
+        "Identify that ?feed= causes server-side fetch (SSRF) via the /feed JSON debug comment.",
+        "Use gopher://127.0.0.1:8000/_<encoded HTTP request> to POST to the internal /report endpoint (bypassing the outer URL fetcher).",
+        "Send an HTML/JS payload that reads the flag file (via XHR/file access in the report renderer) and base64-encodes it into the PDF output.",
+        "Extract the PDF from the JSON response, run pdftotext, and decode the ZB64START/ZB64END base64 marker to recover the flag."
+      ],
+      "evidence": [
+        "Console page exposes a feed=<url> parameter that the server fetches server-side (feed-debug comment echoed source=http://127.0.0.1:8000/feed bytes=351).",
+        "gopher:// SSRF reached the internal report generator on 127.0.0.1:8000 POST /report and returned JSON with base64 PDF data.",
+        "The rendered PDF embedded ZB64START...ZB64END containing c3Vue3MxeF9tMHIzX3czM2tzXzBmX2cwcGgzcl9zc3JmfQoA which decodes to sun{s1x_m0r3_w33ks_0f_g0ph3r_ssrf}.",
+        "Submission of sun{s1x_m0r3_w33ks_0f_g0ph3r_ssrf} returned Correct on the SunshineCTF challenge page."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/64a19aa5a5ceb7e1c575/deepseek-deepseek-flash-5403e74e/8155db1ebd71d8ee/fileread.py",
+        ".writeup-drafts/64a19aa5a5ceb7e1c575/deepseek-deepseek-flash-5403e74e/04a68b6d17adae85/wk.py",
+        ".writeup-drafts/64a19aa5a5ceb7e1c575/deepseek-deepseek-flash-5403e74e/b3dc80cf042a865f/out.txt"
+      ],
+      "exp_run_command": "[unsupported]",
+      "status": "complete",
+      "replay": {
+        "status": "manual",
+        "reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "0d8d2412565f96ac28647f69d1aa53819f38f70726fcc4ed5e50a91b4596306b",
+      "planned_sha256": null,
+      "created_at": "2026-09-27T04:32:46.700600+00:00",
+      "updated_at": "2026-09-27T04:32:56.595255+00:00",
+      "exp_sha256": {
+        "exp/fileread.py": "8155db1ebd71d8eed008cbbc364752dda067f483087db5c929e84c3838a1f65a",
+        "exp/wk.py": "04a68b6d17adae853fc5859398c45aadb9948ce5b9df6d2a89e90b2c056fe24c",
+        "exp/out.txt": "b3dc80cf042a865ffabcb79ca2c19817d719603af7dc0c87f4c1ef17bc427845"
+      }
+    }
+  ]
+}
