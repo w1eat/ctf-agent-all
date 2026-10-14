@@ -40,19 +40,22 @@ flowchart TD
 
 ## 快速开始
 
-需要 Git、`uv`、Python 3.14+ 和可用的 Docker Linux 容器引擎。浏览器平台模式还需要 Node.js/npm、Chrome 或 Edge，以及已认证的 Claude 或 Codex Coordinator。
+需要 Git、Git LFS、`uv`、Python 3.14+ 和可用的 Docker Linux 容器引擎。浏览器平台模式还需要 Node.js/npm、Chrome 或 Edge，以及已认证的 Claude 或 Codex Coordinator。
 
 以下命令在 PowerShell 中运行：
 
 ```powershell
+git lfs install
 git clone https://github.com/w1eat/ctf-agent-all.git
 cd ctf-agent-all
+git lfs pull
+uv venv --clear --python 3.14
 uv sync --python 3.14
 Copy-Item .env.example .env
 uv run python tools/build_sandbox.py
 ```
 
-仓库包含 MCP 工具资源与题目文件，首次克隆体积较大。完整沙箱构建会检查 Docker 数据目录，默认要求至少 30 GiB 可用空间。
+仓库包含源码、MCP 工具、题目、`.runtime/knowledge/` 完整知识快照、日志及本地依赖，首次克隆体积较大。超过 100 MiB 的文件通过 Git LFS 保存，需完成 `git lfs pull` 才能取得实际文件。随仓库保存的 `.venv/` 是 Windows 环境快照，首次使用按上述命令重建为本机环境。完整沙箱构建会检查 Docker 数据目录，默认要求至少 30 GiB 可用空间。
 
 在 `.env` 中填写所使用模型的配置，例如：
 
@@ -108,6 +111,10 @@ backend/               Coordinator、Solver、平台、知识库与题解实现
 sandbox/               Docker 镜像、工具清单、依赖锁定与离线验收
 MCP/                   IDA / JADX 工具资源及 Kali MCP 服务源码
 knowledge/             审核后的方法卡与待审核草稿
+.runtime/knowledge/    外部知识库原文、版本快照及检索索引
+.runtime/              运行状态、下载附件及 MCP 分析文件
+.venv/                 发布时的 Windows Python 依赖快照
+logs/                  运行日志与构建报告
 challenges/            题目文件及解题产物
 tests/                 功能与编排测试
 tools/                 构建、检索评估及题包辅助脚本
@@ -120,4 +127,4 @@ solver-mcp.example.json MCP 网关配置模板
 
 项目用于 CTF 及获得授权的题目环境。Docker 容器具有调试和系统管理能力，MCP 还可能调用宿主工具或 Kali；部署时需要按所使用的能力安排隔离环境。模型解题结果以记录的验证证据为准。
 
-项目许可证见 [LICENSE](LICENSE)。仓库内第三方工具及资料按各自许可证使用；IDA 等工具需要自行准备有效授权及对应运行环境。`.env`、运行日志、浏览器会话和软件许可证文件不随项目发布。
+项目许可证见 [LICENSE](LICENSE)。仓库内第三方工具及资料按各自许可证使用；IDA 等工具需要自行准备有效授权及对应运行环境。真实密钥、浏览器登录 profile 和软件许可证留在本地；其他项目文件直接纳入仓库。

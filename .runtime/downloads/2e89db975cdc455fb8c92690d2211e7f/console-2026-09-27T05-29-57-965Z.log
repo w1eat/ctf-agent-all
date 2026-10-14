@@ -1,0 +1,25 @@
+[    6837ms] [INFO] %c[libdiscore] 
+font-weight: bold;
+color: purple;
+ [experiment_manager] Loaded experiments from cache @ https://discord.com/assets/556707.bb1a25f3c212ce8f.js:464
+[    6914ms] [LOG] %c[ProcessUtilsElectron] 
+font-weight: bold;
+color: purple;
+ setMemoryInformation not available. @ https://discord.com/assets/556707.bb1a25f3c212ce8f.js:464
+[    7082ms] [LOG] %c[default] 
+font-weight: bold;
+color: purple;
+ [BUILD INFO] Release Channel: stable, Build Number: 621195, Version Hash: ab3e028aa56c2fb15f99297e1abb80b92d8466a8 @ https://discord.com/assets/556707.bb1a25f3c212ce8f.js:464
+[    7085ms] [LOG] AppCrashedFatalReport: getLastCrash not supported. @ https://discord.com/assets/556707.bb1a25f3c212ce8f.js:464
+[   33247ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6463/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33253ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6464/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33255ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6465/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33257ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6466/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33258ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6467/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33261ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6468/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33273ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6469/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33286ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6470/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33305ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6471/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   33340ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:6472/?v=1' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://discord.com/assets/web-minimal.8cd6eed2def36102.js:5
+[   46656ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://discord.com/api/v9/auth/register:0
+[   49894ms] [LOG] recaptchacompat disabled @ https://discord.com/assets/556707.bb1a25f3c212ce8f.js:464

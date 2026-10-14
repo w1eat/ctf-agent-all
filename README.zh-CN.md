@@ -95,8 +95,11 @@ Coordinator 管理多题发现、资源准备和任务派发；每道题由一�
 PowerShell：
 
 ```powershell
+git lfs install
 git clone https://github.com/w1eat/ctf-agent-all.git
 cd ctf-agent-all
+git lfs pull
+uv venv --clear --python 3.14
 uv sync --python 3.14
 Copy-Item .env.example .env
 uv run python tools/build_sandbox.py
@@ -105,14 +108,21 @@ uv run python tools/build_sandbox.py
 Bash：
 
 ```bash
+git lfs install
 git clone https://github.com/w1eat/ctf-agent-all.git
 cd ctf-agent-all
+git lfs pull
+uv venv --clear --python 3.14
 uv sync --python 3.14
 cp .env.example .env
 uv run python tools/build_sandbox.py
 ```
 
-仓库包含 MCP 工具资源和题目文件，首次克隆体积较大。完整镜像构建会下载并安装各类 CTF 工具，默认检查 Docker 数据目录至少有 **30 GiB** 可用空间。构建与离线验收报告保存为 `logs/sandbox-build-report.json`。
+仓库保存源码、MCP 服务及工具安装文件、题目、完整知识库快照、运行数据、日志和本地依赖。首次克隆体积较大；超过 100 MiB 的文件通过 Git LFS 保存，`git lfs pull` 下载实际内容。直接下载 GitHub ZIP 时，应另行确认 LFS 文件是否完整。
+
+随仓库发布的 `.venv/` 是 Windows 环境快照，包含原机器的路径，不能保证在另一台机器直接运行。首次使用按上述命令执行 `uv venv --clear --python 3.14` 和 `uv sync --python 3.14`，由锁定依赖重建本机环境。
+
+完整镜像构建会下载并安装各类 CTF 工具，默认检查 Docker 数据目录至少有 **30 GiB** 可用空间。构建与离线验收报告保存为 `logs/sandbox-build-report.json`。
 
 已有 `ctf-sandbox` 镜像时，可只运行构建脚本的验收阶段：
 
@@ -441,7 +451,9 @@ Solver 通过 `list_analysis_tools` 查看可用工具，通过 `call_analysis_t
 
 ### 同步与检索外部资料
 
-外部来源为 [Des-CTF-Knowledge](https://github.com/Dest1ny-Sec/Des-CTF-Knowledge)。在需要联网同步时手动运行：
+仓库已经直接包含 `.runtime/knowledge/` 的原文、历史快照、`current.json` 和 SQLite 检索索引，同时包含本地方法卡索引与历史解题记忆。完成克隆后可先运行 `uv run ctf-knowledge status` 和 `search`，无需首次同步才能检索。
+
+外部来源为 [Des-CTF-Knowledge](https://github.com/Dest1ny-Sec/Des-CTF-Knowledge)，原资料的作者、来源及许可证信息随快照保留。需要新增或同步时手动运行：
 
 ```powershell
 uv run ctf-knowledge sync
@@ -561,12 +573,16 @@ docs/                    专项文档与评估记录
 tests/                   功能与编排测试
 tools/                   构建、检索评估和题包辅助脚本
 .runtime/                状态库、知识索引、浏览器会话和 MCP 临时文件
+.runtime/knowledge/      已发布的外部知识原文、历史快照及检索索引
+.venv/                   发布时的 Windows Python 依赖快照
 logs/                    结构化诊断、终端日志、构建报告
 ```
 
 Coordinator 的结构化日志为 `logs/coordinator-<run_id>-<timestamp>.jsonl`，终端日志为 `logs/run-<run_id>-<timestamp>.log`。日志记录原始工具输入输出，可能包含平台数据、凭据和 Flag。运行结束时保留最新运行，其他日志按 7 天或总计 1 GiB 的限制轮转。
 
-当前 [`.gitignore`](.gitignore) 排除 `.env`、`.runtime/`、`logs/`、虚拟环境、缓存和 `.hexlic` 软件许可证。**`challenges/` 当前已纳入版本控制**，生成的题解与 EXP 会出现在工作区；发布前需检查实际待提交文件及其中的题目结果。
+当前仓库直接保存项目文件，包括 `MCP/`、`challenges/`、`.runtime/knowledge/`、其他运行数据、日志、`.venv/` 和缓存。[`.gitignore`](.gitignore) 保留对 `.env`、凭据文件、`.runtime/playwright-profile/` 和 `.hexlic` 软件许可证的排除；这些数据留在本地。大文件的 Git LFS 规则见 [`.gitattributes`](.gitattributes)。
+
+浏览器登录状态不随项目分享，使用 `auto` 模式时需在自己的机器上登录平台。新增日志仍可能包含凭据，后续提交前需检查实际待提交内容。
 
 ## 常见问题
 

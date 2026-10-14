@@ -1,0 +1,38 @@
+{
+  "challenge": "Cache Money",
+  "state": "ready",
+  "source_fingerprint": "7ec6516d6d14ee07403bb13a2a046fb3c7c2f2bb107eb87cf128457c890db7fc",
+  "error": "",
+  "files": [
+    {
+      "file_id": "f6b0c44221ac029f:cache-money",
+      "path": "cache-money",
+      "sha256": "f6b0c44221ac029f16f2d833178ee3747272930deca900b7525956b766676f23",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "e7af3f49",
+      "jadx_state": "unavailable",
+      "error": ""
+    },
+    {
+      "file_id": "854a9eb45875e00f:ld-linux-x86-64-so.2",
+      "path": "ld-linux-x86-64-so.2",
+      "sha256": "854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "8e489f29",
+      "jadx_state": "unavailable",
+      "error": ""
+    },
+    {
+      "file_id": "c1e50a701d3245c8:libc-so.6",
+      "path": "libc-so.6",
+      "sha256": "c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb",
+      "kind": "binary",
+      "ida_state": "unavailable",
+      "ida_session": "",
+      "jadx_state": "unavailable",
+      "error": "{\"error\": \"Maximum idalib worker count reached (4). Wait for an existing worker to be released or increase --max-workers.\"}"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[    3307ms] TypeError: Cannot read properties of undefined (reading 'scripts')
+    at Object.bu [as displayChallenge] (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:3:1933)
+    at async Proxy.loadChallenge (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4866)
+    at async Proxy.init (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4124)
+[  116338ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://discord.com/api/v10/guilds/554296798106353689/widget.json:0
+[  117469ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://discord.com/api/v10/guilds/554296798106353689/preview:0
+[  124615ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://2026.sunshinectf.org/events:0

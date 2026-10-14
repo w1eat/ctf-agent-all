@@ -1,0 +1,18 @@
+{
+  "challenge": "IntMod",
+  "state": "ready",
+  "source_fingerprint": "6fb8a7f7a8f92a552754aee170ea91300832ae0f26159e46faae8fec0fb39f6e",
+  "error": "",
+  "files": [
+    {
+      "file_id": "d697850eea882b87:intmod",
+      "path": "intmod",
+      "sha256": "d697850eea882b87ff1cf02b4559117d7d1279d015ab248c4125cb4dc994b3b2",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "2d089181",
+      "jadx_state": "unavailable",
+      "error": ""
+    }
+  ]
+}

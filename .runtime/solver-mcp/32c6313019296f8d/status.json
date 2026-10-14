@@ -1,0 +1,18 @@
+{
+  "challenge": "RoboCall",
+  "state": "ready",
+  "source_fingerprint": "8ef40224f9d29bf025cb7c3f64ab1e24e072d06588aecb5d60564f2d604703e0",
+  "error": "",
+  "files": [
+    {
+      "file_id": "4f27b9746e5c3e43:robocall",
+      "path": "robocall",
+      "sha256": "4f27b9746e5c3e433108ff1902bf31229d1a518f0d282f29f029b017932811bd",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "caf34f3b",
+      "jadx_state": "unavailable",
+      "error": ""
+    }
+  ]
+}

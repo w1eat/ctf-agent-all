@@ -1,0 +1,2 @@
+[   25739ms] [ERROR] Access to fetch at 'https://sunshinectf.games/files/54cf6a/total_recall' from origin 'https://2026.sunshinectf.org' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://2026.sunshinectf.org/challenges#Total%20Recall-8:0
+[   25739ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://sunshinectf.games/files/54cf6a/total_recall:0

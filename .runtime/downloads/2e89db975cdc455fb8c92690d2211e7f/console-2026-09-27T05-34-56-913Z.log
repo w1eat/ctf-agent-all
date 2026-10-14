@@ -1,0 +1,8 @@
+[    9431ms] [WARNING] Alpine Expression Error: Cannot read properties of undefined (reading 'scripts')
+
+Expression: "loadChallenge(c.id)"
+
+ JSHandle@node @ https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:26
+[    9438ms] TypeError: Cannot read properties of undefined (reading 'scripts')
+    at Object.bu [as displayChallenge] (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:3:1933)
+    at async Proxy.loadChallenge (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4866)

@@ -1,0 +1,25 @@
+version: beta2
+platform: unknown
+native_id: '4562'
+name: Base64编码隐藏
+category: __Web应用安全与防护.第一章
+description: 本系列题目FLAG格式固定为CTF{xxxxxx}，适合纯新手入门使用，难度极低。WEB靶场题。
+value: 100
+files: []
+challenge_mode: remote
+connection_info: https://435e1355-18dc-414d-9df3-575c6b630eb0.challenge.ctf.show/
+environment_required: true
+challenge_url: https://ctf.show/challenges#x-4562
+environment:
+  status: unknown
+  source: remote
+  url: https://435e1355-18dc-414d-9df3-575c6b630eb0.challenge.ctf.show/
+  host: 435e1355-18dc-414d-9df3-575c6b630eb0.challenge.ctf.show
+  port: 443
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments: []
+attachments_scanned: false
+state: ready
+reason: ''

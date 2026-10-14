@@ -1,0 +1,25 @@
+[   71390ms] [WARNING] Alpine Expression Error: Cannot read properties of undefined (reading 'scripts')
+
+Expression: "loadChallenge(c.id)"
+
+ JSHandle@node @ https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:26
+[   71391ms] TypeError: Cannot read properties of undefined (reading 'scripts')
+    at Object.bu [as displayChallenge] (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:3:1933)
+    at async Proxy.loadChallenge (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4866)
+[   78397ms] [WARNING] Alpine Expression Error: Cannot read properties of undefined (reading 'scripts')
+
+Expression: "loadChallenge(c.id)"
+
+ JSHandle@node @ https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:26
+[   78398ms] TypeError: Cannot read properties of undefined (reading 'scripts')
+    at Object.bu [as displayChallenge] (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:3:1933)
+    at async Proxy.loadChallenge (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4866)
+[  243535ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/20/comments:0
+[  244060ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/22/comments:0
+[  244552ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/36/comments:0
+[  245054ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/32/comments:0
+[  245434ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/39/comments:0
+[  246117ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/41/comments:0
+[  246684ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/15/comments:0
+[  247215ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/16/comments:0
+[  247881ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/46/comments:0

@@ -1,0 +1,37 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=e3]:
+    - generic [ref=e4]:
+      - link [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=e6]
+      - button "Toggle navigation" [ref=e7] [cursor=pointer]
+      - text:       
+  - main [ref=e11]:
+    - region [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e15]:
+          - paragraph [ref=e16]: MISSION SECTORS
+          - heading "挑战" [level=1] [ref=e17]
+        - generic [ref=e18]:
+          - generic [aria-hidden] [ref=e19]: 
+          - generic [ref=e20]: Scanning challenge frequencies…
+  - contentinfo [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=e24]:
+        - link "挑战" [ref=e25] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=e26] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=e27] [cursor=pointer]:
+          - /url: https://ctfd.io
+  - generic [ref=e29] [cursor=pointer]:
+    - generic [aria-hidden] [ref=e31]:
+      - generic [ref=e32]: SUNSHINE CTF CONTROL SYSTEM v26.10
+      - generic [ref=e33]: warming cathode ......... ok
+      - generic [ref=e34]: orbital uplink .......... ok
+      - generic [ref=e35]: scoring engine .......... ok
+      - generic [ref=e36]: welcome to SunshineCTF 2026
+    - button "SKIP INTRO" [ref=e37]

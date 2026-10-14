@@ -1,0 +1,458 @@
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - banner:
+      - generic:
+        - link "DINO CTF" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "DINO CTF" [ref=e7]
+        - generic [ref=e9]:
+          - navigation "主导航" [ref=e10]:
+            - link "竞赛" [ref=e12] [cursor=pointer]:
+              - /url: /competitions
+            - link "通知，有未读消息" [ref=e17] [cursor=pointer]:
+              - /url: /notifications
+              - generic [ref=e18]:
+                - generic [ref=e21]: 通知
+                - generic [ref=e22]: 有未读通知
+          - button "切换为英文" [ref=e23]:
+            - generic [aria-hidden] [ref=e24]: EN
+        - generic [ref=e25]:
+          - button "主题调色板" [ref=e26]
+          - button "切换为浅色模式" [ref=e27]
+          - button "账户设置" [ref=e28]:
+            - generic [ref=e29]: w1
+    - main [ref=e31]:
+      - generic [ref=e188]:
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - generic [aria-hidden]: CTF
+            - generic [ref=e191]: CTF
+            - generic [ref=e192]:
+              - heading "Start！" [level=1] [ref=e193]
+              - generic [ref=e194]: 进行中
+            - generic [ref=e195]:
+              - generic [ref=e196]: 2026/9/16 00:00:00 ~ 2036/9/30 00:00:00
+              - generic [ref=e197]: 距结束 3658 天 13 小时
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - term [ref=e200]: 本队排名
+              - definition [ref=e201]: "#1"
+            - generic [ref=e202]:
+              - term [ref=e203]: 本队积分
+              - definition [ref=e204]: 17801 pts
+        - generic [ref=e205]:
+          - complementary "题目列表" [ref=e207]:
+            - generic [ref=e208]:
+              - generic [ref=e209]:
+                - heading "题目列表" [level=2] [ref=e210]
+                - textbox "搜索题目名称" [ref=e211]
+              - generic [ref=e212]:
+                - generic [ref=e213] [cursor=pointer]: 隐藏已解出
+                - switch "隐藏已解出" [ref=e214]
+            - generic "题目列表" [ref=e216]:
+              - group "题目列表" [ref=e217]:
+                - generic [ref=e218]:
+                  - button "Misc 13" [expanded] [ref=e219]:
+                    - generic [ref=e220]: Misc
+                    - generic [ref=e223]: "13"
+                  - listbox "Misc" [ref=e224]:
+                    - generic [ref=e225]:
+                      - option "Dusk的小秘密~" [ref=e226]:
+                        - generic [ref=e227]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: Dusk的小秘密~
+                              - img "已解出"
+                              - generic: 100 pts
+                            - generic:
+                              - generic: 8 支队伍已解出
+                              - generic:
+                                - img "一血 · 术特别带狙医节奏了"
+                                - img "二血 · n"
+                                - img "三血 · Winter"
+                      - option "[2026HHB] 无声审稿" [ref=e245]:
+                        - generic [ref=e246]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: "[2026HHB] 无声审稿"
+                              - img "已解出"
+                              - generic: 456 pts
+                            - generic:
+                              - generic: 5 支队伍已解出
+                              - generic:
+                                - img "一血 · Winter"
+                                - img "二血 · n"
+                                - img "三血 · KLWKS"
+                      - option "[2026CCF] 挖矿病毒处置" [ref=e247]:
+                        - generic [ref=e248]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: "[2026CCF] 挖矿病毒处置"
+                              - img "已解出"
+                              - generic: 421 pts
+                            - generic:
+                              - generic: 7 支队伍已解出
+                              - generic:
+                                - img "一血 · n"
+                                - img "二血 · Winter"
+                                - img "三血 · KLWKS"
+                      - option "[2026CCF] 深夜更新" [ref=e249]:
+                        - generic [ref=e250]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: "[2026CCF] 深夜更新"
+                              - img "已解出"
+                              - generic: 456 pts
+                            - generic:
+                              - generic: 6 支队伍已解出
+                              - generic:
+                                - img "一血 · n"
+                                - img "二血 · Winter"
+                                - img "三血 · KLWKS"
+                      - option "Base !!!!" [ref=e251]:
+                        - generic [ref=e252]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: Base !!!!
+                              - img "已解出"
+                              - generic: 377 pts
+                            - generic:
+                              - generic: 8 支队伍已解出
+                              - generic:
+                                - img "一血 · n"
+                                - img "二血 · KLWKS"
+                                - img "三血 · Winter"
+                      - option "旧时代的回音" [ref=e253]:
+                        - generic [ref=e254]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: 旧时代的回音
+                              - img "已解出"
+                              - generic: 456 pts
+                            - generic:
+                              - generic: 5 支队伍已解出
+                              - generic:
+                                - img "一血 · LE^aVe"
+                                - img "二血 · n"
+                                - img "三血 · KLWKS"
+                      - option "RAID" [ref=e255]:
+                        - generic [ref=e256]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: RAID
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic:
+                              - generic: 2 支队伍已解出
+                              - generic:
+                                - img "一血 · n"
+                      - option "[2026CCF] 系统后门用户分析" [ref=e257]:
+                        - generic [ref=e258]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: "[2026CCF] 系统后门用户分析"
+                              - img "已解出"
+                              - generic: 495 pts
+                            - generic:
+                              - generic: 4 支队伍已解出
+                              - generic:
+                                - img "一血 · n"
+                                - img "二血 · KLWKS"
+                      - option "[HTB] RedTrails" [ref=e259]:
+                        - generic [ref=e260]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: "[HTB] RedTrails"
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic: 1 支队伍已解出
+                      - option "God's Oracle" [ref=e261]:
+                        - generic [ref=e262]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: God's Oracle
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic:
+                              - generic: 2 支队伍已解出
+                              - generic:
+                                - img "一血 · n"
+                      - option "像素后的隐秘" [ref=e263]:
+                        - generic [ref=e264]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: 像素后的隐秘
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic: 1 支队伍已解出
+                      - option "Silent Mutation" [ref=e265]:
+                        - generic [ref=e266]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: Silent Mutation
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic: 1 支队伍已解出
+                      - option "[2026安网杯] 外泄流量取证" [ref=e267]:
+                        - generic [ref=e268]:
+                          - generic:
+                            - generic: Misc
+                            - generic:
+                              - generic: "[2026安网杯] 外泄流量取证"
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic: 1 支队伍已解出
+                - generic [ref=e269]:
+                  - button "Pwn 12" [expanded] [ref=e270]:
+                    - generic [ref=e271]: Pwn
+                    - generic [ref=e274]: "12"
+                  - listbox "Pwn" [ref=e462]:
+                    - generic [ref=e463]:
+                      - option "[第五届信安大挑战]caculate" [ref=e464]:
+                        - generic [ref=e465]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]caculate"
+                              - generic: 495 pts
+                            - generic:
+                              - generic: 3 支队伍已解出
+                              - generic:
+                                - img "一血 · LOVEFS"
+                                - img "二血 · yza"
+                      - option "[第五届信安大挑战]fmt" [ref=e466]:
+                        - generic [ref=e467]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]fmt"
+                              - generic: 500 pts
+                            - generic:
+                              - generic: 1 支队伍已解出
+                              - generic:
+                                - img "一血 · LOVEFS"
+                      - option "[第五届信安大挑战]orw" [ref=e468]:
+                        - generic [ref=e469]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]orw"
+                              - generic: 500 pts
+                            - generic: 1 支队伍已解出
+                      - option "[第五届信安大挑战]nc" [ref=e470]:
+                        - generic [ref=e471]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]nc"
+                              - img "已解出"
+                              - generic: 500 pts
+                            - generic: 2 支队伍已解出
+                      - option "ret2text_rain" [ref=e472]:
+                        - generic [ref=e473]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: ret2text_rain
+                              - generic: 500 pts
+                            - generic:
+                              - generic: 2 支队伍已解出
+                              - generic:
+                                - img "一血 · LOVEFS"
+                                - img "二血 · yza"
+                      - option "[第五届信安大挑战]read_flag" [ref=e474]:
+                        - generic [ref=e475]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]read_flag"
+                              - generic: 500 pts
+                            - generic: 1 支队伍已解出
+                      - option "[第五届信安大挑战]ret2shellcode" [active] [selected] [ref=e476]:
+                        - generic [ref=e490]:
+                          - generic [ref=e491]: Pwn
+                          - generic [ref=e492]:
+                            - generic [ref=e493]: "[第五届信安大挑战]ret2shellcode"
+                            - generic [ref=e494]: 500 pts
+                          - generic [ref=e495]: 0 支队伍已解出
+                      - option "canary_rain" [ref=e478]:
+                        - generic [ref=e479]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: canary_rain
+                              - generic: 500 pts
+                            - generic:
+                              - generic: 1 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                      - option "pie_rain" [ref=e480]:
+                        - generic [ref=e481]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: pie_rain
+                              - generic: 500 pts
+                            - generic:
+                              - generic: 1 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                      - option "ret2syscall_rain" [ref=e482]:
+                        - generic [ref=e483]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: ret2syscall_rain
+                              - generic: 500 pts
+                            - generic: 0 支队伍已解出
+                      - option "row_rain" [ref=e484]:
+                        - generic [ref=e485]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: row_rain
+                              - generic: 500 pts
+                            - generic: 0 支队伍已解出
+                      - option "shellcode_rain" [ref=e486]:
+                        - generic [ref=e487]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: shellcode_rain
+                              - generic: 500 pts
+                            - generic: 0 支队伍已解出
+                - button "Reverse 14" [ref=e276]:
+                  - generic [ref=e277]: Reverse
+                  - generic [ref=e280]: "14"
+                - button "Crypto 3" [ref=e282]:
+                  - generic [ref=e283]: Crypto
+                  - generic [ref=e286]: "3"
+                - button "Web 10" [ref=e288]:
+                  - generic [ref=e289]: Web
+                  - generic [ref=e292]: "10"
+                - button "Mobile 2" [ref=e294]:
+                  - generic [ref=e295]: Mobile
+                  - generic [ref=e298]: "2"
+          - main [ref=e299]:
+            - generic [ref=e300]:
+              - region [ref=e498]:
+                - heading "ui.submitFlag" [level=3] [ref=e499]
+                - generic [ref=e501]:
+                  - generic [aria-hidden] [ref=e502]: ">_"
+                  - generic "Flag" [ref=e503]:
+                    - textbox "Flag" [ref=e505]:
+                      - /placeholder: Type Your Flag ~~
+              - generic "题目" [ref=e507]:
+                - generic [ref=e510]:
+                  - generic [ref=e511]:
+                    - generic [aria-hidden]: Pwn
+                    - heading "[第五届信安大挑战]ret2shellcode" [level=2] [ref=e512]
+                    - button "本题提交记录" [ref=e513]
+                    - generic [ref=e514]: Pwn
+                  - region "[第五届信安大挑战]ret2shellcode" [ref=e515]:
+                    - generic [ref=e516]: 出题人：Dusk
+                  - generic [ref=e518]:
+                    - region [ref=e520]:
+                      - heading "题目环境" [level=3] [ref=e522]
+                      - button "启动环境" [ref=e525]
+                    - region [ref=e526]:
+                      - heading "附件" [level=3] [ref=e528]
+                      - list [ref=e529]:
+                        - listitem [ref=e530]:
+                          - button "ret2shellcode.ret2shellcode" [ref=e531]
+                  - region [ref=e533]:
+                    - generic [ref=e534]:
+                      - heading "题目提示" [level=3] [ref=e535]
+                      - button "刷新提示" [ref=e538]
+                    - paragraph [ref=e539]: 暂无已发布的提示
+          - complementary [ref=e345]:
+            - navigation "赛事导航" [ref=e346]:
+              - generic "赛事导航" [ref=e352]:
+                - generic [ref=e353]:
+                  - generic [ref=e354]:
+                    - heading "竞赛" [level=3] [ref=e355]
+                    - generic [ref=e356]:
+                      - link "概览" [ref=e357] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0
+                      - link "题目" [ref=e364] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges
+                      - link "记分板" [ref=e368] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/leaderboard
+                      - link "咨询" [ref=e376] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/questions
+                  - generic [ref=e381]:
+                    - heading "我的" [level=3] [ref=e382]
+                    - generic [ref=e383]:
+                      - link "我的队伍" [ref=e384] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/team
+                      - link "我的题解" [ref=e389] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/writeup
+            - complementary "赛事播报" [ref=e394]:
+              - generic [ref=e395]:
+                - generic [ref=e396]: 赛事播报
+                - generic [ref=e401]: LIVE
+              - list [ref=e402]:
+                - listitem [ref=e403]:
+                  - link [ref=e404] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c996-d4fa-7124-8b4a-910f86dd47c8
+                    - paragraph [ref=e405]: 队伍「111」获得题目「ezserialize」一血
+                    - time [ref=e406]: 2026/9/23 21:10:37
+                - listitem [ref=e407]:
+                  - link [ref=e408] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b366-4d02-7bc2-9857-3ddf4b3985d3
+                    - paragraph [ref=e409]: 队伍「lgls」获得题目「mambo's blog」三血
+                    - time [ref=e410]: 2026/9/23 20:27:44
+                - listitem [ref=e411]:
+                  - link [ref=e412] [cursor=pointer]:
+                    - /url: /notifications?notification=01a0ce38-2005-7aa5-a741-abd2b63ead35
+                    - paragraph [ref=e413]: 赛事发布了新通知
+                    - time [ref=e414]: 2026/9/23 20:22:59
+                - listitem [ref=e415]:
+                  - link [ref=e416] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b970-d6cf-7d1f-b267-611af8804a35
+                    - paragraph [ref=e417]: 队伍「KLWKS」获得题目「[2026CCF] 系统后门用户分析」二血
+                    - time [ref=e418]: 2026/9/23 20:18:28
+                - listitem [ref=e419]:
+                  - link [ref=e420] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b340-662d-7b40-bcd9-27545683a15f
+                    - paragraph [ref=e421]: 队伍「yza」获得题目「[day2-basectf] UPX」二血
+                    - time [ref=e422]: 2026/9/23 19:04:55
+                - listitem [ref=e423]:
+                  - link [ref=e424] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0cdc1-e9ef-7fbb-bdea-c380b61c98e1
+                    - paragraph [ref=e425]: 题目「[第八届浙江省大学生网络与信息安全竞赛决赛] brainRSA」已开放
+                    - time [ref=e426]: 2026/9/23 18:13:55
+                - listitem [ref=e427]:
+                  - link [ref=e428] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b3bc-f4a6-7833-bebf-969bca1161c2
+                    - paragraph [ref=e429]: 队伍「lgls」获得题目「babyinclude」三血
+                    - time [ref=e430]: 2026/9/22 22:49:36
+                - listitem [ref=e431]:
+                  - link [ref=e432] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c996-d4fa-7124-8b4a-910f86dd47c8
+                    - paragraph [ref=e433]: 题目「ezserialize」已开放
+                    - time [ref=e434]: 2026/9/22 22:48:30
+                - listitem [ref=e435]:
+                  - link [ref=e436] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aec3-3dec-7ec9-8f11-4bf79605edbf
+                    - paragraph [ref=e437]: 队伍「KLWKS」获得题目「[2026HHB] 无声审稿」三血
+                    - time [ref=e438]: 2026/9/22 22:22:31
+                - listitem [ref=e439]:
+                  - link [ref=e440] [cursor=pointer]:
+                    - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b50b-d1b7-72f1-95be-067578e220e0
+                    - paragraph [ref=e441]: 队伍「KLWKS」获得题目「旧时代的回音」三血
+                    - time [ref=e442]: 2026/9/22 22:10:46
+  - region "通知 alt+T":
+    - list

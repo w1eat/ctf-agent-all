@@ -1,0 +1,5 @@
+[    1715ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://2026.sunshinectf.org/api/v1/challenges/call!:0
+[    1715ms] TypeError: Cannot read properties of undefined (reading 'type_data')
+    at Object.bu [as displayChallenge] (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/index.94b01c79.js:3:1923)
+    at async Proxy.loadChallenge (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4866)
+    at async Proxy.init (https://2026.sunshinectf.org/themes/sunshine-retro/static/assets/challenges.ccee2541.js:1:4124)

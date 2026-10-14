@@ -1,0 +1,125 @@
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - banner:
+      - generic:
+        - link "DINO CTF" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "DINO CTF" [ref=e7]
+        - generic [ref=e9]:
+          - navigation "主导航" [ref=e10]:
+            - link "竞赛" [active] [ref=e12] [cursor=pointer]:
+              - /url: /competitions
+            - link "通知，有未读消息" [ref=e17] [cursor=pointer]:
+              - /url: /notifications
+              - generic [ref=e18]:
+                - generic [ref=e21]: 通知
+                - generic [ref=e22]: 有未读通知
+          - button "切换为英文" [ref=e23]:
+            - generic [aria-hidden] [ref=e24]: EN
+        - generic [ref=e25]:
+          - button "主题调色板" [ref=e26]
+          - button "切换为浅色模式" [ref=e27]
+          - button "账户设置" [ref=e28]:
+            - generic [ref=e29]: w1
+    - main [ref=e31]:
+      - generic [ref=e67]:
+        - heading "竞赛" [level=1] [ref=e69]
+        - generic [ref=e70]:
+          - complementary "竞赛列表" [ref=e72]:
+            - generic [ref=e73]:
+              - heading "竞赛列表" [level=2] [ref=e74]
+              - group "竞赛状态" [ref=e75]:
+                - button "进行中（1）" [pressed] [ref=e76]
+                - button "即将开始（0）" [ref=e77]
+                - button "已结束（0）" [ref=e78]
+            - generic "竞赛列表" [ref=e80]:
+              - listbox "竞赛列表" [ref=e81]:
+                - option "Start！" [selected] [ref=e82]:
+                  - generic [ref=e83]:
+                    - generic [aria-hidden]: CTF
+                    - generic [ref=e84]: CTF
+                    - generic [ref=e85]: 进行中
+                    - generic [ref=e87]: Start！
+                    - generic [ref=e88]: 2026/9/16 00:00:00
+          - region "竞赛详情" [ref=e89]:
+            - generic [ref=e93]:
+              - generic [ref=e95]:
+                - generic [ref=e96]:
+                  - img "比赛海报"
+                  - generic [ref=e98]:
+                    - generic [aria-hidden]: CTF
+                    - generic [ref=e99]: CTF
+                    - generic [ref=e100]: 进行中
+                    - heading "Start！" [level=2] [ref=e102]
+                    - paragraph [ref=e103]: 2026/9/16 00:00:00 ~ 2036/9/30 00:00:00
+                    - generic [ref=e106]:
+                      - generic [ref=e107]: 距结束
+                      - generic [ref=e111]: 3659 天 2 小时
+                    - generic [ref=e112]:
+                      - link "进入比赛" [ref=e113] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges
+                      - link "我的队伍" [ref=e114] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/team
+                    - paragraph [ref=e115]: 当前赛道：老东西
+                - generic [ref=e116]:
+                  - generic [ref=e117]:
+                    - term [ref=e118]: 队伍人数上限
+                    - definition [ref=e124]: 1 人
+                  - generic [ref=e125]:
+                    - term [ref=e126]: 同时环境上限
+                    - definition [ref=e130]: 2 个
+                  - generic [ref=e131]:
+                    - term [ref=e132]: 审核方式
+                    - definition [ref=e136]: 报名自动通过
+                  - generic [ref=e137]:
+                    - term [ref=e138]: 报名队伍
+                    - definition [ref=e145]: 39 支
+              - generic "竞赛详情":
+                - region "竞赛介绍" [ref=e147]:
+                  - heading "竞赛介绍" [level=3] [ref=e149]
+                  - generic [ref=e154]:
+                    - heading "Dino 常态化练习平台喵~" [level=1] [ref=e155]
+                    - paragraph [ref=e156]:
+                      - text: 对网络空间安全专业有疑问和对信息安全实验室有疑问的同学或者其他任何有关学校的问题可以直接在群提问， 或者在下面这个表格进行提问
+                      - link "https://docs.qq.com/sheet/DUmp3V0REYm1vdWZu" [ref=e157] [cursor=pointer]:
+                        - /url: https://docs.qq.com/sheet/DUmp3V0REYm1vdWZu
+                    - list [ref=e158]:
+                      - listitem [ref=e159]:
+                        - paragraph [ref=e160]:
+                          - strong [ref=e161]: "网络空间安全ctf比赛入门:"
+                        - list [ref=e162]:
+                          - listitem [ref=e163]:
+                            - paragraph [ref=e164]:
+                              - link "https://docs.qsnctf.com" [ref=e165] [cursor=pointer]:
+                                - /url: https://docs.qsnctf.com
+                          - listitem [ref=e166]:
+                            - paragraph [ref=e167]:
+                              - link "https://hello-ctf.com/hc-start/" [ref=e168] [cursor=pointer]:
+                                - /url: https://hello-ctf.com/hc-start/
+                          - listitem [ref=e169]:
+                            - paragraph [ref=e170]:
+                              - link "https://ctf-wiki.org/" [ref=e171] [cursor=pointer]:
+                                - /url: https://ctf-wiki.org/
+                      - listitem [ref=e172]:
+                        - paragraph [ref=e173]:
+                          - strong [ref=e174]: "如何更高效的提问:"
+                        - list [ref=e175]:
+                          - listitem [ref=e176]:
+                            - link "https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md" [ref=e177] [cursor=pointer]:
+                              - /url: https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md
+                    - paragraph [ref=e178]: 为了防止外校炸鱼，目前强制校内赛道通过 成都理工大学 统一身份认证 认证学号。未认证的可以通过点击用户头像，前往账号安全选项卡的外部身份处绑定 成都理工大学 的身份认证，后续也可以通过 成都理工大学 统一身份认证 进行快速登录。我们并不会且无法获得或存储您的统一身份认证的密码。
+                    - paragraph [ref=e179]:
+                      - strong [ref=e180]: 信安大挑战 [10/24~11/7] 赛事群：
+                    - list [ref=e181]:
+                      - listitem [ref=e182]:
+                        - text: 点击链接加入群聊【信安大挑战预热群】：
+                        - link "https://qm.qq.com/q/R7iGSxkNY4" [ref=e183] [cursor=pointer]:
+                          - /url: https://qm.qq.com/q/R7iGSxkNY4
+                        - text: 欢迎大家来玩哦~
+                    - paragraph [ref=e184]: 信安大挑战过后 大家可以投递报名表 届时我们会依据大家的报名表意向以及答题情况进行面试哦
+                    - paragraph [ref=e185]:
+                      - text: 实验室官网：
+                      - link "https://dino209.cn" [ref=e186] [cursor=pointer]:
+                        - /url: https://dino209.cn
+  - region "通知 alt+T":
+    - list

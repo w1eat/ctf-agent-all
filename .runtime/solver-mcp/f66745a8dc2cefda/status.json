@@ -1,0 +1,38 @@
+{
+  "challenge": "Mad Libs",
+  "state": "ready",
+  "source_fingerprint": "60ab52c8903a79be80936142a476f365b0d49bc7858a8939d4064f956afe2a3b",
+  "error": "",
+  "files": [
+    {
+      "file_id": "854a9eb45875e00f:ldM-linux-x86-64-so.2",
+      "path": "ldM-linux-x86-64-so.2",
+      "sha256": "854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "896ac620",
+      "jadx_state": "unavailable",
+      "error": ""
+    },
+    {
+      "file_id": "c1e50a701d3245c8:libcM-so.6",
+      "path": "libcM-so.6",
+      "sha256": "c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "f58fec8f",
+      "jadx_state": "unavailable",
+      "error": ""
+    },
+    {
+      "file_id": "f65aca17be585e86:mad-libs",
+      "path": "mad-libs",
+      "sha256": "f65aca17be585e86c0cba30a629bdccfc9cc65129e850e26b916872065a2f1a1",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "2ef88b54",
+      "jadx_state": "unavailable",
+      "error": ""
+    }
+  ]
+}

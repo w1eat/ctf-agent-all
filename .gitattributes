@@ -1,0 +1,11 @@
+# Keep runtime snapshots and installed dependencies byte-for-byte.
+/.runtime/** -text
+/.venv/** -text
+/logs/** -text
+/.playwright-mcp/** -text
+
+# GitHub requires Git LFS for files larger than 100 MiB.
+/.venv/Lib/site-packages/claude_agent_sdk/_bundled/claude.exe filter=lfs diff=lfs merge=lfs -text
+/logs/coordinator-2e89db975cdc455fb8c92690d2211e7f-20260927-110024.jsonl filter=lfs diff=lfs merge=lfs -text
+/logs/coordinator-2e89db975cdc455fb8c92690d2211e7f-20260927-131245.jsonl filter=lfs diff=lfs merge=lfs -text
+/logs/coordinator-2e89db975cdc455fb8c92690d2211e7f-20260927-142615.jsonl filter=lfs diff=lfs merge=lfs -text

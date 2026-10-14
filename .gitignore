@@ -6,31 +6,8 @@ creds.json
 credentials.json
 *.hexlic
 
-# Runtime state, browser sessions, and logs
-.runtime/
-.playwright-mcp/
-logs/
-*.log
-workspace/
-codex-schema-*/
-.claude/scheduled_tasks.lock
+# Browser profile contains cookies, login sessions, and stored passwords.
+/.runtime/playwright-profile/
 
-# Python environments, bytecode, and caches
-.venv/
-venv/
-__pycache__/
-*.pyc
-*.pyo
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
-/dist/
-/build/
-
-# Dependency caches and operating-system files
-node_modules/
-.DS_Store
-Thumbs.db
+# This repository includes tools, dependencies, caches, logs, and runtime
+# knowledge snapshots. Review new files for credentials before publishing.

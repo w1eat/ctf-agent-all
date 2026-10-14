@@ -1,0 +1,18 @@
+{
+  "challenge": "Homemaker",
+  "state": "ready",
+  "source_fingerprint": "88d94c771e9daba7e8959c8fd8d3761fdca6b796581b966cb925f26b38f78767",
+  "error": "",
+  "files": [
+    {
+      "file_id": "a1e9c187ae8f8521:homemaker",
+      "path": "homemaker",
+      "sha256": "a1e9c187ae8f8521eb179d562b0c3a50e8391cd41fa30c8083b2d47d809774e4",
+      "kind": "binary",
+      "ida_state": "unavailable",
+      "ida_session": "",
+      "jadx_state": "unavailable",
+      "error": "{\"error\": \"Maximum idalib worker count reached (4). Wait for an existing worker to be released or increase --max-workers.\"}"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+- generic [active] [ref=f33e1]:
+  - link "Skip to main content" [ref=f33e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=f33e3]:
+    - generic [ref=f33e4]:
+      - link [ref=f33e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=f33e6]
+      - button "Toggle navigation" [ref=f33e7] [cursor=pointer]
+      - text:       
+  - main [ref=f33e11]:
+    - region [ref=f33e12]:
+      - generic [ref=f33e13]:
+        - generic [ref=f33e15]:
+          - paragraph [ref=f33e16]: MISSION SECTORS
+          - heading "挑战" [level=1] [ref=f33e17]
+        - generic [ref=f33e18]:
+          - generic [aria-hidden] [ref=f33e19]: 
+          - generic [ref=f33e20]: Scanning challenge frequencies…
+  - contentinfo [ref=f33e21]:
+    - generic [ref=f33e22]:
+      - generic [ref=f33e23]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=f33e24]:
+        - link "挑战" [ref=f33e25] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=f33e26] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=f33e27] [cursor=pointer]:
+          - /url: https://ctfd.io

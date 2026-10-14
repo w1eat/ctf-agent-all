@@ -1,0 +1,54 @@
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=e3]:
+    - generic [ref=e4]:
+      - link [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=e6]
+      - button "Toggle navigation" [ref=e7] [cursor=pointer]
+      - text:   
+  - main [ref=e11]:
+    - region [ref=e12]:
+      - generic [ref=e13]:
+        - img "SunshineCTF 2026" [ref=e14]
+        - paragraph [ref=e15]: CLEARANCE REQUIRED
+        - paragraph [ref=e16]: Authenticate with mission control to reach the challenge board and your crew systems.
+      - generic [ref=e18]:
+        - navigation "Authentication" [ref=e19]:
+          - link "Sign In" [ref=e20] [cursor=pointer]:
+            - /url: /login
+          - link "注册" [ref=e21] [cursor=pointer]:
+            - /url: /register
+        - heading "登录" [level=1] [ref=e22]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]: 用户名或邮箱
+            - text: "*"
+            - textbox "用户名或邮箱" [active] [ref=e26]
+          - generic [ref=e27]:
+            - generic [ref=e28]: 密码
+            - text: "*"
+            - textbox "密码" [ref=e29]
+          - generic [ref=e30]:
+            - link "忘记密码？" [ref=e31] [cursor=pointer]:
+              - /url: /reset_password
+            - button "提交" [ref=e32] [cursor=pointer]
+  - contentinfo [ref=e33]:
+    - generic [ref=e34]:
+      - generic [ref=e35]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=e36]:
+        - link "挑战" [ref=e37] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=e38] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=e39] [cursor=pointer]:
+          - /url: https://ctfd.io
+  - generic [ref=e41] [cursor=pointer]:
+    - generic [aria-hidden] [ref=e43]:
+      - generic [ref=e44]: SUNSHINE CTF CONTROL SYSTEM v26.10
+      - generic [ref=e45]: warming cathode ......... ok
+      - generic [ref=e46]: orbital uplink .......... ok
+      - generic [ref=e47]: scoring engine .......... ok
+      - generic [ref=e48]: welcome to SunshineCTF 2026
+    - button "SKIP INTRO" [ref=e49]

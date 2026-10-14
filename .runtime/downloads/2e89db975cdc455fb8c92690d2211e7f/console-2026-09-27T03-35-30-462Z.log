@@ -1,0 +1,4 @@
+[      14ms] [WARNING] crbug/1173575, non-JS module files deprecated. @ file:///E:/%E5%8D%8E%E4%B8%BA%E6%9D%AF/AGENT/ctf-agent/.runtime/solver-mcp/:231
+[      62ms] [WARNING] crbug/1173575, non-JS module files deprecated. @ file:///E:/%E5%8D%8E%E4%B8%BA%E6%9D%AF/AGENT/ctf-agent/.runtime/knowledge/:231
+[      82ms] [WARNING] crbug/1173575, non-JS module files deprecated. @ file:///E:/%E5%8D%8E%E4%B8%BA%E6%9D%AF/AGENT/ctf-agent/challenges/:231
+[     103ms] [WARNING] crbug/1173575, non-JS module files deprecated. @ file:///E:/%E5%8D%8E%E4%B8%BA%E6%9D%AF/AGENT/ctf-agent/challenges/code-breaker/:231

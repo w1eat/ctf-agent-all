@@ -1,0 +1,38 @@
+{
+  "challenge": "Code Breaker",
+  "state": "ready",
+  "source_fingerprint": "77a530626350e526f824f51b759cc1bc135494d3c06e397b2ad19eeb79efe488",
+  "error": "",
+  "files": [
+    {
+      "file_id": "ed7201eba1a5a771:code-breaker",
+      "path": "code-breaker",
+      "sha256": "ed7201eba1a5a77159eb3332d5419e80f63a4002e8bf51363a7ffe4a8cd32bd8",
+      "kind": "binary",
+      "ida_state": "unavailable",
+      "ida_session": "",
+      "jadx_state": "unavailable",
+      "error": "{\"error\": \"Maximum idalib worker count reached (4). Wait for an existing worker to be released or increase --max-workers.\"}"
+    },
+    {
+      "file_id": "854a9eb45875e00f:ld2-linux-x86-64-so.2",
+      "path": "ld2-linux-x86-64-so.2",
+      "sha256": "854a9eb45875e00f48e1e89d40251317931d2d82555ab612d6090beba0c9f972",
+      "kind": "binary",
+      "ida_state": "unavailable",
+      "ida_session": "",
+      "jadx_state": "unavailable",
+      "error": "{\"error\": \"Maximum idalib worker count reached (4). Wait for an existing worker to be released or increase --max-workers.\"}"
+    },
+    {
+      "file_id": "c1e50a701d3245c8:libc2-so.6",
+      "path": "libc2-so.6",
+      "sha256": "c1e50a701d3245c8c45a1ba40151efe414ac41d2c9ae604087b4875e0d85c4fb",
+      "kind": "binary",
+      "ida_state": "unavailable",
+      "ida_session": "",
+      "jadx_state": "unavailable",
+      "error": "{\"error\": \"Maximum idalib worker count reached (4). Wait for an existing worker to be released or increase --max-workers.\"}"
+    }
+  ]
+}

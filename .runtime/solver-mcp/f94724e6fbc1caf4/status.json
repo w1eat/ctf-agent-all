@@ -1,0 +1,18 @@
+{
+  "challenge": "Safe House",
+  "state": "ready",
+  "source_fingerprint": "ea57b491dcc5ecc303fc61b7c9e12926b5da71b3ab98a4ff456dff02b795b9b1",
+  "error": "",
+  "files": [
+    {
+      "file_id": "40c8993c1a853f62:service",
+      "path": "service",
+      "sha256": "40c8993c1a853f62a5d7f19df147eb07e0745bb7ce10a874d6e58313668c19aa",
+      "kind": "binary",
+      "ida_state": "unavailable",
+      "ida_session": "",
+      "jadx_state": "unavailable",
+      "error": "{\"error\": \"Maximum idalib worker count reached (4). Wait for an existing worker to be released or increase --max-workers.\"}"
+    }
+  ]
+}

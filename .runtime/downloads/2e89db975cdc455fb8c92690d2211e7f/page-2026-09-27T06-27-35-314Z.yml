@@ -1,0 +1,119 @@
+- generic [active] [ref=f3e1]:
+  - link "Skip to main content" [ref=f3e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=f3e3]:
+    - generic [ref=f3e4]:
+      - link [ref=f3e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=f3e6]
+      - button "Toggle navigation" [ref=f3e7] [cursor=pointer]
+      - text:       
+  - main [ref=f3e11]:
+    - region [ref=f3e12]:
+      - generic [ref=f3e13]:
+        - generic [ref=f3e14]:
+          - img "SunshineCTF 2026" [ref=f3e15]
+          - paragraph [ref=f3e16]: MISSION IN PROGRESS
+          - heading "SunshineCTF 2026" [level=1] [ref=f3e17]
+          - generic [ref=f3e18]:
+            - link "Open the board" [ref=f3e19] [cursor=pointer]:
+              - /url: /challenges
+            - link "View scoreboard" [ref=f3e20] [cursor=pointer]:
+              - /url: /scoreboard
+        - generic "Event status" [ref=f3e21]:
+          - generic [ref=f3e25]:
+            - generic [ref=f3e26]:
+              - term [ref=f3e27]: MODE
+              - definition [ref=f3e28]: JEOPARDY CTF
+            - generic [ref=f3e29]:
+              - term [ref=f3e30]: NETWORK
+              - definition [ref=f3e31]: ONLINE
+      - region [ref=f3e32]:
+        - generic [ref=f3e33]:
+          - paragraph [ref=f3e34]: FLIGHT WINDOW // ORLANDO + ONLINE
+          - heading "The 2026 mission" [level=2] [ref=f3e35]
+        - paragraph [ref=f3e36]: SunshineCTF launches in person at BSides Orlando 2026 and online worldwide. In-person awards will be presented during the BSides Orlando closing ceremony; the competition continues online through Monday.
+        - list [ref=f3e37]:
+          - listitem [ref=f3e38]:
+            - generic [ref=f3e39]: Launch · Orlando
+            - time [ref=f3e40]:
+              - generic [ref=f3e41]: Sep 26 · 14:00 UTC
+              - generic [ref=f3e42]: 10:00 AM Eastern
+          - listitem [ref=f3e43]:
+            - generic [ref=f3e44]:
+              - generic [ref=f3e45]: In-person awards
+              - strong [ref=f3e46]: BSides Orlando closing ceremony
+              - generic [ref=f3e47]: Competition continues online
+          - listitem [ref=f3e48]:
+            - generic [ref=f3e49]: Online finish
+            - time [ref=f3e50]:
+              - generic [ref=f3e51]: Sep 28 · 14:00 UTC
+              - generic [ref=f3e52]: 10:00 AM Eastern
+        - complementary [ref=f3e53]:
+          - generic [ref=f3e54]:
+            - paragraph [ref=f3e55]: ORLANDO SUPPORT
+            - heading "Supported by BSides Orlando 2026." [level=3] [ref=f3e56]
+            - paragraph [ref=f3e57]: Join us in person in Orlando on Saturday, September 26.
+          - img "BSides Orlando 2026 conference, Saturday, September 26, 2026" [ref=f3e58]
+      - generic [ref=f3e59]:
+        - region [ref=f3e60]:
+          - generic [aria-hidden]: A
+          - paragraph [ref=f3e61]: MISSION SPEC
+          - heading "Bring your whole toolkit." [level=2] [ref=f3e62]
+          - generic [ref=f3e63]:
+            - generic [ref=f3e64]:
+              - term [ref=f3e65]: Format
+              - definition [ref=f3e66]: Jeopardy
+            - generic [ref=f3e67]:
+              - term [ref=f3e68]: Categories
+              - definition [ref=f3e69]: The usual suspects.
+            - generic [ref=f3e70]:
+              - term [ref=f3e71]: Range
+              - definition [ref=f3e72]: Worldwide · hosted from Orlando
+        - complementary [ref=f3e73]:
+          - generic [aria-hidden]: "!"
+          - paragraph [ref=f3e74]: FLAG ADVISORY
+          - heading [level=2] [ref=f3e75]:
+            - code [ref=f3e76]: "sun{stuffs}"
+          - paragraph [ref=f3e77]:
+            - text: If a challenge does not specify a custom format and you do not see
+            - code [ref=f3e78]: "sun{"
+            - text: ", you have not found the flag yet."
+      - region [ref=f3e79]:
+        - generic [ref=f3e80]:
+          - paragraph [ref=f3e81]: GROUND SUPPORT
+          - heading "Hosted by Hack@UCF" [level=2] [ref=f3e82]
+          - link "Visit Hack@UCF" [ref=f3e83] [cursor=pointer]:
+            - /url: https://hackucf.org/
+            - img "Hack@UCF" [ref=f3e84]
+          - paragraph [ref=f3e85]:
+            - text: Hosted by
+            - link "Hack@UCF" [ref=f3e86] [cursor=pointer]:
+              - /url: https://hackucf.org/
+            - text: in Orlando, Florida. 2026 infrastructure sponsored by
+            - link "Google" [ref=f3e87] [cursor=pointer]:
+              - /url: https://goo.gle/ctfsponsorship
+            - text: .
+        - navigation "SunshineCTF community links" [ref=f3e88]:
+          - link "Community Join Discord" [ref=f3e89] [cursor=pointer]:
+            - /url: https://sunshinectf.org/discord.html
+            - generic [ref=f3e90]: Community
+            - text: Join Discord
+          - link "Updates @SunshineCTF" [ref=f3e91] [cursor=pointer]:
+            - /url: https://twitter.com/sunshinectf
+            - generic [ref=f3e92]: Updates
+            - text: "@SunshineCTF"
+          - 'link "Frequency #SunshineCTF" [ref=f3e93] [cursor=pointer]':
+            - /url: https://twitter.com/hashtag/sunshinectf
+            - generic [ref=f3e94]: Frequency
+            - text: "#SunshineCTF"
+  - contentinfo [ref=f3e95]:
+    - generic [ref=f3e96]:
+      - generic [ref=f3e97]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=f3e98]:
+        - link "挑战" [ref=f3e99] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=f3e100] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=f3e101] [cursor=pointer]:
+          - /url: https://ctfd.io

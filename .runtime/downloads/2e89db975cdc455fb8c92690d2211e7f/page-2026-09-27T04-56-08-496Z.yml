@@ -1,0 +1,30 @@
+- generic [active] [ref=f178e1]:
+  - link "Skip to main content" [ref=f178e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=f178e3]:
+    - generic [ref=f178e4]:
+      - link [ref=f178e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=f178e6]
+      - button "Toggle navigation" [ref=f178e7] [cursor=pointer]
+      - text:       
+  - main [ref=f178e11]:
+    - region [ref=f178e12]:
+      - generic [ref=f178e13]:
+        - generic [ref=f178e14]:
+          - paragraph [ref=f178e15]: LIVE TELEMETRY
+          - heading "记分板" [level=1] [ref=f178e16]
+        - generic [ref=f178e17]: LIVE FEED
+      - generic [ref=f178e23]:
+        - strong [ref=f178e24]: AWAITING FIRST TRANSMISSION
+        - generic [ref=f178e25]: The scoreboard is empty.
+  - contentinfo [ref=f178e26]:
+    - generic [ref=f178e27]:
+      - generic [ref=f178e28]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=f178e29]:
+        - link "挑战" [ref=f178e30] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=f178e31] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=f178e32] [cursor=pointer]:
+          - /url: https://ctfd.io

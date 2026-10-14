@@ -1,0 +1,2 @@
+[   35854ms] [ERROR] Access to fetch at 'https://sunshinectf.games/files/42969e/robocall' from origin 'https://2026.sunshinectf.org' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://2026.sunshinectf.org/challenges#RoboCall-24:0
+[   35854ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://sunshinectf.games/files/42969e/robocall:0

@@ -1,0 +1,819 @@
+[     455ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://noctf.fa1lsnow.com/favicon.ico:0
+[  511369ms] [ERROR] [2026-09-24T02:40:58.695Z] Error: Connection disconnected with error 'Error: WebSocket closed with status code: 1006 (no reason given).'. @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  511407ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  511408ms] [ERROR] [2026-09-24T02:40:58.735Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  511408ms] [ERROR] [2026-09-24T02:40:58.735Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  543452ms] [ERROR] Failed to load resource: the server responded with a status of 504 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  543453ms] [ERROR] [2026-09-24T02:41:30.779Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '504' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  543453ms] [ERROR] [2026-09-24T02:41:30.779Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '504' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  550740ms] [ERROR] Failed to load resource: the server responded with a status of 504 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  552535ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  555604ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  555604ms] [ERROR] [2026-09-24T02:41:42.931Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  555604ms] [ERROR] [2026-09-24T02:41:42.931Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  568308ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  583798ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  586868ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  586868ms] [ERROR] [2026-09-24T02:42:14.195Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  586868ms] [ERROR] [2026-09-24T02:42:14.195Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  589940ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  589940ms] [ERROR] [2026-09-24T02:42:17.267Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  589940ms] [ERROR] [2026-09-24T02:42:17.267Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  593012ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  593013ms] [ERROR] [2026-09-24T02:42:20.339Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  593013ms] [ERROR] [2026-09-24T02:42:20.339Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  596084ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  596085ms] [ERROR] [2026-09-24T02:42:23.411Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  596085ms] [ERROR] [2026-09-24T02:42:23.412Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  603830ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  603830ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  603831ms] [ERROR] [2026-09-24T02:42:31.157Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  603831ms] [ERROR] [2026-09-24T02:42:31.157Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  616949ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  616949ms] [ERROR] [2026-09-24T02:42:44.276Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  616949ms] [ERROR] [2026-09-24T02:42:44.276Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  623093ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  643799ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  650071ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  650072ms] [ERROR] [2026-09-24T02:43:17.398Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  650072ms] [ERROR] [2026-09-24T02:43:17.399Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  662966ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  682582ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  682583ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  682583ms] [ERROR] [2026-09-24T02:43:49.910Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  682583ms] [ERROR] [2026-09-24T02:43:49.910Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  703799ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  715703ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  715703ms] [ERROR] [2026-09-24T02:44:23.030Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  715704ms] [ERROR] [2026-09-24T02:44:23.030Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  723800ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  740859ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  747319ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  747320ms] [ERROR] [2026-09-24T02:44:54.646Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  747320ms] [ERROR] [2026-09-24T02:44:54.646Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  760888ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  780439ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  780440ms] [ERROR] [2026-09-24T02:45:27.766Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  780440ms] [ERROR] [2026-09-24T02:45:27.766Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  783514ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  800953ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  813560ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  813561ms] [ERROR] [2026-09-24T02:46:00.887Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  813561ms] [ERROR] [2026-09-24T02:46:00.887Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  823801ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  841050ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  845273ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  845273ms] [ERROR] [2026-09-24T02:46:32.600Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  845273ms] [ERROR] [2026-09-24T02:46:32.600Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  860859ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/notifications?scope=Inbox&offset=0&limit=1&desc=true:0
+[  876506ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[  879578ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  879578ms] [ERROR] [2026-09-24T02:47:06.905Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  879579ms] [ERROR] [2026-09-24T02:47:06.905Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  879579ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aeb6-7163-7398-adef-94ce650d1359:0
+[  879579ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/_nuxt/c0kHW7lL.js:0
+[  879579ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/_nuxt/Bo_gLho-.js:0
+[  879580ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/_nuxt/DIP6FkU_.js:0
+[  911387ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[  914459ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  914460ms] [ERROR] [2026-09-24T02:47:41.786Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  914460ms] [ERROR] [2026-09-24T02:47:41.787Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  944973ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[  947994ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  947994ms] [ERROR] [2026-09-24T02:48:15.321Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  947994ms] [ERROR] [2026-09-24T02:48:15.321Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  978304ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[  981371ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[  981371ms] [ERROR] [2026-09-24T02:48:48.698Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[  981371ms] [ERROR] [2026-09-24T02:48:48.698Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1011934ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1015039ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1015040ms] [ERROR] [2026-09-24T02:49:22.366Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1015040ms] [ERROR] [2026-09-24T02:49:22.366Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1045081ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1045119ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1045119ms] [ERROR] [2026-09-24T02:49:52.446Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1045119ms] [ERROR] [2026-09-24T02:49:52.446Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1085246ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1088317ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1088318ms] [ERROR] [2026-09-24T02:50:35.644Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1088318ms] [ERROR] [2026-09-24T02:50:35.644Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1119196ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1122268ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1122269ms] [ERROR] [2026-09-24T02:51:09.595Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1122269ms] [ERROR] [2026-09-24T02:51:09.595Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1152701ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1155773ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1155774ms] [ERROR] [2026-09-24T02:51:43.100Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1155774ms] [ERROR] [2026-09-24T02:51:43.100Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1185853ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1188928ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1188929ms] [ERROR] [2026-09-24T02:52:16.256Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1188929ms] [ERROR] [2026-09-24T02:52:16.256Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1221922ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/api/v1/auth/refresh:0
+[ 1224991ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/hubs/v1/competitions/negotiate?negotiateVersion=1:0
+[ 1224992ms] [ERROR] [2026-09-24T02:52:52.318Z] Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1224992ms] [ERROR] [2026-09-24T02:52:52.318Z] Error: Failed to start the connection: Error: Failed to complete negotiation with the server: Error: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.29.1</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+: Status code '502' @ https://noctf.fa1lsnow.com/_nuxt/EIivwqKt.js:0
+[ 1236510ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ https://noctf.fa1lsnow.com/competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aeb6-7163-7398-adef-94ce650d1359:0

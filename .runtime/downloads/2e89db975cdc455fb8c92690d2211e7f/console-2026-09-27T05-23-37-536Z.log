@@ -1,0 +1,2 @@
+[    2585ms] [ERROR] Access to fetch at 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' from origin 'https://2026.sunshinectf.org' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'. @ https://2026.sunshinectf.org/challenges#30:0
+[    2585ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495:0

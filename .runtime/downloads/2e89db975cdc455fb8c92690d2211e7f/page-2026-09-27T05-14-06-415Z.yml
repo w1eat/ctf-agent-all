@@ -1,0 +1,28 @@
+- generic [active] [ref=f1e1]:
+  - link "Skip to main content" [ref=f1e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=f1e3]:
+    - generic [ref=f1e4]:
+      - link [ref=f1e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=f1e6]
+      - button "Toggle navigation" [ref=f1e7] [cursor=pointer]
+      - text:       
+  - main [ref=f1e11]:
+    - region [ref=f1e12]:
+      - generic [ref=f1e13]:
+        - heading "404" [level=1] [ref=f1e17]
+        - paragraph [ref=f1e18]: SIGNAL LOST IN THE SKYWAY
+        - paragraph [ref=f1e19]: This page never made it out of the tube. Try the mission board instead.
+        - link "Back to the board" [ref=f1e20] [cursor=pointer]:
+          - /url: /challenges
+  - contentinfo [ref=f1e21]:
+    - generic [ref=f1e22]:
+      - generic [ref=f1e23]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=f1e24]:
+        - link "挑战" [ref=f1e25] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=f1e26] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=f1e27] [cursor=pointer]:
+          - /url: https://ctfd.io

@@ -1,0 +1,42 @@
+{
+  "platform_origin": "https://2026.sunshinectf.org/challenges",
+  "version": 1,
+  "confidence": 0.0,
+  "steps": [
+    {
+      "action": "navigate",
+      "target": "",
+      "value": "https://2026.sunshinectf.org/challenges?c={challenge_id}#c-{challenge_id}",
+      "data": {}
+    },
+    {
+      "action": "snapshot",
+      "target": "",
+      "value": "",
+      "data": {}
+    },
+    {
+      "action": "type",
+      "target": "input#challenge-input",
+      "value": "{flag}",
+      "data": {
+        "submit": true
+      }
+    }
+  ],
+  "success_markers": [
+    "correct",
+    "already_solved",
+    "Correct",
+    "Solved",
+    "正确",
+    "已解决"
+  ],
+  "failure_markers": [
+    "incorrect",
+    "ratelimited",
+    "Incorrect",
+    "错误",
+    "尝试次数过多"
+  ]
+}

@@ -1,0 +1,292 @@
+- generic [ref=f8e1]:
+  - link "Skip to main content" [ref=f8e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation "Primary navigation" [ref=f8e3]:
+    - generic [ref=f8e4]:
+      - link [ref=f8e5] [cursor=pointer]:
+        - /url: /
+        - img "SunshineCTF 2026" [ref=f8e6]
+      - button "Toggle navigation" [ref=f8e7] [cursor=pointer]
+      - text:       
+  - main [ref=f8e11]:
+    - region [ref=f8e12]:
+      - generic [ref=f8e13]:
+        - dialog "Challenge details" [active] [ref=f8e29]:
+          - document:
+            - generic [ref=f8e31]:
+              - generic [ref=f8e32]:
+                - button "Close" [ref=f8e33] [cursor=pointer]
+                - list [ref=f8e34]:
+                  - listitem [ref=f8e35]:
+                    - button "挑战" [ref=f8e36] [cursor=pointer]
+                  - listitem [ref=f8e37]:
+                    - button "41 个解答" [ref=f8e38] [cursor=pointer]
+              - tabpanel [ref=f8e41]:
+                - heading "This Code's Got Bars!" [level=2] [ref=f8e42]
+                - heading "50" [level=3] [ref=f8e43]
+                - paragraph [ref=f8e45]: solarbonite
+                - generic [ref=f8e46]:
+                  - generic [ref=f8e47]:
+                    - generic [ref=f8e48]: 
+                    - text: "0"
+                  - text: (0% liked)
+                  - generic [ref=f8e49]:
+                    - generic [ref=f8e50]: 
+                    - text: "2"
+                - paragraph [ref=f8e53]: 1-Dimensional and Patented!
+                - generic [ref=f8e54]:
+                  - textbox "Flag" [ref=f8e56]
+                  - button "提交" [ref=f8e58] [cursor=pointer]
+        - generic [ref=f8e14]:
+          - generic [ref=f8e15]:
+            - paragraph [ref=f8e16]: MISSION SECTORS
+            - heading "挑战" [level=1] [ref=f8e17]
+          - generic [ref=f8e60]:
+            - strong [ref=f8e61]: "0"
+            - text: / 37 SOLVED
+        - text: 
+        - generic [ref=f8e63]:
+          - navigation "Challenge categories" [ref=f8e64]:
+            - button "全部" [ref=f8e65] [cursor=pointer]
+            - button "misc" [ref=f8e66] [cursor=pointer]
+            - button "BSides Orlando" [ref=f8e67] [cursor=pointer]
+            - button "Forensics" [ref=f8e68] [cursor=pointer]
+            - button "web" [ref=f8e69] [cursor=pointer]
+            - button "RE" [ref=f8e70] [cursor=pointer]
+            - button "Pwn" [ref=f8e71] [cursor=pointer]
+            - button "???" [ref=f8e72] [cursor=pointer]
+          - generic [ref=f8e74]:
+            - button "misc Greetings 1 483 solves" [ref=f8e75] [cursor=pointer]:
+              - generic [ref=f8e76]: misc
+              - strong [ref=f8e78]: Greetings
+              - generic [ref=f8e79]:
+                - generic [ref=f8e80]: "1"
+                - generic [ref=f8e81]: 483 solves
+            - button "misc If you have questions! 50 368 solves" [ref=f8e82] [cursor=pointer]:
+              - generic [ref=f8e83]: misc
+              - strong [ref=f8e85]: If you have questions!
+              - generic [ref=f8e86]:
+                - generic [ref=f8e87]: "50"
+                - generic [ref=f8e88]: 368 solves
+            - button "BSides Orlando This Code's Got Bars! 50 41 solves" [ref=f8e89] [cursor=pointer]:
+              - generic [ref=f8e90]: BSides Orlando
+              - strong [ref=f8e92]: This Code's Got Bars!
+              - generic [ref=f8e93]:
+                - generic [ref=f8e94]: "50"
+                - generic [ref=f8e95]: 41 solves
+            - button "BSides Orlando Serious Business 136 19 solves" [ref=f8e96] [cursor=pointer]:
+              - generic [ref=f8e97]: BSides Orlando
+              - strong [ref=f8e99]: Serious Business
+              - generic [ref=f8e100]:
+                - generic [ref=f8e101]: "136"
+                - generic [ref=f8e102]: 19 solves
+            - button "Forensics NAS coal 374 319 solves" [ref=f8e103] [cursor=pointer]:
+              - generic [ref=f8e104]: Forensics
+              - strong [ref=f8e106]: NAS coal
+              - generic [ref=f8e107]:
+                - generic [ref=f8e108]: "374"
+                - generic [ref=f8e109]: 319 solves
+            - button "Forensics suntrail 386 304 solves" [ref=f8e110] [cursor=pointer]:
+              - generic [ref=f8e111]: Forensics
+              - strong [ref=f8e113]: suntrail
+              - generic [ref=f8e114]:
+                - generic [ref=f8e115]: "386"
+                - generic [ref=f8e116]: 304 solves
+            - button "Forensics my eyes burn 398 287 solves" [ref=f8e117] [cursor=pointer]:
+              - generic [ref=f8e118]: Forensics
+              - strong [ref=f8e120]: my eyes burn
+              - generic [ref=f8e121]:
+                - generic [ref=f8e122]: "398"
+                - generic [ref=f8e123]: 287 solves
+            - button "web Used Goods of Tomorrow 407 274 solves" [ref=f8e124] [cursor=pointer]:
+              - generic [ref=f8e125]: web
+              - strong [ref=f8e127]: Used Goods of Tomorrow
+              - generic [ref=f8e128]:
+                - generic [ref=f8e129]: "407"
+                - generic [ref=f8e130]: 274 solves
+            - button "Forensics you cut me off 422 251 solves" [ref=f8e131] [cursor=pointer]:
+              - generic [ref=f8e132]: Forensics
+              - strong [ref=f8e134]: you cut me off
+              - generic [ref=f8e135]:
+                - generic [ref=f8e136]: "422"
+                - generic [ref=f8e137]: 251 solves
+            - button "web You Are Kidding Me 427 244 solves" [ref=f8e138] [cursor=pointer]:
+              - generic [ref=f8e139]: web
+              - strong [ref=f8e141]: You Are Kidding Me
+              - generic [ref=f8e142]:
+                - generic [ref=f8e143]: "427"
+                - generic [ref=f8e144]: 244 solves
+            - button "Forensics Welcome Call! 435 230 solves" [ref=f8e145] [cursor=pointer]:
+              - generic [ref=f8e146]: Forensics
+              - strong [ref=f8e148]: Welcome Call!
+              - generic [ref=f8e149]:
+                - generic [ref=f8e150]: "435"
+                - generic [ref=f8e151]: 230 solves
+            - button "BSides Orlando A Hardy Mystery 460 7 solves" [ref=f8e152] [cursor=pointer]:
+              - generic [ref=f8e153]: BSides Orlando
+              - strong [ref=f8e155]: A Hardy Mystery
+              - generic [ref=f8e156]:
+                - generic [ref=f8e157]: "460"
+                - generic [ref=f8e158]: 7 solves
+            - button "RE FlameOn 460 181 solves" [ref=f8e159] [cursor=pointer]:
+              - generic [ref=f8e160]: RE
+              - strong [ref=f8e162]: FlameOn
+              - generic [ref=f8e163]:
+                - generic [ref=f8e164]: "460"
+                - generic [ref=f8e165]: 181 solves
+            - button "Forensics ghost in the thread - 1 - start here 464 173 solves" [ref=f8e166] [cursor=pointer]:
+              - generic [ref=f8e167]: Forensics
+              - strong [ref=f8e169]: ghost in the thread - 1 - start here
+              - generic [ref=f8e170]:
+                - generic [ref=f8e171]: "464"
+                - generic [ref=f8e172]: 173 solves
+            - button "Pwn Total Recall 469 159 solves" [ref=f8e173] [cursor=pointer]:
+              - generic [ref=f8e174]: Pwn
+              - strong [ref=f8e176]: Total Recall
+              - generic [ref=f8e177]:
+                - generic [ref=f8e178]: "469"
+                - generic [ref=f8e179]: 159 solves
+            - button "web Groundhog Day 470 158 solves" [ref=f8e180] [cursor=pointer]:
+              - generic [ref=f8e181]: web
+              - strong [ref=f8e183]: Groundhog Day
+              - generic [ref=f8e184]:
+                - generic [ref=f8e185]: "470"
+                - generic [ref=f8e186]: 158 solves
+            - button "Forensics ghost in the thread - 3 472 153 solves" [ref=f8e187] [cursor=pointer]:
+              - generic [ref=f8e188]: Forensics
+              - strong [ref=f8e190]: ghost in the thread - 3
+              - generic [ref=f8e191]:
+                - generic [ref=f8e192]: "472"
+                - generic [ref=f8e193]: 153 solves
+            - button "BSides Orlando Lil Chompy and the World's Fair 472 6 solves" [ref=f8e194] [cursor=pointer]:
+              - generic [ref=f8e195]: BSides Orlando
+              - strong [ref=f8e197]: Lil Chompy and the World's Fair
+              - generic [ref=f8e198]:
+                - generic [ref=f8e199]: "472"
+                - generic [ref=f8e200]: 6 solves
+            - button "BSides Orlando Drop dead, like an alligator. 472 6 solves" [ref=f8e201] [cursor=pointer]:
+              - generic [ref=f8e202]: BSides Orlando
+              - strong [ref=f8e204]: Drop dead, like an alligator.
+              - generic [ref=f8e205]:
+                - generic [ref=f8e206]: "472"
+                - generic [ref=f8e207]: 6 solves
+            - button "Forensics ghost in the thread - 2 481 125 solves" [ref=f8e208] [cursor=pointer]:
+              - generic [ref=f8e209]: Forensics
+              - strong [ref=f8e211]: ghost in the thread - 2
+              - generic [ref=f8e212]:
+                - generic [ref=f8e213]: "481"
+                - generic [ref=f8e214]: 125 solves
+            - button "Forensics ghost in the thread - 4 482 124 solves" [ref=f8e215] [cursor=pointer]:
+              - generic [ref=f8e216]: Forensics
+              - strong [ref=f8e218]: ghost in the thread - 4
+              - generic [ref=f8e219]:
+                - generic [ref=f8e220]: "482"
+                - generic [ref=f8e221]: 124 solves
+            - button "RE IntMod 483 120 solves" [ref=f8e222] [cursor=pointer]:
+              - generic [ref=f8e223]: RE
+              - strong [ref=f8e225]: IntMod
+              - generic [ref=f8e226]:
+                - generic [ref=f8e227]: "483"
+                - generic [ref=f8e228]: 120 solves
+            - button "Pwn Mad Libs 484 116 solves" [ref=f8e229] [cursor=pointer]:
+              - generic [ref=f8e230]: Pwn
+              - strong [ref=f8e232]: Mad Libs
+              - generic [ref=f8e233]:
+                - generic [ref=f8e234]: "484"
+                - generic [ref=f8e235]: 116 solves
+            - button "Pwn Print Print Revolution 484 116 solves" [ref=f8e236] [cursor=pointer]:
+              - generic [ref=f8e237]: Pwn
+              - strong [ref=f8e239]: Print Print Revolution
+              - generic [ref=f8e240]:
+                - generic [ref=f8e241]: "484"
+                - generic [ref=f8e242]: 116 solves
+            - button "Pwn Cache Money 485 114 solves" [ref=f8e243] [cursor=pointer]:
+              - generic [ref=f8e244]: Pwn
+              - strong [ref=f8e246]: Cache Money
+              - generic [ref=f8e247]:
+                - generic [ref=f8e248]: "485"
+                - generic [ref=f8e249]: 114 solves
+            - button "Pwn Homemaker 485 111 solves" [ref=f8e250] [cursor=pointer]:
+              - generic [ref=f8e251]: Pwn
+              - strong [ref=f8e253]: Homemaker
+              - generic [ref=f8e254]:
+                - generic [ref=f8e255]: "485"
+                - generic [ref=f8e256]: 111 solves
+            - button "RE RoboCall 486 109 solves" [ref=f8e257] [cursor=pointer]:
+              - generic [ref=f8e258]: RE
+              - strong [ref=f8e260]: RoboCall
+              - generic [ref=f8e261]:
+                - generic [ref=f8e262]: "486"
+                - generic [ref=f8e263]: 109 solves
+            - button "Pwn Code Breaker 488 101 solves" [ref=f8e264] [cursor=pointer]:
+              - generic [ref=f8e265]: Pwn
+              - strong [ref=f8e267]: Code Breaker
+              - generic [ref=f8e268]:
+                - generic [ref=f8e269]: "488"
+                - generic [ref=f8e270]: 101 solves
+            - button "web CookieCorp 488 101 solves" [ref=f8e271] [cursor=pointer]:
+              - generic [ref=f8e272]: web
+              - strong [ref=f8e274]: CookieCorp
+              - generic [ref=f8e275]:
+                - generic [ref=f8e276]: "488"
+                - generic [ref=f8e277]: 101 solves
+            - button "Pwn Safe House 489 97 solves" [ref=f8e278] [cursor=pointer]:
+              - generic [ref=f8e279]: Pwn
+              - strong [ref=f8e281]: Safe House
+              - generic [ref=f8e282]:
+                - generic [ref=f8e283]: "489"
+                - generic [ref=f8e284]: 97 solves
+            - button "web SiteCheck 489 96 solves" [ref=f8e285] [cursor=pointer]:
+              - generic [ref=f8e286]: web
+              - strong [ref=f8e288]: SiteCheck
+              - generic [ref=f8e289]:
+                - generic [ref=f8e290]: "489"
+                - generic [ref=f8e291]: 96 solves
+            - button "BSides Orlando Ishq FM 104.8? 490 4 solves" [ref=f8e292] [cursor=pointer]:
+              - generic [ref=f8e293]: BSides Orlando
+              - strong [ref=f8e295]: Ishq FM 104.8?
+              - generic [ref=f8e296]:
+                - generic [ref=f8e297]: "490"
+                - generic [ref=f8e298]: 4 solves
+            - button "web Planetary Probe 496 61 solves" [ref=f8e299] [cursor=pointer]:
+              - generic [ref=f8e300]: web
+              - strong [ref=f8e302]: Planetary Probe
+              - generic [ref=f8e303]:
+                - generic [ref=f8e304]: "496"
+                - generic [ref=f8e305]: 61 solves
+            - button "BSides Orlando Layers of Secrets 496 3 solves" [ref=f8e306] [cursor=pointer]:
+              - generic [ref=f8e307]: BSides Orlando
+              - strong [ref=f8e309]: Layers of Secrets
+              - generic [ref=f8e310]:
+                - generic [ref=f8e311]: "496"
+                - generic [ref=f8e312]: 3 solves
+            - button "??? Locked ??? 0 solves" [ref=f8e313] [cursor=pointer]:
+              - generic [ref=f8e314]:
+                - generic [ref=f8e315]: "???"
+                - generic [ref=f8e316]: Locked
+              - strong [ref=f8e317]: "???"
+              - generic [ref=f8e318]:
+                - generic [ref=f8e319]: "0"
+                - generic [ref=f8e320]: solves
+            - button "misc Vecnet 496 63 solves" [ref=f8e321] [cursor=pointer]:
+              - generic [ref=f8e322]: misc
+              - strong [ref=f8e324]: Vecnet
+              - generic [ref=f8e325]:
+                - generic [ref=f8e326]: "496"
+                - generic [ref=f8e327]: 63 solves
+            - button "BSides Orlando Get rotated, man! 499 2 solves" [ref=f8e328] [cursor=pointer]:
+              - generic [ref=f8e329]: BSides Orlando
+              - strong [ref=f8e331]: Get rotated, man!
+              - generic [ref=f8e332]:
+                - generic [ref=f8e333]: "499"
+                - generic [ref=f8e334]: 2 solves
+  - contentinfo [ref=f8e21]:
+    - generic [ref=f8e22]:
+      - generic [ref=f8e23]: SunshineCTF 2026
+      - navigation "Footer navigation" [ref=f8e24]:
+        - link "挑战" [ref=f8e25] [cursor=pointer]:
+          - /url: /challenges
+        - link "记分板" [ref=f8e26] [cursor=pointer]:
+          - /url: /scoreboard
+        - link "由 CTFd 提供" [ref=f8e27] [cursor=pointer]:
+          - /url: https://ctfd.io
