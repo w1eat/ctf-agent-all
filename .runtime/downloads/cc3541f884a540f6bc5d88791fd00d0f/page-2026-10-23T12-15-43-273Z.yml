@@ -1,0 +1,419 @@
+- generic [active] [ref=f4e1]:
+  - generic [ref=f4e4]:
+    - banner:
+      - generic:
+        - link "DINO CTF" [ref=f4e6] [cursor=pointer]:
+          - /url: /
+          - img "DINO CTF" [ref=f4e7]
+        - navigation "主导航" [ref=f4e10]:
+          - link "竞赛" [ref=f4e12] [cursor=pointer]:
+            - /url: /competitions
+          - link "理论答题" [ref=f4e17] [cursor=pointer]:
+            - /url: /theory
+          - link "通知，有未读消息" [ref=f4e22] [cursor=pointer]:
+            - /url: /notifications
+            - generic [ref=f4e23]:
+              - generic [ref=f4e26]: 通知
+              - generic [ref=f4e27]: 有未读通知
+        - generic [ref=f4e28]:
+          - button "切换为英文" [ref=f4e29]
+          - button "主题调色板" [ref=f4e30]
+          - button "切换为浅色模式" [ref=f4e31]
+          - button "账户设置" [ref=f4e32]:
+            - generic [ref=f4e33]: w1
+    - main [ref=f4e35]:
+      - generic [ref=f4e37]:
+        - generic [ref=f4e38]:
+          - generic [ref=f4e39]:
+            - generic [aria-hidden]: CTF
+            - generic [ref=f4e40]: CTF
+            - generic [ref=f4e41]:
+              - heading "Start！" [level=1] [ref=f4e42]
+              - generic [ref=f4e43]: 进行中
+            - generic [ref=f4e44]:
+              - generic [ref=f4e45]: 2026/9/16 00:00:00 ~ 2036/9/30 00:00:00
+              - generic [ref=f4e46]: 距结束 3629 天 3 小时
+          - generic [ref=f4e47]:
+            - generic [ref=f4e48]:
+              - term [ref=f4e49]: 本队排名
+              - definition [ref=f4e50]: "#1"
+            - generic [ref=f4e51]:
+              - term [ref=f4e52]: 本队积分
+              - definition [ref=f4e53]: 24114 分
+        - generic [ref=f4e54]:
+          - complementary "题目列表" [ref=f4e56]:
+            - generic [ref=f4e57]:
+              - generic [ref=f4e58]:
+                - heading "题目列表" [level=2] [ref=f4e59]
+                - textbox "搜索题目（正则）" [ref=f4e60]
+              - button "按标签筛选" [ref=f4e62]
+              - generic [ref=f4e64]:
+                - generic [ref=f4e65] [cursor=pointer]: 隐藏已解出
+                - switch "隐藏已解出" [ref=f4e66]
+              - generic [ref=f4e67]:
+                - generic [ref=f4e68] [cursor=pointer]: 隐藏未解锁
+                - switch "隐藏未解锁" [ref=f4e69]
+            - generic "题目列表" [ref=f4e71]:
+              - group "题目列表" [ref=f4e72]:
+                - button "Misc 20" [ref=f4e74]:
+                  - generic [ref=f4e75]: Misc
+                  - generic [ref=f4e77]: "20"
+                - button "Pwn 18" [ref=f4e79]:
+                  - generic [ref=f4e80]: Pwn
+                  - generic [ref=f4e82]: "18"
+                - button "Reverse 18" [ref=f4e84]:
+                  - generic [ref=f4e85]: Reverse
+                  - generic [ref=f4e87]: "18"
+                - button "Crypto 13" [ref=f4e89]:
+                  - generic [ref=f4e90]: Crypto
+                  - generic [ref=f4e92]: "13"
+                - generic [ref=f4e93]:
+                  - button "Web 11" [expanded] [ref=f4e94]:
+                    - generic [ref=f4e95]: Web
+                    - generic [ref=f4e97]: "11"
+                  - listbox "Web" [ref=f4e98]:
+                    - generic [ref=f4e99]:
+                      - option "ezmd5" [ref=f4e100]:
+                        - generic [ref=f4e101]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: ezmd5
+                              - img "已解出"
+                              - generic: 200 分
+                            - generic:
+                              - generic: 19 支队伍已解出
+                              - generic:
+                                - img "一血 · lgls"
+                                - img "二血 · pick"
+                                - img "三血 · 111"
+                      - option "babyupload" [ref=f4e102]:
+                        - generic [ref=f4e103]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: babyupload
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 13 支队伍已解出
+                              - generic:
+                                - img "一血 · 半夜起床嚼槟榔发现是性感母蟑螂"
+                                - img "二血 · 111"
+                                - img "三血 · pick"
+                      - option "ezjwt" [ref=f4e104]:
+                        - generic [ref=f4e105]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: ezjwt
+                              - img "已解出"
+                              - generic: 350 分
+                            - generic:
+                              - generic: 14 支队伍已解出
+                              - generic:
+                                - img "一血 · 111"
+                                - img "二血 · lgls"
+                                - img "三血 · pick"
+                      - option "mambo's blog" [ref=f4e106]:
+                        - generic [ref=f4e107]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: mambo's blog
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 10 支队伍已解出
+                              - generic:
+                                - img "一血 · pick"
+                                - img "二血 · 111"
+                                - img "三血 · lgls"
+                      - option "infoleak" [ref=f4e108]:
+                        - generic [ref=f4e109]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: infoleak
+                              - img "已解出"
+                              - generic: 250 分
+                            - generic:
+                              - generic: 12 支队伍已解出
+                              - generic:
+                                - img "一血 · pick"
+                                - img "二血 · 111"
+                                - img "三血 · 狙医别带商店节奏了"
+                      - option "babyinclude" [ref=f4e110]:
+                        - generic [ref=f4e111]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: babyinclude
+                              - img "已解出"
+                              - generic: 184 分
+                            - generic:
+                              - generic: 16 支队伍已解出
+                              - generic:
+                                - img "一血 · pick"
+                                - img "二血 · 111"
+                                - img "三血 · lgls"
+                      - option "a-bad-day" [ref=f4e112]:
+                        - generic [ref=f4e113]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: a-bad-day
+                              - img "已解出"
+                              - generic: 258 分
+                            - generic:
+                              - generic: 14 支队伍已解出
+                              - generic:
+                                - img "一血 · lgls"
+                                - img "二血 · 111"
+                                - img "三血 · pick"
+                      - option "ezsession" [ref=f4e114]:
+                        - generic [ref=f4e115]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: ezsession
+                              - img "已解出"
+                              - generic: 350 分
+                            - generic:
+                              - generic: 7 支队伍已解出
+                              - generic:
+                                - img "一血 · pick"
+                                - img "二血 · 111"
+                                - img "三血 · 狙医别带商店节奏了"
+                      - option "hardcar" [ref=f4e116]:
+                        - generic [ref=f4e117]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: hardcar
+                              - generic: 1000 分
+                            - generic: 0 支队伍已解出
+                      - option "ezserialize" [ref=f4e118]:
+                        - generic [ref=f4e119]:
+                          - generic:
+                            - generic: Web
+                            - generic:
+                              - generic: ezserialize
+                              - img "已解出"
+                              - generic: 377 分
+                            - generic:
+                              - generic: 10 支队伍已解出
+                              - generic:
+                                - img "一血 · 111"
+                                - img "二血 · pick"
+                                - img "三血 · 狙医别带商店节奏了"
+                      - option "upload-again" [selected] [ref=f4e120]:
+                        - generic [ref=f4e122]:
+                          - generic [ref=f4e123]: Web
+                          - generic [ref=f4e124]:
+                            - generic [ref=f4e125]: upload-again
+                            - generic [ref=f4e126]: 421 分
+                          - generic [ref=f4e127]:
+                            - generic [ref=f4e128]: 6 支队伍已解出
+                            - generic [ref=f4e130]:
+                              - img "一血 · 111" [ref=f4e131]
+                              - img "二血 · pick" [ref=f4e133]
+                              - img "三血 · lgls" [ref=f4e135]
+                - button "Mobile 2" [ref=f4e138]:
+                  - generic [ref=f4e139]: Mobile
+                  - generic [ref=f4e141]: "2"
+                - button "AI 1" [ref=f4e143]:
+                  - generic [ref=f4e144]: AI
+                  - generic [ref=f4e146]: "1"
+          - main [ref=f4e147]:
+            - generic [ref=f4e148]:
+              - region [ref=f4e150]:
+                - heading "提交 Flag" [level=3] [ref=f4e151]
+                - generic [ref=f4e153]:
+                  - generic [aria-hidden] [ref=f4e154]: ">_"
+                  - generic "Flag" [ref=f4e155]:
+                    - textbox "Flag" [ref=f4e157]:
+                      - /placeholder: Type Your Flag ~~
+              - generic "题目" [ref=f4e160]:
+                - generic [ref=f4e163]:
+                  - generic [ref=f4e164]:
+                    - generic [aria-hidden]: Web
+                    - heading "upload-again" [level=2] [ref=f4e168]
+                    - button "本题提交记录" [ref=f4e169]
+                    - button "单题题解" [ref=f4e170]
+                    - generic [ref=f4e171]: Web
+                  - region "upload-again" [ref=f4e172]:
+                    - paragraph [ref=f4e174]: 又是文件上传
+                  - region [ref=f4e177]:
+                    - generic [ref=f4e178]:
+                      - heading "题目环境" [level=3] [ref=f4e179]
+                      - generic [ref=f4e338]: 运行中
+                    - generic [ref=f4e180]:
+                      - generic [ref=f4e339]:
+                        - generic [ref=f4e340]: 访问地址
+                        - generic [ref=f4e341]:
+                          - generic [ref=f4e342]:
+                            - generic [ref=f4e343]: 直连
+                            - link "http://noctf.fa1lsnow.com:40074" [ref=f4e344] [cursor=pointer]:
+                              - /url: http://noctf.fa1lsnow.com:40074
+                            - button "复制" [ref=f4e345]
+                          - generic [ref=f4e346]:
+                            - generic [ref=f4e347]: WSRX
+                            - generic [ref=f4e348]: wss://noctf.fa1lsnow.com/api/v1/runtime-proxies/01a168b0-38ed-7579-b319-4e41f0cd6241/0
+                            - button "复制" [ref=f4e349]
+                      - generic [ref=f4e350]: 剩余时间:59 分 59 秒
+                      - generic [ref=f4e181]:
+                        - button "停止" [ref=f4e351]
+                        - button "重置环境" [ref=f4e352]
+                        - generic [ref=f4e353]:
+                          - generic [ref=f4e354]:
+                            - group [ref=f4e355]:
+                              - generic [ref=f4e356]: 续期分钟数
+                              - group [ref=f4e357]:
+                                - generic [ref=f4e358]:
+                                  - button "减少数值" [ref=f4e359]
+                                  - spinbutton "续期分钟数" [ref=f4e361]: "30"
+                                  - button "增加数值" [ref=f4e362]
+                            - button "续期(分钟)" [disabled]
+                          - paragraph [ref=f4e364]: 仅在容器到期前最后 10 分钟可续期。
+                  - region [ref=f4e183]:
+                    - generic [ref=f4e184]:
+                      - heading "题目提示" [level=3] [ref=f4e185]
+                      - button "刷新提示" [ref=f4e188]
+                    - paragraph [ref=f4e189]: 暂无已发布的提示
+          - complementary [ref=f4e191]:
+            - navigation "赛事导航" [ref=f4e192]:
+              - generic "赛事导航" [ref=f4e198]:
+                - generic [ref=f4e199]:
+                  - generic [ref=f4e200]:
+                    - heading "竞赛" [level=3] [ref=f4e201]
+                    - generic [ref=f4e202]:
+                      - link "概览" [ref=f4e203] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0
+                      - link "题目" [ref=f4e210] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges
+                      - link "闯关与勋章" [ref=f4e214] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/progression
+                      - link "记分板" [ref=f4e220] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/leaderboard
+                      - link "咨询" [ref=f4e228] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/questions
+                  - generic [ref=f4e233]:
+                    - heading "我的" [level=3] [ref=f4e234]
+                    - generic [ref=f4e235]:
+                      - link "我的队伍" [ref=f4e236] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/team
+                      - link "我的题解" [ref=f4e241] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/writeup
+            - complementary "赛事播报" [ref=f4e246]:
+              - generic [ref=f4e247]:
+                - generic [ref=f4e248]: 赛事播报
+                - generic [ref=f4e253]: 直播
+              - generic "赛事播报" [ref=f4e254]:
+                - list [ref=f4e255]:
+                  - listitem [ref=f4e256]:
+                    - link [ref=f4e257] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aeb6-7163-7398-adef-94ce650d1359
+                      - paragraph [ref=f4e258]: 队伍「yza」获得题目「[第五届信安大挑战]什么，不让我提权？」一血
+                      - time [ref=f4e259]: 2026/10/23 19:55:59
+                  - listitem [ref=f4e260]:
+                    - link [ref=f4e261] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b02c-68c7-7ffa-8deb-8522d4bd65ef
+                      - paragraph [ref=f4e262]: 队伍「yza」获得题目「ret2syscall_rain」二血
+                      - time [ref=f4e263]: 2026/10/23 17:43:08
+                  - listitem [ref=f4e264]:
+                    - link [ref=f4e265] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a1150d-105f-7a48-986c-c4c1188e11d3
+                      - paragraph [ref=f4e266]: 队伍「yza」获得题目「[第六届信安大挑战]shellcode_revenge」一血
+                      - time [ref=f4e267]: 2026/10/23 16:00:09
+                  - listitem [ref=f4e268]:
+                    - link [ref=f4e269] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0af42-f049-7703-b65c-ba05af2041c1
+                      - paragraph [ref=f4e270]: 队伍「LE^aVe」获得题目「谎言不会伤人」二血
+                      - time [ref=f4e271]: 2026/10/23 15:20:39
+                  - listitem [ref=f4e272]:
+                    - link [ref=f4e273] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a12070-33e5-732f-ac45-7c541cd5f457
+                      - paragraph [ref=f4e274]: 队伍「zzzz」获得题目「赞美太阳」三血
+                      - time [ref=f4e275]: 2026/10/22 21:58:06
+                  - listitem [ref=f4e276]:
+                    - link [ref=f4e277] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c36a-3556-75a1-8d8d-88180a53cbd2
+                      - paragraph [ref=f4e278]: 队伍「LE^aVe」获得题目「[day4]selfHook」二血
+                      - time [ref=f4e279]: 2026/10/22 20:54:17
+                  - listitem [ref=f4e280]:
+                    - link [ref=f4e281] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c36a-0eb5-7de5-95d8-afe18f7ff8e6
+                      - paragraph [ref=f4e282]: 队伍「LE^aVe」获得题目「[day4]sm4」二血
+                      - time [ref=f4e283]: 2026/10/22 14:06:25
+                  - listitem [ref=f4e284]:
+                    - link [ref=f4e285] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f4e286]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f4e287]: 2026/10/21 16:16:12
+                  - listitem [ref=f4e288]:
+                    - link [ref=f4e289] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f4e290]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f4e291]: 2026/10/21 16:13:08
+                  - listitem [ref=f4e292]:
+                    - link [ref=f4e293] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f4e294]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f4e295]: 2026/10/21 16:12:10
+                  - listitem [ref=f4e296]:
+                    - link [ref=f4e297] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f4e298]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f4e299]: 2026/10/21 16:11:38
+                  - listitem [ref=f4e300]:
+                    - link [ref=f4e301] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0afb0-ed1a-7121-b8f2-f3c70a1cca45
+                      - paragraph [ref=f4e302]: 题目「canary_rain」已更新描述
+                      - time [ref=f4e303]: 2026/10/21 16:03:08
+                  - listitem [ref=f4e304]:
+                    - link [ref=f4e305] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b02c-68c7-7ffa-8deb-8522d4bd65ef
+                      - paragraph [ref=f4e306]: 队伍「THocK」获得题目「ret2syscall_rain」一血
+                      - time [ref=f4e307]: 2026/10/21 00:50:48
+                  - listitem [ref=f4e308]:
+                    - link [ref=f4e309] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a11158-4f33-7b47-8c5b-d527fb919b67
+                      - paragraph [ref=f4e310]: 队伍「zzzz」获得题目「这题做了，不烧心」三血
+                      - time [ref=f4e311]: 2026/10/20 23:08:04
+                  - listitem [ref=f4e312]:
+                    - link [ref=f4e313] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c8e2-3473-75e0-af33-3ecc34d3ed49
+                      - paragraph [ref=f4e314]: 队伍「www」获得题目「Silent Mutation」三血
+                      - time [ref=f4e315]: 2026/10/20 22:55:34
+                  - listitem [ref=f4e316]:
+                    - link [ref=f4e317] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0bea8-f1eb-7eae-ba38-9a1224e17c4f
+                      - paragraph [ref=f4e318]: 队伍「www」获得题目「像素后的隐秘」三血
+                      - time [ref=f4e319]: 2026/10/20 22:41:59
+                  - listitem [ref=f4e320]:
+                    - link [ref=f4e321] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0ba16-bb5a-7d79-b946-67e11eafe3de
+                      - paragraph [ref=f4e322]: 队伍「www」获得题目「God's Oracle」二血
+                      - time [ref=f4e323]: 2026/10/20 20:38:40
+                  - listitem [ref=f4e324]:
+                    - link [ref=f4e325] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a134e2-0840-77b7-90fe-720a518ed75b
+                      - paragraph [ref=f4e326]: 队伍「星月」获得题目「羽量背包」一血
+                      - time [ref=f4e327]: 2026/10/20 14:07:19
+                  - listitem [ref=f4e328]:
+                    - link [ref=f4e329] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0dd9c-f187-7c23-ac93-0dd8810c97b2
+                      - paragraph [ref=f4e330]: "队伍「不知道」获得题目「PWN 0x01: Insight」二血"
+                      - time [ref=f4e331]: 2026/10/20 12:21:44
+                  - listitem [ref=f4e332]:
+                    - link [ref=f4e333] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0a966-ab7f-78ef-b221-1708ac7ff8f9
+                      - paragraph [ref=f4e334]: 队伍「半夜起床嚼槟榔发现是性感母蟑螂」获得题目「[day1]upx-mini」一血
+                      - time [ref=f4e335]: 2026/10/20 12:21:44
+                - button "加载更早动态" [ref=f4e337]
+  - region "通知 alt+T":
+    - list:
+      - listitem [ref=f4e367]:
+        - button "关闭" [ref=f4e368] [cursor=pointer]
+        - generic [ref=f4e377]: 操作已受理,环境状态更新中

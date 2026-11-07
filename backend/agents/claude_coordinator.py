@@ -45,6 +45,7 @@ from backend.config import Settings
 from backend.deps import CoordinatorDeps
 from backend.platforms.base import BrowserToolProvider
 from backend.platforms.recipes import SAVE_RECIPE_TOOL_SCHEMA
+from backend.sdk_usage import ClaudeUsage
 from backend.submission_setup import CoordinatorTurnError
 
 logger = logging.getLogger(__name__)
@@ -406,7 +407,9 @@ async def run_claude_coordinator(
     backend_error: BaseException | None = None
     try:
         async with ClaudeSDKClient(options=options) as client:
+            usage_ledger = ClaudeUsage(cost_tracker, f"coordinator:claude/{resolved_model}", resolved_model, "coordinator")
             async def turn_fn(msg: str) -> None:
+                usage_ledger.begin_turn()
                 logger.debug(f"Coordinator query: {msg[:200]}")
                 if deps.tracer:
                     deps.tracer.turn_input(msg)
@@ -422,9 +425,10 @@ async def run_claude_coordinator(
                         msg_type = type(message).__name__
                         logger.debug(f"Coordinator received: {msg_type}")
                         if deps.tracer:
-                            deps.tracer.event("llm_message", message_type=msg_type, text=str(message))
+                            deps.tracer.llm_message(message)
+                        usage_ledger.observe(message)
                         if isinstance(message, ResultMessage):
-                            cost = getattr(message, "total_cost_usd", 0)
+                            cost = usage_ledger.result(message) or 0
                             session = getattr(message, "session_id", None)
                             logger.info(
                                 "Claude coordinator turn done (messages=%s, cost=$%.4f, session=%s)",
@@ -437,6 +441,7 @@ async def run_claude_coordinator(
                                     "turn_completed",
                                     messages=msg_count,
                                     cost_usd=cost,
+                                    sdk_cumulative_cost_usd=getattr(message, "total_cost_usd", None),
                                     session_id=session,
                                 )
                             error = _coordinator_result_error(message)
@@ -463,6 +468,8 @@ async def run_claude_coordinator(
                                                   "cancelled" if isinstance(exc, asyncio.CancelledError) else "error",
                                                   error=exc)
                     raise
+                finally:
+                    usage_ledger.finish()
 
             event_loop_started = True
             return await run_event_loop(deps, platform, cost_tracker, turn_fn)

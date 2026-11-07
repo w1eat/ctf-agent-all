@@ -1,0 +1,61 @@
+- generic [active] [ref=f6e1]:
+  - generic [ref=f6e4]:
+    - banner:
+      - generic:
+        - link "DINO CTF" [ref=f6e6] [cursor=pointer]:
+          - /url: /
+          - img "DINO CTF" [ref=f6e7]
+        - navigation "主导航" [ref=f6e10]:
+          - link "竞赛" [ref=f6e12] [cursor=pointer]:
+            - /url: /competitions
+          - link "理论答题" [ref=f6e17] [cursor=pointer]:
+            - /url: /theory
+          - link "通知，有未读消息" [ref=f6e22] [cursor=pointer]:
+            - /url: /notifications
+            - generic [ref=f6e23]:
+              - generic [ref=f6e26]: 通知
+              - generic [ref=f6e27]: 有未读通知
+        - generic [ref=f6e28]:
+          - button "切换为英文" [ref=f6e29]
+          - button "主题调色板" [ref=f6e30]
+          - button "切换为浅色模式" [ref=f6e31]
+          - button "账户设置" [ref=f6e32]:
+            - generic [ref=f6e33]: w1
+    - main [ref=f6e35]:
+      - generic [ref=f6e37]:
+        - generic [ref=f6e38]:
+          - generic [ref=f6e39]:
+            - generic [aria-hidden]: CTF
+            - generic [ref=f6e40]: CTF
+            - generic [ref=f6e41]:
+              - heading "Start！" [level=1] [ref=f6e42]
+              - generic [ref=f6e43]: 进行中
+            - generic [ref=f6e44]:
+              - generic [ref=f6e45]: 2026/9/16 00:00:00 ~ 2036/9/30 00:00:00
+              - generic [ref=f6e46]: 距结束 3629 天 3 小时
+          - generic [ref=f6e47]:
+            - generic [ref=f6e48]:
+              - term [ref=f6e49]: 本队排名
+              - definition [ref=f6e50]: "#1"
+            - generic [ref=f6e51]:
+              - term [ref=f6e52]: 本队积分
+              - definition [ref=f6e53]: 24535 分
+        - generic [ref=f6e365]:
+          - generic [ref=f6e366]:
+            - button "返回题目" [ref=f6e367]
+            - heading "hardcar" [level=1] [ref=f6e368]
+            - button "刷新" [ref=f6e369]
+          - generic [ref=f6e370]:
+            - button "公开题解" [ref=f6e371]
+            - button "本队题解" [ref=f6e372]
+          - generic [ref=f6e373]:
+            - complementary "公开题解" [ref=f6e374]:
+              - textbox "搜索题目或队伍" [ref=f6e375]
+              - generic [ref=f6e376]: 本题暂无公开题解
+            - generic [ref=f6e381]:
+              - generic [ref=f6e382]:
+                - generic [ref=f6e383]: 本题暂无公开题解
+                - paragraph [ref=f6e384]: 可提交本队题解，等待工作人员审核公开。
+              - button "撰写题解" [ref=f6e386]
+  - region "通知 alt+T":
+    - list

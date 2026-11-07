@@ -4,11 +4,10 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import time
 from dataclasses import dataclass, field
 from typing import Any, cast
 
-from pydantic_ai import Agent, PromptedOutput, RunContext
+from pydantic_ai import Agent, PromptedOutput, RunContext, capture_run_messages
 from pydantic_ai.messages import ModelRequest, UserPromptPart
 from pydantic_ai.toolsets import FunctionToolset
 from pydantic_ai.toolsets.abstract import ToolsetTool
@@ -18,6 +17,8 @@ from backend.config import Settings
 from backend.cost_tracker import CostTracker
 from backend.deps import SolverDeps
 from backend.loop_detect import LOOP_WARNING_MESSAGE, LoopDetector
+from backend.model_output import CompleteJSONOutput
+from backend.model_usage import CostBudgetExceededError, ModelUsageMonitor
 from backend.models import (
     model_id_from_spec,
     provider_from_spec,
@@ -65,6 +66,7 @@ from backend.tools.sandbox import (
 )
 from backend.tools.vision import view_image
 from backend.tracing import SolverTracer
+from backend.writeup_evidence import evidence_context
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +105,8 @@ class TracingToolset(WrapperToolset[SolverDeps]):
             # Inject loop warning by returning it as the tool result
             return LOOP_WARNING_MESSAGE
 
-        result = await self.wrapped.call_tool(name, tool_args, ctx, tool)
+        with evidence_context(getattr(self.tracer, "evidence_recorder", None), name, step):
+            result = await self.wrapped.call_tool(name, tool_args, ctx, tool)
 
         result_str = str(result) if result is not None else ""
         self.tracer.tool_result(name, result_str, step)
@@ -207,7 +210,10 @@ class Solver:
             knowledge_query_budget=self.knowledge_query_budget,
         )
         self.loop_detector = LoopDetector()
-        self.tracer = SolverTracer(meta.name, self.model_id)
+        self.tracer = SolverTracer(
+            meta.name, self.model_id, challenge_dir=challenge_dir,
+            run_id=str(getattr(settings, "challenge_run_id", "") or ""),
+        )
         self.tracer.knowledge_snapshots = {
             "external": knowledge_service.external.snapshot_id if knowledge_service else "",
             "local": knowledge_service.local.snapshot_id if knowledge_service else "",
@@ -224,6 +230,7 @@ class Solver:
         self._evidence: tuple[str, ...] = ()
         self._solution_steps: tuple[str, ...] = ()
         self._exp_paths: tuple[str, ...] = ()
+        self._artifact_paths: tuple[str, ...] = ()
         self._exp_run_command: str = ""
 
     async def start(self) -> None:
@@ -271,6 +278,7 @@ class Solver:
             model_settings=model_settings,
             toolsets=[toolset],
             output_type=_output_type_for_model(self.model_spec),
+            capabilities=[CompleteJSONOutput()],
         )
 
         self.tracer.event(
@@ -310,52 +318,37 @@ class Solver:
             self._evidence = ()
             self._solution_steps = ()
             self._exp_paths = ()
+            self._artifact_paths = ()
             self._exp_run_command = ""
 
-        t0 = time.monotonic()
         self._attempt_start_step[0] = self._step_count[0]
 
         try:
-            from pydantic_ai.usage import UsageLimits
+            from pydantic_ai.usage import RunUsage, UsageLimits
+            usage = RunUsage()
+            monitor = ModelUsageMonitor(
+                self.cost_tracker, self.agent_name, self.model_id, provider_from_spec(self.model_spec),
+                max_cost_usd=float(getattr(self.settings, "solver_max_cost_usd", 0) or 0),
+                tracer=self.tracer, step_counter=self._step_count,
+            )
             timeout_s = int(getattr(self.settings, "solver_attempt_timeout_seconds", 0) or 0)
-            run_coro = self._agent.run(
-                "Solve this CTF challenge." if not self._messages else "Continue solving.",
-                deps=self.deps,
-                message_history=self._messages if self._messages else None,
-                usage_limits=UsageLimits(request_limit=None),
-            )
-            result = await asyncio.wait_for(run_coro, timeout=timeout_s) if timeout_s else await run_coro
-
-            duration = time.monotonic() - t0
-            usage = result.usage
-
-            self.cost_tracker.record(
-                self.agent_name, usage, self.model_id,
-                provider_spec=provider_from_spec(self.model_spec),
-                duration_seconds=duration,
-            )
-
-            agent_usage = self.cost_tracker.by_agent.get(self.agent_name)
-            self.tracer.usage(
-                usage.input_tokens, usage.output_tokens,
-                usage.cache_read_tokens,
-                agent_usage.cost_usd if agent_usage else 0.0,
-            )
-
-            self._messages = result.all_messages()
-
-            # Trace model responses from new messages
-            from pydantic_ai.messages import ModelResponse, TextPart
-            for msg in result.new_messages():
-                if isinstance(msg, ModelResponse):
-                    text_parts = [p.content for p in msg.parts if isinstance(p, TextPart)]
-                    text = " ".join(text_parts)
-                    msg_usage = msg.usage
-                    self.tracer.model_response(
-                        text[:500], self._step_count[0],
-                        input_tokens=msg_usage.input_tokens if msg_usage else 0,
-                        output_tokens=msg_usage.output_tokens if msg_usage else 0,
+            with capture_run_messages() as messages:
+                try:
+                    run_coro = self._agent.run(
+                        "Solve this CTF challenge." if not self._messages else "Continue solving.",
+                        deps=self.deps,
+                        message_history=self._messages or None,
+                        usage=usage,
+                        capabilities=[monitor],
+                        usage_limits=UsageLimits(request_limit=None),
                     )
+                    result = await asyncio.wait_for(run_coro, timeout=timeout_s) if timeout_s else await run_coro
+                    usage = result.usage
+                    self._messages = result.all_messages()
+                finally:
+                    if messages:
+                        self._messages = list(messages)
+                    monitor.finish(usage)
 
             output = result.output
             if isinstance(output, (FlagFound, CandidateFound)):
@@ -368,6 +361,7 @@ class Solver:
                 self._evidence = ()
                 self._solution_steps = ()
                 self._exp_paths = ()
+                self._artifact_paths = ()
                 self._exp_run_command = ""
                 if same_flag and output.evidence:
                     self._evidence = tuple(str(item)[:1000] for item in output.evidence[:20])
@@ -375,6 +369,7 @@ class Solver:
                 if same_flag:
                     self._solution_steps = tuple(str(item)[:2000] for item in output.solution_steps[:30])
                     self._exp_paths = tuple(str(item) for item in output.exp_paths[:12])
+                    self._artifact_paths = tuple(str(item) for item in output.artifact_paths[:12])
                     self._exp_run_command = output.exp_run_command[:1000]
                 # A model response is only a candidate.  Platform confirmation
                 # below is the only path that can produce a final success.
@@ -407,7 +402,7 @@ class Solver:
         except TimeoutError:
             self._findings = "Solver attempt timed out"
             return self._result(TIMED_OUT)
-        except ToolBudgetExceededError as e:
+        except (ToolBudgetExceededError, CostBudgetExceededError) as e:
             self._findings = str(e)
             return self._result(BUDGET_EXHAUSTED)
         except Exception as e:
@@ -442,6 +437,7 @@ class Solver:
                 self._evidence = ()
                 self._solution_steps = ()
                 self._exp_paths = ()
+                self._artifact_paths = ()
                 self._exp_run_command = ""
             self._confirmed = True
             self._flag = self.deps.confirmed_flag
@@ -452,6 +448,8 @@ class Solver:
             "finish", status=status, flag=self._flag, confirmed=self._confirmed,
             cost_usd=round(cost, 4),
             run_id=str(getattr(self.settings, "challenge_run_id", "") or ""),
+            evidence_logs=[self.tracer.evidence_log_path] if getattr(self.tracer, "evidence_log_path", "") else [],
+            artifact_paths=list(getattr(self, "_artifact_paths", ())),
         )
         return SolverResult(
             flag=self._flag,
@@ -467,6 +465,8 @@ class Solver:
             exp_paths=self._exp_paths,
             exp_run_command=self._exp_run_command,
             model_spec=self.model_spec,
+            artifact_paths=getattr(self, "_artifact_paths", ()),
+            evidence_logs=(self.tracer.evidence_log_path,) if getattr(self.tracer, "evidence_log_path", "") else (),
         )
 
     async def stop(self) -> None:

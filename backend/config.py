@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     preparation_concurrency: int = 4
     coordinator_decision_timeout_seconds: int = 180  # 0 disables the timeout.
     coordinator_full_access: bool = False
+    coordinator_trace_raw_progress: bool = False
     solver_attempt_timeout_seconds: int = 1800
     solver_max_tool_steps_per_attempt: int = 160
     solver_max_cost_usd: float = 15.0

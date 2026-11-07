@@ -1,0 +1,425 @@
+{
+  "created_at": "2026-10-23T03:55:24.192880+00:00",
+  "total": 28,
+  "format_counts": {
+    "1": 25,
+    "2": 3
+  },
+  "with_gaps": 25,
+  "docker_verified_examples": [
+    "you-cut-me-off",
+    "welcome-call!",
+    "intmod"
+  ],
+  "writeups": [
+    {
+      "name": "Cache Money",
+      "directory": "challenges\\cache-money",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Code Breaker",
+      "directory": "challenges\\code-breaker",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "运行命令引用的脚本不在已保存的 EXP 中，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "CookieCorp",
+      "directory": "challenges\\cookiecorp",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "FlameOn",
+      "directory": "challenges\\flameon",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "ghost in the thread - 1 - start here",
+      "directory": "challenges\\ghost-in-the-thread-1-start-here",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "ghost in the thread - 2",
+      "directory": "challenges\\ghost-in-the-thread-2",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "ghost in the thread - 3",
+      "directory": "challenges\\ghost-in-the-thread-3",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "ghost in the thread - 4",
+      "directory": "challenges\\ghost-in-the-thread-4",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Greetings",
+      "directory": "challenges\\greetings",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Groundhog Day",
+      "directory": "challenges\\groundhog-day",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Homemaker",
+      "directory": "challenges\\homemaker",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "IntMod",
+      "directory": "challenges\\intmod",
+      "format_version": 2,
+      "image_count": 0,
+      "command_count": 11,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "最终 EXP、原始 ELF 对照和动态状态采集已通过 Docker 验证；从状态自动导出 MICRO 及重建 D 校验矩阵的工具链仍有缺口。",
+      "issues": []
+    },
+    {
+      "name": "Mad Libs",
+      "directory": "challenges\\mad-libs",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "my eyes burn",
+      "directory": "challenges\\my-eyes-burn",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "NAS coal",
+      "directory": "challenges\\nas-coal",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "planetary-probe",
+      "directory": "challenges\\planetary-probe",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "missing",
+      "confirmation_source": "missing",
+      "review_reason": "",
+      "issues": [
+        "缺少有效的题解清单",
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Print Print Revolution",
+      "directory": "challenges\\print-print-revolution",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "RoboCall",
+      "directory": "challenges\\robocall",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Safe House",
+      "directory": "challenges\\safe-house",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "SiteCheck",
+      "directory": "challenges\\sitecheck",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "suntrail",
+      "directory": "challenges\\suntrail",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "This Code's Got Bars!",
+      "directory": "challenges\\this-code's-got-bars!",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Total Recall",
+      "directory": "challenges\\total-recall",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "提供的 EXP 运行命令不符合安全的单脚本格式，需人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Used Goods of Tomorrow",
+      "directory": "challenges\\used-goods-of-tomorrow",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "没有可自动运行的 EXP；请按题解步骤人工复现。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Vecnet",
+      "directory": "challenges\\vecnet",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "manual",
+      "confirmation_source": "candidate_found",
+      "review_reason": "部分复现：在线重新下载并用已恢复的密码解密归档成功；密码规则反演和 hashcat 步骤仍需按 writeup 手工执行。历史平台确认提示冲突，待关联队伍提交记录。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "Welcome Call!",
+      "directory": "challenges\\welcome-call!",
+      "format_version": 2,
+      "image_count": 0,
+      "command_count": 8,
+      "replay_status": "artifacts_generated",
+      "confirmation_source": "candidate_found",
+      "review_reason": "新的 Docker 沙箱中提取出 15.56 秒录音，两份 WAV 与 Windows 产物逐字节一致；256 项 μ-law 与样本倒序核对通过，平台关联仍待核对。",
+      "issues": []
+    },
+    {
+      "name": "You Are Kidding Me",
+      "directory": "challenges\\you-are-kidding-me",
+      "format_version": 1,
+      "image_count": 0,
+      "command_count": 0,
+      "replay_status": "verified",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+      "issues": [
+        "没有可审计的命令与输出记录",
+        "题解仍为旧版结构",
+        "尚未嵌入图片，可按题型补充"
+      ]
+    },
+    {
+      "name": "you cut me off",
+      "directory": "challenges\\you-cut-me-off",
+      "format_version": 2,
+      "image_count": 4,
+      "command_count": 9,
+      "replay_status": "artifacts_generated",
+      "confirmation_source": "platform_confirmed",
+      "review_reason": "新的 Docker 沙箱中解码与像素交叉核对通过，四张 PNG 与先前 Windows 产物的 RGBA 像素一致；脚本未做 OCR，Flag 仍按图片人工核对。",
+      "issues": []
+    }
+  ]
+}

@@ -27,6 +27,7 @@ class CandidateRecord:
     sources: set[str] = field(default_factory=set)
     accepted_sources: set[str] = field(default_factory=set)
     rejected_sources: set[str] = field(default_factory=set)
+    inconclusive_sources: set[str] = field(default_factory=set)
     created_at: float = field(default_factory=time.time)
     updated_at: float = field(default_factory=time.time)
 
@@ -83,7 +84,7 @@ class CandidateRegistry:
         flag: str,
         verifier: str,
         *,
-        accepted: bool,
+        accepted: bool | None,
         evidence: list[str] | tuple[str, ...] = (),
     ) -> CandidateRecord | None:
         normalized = normalize_flag(flag)
@@ -92,10 +93,15 @@ class CandidateRegistry:
             return None
         record.updated_at = time.time()
         record.sources.add(verifier)
-        if accepted:
+        record.accepted_sources.discard(verifier)
+        record.rejected_sources.discard(verifier)
+        record.inconclusive_sources.discard(verifier)
+        if accepted is True:
             record.accepted_sources.add(verifier)
-        else:
+        elif accepted is False:
             record.rejected_sources.add(verifier)
+        else:
+            record.inconclusive_sources.add(verifier)
         for item in evidence:
             value = str(item)[:1000]
             if value and value not in record.evidence:
@@ -116,6 +122,7 @@ class CandidateRegistry:
                 "sources": sorted(record.sources),
                 "accepted_sources": sorted(record.accepted_sources),
                 "rejected_sources": sorted(record.rejected_sources),
+                "inconclusive_sources": sorted(record.inconclusive_sources),
                 "verification_count": record.verification_count,
                 "verified": record.verification_count >= self.quorum,
                 "evidence": list(record.evidence),

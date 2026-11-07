@@ -270,7 +270,8 @@ async def _run_single(
         from backend.solver_base import CANDIDATE_FOUND, FLAG_FOUND, VERIFIED
         from backend.writeups import WriteupManager
 
-        manager = WriteupManager(settings, default_model_spec=settings.writeup_model_spec or model_specs[0])
+        manager = WriteupManager(settings, default_model_spec=settings.writeup_model_spec or model_specs[0],
+                                cost_tracker=cost_tracker)
         swarm = ChallengeSwarm(
             challenge_dir=str(challenge_path),
             meta=meta,

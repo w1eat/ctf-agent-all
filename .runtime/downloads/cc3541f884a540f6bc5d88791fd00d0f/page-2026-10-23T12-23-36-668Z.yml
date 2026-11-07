@@ -1,0 +1,6 @@
+- generic [active] [ref=f4e1]:
+  - heading "模拟文件校验" [level=1] [ref=f4e2]
+  - paragraph [ref=f4e3]: 上传的文件在/路径，但是怎么找不到呢，可能被point删了
+  - generic [ref=f4e4]:
+    - button "Choose File" [ref=f4e5]
+    - button "Upload" [ref=f4e6]

@@ -1,0 +1,18 @@
+{
+  "challenge": "canary_rain",
+  "state": "ready",
+  "source_fingerprint": "ca48ce8636b3584beb95f480485108c5ec28547578144f4d80b5c07c47eac039",
+  "error": "",
+  "files": [
+    {
+      "file_id": "f520391ea06b4ad4:attachment",
+      "path": "attachment",
+      "sha256": "f520391ea06b4ad4470cc6ea2ad8376e190ed35bf1bdc59b365331e532903472",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "a64f15eb",
+      "jadx_state": "unavailable",
+      "error": ""
+    }
+  ]
+}

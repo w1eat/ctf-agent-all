@@ -29,6 +29,7 @@ from backend.solver_base import (
     GAVE_UP,
     NEEDS_INPUT,
     QUOTA_ERROR,
+    REJECTED_CANDIDATE,
     TIMED_OUT,
     VERIFIED,
     SolverProtocol,
@@ -111,6 +112,8 @@ class ChallengeSwarm:
     agent_roles: dict[str, str] = field(default_factory=dict)
     agent_attempts: dict[str, int] = field(default_factory=dict)
     agent_last_activity: dict[str, float] = field(default_factory=dict)
+    agent_operations: dict[str, str] = field(default_factory=dict)
+    agent_operation_started: dict[str, float] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         enabled = bool(getattr(self.settings, "knowledge_enabled", True))
@@ -148,7 +151,7 @@ class ChallengeSwarm:
 
         if provider == "claude-sdk":
             from backend.agents.claude_solver import ClaudeSolver
-            return ClaudeSolver(
+            return self._track_solver(ClaudeSolver(
                 model_spec=model_spec,
                 challenge_dir=self.challenge_dir,
                 meta=self.meta,
@@ -163,11 +166,11 @@ class ChallengeSwarm:
                 knowledge_context=self.knowledge_context,
                 knowledge_service=self.knowledge_service,
                 analysis_gateway=self.analysis_gateway,
-            )
+            ), model_spec)
 
         if provider == "codex":
             from backend.agents.codex_solver import CodexSolver
-            return CodexSolver(
+            return self._track_solver(CodexSolver(
                 model_spec=model_spec,
                 challenge_dir=self.challenge_dir,
                 meta=self.meta,
@@ -182,9 +185,24 @@ class ChallengeSwarm:
                 knowledge_context=self.knowledge_context,
                 knowledge_service=self.knowledge_service,
                 analysis_gateway=self.analysis_gateway,
-            )
+            ), model_spec)
 
         return self._create_pydantic_solver(model_spec)
+
+    def _mark_activity(self, model_spec: str, operation: str) -> None:
+        now = time.time()
+        if self.agent_operations.get(model_spec) != operation:
+            self.agent_operation_started[model_spec] = now
+        self.agent_operations[model_spec] = operation
+        self.agent_last_activity[model_spec] = now
+
+    def _track_solver(self, solver, model_spec: str):
+        solver.agent_name = f"{self.meta.name}/{model_spec}"
+        if tracer := getattr(solver, "tracer", None):
+            tracer.activity_callback = lambda operation: self._mark_activity(model_spec, operation)
+        self.agent_operations.setdefault(model_spec, "pending")
+        self.agent_operation_started.setdefault(model_spec, time.time())
+        return solver
 
     def _make_notify_fn(self, model_spec: str):
         """Create a callback that pushes solver messages to the coordinator inbox."""
@@ -217,7 +235,7 @@ class ChallengeSwarm:
         solver.deps.submit_fn = lambda flag: self.try_submit_flag(flag, model_spec)
         solver.deps.notify_coordinator = self._make_notify_fn(model_spec)
         solver.deps.analysis_gateway = self.analysis_gateway
-        return solver
+        return self._track_solver(solver, model_spec)
 
     def _gather_sibling_insights(self, exclude_model: str) -> str:
         parts: list[str] = []
@@ -320,6 +338,7 @@ class ChallengeSwarm:
             flag=None, status=CANCELLED, findings_summary="",
             step_count=0, cost_usd=0.0, log_path="",
         )
+        self._mark_activity(model_spec, "starting")
         await solver.start()
         self.agent_states[model_spec] = "running"
 
@@ -352,6 +371,16 @@ class ChallengeSwarm:
                         model_spec,
                         exc,
                     )
+
+            if result.flag and result.artifact_paths and result.status in (CANDIDATE_FOUND, FLAG_FOUND, VERIFIED):
+                from backend.writeup_evidence import capture_artifact_files
+
+                artifacts, issues = capture_artifact_files(
+                    self.challenge_dir, solver.sandbox, result.artifact_paths,
+                    source=solver.model_spec,
+                    run_id=str(getattr(self.settings, "challenge_run_id", "") or ""),
+                )
+                result = replace(result, saved_artifacts=tuple(artifacts), artifact_issues=tuple(issues))
 
             # A proposed flag is sufficient to start writing. Do this before
             # the (possibly long-running) independent verifier; the writeup
@@ -601,12 +630,15 @@ class ChallengeSwarm:
         repeat the proposing model's conclusion.
         """
         verifier_spec = f"{model_spec}#verifier"
-        verifier = self._create_solver(model_spec)
-        verifier.role = "verifier"
+        verifier: SolverProtocol | None = None
         self.agent_states[verifier_spec] = "verifying"
         self.agent_roles[verifier_spec] = "verifier"
         self.agent_last_activity[verifier_spec] = time.time()
         try:
+            verifier = self._create_solver(model_spec)
+            self._track_solver(verifier, verifier_spec)
+            verifier.role = "verifier"
+            self._mark_activity(verifier_spec, "starting")
             await verifier.start()
             verifier.bump(
                 "You are an independent verifier. Do not trust the previous solver. "
@@ -617,24 +649,22 @@ class ChallengeSwarm:
             )
             result = await verifier.run_until_done_or_gave_up()
             self.agent_last_activity[verifier_spec] = time.time()
-            if (
-                result.status in (CANDIDATE_FOUND, FLAG_FOUND, VERIFIED)
-                and result.flag
-                and normalize_flag(result.flag) == normalize_flag(flag)
-            ):
-                self.candidate_registry.verify(
-                    flag,
-                    verifier_spec,
-                    accepted=True,
-                    evidence=result.evidence or (result.findings_summary[:1000],),
-                )
-            else:
-                self.candidate_registry.verify(
-                    flag,
-                    verifier_spec,
-                    accepted=False,
-                    evidence=(result.findings_summary[:1000],),
-                )
+            accepted = None
+            if result.status in (CANDIDATE_FOUND, FLAG_FOUND, VERIFIED) and result.flag:
+                accepted = normalize_flag(result.flag) == normalize_flag(flag)
+            elif result.status == REJECTED_CANDIDATE:
+                accepted = False
+            self.candidate_registry.verify(
+                flag,
+                verifier_spec,
+                accepted=accepted,
+                evidence=result.evidence or (result.findings_summary[:1000],),
+            )
+        except asyncio.CancelledError:
+            self.candidate_registry.verify(
+                flag, verifier_spec, accepted=None, evidence=("Independent verification cancelled",),
+            )
+            raise
         except Exception as exc:
             logger.warning(
                 "[%s/%s] Independent verification failed: %s",
@@ -645,12 +675,16 @@ class ChallengeSwarm:
             self.candidate_registry.verify(
                 flag,
                 verifier_spec,
-                accepted=False,
+                accepted=None,
                 evidence=(f"verifier error: {exc}",),
             )
         finally:
             self.agent_states[verifier_spec] = "finished"
-            await verifier.stop()
+            if verifier is not None:
+                try:
+                    await verifier.stop()
+                except Exception:
+                    logger.warning("[%s/%s] Could not stop verifier", self.meta.name, model_spec, exc_info=True)
 
     async def run(self) -> SolverResult | None:
         """Run all solvers in parallel. Returns the winner's result or None."""
@@ -732,7 +766,10 @@ class ChallengeSwarm:
                     "role": self.agent_roles.get(spec, "primary_analysis"),
                     "attempt": self.agent_attempts.get(spec, 0),
                     "last_activity": self.agent_last_activity.get(spec),
+                    "current_operation": self.agent_operations.get(spec, "pending"),
+                    "operation_elapsed_seconds": max(0, round(time.time() - self.agent_operation_started.get(spec, time.time()), 1)),
+                    "idle_seconds": max(0, round(time.time() - self.agent_last_activity.get(spec, time.time()), 1)),
                 }
-                for spec in self.model_specs
+                for spec in dict.fromkeys([*self.model_specs, *self.agent_states])
             },
         }

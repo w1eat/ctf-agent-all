@@ -1,0 +1,6 @@
+- generic [ref=e2]:
+  - heading "车载系统登录" [level=2] [ref=e3]
+  - generic [ref=e4]:
+    - textbox "用户名" [ref=e6]
+    - textbox "密码" [ref=e8]
+    - button "登录" [ref=e9] [cursor=pointer]

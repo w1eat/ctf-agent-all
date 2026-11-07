@@ -1,0 +1,18 @@
+{
+  "challenge": "[第六届信安大挑战]shellcode_revenge",
+  "state": "ready",
+  "source_fingerprint": "546c4ecbd41368dc7ea1e644e1570d8b1787f201956d32323fcfa1ac57157abe",
+  "error": "",
+  "files": [
+    {
+      "file_id": "b6783d41d571f27a:pwn",
+      "path": "pwn",
+      "sha256": "b6783d41d571f27a7b5a398316c0fb0c3a208bbb2c5599945e030ed8e89fe106",
+      "kind": "binary",
+      "ida_state": "ready",
+      "ida_session": "c16ce52b",
+      "jadx_state": "unavailable",
+      "error": ""
+    }
+  ]
+}

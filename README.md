@@ -99,6 +99,7 @@ uv run ctf-solve --platform local `
 | 接入 IDA、JADX 和 Kali | [Solver MCP 分析工具](README.zh-CN.md#solver-mcp-分析工具) |
 | 搜索、同步、审核知识库 | `uv run ctf-knowledge --help` |
 | 补写某次运行的题解 | `uv run ctf-writeup backfill --help` |
+| 检查题解证据、配图与旧格式 | `uv run ctf-writeup audit`；[证据流程](docs/writeup-evidence.md) |
 | 向运行中的 Coordinator 发送提示 | `uv run ctf-msg --help` |
 | 启用平台提交、调整预算和并发 | [完整中文指南](README.zh-CN.md) |
 

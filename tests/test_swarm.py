@@ -82,6 +82,37 @@ def make_swarm(tmp_path, model_specs: list[str], attempts: int = 3) -> Challenge
     )
 
 
+def test_status_refreshes_for_model_and_tool_activity_without_resetting_same_operation(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    from backend.tracing import SolverTracer
+
+    spec = "openai/gpt-5.4-mini"
+    swarm = make_swarm(tmp_path, [spec])
+    tracer = SolverTracer("demo", "model", log_dir=str(tmp_path / "logs"))
+    now = [100.0]
+    monkeypatch.setattr("backend.agents.swarm.time.time", lambda: now[0])
+    solver = swarm._track_solver(SimpleNamespace(tracer=tracer), spec)
+    try:
+        now[0] = 105
+        tracer.event("model_request")
+        now[0] = 108
+        tracer.model_response("analysis", 0)
+        now[0] = 109
+        tracer.tool_call("bash", {"command": "sleep 20"}, 1)
+        now[0] = 115
+        status = swarm.get_status()["agents"][spec]
+        assert status["current_operation"] == "tool:bash"
+        assert status["operation_elapsed_seconds"] == 6
+        assert status["last_activity"] == 109
+        now[0] = 120
+        tracer.tool_result("bash", "done", 1)
+        assert swarm.get_status()["agents"][spec]["last_activity"] == 120
+        assert solver.agent_name == f"demo/{spec}"
+    finally:
+        tracer.close()
+
+
 @pytest.mark.asyncio
 async def test_blocked_solver_does_not_cancel_sibling_that_finds_flag(tmp_path, monkeypatch):
     swarm = make_swarm(tmp_path, ["blocked-model", "winning-model"])
@@ -267,6 +298,91 @@ async def test_single_solver_candidate_requires_fresh_verifier(tmp_path, monkeyp
     assert final.flag == "FLAG{ok}"
     assert proposer.calls == 1
     assert verifier.calls == 1
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("status", [ERROR, GAVE_UP, BLOCKED, QUOTA_ERROR, "timed_out", "budget_exhausted", "needs_input", "cancelled"])
+async def test_inconclusive_verifier_does_not_reject_candidate(tmp_path, monkeypatch, status):
+    swarm = make_swarm(tmp_path, ["model"])
+    swarm.candidate_registry.propose("FLAG{ok}", "model")
+    swarm.candidate_registry.verify("FLAG{ok}", "model", accepted=True)
+    verifier = FakeSolver("model", [result(status)])
+    monkeypatch.setattr(ChallengeSwarm, "_create_solver", lambda self, spec: verifier)
+
+    await swarm._run_independent_verifier("model", "FLAG{ok}")
+
+    record = swarm.candidate_registry.records["FLAG{ok}"]
+    assert record.inconclusive_sources == {"model#verifier"}
+    assert not record.rejected_sources
+    assert record.verification_count == 1
+    assert verifier.stopped
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("failure_at", ["create", "start", "run", "stop"])
+async def test_verifier_errors_preserve_candidate_and_cleanup(tmp_path, monkeypatch, failure_at):
+    swarm = make_swarm(tmp_path, ["model"])
+    swarm.candidate_registry.propose("FLAG{ok}", "model")
+
+    class FailingVerifier(FakeSolver):
+        async def start(self):
+            if failure_at == "start":
+                raise RuntimeError("start failed")
+
+        async def run_until_done_or_gave_up(self):
+            if failure_at == "run":
+                raise RuntimeError("model output invalid")
+            return result(CANDIDATE_FOUND, flag="FLAG{ok}")
+
+        async def stop(self):
+            await super().stop()
+            if failure_at == "stop":
+                raise RuntimeError("stop failed")
+
+    verifier = FailingVerifier("model", [])
+
+    def create(self, spec):
+        if failure_at == "create":
+            raise RuntimeError("backend unavailable")
+        return verifier
+
+    monkeypatch.setattr(ChallengeSwarm, "_create_solver", create)
+    await swarm._run_independent_verifier("model", "FLAG{ok}")
+    record = swarm.candidate_registry.records["FLAG{ok}"]
+    assert not record.rejected_sources
+    assert record.inconclusive_sources == (set() if failure_at == "stop" else {"model#verifier"})
+    assert record.accepted_sources == ({"model#verifier"} if failure_at == "stop" else set())
+    assert verifier.stopped == (failure_at != "create")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(("status", "flag"), [(CANDIDATE_FOUND, "FLAG{different}"), ("rejected_candidate", None)])
+async def test_explicit_verifier_rejection_is_preserved(tmp_path, monkeypatch, status, flag):
+    swarm = make_swarm(tmp_path, ["model"])
+    swarm.candidate_registry.propose("FLAG{ok}", "model")
+    verifier = FakeSolver("model", [result(status, flag=flag)])
+    monkeypatch.setattr(ChallengeSwarm, "_create_solver", lambda self, spec: verifier)
+    await swarm._run_independent_verifier("model", "FLAG{ok}")
+    record = swarm.candidate_registry.records["FLAG{ok}"]
+    assert record.rejected_sources == {"model#verifier"}
+    assert not record.inconclusive_sources
+
+
+@pytest.mark.asyncio
+async def test_cancelled_verification_is_inconclusive_and_propagates(tmp_path, monkeypatch):
+    swarm = make_swarm(tmp_path, ["model"])
+    swarm.candidate_registry.propose("FLAG{ok}", "model")
+
+    class CancelledVerifier(FakeSolver):
+        async def start(self):
+            raise asyncio.CancelledError
+
+    verifier = CancelledVerifier("model", [])
+    monkeypatch.setattr(ChallengeSwarm, "_create_solver", lambda self, spec: verifier)
+    with pytest.raises(asyncio.CancelledError):
+        await swarm._run_independent_verifier("model", "FLAG{ok}")
+    assert swarm.candidate_registry.records["FLAG{ok}"].inconclusive_sources == {"model#verifier"}
+    assert verifier.stopped
 
 
 @pytest.mark.asyncio

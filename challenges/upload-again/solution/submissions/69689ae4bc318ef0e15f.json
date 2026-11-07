@@ -1,0 +1,32 @@
+{
+  "flag_sha256": "69689ae4bc318ef0e15f089e9f7e2e958a2e8430f48bff510d2316dca7bbd3d2",
+  "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+  "artifacts": [
+    {
+      "id": "artifact-886963e960ac807e",
+      "path": "solution/artifacts/886963e960ac807ec2f5/submission-page.txt",
+      "sha256": "886963e960ac807ec2f5b0d175abf4f69d1d1f9f581dc3640ef62d734a10a0c6",
+      "bytes": 23643,
+      "media_type": "text/plain",
+      "kind": "generated",
+      "caption": "提交后的页面文字记录；接受状态另见确认记录",
+      "source": "Playwright MCP",
+      "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+      "stage": "submission",
+      "created_at": "2026-10-23T12:30:36.631839+00:00"
+    },
+    {
+      "id": "artifact-5ab084bf20a53465",
+      "path": "solution/artifacts/5ab084bf20a534652c96/submission-page.png",
+      "sha256": "5ab084bf20a534652c961bb7dec5261403378bc114dd4a0c9576ea0d9baeecba",
+      "bytes": 460913,
+      "media_type": "image/png",
+      "kind": "screenshot",
+      "caption": "提交后的真实浏览器页面；接受状态另见确认记录",
+      "source": "Playwright MCP",
+      "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+      "stage": "submission",
+      "created_at": "2026-10-23T12:30:36.833151+00:00"
+    }
+  ]
+}

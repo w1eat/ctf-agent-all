@@ -9,6 +9,7 @@ Flag submission is intercepted from bash commands matching `submit_flag <flag>`.
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import re
 import shlex
@@ -30,8 +31,10 @@ from backend.output_types import solver_output_json_schema
 from backend.platforms.base import PlatformAdapter
 from backend.prompts import ChallengeMeta, build_prompt, list_distfiles
 from backend.sandbox import DockerSandbox
+from backend.sdk_usage import ClaudeUsage
 from backend.solver_base import (
     BLOCKED,
+    BUDGET_EXHAUSTED,
     CANCELLED,
     CANDIDATE_FOUND,
     ERROR,
@@ -99,7 +102,10 @@ class ClaudeSolver:
             memory_limit=getattr(settings, "container_memory_limit", "4g"),
         )
         self.loop_detector = LoopDetector()
-        self.tracer = SolverTracer(meta.name, self.model_id)
+        self.tracer = SolverTracer(
+            meta.name, self.model_id, challenge_dir=challenge_dir,
+            run_id=str(getattr(settings, "challenge_run_id", "") or ""),
+        )
         self.tracer.knowledge_snapshots = {
             "external": knowledge_service.external.snapshot_id if knowledge_service else "",
             "local": knowledge_service.local.snapshot_id if knowledge_service else "",
@@ -117,6 +123,7 @@ class ClaudeSolver:
         self._evidence: tuple[str, ...] = ()
         self._solution_steps: tuple[str, ...] = ()
         self._exp_paths: tuple[str, ...] = ()
+        self._artifact_paths: tuple[str, ...] = ()
         self._exp_run_command = ""
         self._cost_usd = 0.0
         self._bump_insights: str | None = None
@@ -182,7 +189,7 @@ class ClaudeSolver:
                     }
                 }
             self._step_count += 1
-            self.tracer.tool_call(tool_name, tool_input, self._step_count)
+            self.tracer.tool_call(tool_name, tool_input, self._step_count, call_id=tool_use_id)
             loop_status = self.loop_detector.check(tool_name, str(tool_input)[:200])
             if loop_status == "break":
                 self.tracer.event("loop_break", tool=tool_name, step=self._step_count)
@@ -219,6 +226,7 @@ class ClaudeSolver:
                                 self._evidence = ()
                                 self._solution_steps = ()
                                 self._exp_paths = ()
+                                self._artifact_paths = ()
                                 self._exp_run_command = ""
                             self._confirmed = True
                             self._flag = flag_val
@@ -256,6 +264,7 @@ class ClaudeSolver:
                                 self._evidence = ()
                                 self._solution_steps = ()
                                 self._exp_paths = ()
+                                self._artifact_paths = ()
                                 self._exp_run_command = ""
                             self._confirmed = True
                             self._flag = flag_val
@@ -334,9 +343,9 @@ class ClaudeSolver:
             if input_data.get("hook_event_name") != "PostToolUse":
                 return {}
             tool_name = input_data.get("tool_name", "?")
-            response_str = str(input_data.get("tool_response", ""))
+            response_str = json.dumps(input_data.get("tool_response", ""), ensure_ascii=False, default=str)
             if not tool_name.endswith(("search_knowledge", "read_knowledge")):
-                self.tracer.tool_result(tool_name, response_str[:500], self._step_count)
+                self.tracer.tool_result(tool_name, response_str, self._step_count, call_id=tool_use_id)
 
             if self._step_count % 5 == 0 and self.message_bus:
                 from backend.tools.core import do_check_findings
@@ -384,6 +393,7 @@ class ClaudeSolver:
             mcp_servers=mcp_servers,
             permission_mode="bypassPermissions",
             output_format={"type": "json_schema", "schema": solver_output_json_schema()},
+            max_budget_usd=float(getattr(self.settings, "solver_max_cost_usd", 0) or 0) or None,
             hooks={
                 "PreToolUse": [
                     HookMatcher(hooks=[sandbox_redirect]),
@@ -430,6 +440,7 @@ class ClaudeSolver:
             self._evidence = ()
             self._solution_steps = ()
             self._exp_paths = ()
+            self._artifact_paths = ()
             self._exp_run_command = ""
         client = self._client
 
@@ -437,8 +448,15 @@ class ClaudeSolver:
         cost_before = self._cost_usd
         steps_before = self._step_count
         self._attempt_step_start = steps_before
+        if not hasattr(self, "_usage_ledger"):
+            self._usage_ledger = ClaudeUsage(self.cost_tracker, self.agent_name, self.model_id)
+        self._usage_ledger.begin_turn()
 
         try:
+            max_cost = float(getattr(self.settings, "solver_max_cost_usd", 0) or 0)
+            if max_cost and self._cost_usd >= max_cost:
+                self._findings = "Cost budget exhausted"
+                return self._result(BUDGET_EXHAUSTED)
             if self._bump_insights:
                 prompt = (
                     "Your previous attempt did not find the flag. "
@@ -452,29 +470,31 @@ class ClaudeSolver:
                 prompt = "Solve this CTF challenge."
 
             async def consume_response() -> None:
+                self.tracer.event("model_request", step=self._step_count)
                 await client.query(prompt)
                 async for message in client.receive_response():
                     if self.cancel_event.is_set():
                         break
                     if isinstance(message, AssistantMessage):
+                        self._usage_ledger.observe(message)
+                        agent_usage = self.cost_tracker.by_agent.get(self.agent_name)
+                        self._cost_usd = agent_usage.cost_usd if agent_usage else self._cost_usd
+                        self.tracer.event("model_response", step=self._step_count)
+                        if max_cost and self._cost_usd >= max_cost:
+                            self._findings = "Cost budget exhausted"
+                            await client.interrupt()
+                            raise SolverStructuredStopError(BUDGET_EXHAUSTED)
                         for block in message.content:
                             if isinstance(block, TextBlock):
                                 self._findings = block.text[:2000]
                     elif isinstance(message, ResultMessage):
                         self._session_id = message.session_id
-                        turn_cost = getattr(message, "total_cost_usd", 0.0)
-                        self._cost_usd += turn_cost
-                        msg_usage = getattr(message, "usage", None) or {}
-                        if not isinstance(msg_usage, dict):
-                            msg_usage = vars(msg_usage) if hasattr(msg_usage, "__dict__") else {}
-                        self.cost_tracker.record_tokens(
-                            self.agent_name, self.model_id,
-                            input_tokens=msg_usage.get("input_tokens", 0),
-                            output_tokens=msg_usage.get("output_tokens", 0),
-                            cache_read_tokens=msg_usage.get("cache_read_input_tokens", msg_usage.get("cache_read_tokens", 0)),
-                            provider_spec="claude-sdk",
-                            duration_seconds=time.monotonic() - t0,
-                        )
+                        self._usage_ledger.result(message)
+                        agent_usage = self.cost_tracker.by_agent.get(self.agent_name)
+                        self._cost_usd = agent_usage.cost_usd if agent_usage else self._cost_usd
+                        if getattr(message, "subtype", "") == "error_max_budget_usd":
+                            self._findings = "Cost budget exhausted"
+                            raise SolverStructuredStopError(BUDGET_EXHAUSTED)
                         output = getattr(message, "structured_output", None)
                         if output and output.get("type") in {"flag_found", "candidate_found"}:
                             proposed_flag = str(output.get("flag") or "")
@@ -489,6 +509,8 @@ class ClaudeSolver:
                                 self._evidence = tuple(str(item)[:1000] for item in evidence[:20]) if isinstance(evidence, list) else ()
                                 self._solution_steps = tuple(str(item)[:2000] for item in steps[:30]) if isinstance(steps, list) else ()
                                 self._exp_paths = tuple(str(item) for item in paths[:12]) if isinstance(paths, list) else ()
+                                artifacts = output.get("artifact_paths") or []
+                                self._artifact_paths = tuple(str(item) for item in artifacts[:12]) if isinstance(artifacts, list) else ()
                                 self._exp_run_command = str(output.get("exp_run_command") or "")[:1000]
                                 if self._evidence:
                                     self._findings += " | Evidence: " + " ; ".join(self._evidence[:5])
@@ -497,6 +519,7 @@ class ClaudeSolver:
                                 self._evidence = ()
                                 self._solution_steps = ()
                                 self._exp_paths = ()
+                                self._artifact_paths = ()
                                 self._exp_run_command = ""
                         elif output and output.get("type") in {"blocked", "needs_input"}:
                             self._findings = output.get("message") or output.get("reason", "solver is blocked")
@@ -558,6 +581,8 @@ class ClaudeSolver:
             if "quota" in error_str.lower() or "rate" in error_str.lower() or "overloaded" in error_str.lower():
                 return self._result(QUOTA_ERROR)
             return self._result(ERROR)
+        finally:
+            self._usage_ledger.finish()
 
     def bump(self, insights: str) -> None:
         self._bump_insights = insights
@@ -572,6 +597,8 @@ class ClaudeSolver:
             "finish", status=status, flag=self._flag, confirmed=self._confirmed,
             cost_usd=round(self._cost_usd, 4),
             run_id=str(getattr(self.settings, "challenge_run_id", "") or ""),
+            evidence_logs=[self.tracer.evidence_log_path] if getattr(self.tracer, "evidence_log_path", "") else [],
+            artifact_paths=list(getattr(self, "_artifact_paths", ())),
         )
         # Use per-run metrics if provided, so broken-solver detection works across bumps
         return SolverResult(
@@ -587,6 +614,8 @@ class ClaudeSolver:
             exp_paths=self._exp_paths,
             exp_run_command=self._exp_run_command,
             model_spec=self.model_spec,
+            artifact_paths=getattr(self, "_artifact_paths", ()),
+            evidence_logs=(self.tracer.evidence_log_path,) if getattr(self.tracer, "evidence_log_path", "") else (),
         )
 
     async def stop(self) -> None:

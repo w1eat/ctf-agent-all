@@ -1,0 +1,7 @@
+- generic [ref=f2e2]:
+  - heading "车载系统登录" [level=2] [ref=f2e3]
+  - generic [ref=f2e4]: 用户名或密码错误
+  - generic [ref=f2e5]:
+    - textbox "用户名" [ref=f2e7]
+    - textbox "密码" [ref=f2e9]
+    - button "登录" [ref=f2e10] [cursor=pointer]

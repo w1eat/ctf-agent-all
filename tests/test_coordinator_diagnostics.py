@@ -13,6 +13,7 @@ from rich.console import Console
 
 from backend.agents import claude_coordinator, codex_coordinator
 from backend.agents.coordinator_loop import _cleanup_step
+from backend.cost_tracker import CostTracker
 from backend.platforms.browser_mcp import BrowserMCPClient
 from backend.tracing import (
     CoordinatorTracer,
@@ -21,6 +22,34 @@ from backend.tracing import (
     prune_run_logs,
     run_text_log,
 )
+
+
+def test_thinking_progress_is_aggregated_without_losing_normal_messages(tmp_path):
+    tracer = CoordinatorTracer("run", str(tmp_path))
+    progress = SimpleNamespace(subtype="thinking_tokens", data={"tokens": 1})
+    for _ in range(10_000):
+        tracer.llm_message(progress)
+    tracer.llm_message(SimpleNamespace(subtype="status", data={"status": "ready"}))
+    tracer.tool_result("evidence", "x" * 30_000)
+    tracer.close()
+    events = _events(Path(tracer.path))
+    summaries = [e for e in events if e["type"] == "llm_progress"]
+    assert sum(e["count"] for e in summaries) == 10_000
+    assert len(events) <= 4
+    assert len(next(e for e in events if e["type"] == "tool_result")["result"]) == 30_000
+    assert any(e["type"] == "llm_message" and "ready" in e["text"] for e in events)
+
+
+def test_raw_progress_option_and_close_flush(tmp_path):
+    progress = SimpleNamespace(subtype="thinking_tokens", data={"tokens": 1})
+    tracer = CoordinatorTracer("compact", str(tmp_path))
+    tracer.llm_message(progress)
+    tracer.close()
+    assert _events(Path(tracer.path))[0]["count"] == 1
+    raw = CoordinatorTracer("raw", str(tmp_path), raw_progress=True)
+    raw.llm_message(progress)
+    raw.close()
+    assert _events(Path(raw.path))[0]["type"] == "llm_message"
 
 
 def _events(path):
@@ -192,7 +221,7 @@ async def test_claude_sdk_turn_records_completion_and_cancellation(tmp_path, mon
     client = FakeClient()
     platform = SimpleNamespace(start=lambda: asyncio.sleep(0), close=lambda: asyncio.sleep(0))
     deps = SimpleNamespace(tracer=tracer, settings=settings, msg_port=0)
-    monkeypatch.setattr(claude_coordinator, "build_deps", lambda *_args: (platform, object(), deps))
+    monkeypatch.setattr(claude_coordinator, "build_deps", lambda *_args: (platform, CostTracker(), deps))
     monkeypatch.setattr(claude_coordinator, "_build_coordinator_mcp", lambda _deps: object())
     monkeypatch.setattr(claude_coordinator, "_build_playwright_mcp", lambda _deps: None)
     monkeypatch.setattr(claude_coordinator, "ClaudeAgentOptions", lambda **_kwargs: object())

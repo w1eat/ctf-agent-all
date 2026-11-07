@@ -1,0 +1,3 @@
+[upload] <hr>
+<p>scan complete (53 bytes), file removed.</p>
+[+] FLAG: {'D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}\n'}

@@ -254,7 +254,9 @@ def build_prompt(
         "7. Do not guess. Do not ask for credentials. Cover maximum surface area.",
         "8. Once you derive a flag, save any real exploit or decoding script you used under /challenge/workspace/.",
         "   - In structured output, list up to 12 absolute script paths in exp_paths and give an exp_run_command when runnable.",
-        "   - Give concise solution_steps in Chinese, grounded in commands and evidence you actually observed.",
+        "   - Give solution_steps in Chinese: explain each decisive action, the exact command or operation, observed output, and why it supports the next step. Include prerequisite tools and intermediate derivations; do not only describe the final EXP.",
+        "   - Save decisive screenshots, recovered images, audio, and relevant text outputs under /challenge/workspace/ and list up to 12 actual files in artifact_paths. Use descriptive filenames. Preserve original evidence; never fabricate a screenshot or label a log rendering as a live screenshot.",
+        "   - For image/audio challenges, preserve the recovered media even if the EXP does not print the flag. Distinguish generated artifacts, human interpretation, and platform acceptance.",
         "   - A candidate remains unconfirmed until the platform accepts it or independent verification succeeds.",
     ]
 

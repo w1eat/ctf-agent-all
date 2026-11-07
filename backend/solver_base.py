@@ -50,6 +50,10 @@ class SolverResult:
     exp_run_command: str = ""
     saved_exp_paths: tuple[str, ...] = ()
     model_spec: str = ""
+    artifact_paths: tuple[str, ...] = ()
+    saved_artifacts: tuple[dict, ...] = ()
+    evidence_logs: tuple[str, ...] = ()
+    artifact_issues: tuple[str, ...] = ()
 
     @property
     def is_candidate(self) -> bool:

@@ -11,6 +11,7 @@ class FlagFound(BaseModel):
     solution_steps: list[str] = Field(default_factory=list)
     exp_paths: list[str] = Field(default_factory=list)
     exp_run_command: str = ""
+    artifact_paths: list[str] = Field(default_factory=list, description="实际生成的关键图片、截图、音频或文本证据，位于 /challenge/workspace/ 下")
 
 
 class CandidateFound(BaseModel):
@@ -23,6 +24,7 @@ class CandidateFound(BaseModel):
     solution_steps: list[str] = Field(default_factory=list)
     exp_paths: list[str] = Field(default_factory=list)
     exp_run_command: str = ""
+    artifact_paths: list[str] = Field(default_factory=list, description="实际生成的关键图片、截图、音频或文本证据，位于 /challenge/workspace/ 下")
 
 
 class SolverBlocked(BaseModel):
@@ -68,6 +70,7 @@ def solver_output_json_schema() -> dict:
                     "solution_steps": {"type": "array", "items": {"type": "string"}},
                     "exp_paths": {"type": "array", "items": {"type": "string"}},
                     "exp_run_command": {"type": "string"},
+                    "artifact_paths": {"type": "array", "items": {"type": "string"}},
                 },
                 "required": ["type", "flag", "method"],
                 "additionalProperties": False,
@@ -82,6 +85,7 @@ def solver_output_json_schema() -> dict:
                     "solution_steps": {"type": "array", "items": {"type": "string"}},
                     "exp_paths": {"type": "array", "items": {"type": "string"}},
                     "exp_run_command": {"type": "string"},
+                    "artifact_paths": {"type": "array", "items": {"type": "string"}},
                 },
                 "required": ["type", "flag", "method"],
                 "additionalProperties": False,

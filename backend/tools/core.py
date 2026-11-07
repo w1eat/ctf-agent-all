@@ -19,6 +19,9 @@ def _truncate(text: str, limit: int = MAX_OUTPUT) -> str:
 
 async def do_bash(sandbox, command: str, timeout_seconds: int = 60) -> str:
     result = await sandbox.exec(command, timeout_s=timeout_seconds)
+    from backend.writeup_evidence import observe_execution
+
+    observe_execution(result)
     parts: list[str] = []
     if result.stdout:
         parts.append(result.stdout)

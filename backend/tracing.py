@@ -165,12 +165,20 @@ def prune_run_logs(log_dir: str = "logs", *, keep_run: tuple[str, str] | None = 
 class SolverTracer:
     """Append-only JSONL event tracer. Flushes every write for tail -f streaming."""
 
-    def __init__(self, challenge_name: str, model_id: str, log_dir: str = "logs") -> None:
+    def __init__(self, challenge_name: str, model_id: str, log_dir: str = "logs", *,
+                 challenge_dir: str = "", run_id: str = "") -> None:
         Path(log_dir).mkdir(parents=True, exist_ok=True)
         ts = time.strftime("%Y%m%d-%H%M%S")
         self.path = str(Path(log_dir) / f"trace-{_sanitize(challenge_name)}-{_sanitize(model_id)}-{ts}.jsonl")
         self._fh = open(self.path, "a")
         atexit.register(self._close)
+        self.evidence_recorder = None
+        self.evidence_log_path = ""
+        if challenge_dir:
+            from backend.writeup_evidence import EvidenceRecorder
+
+            self.evidence_recorder = EvidenceRecorder(challenge_dir, model_id, run_id)
+            self.evidence_log_path = self.evidence_recorder.relative_path
 
     def close(self) -> None:
         """Explicitly close the trace file. Safe to call multiple times."""
@@ -183,13 +191,23 @@ class SolverTracer:
     _close = close  # atexit compat
 
     def _write(self, event: dict) -> None:
+        callback = getattr(self, "activity_callback", None)
+        event_type = event.get("type")
+        if callback and event_type in {"tool_call", "tool_result", "model_request", "model_response", "usage", "finish", "error"}:
+            operation = f"tool:{event['tool']}" if event_type == "tool_call" else {
+                "tool_result": "processing_tool_result", "model_response": "processing_response",
+                "usage": "processing_response", "finish": "finished", "error": "error",
+            }.get(event_type, event_type)
+            callback(operation)
         try:
             self._fh.write(json.dumps({"ts": time.time(), **event}) + "\n")
             self._fh.flush()
         except Exception:
             pass
 
-    def tool_call(self, tool_name: str, args: dict | str, step: int) -> None:
+    def tool_call(self, tool_name: str, args: dict | str, step: int, *, call_id: str | None = None) -> None:
+        if self.evidence_recorder:
+            self.evidence_recorder.call(tool_name, args, step, call_id)
         if tool_name.endswith("search_knowledge"):
             from backend.local_knowledge import normalized_keywords
 
@@ -210,7 +228,9 @@ class SolverTracer:
         args_str = args if isinstance(args, str) else json.dumps(args)
         self._write({"type": "tool_call", "tool": tool_name, "args": args_str[:2000], "step": step})
 
-    def tool_result(self, tool_name: str, result: str, step: int) -> None:
+    def tool_result(self, tool_name: str, result: str, step: int, *, call_id: str | None = None) -> None:
+        if self.evidence_recorder:
+            self.evidence_recorder.result(tool_name, result, step, call_id)
         if tool_name.endswith(("search_knowledge", "read_knowledge")):
             import ast
 
@@ -263,7 +283,7 @@ class SolverTracer:
 class CoordinatorTracer:
     """Append-only audit log for Coordinator turns, tools, and commands."""
 
-    def __init__(self, run_id: str = "", log_dir: str = "logs", stamp: str = "") -> None:
+    def __init__(self, run_id: str = "", log_dir: str = "logs", stamp: str = "", *, raw_progress: bool = False) -> None:
         try:
             Path(log_dir).mkdir(parents=True, exist_ok=True)
         except OSError as exc:
@@ -281,12 +301,16 @@ class CoordinatorTracer:
         self._sequence = 0
         self._lock = threading.RLock()
         self._pending: dict[str, tuple[str, float]] = {}
+        self.raw_progress = raw_progress
+        self._progress_count = 0
+        self._progress_started = time.monotonic()
         atexit.register(self._close)
 
     def close(self) -> None:
         with self._lock:
             if self._fh is None or self._fh.closed:
                 return
+            self._flush_progress()
             for call_id, (name, started) in list(self._pending.items()):
                 self.event("operation_incomplete", call_id=call_id, operation=name,
                            duration_seconds=time.monotonic() - started)
@@ -337,7 +361,28 @@ class CoordinatorTracer:
                 self._warn_write_failure(exc)
 
     def event(self, event_type: str, **kwargs) -> None:
+        self._flush_progress()
         self._write({"type": event_type, **kwargs})
+
+    def _flush_progress(self) -> None:
+        with self._lock:
+            if self._progress_count:
+                self._write({"type": "llm_progress", "subtype": "thinking_tokens",
+                             "count": self._progress_count,
+                             "duration_seconds": round(time.monotonic() - self._progress_started, 3)})
+                self._progress_count = 0
+
+    def llm_message(self, message: object) -> None:
+        """Aggregate progress metadata; preserve all other messages verbatim."""
+        if not self.raw_progress and getattr(message, "subtype", None) == "thinking_tokens":
+            with self._lock:
+                if not self._progress_count:
+                    self._progress_started = time.monotonic()
+                self._progress_count += 1
+                if time.monotonic() - self._progress_started >= 5:
+                    self._flush_progress()
+            return
+        self.event("llm_message", message_type=type(message).__name__, text=str(message))
 
     def turn_input(self, text: str) -> None:
         self.turn_id = uuid.uuid4().hex

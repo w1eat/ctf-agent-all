@@ -1,0 +1,44 @@
+{
+  "platform_origin": "https://noctf.fa1lsnow.com",
+  "version": 1,
+  "confidence": 0.0,
+  "steps": [
+    {
+      "action": "navigate",
+      "target": "",
+      "value": "https://noctf.fa1lsnow.com/competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/{challenge_id}",
+      "data": {}
+    },
+    {
+      "action": "wait_for",
+      "target": "",
+      "value": "",
+      "data": {
+        "text": "提交 Flag",
+        "time": 3000
+      }
+    },
+    {
+      "action": "type",
+      "target": "textarea[aria-label=\"Flag\"]",
+      "value": "{flag}",
+      "data": {
+        "submit": true
+      }
+    }
+  ],
+  "success_markers": [
+    "已解出",
+    "正确",
+    "Solved",
+    "提交成功",
+    "Accepted"
+  ],
+  "failure_markers": [
+    "Flag 错误",
+    "提交失败",
+    "格式错误",
+    "已被破解",
+    "错误"
+  ]
+}

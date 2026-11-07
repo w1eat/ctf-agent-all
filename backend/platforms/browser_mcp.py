@@ -1996,6 +1996,8 @@ class BrowserAutoPlatformAdapter:
         async with self._browser_action_lock:
             await self._execute_recipe(recipe, challenge_id=route_id, flag=flag, purpose="submit")
             snapshot = await self._checked_recipe_browser_call("browser_snapshot", {})
+            if bundle is not None:
+                await self._archive_submission_evidence(bundle, flag.strip(), snapshot)
         lowered = snapshot.casefold()
         success = [marker for marker in recipe.success_markers if marker.casefold() in lowered]
         failure = [marker for marker in recipe.failure_markers if marker.casefold() in lowered]
@@ -2014,6 +2016,52 @@ class BrowserAutoPlatformAdapter:
                 f"{snapshot[:12000]}"
             ),
         )
+
+    async def _archive_submission_evidence(self, bundle: ChallengeBundle, flag: str, snapshot: str) -> None:
+        """Capture the same page under the submission lock, before it changes.
+
+        Saving a screenshot is independent of deciding whether the flag was
+        accepted. A failed capture must not change submission behavior.
+        """
+        from backend.writeup_evidence import atomic_write, safe_path, store_artifact
+
+        directory = getattr(self, "_directories", {}).get(bundle.name)
+        if directory is None:
+            return
+        challenge = Path(directory).resolve()
+        run_id = str(self.state.run_id)
+        artifacts = []
+        try:
+            artifacts.append(store_artifact(
+                challenge, snapshot.encode("utf-8"), "submission-page.txt",
+                source="Playwright MCP", run_id=run_id, stage="submission",
+                caption="提交后的页面文字记录；接受状态另见确认记录",
+            ))
+            filename = f"submission-{uuid.uuid4().hex}.png"
+            download_dir = self.browser.download_dir.resolve()
+            download_dir.mkdir(parents=True, exist_ok=True)
+            path = safe_path(download_dir, filename, must_exist=False)
+            await asyncio.wait_for(self._checked_recipe_browser_call("browser_take_screenshot", {
+                "filename": str(path), "fullPage": False,
+            }), timeout=20)
+            path = safe_path(download_dir, filename)
+            if path.stat().st_size <= 16 * 1024 * 1024:
+                artifacts.append(store_artifact(
+                    challenge, path.read_bytes(), "submission-page.png",
+                    source="Playwright MCP", run_id=run_id, kind="screenshot", stage="submission",
+                    caption="提交后的真实浏览器页面；接受状态另见确认记录",
+                ))
+        except (OSError, ValueError, TimeoutError, RuntimeError, AttributeError):
+            logger.warning("Could not capture submission screenshot for %s", bundle.name, exc_info=True)
+        if artifacts:
+            try:
+                digest = hashlib.sha256(flag.encode("utf-8")).hexdigest()
+                record = {"flag_sha256": digest, "run_id": run_id, "artifacts": artifacts}
+                relative = f"solution/submissions/{digest[:20]}.json"
+                atomic_write(safe_path(challenge, relative, must_exist=False),
+                             (json.dumps(record, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+            except (OSError, ValueError):
+                logger.warning("Could not archive submission evidence for %s", bundle.name, exc_info=True)
 
     async def confirm_submission(
         self, challenge_id: str, flag: str, accepted: bool, reason: str
@@ -2119,9 +2167,19 @@ class BrowserAutoPlatformAdapter:
                 await self._checked_recipe_browser_call("browser_fill_form", {"fields": resolved})
             elif action == "wait_for":
                 text = step.value or data.get("text", "")
-                if not text and not data.get("time"):
+                arguments = {}
+                if text:
+                    if not isinstance(text, str):
+                        raise RuntimeError("Recipe wait_for text must be a string")
+                    arguments["text"] = text
+                duration = data.get("time")
+                if duration is not None:
+                    if isinstance(duration, bool) or not isinstance(duration, (int, float)) or not 0 <= duration < float("inf"):
+                        raise RuntimeError("Recipe wait_for time must be a finite non-negative number")
+                    arguments["time"] = duration
+                if not arguments:
                     raise RuntimeError("Recipe wait_for step has no text or time")
-                await self._checked_recipe_browser_call("browser_wait_for", {"text": text, "time": data.get("time")})
+                await self._checked_recipe_browser_call("browser_wait_for", arguments)
             elif action == "snapshot":
                 await self._checked_recipe_browser_call("browser_snapshot", {})
             elif action == purpose and purpose == "submit":

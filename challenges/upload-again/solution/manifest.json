@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "current_key": "69689ae4bc318ef0e15f:platform_confirmed",
+  "status": "needs_review",
+  "records": [
+    {
+      "key": "69689ae4bc318ef0e15f:candidate_found",
+      "flag": "D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}",
+      "confirmation_source": "candidate_found",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+      "verified_by": [],
+      "challenge": {
+        "name": "upload-again",
+        "category": "Web",
+        "description": "又是文件上传 (file upload again). Dynamic flag, runtime environment required.",
+        "connection_info": "http://noctf.fa1lsnow.com:40074",
+        "value": 421,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Upload-to-document-root + body-prefix scanner bypass (padding) + race-condition PHP webshell execution while the file is alive during the ~300ms 'scan' before unlink; readfile('/flag').: D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b} | Evidence: GET / returns upload form, PHP/8.2.34, hint: '上传的文件在/路径...可能被point删了' (file is placed at document root / and deleted shortly after). ; POST multipart file -> `<p>scan complete (N bytes), file removed.</p>` after ~0.38s, proving move to doc root then delayed unlink (~300ms window). ; Race test with benign file: uploaded raceXXXXXXXX.txt and 8 concurrent GET /raceXXXXXXXX.txt returned the exact random MARKER (8/8 hits) -> file is web-accessible at /<name> during the window and the server handles concurrent requests. ; Filter mapping: filename containing '.php'/'.pHp'/'.phtml' OR content '<?php'+whitespace causes an immediate TCP reset (0ms, no HTTP response); ',i.e.' a scanner that only inspects the first ~2KB of the multipart body. ; Bypass: adding a >2000-byte filler form field before the file part makes the identical 'filename=\"shell.php\"' payload return 'scan complete (2 bytes), file removed.' instead of a reset.",
+      "solution_steps": [
+        "1. 连接服务：`curl -s http://noctf.fa1lsnow.com:40074/`，页面为 PHP 8.2.34 上传表单，提示“上传的文件在/路径……可能被point删了”。“point/点”= 点号/文档根，说明文件被写到文档根目录 `/`，随后被删除。",
+        "2. 观察上传流程：用 curl 上传任意文件，响应为 `<p>scan complete (N bytes), file removed.</p>`，耗时约 0.38s。说明服务端先 `move_uploaded_file` 到 `/` + 文件名，sleep≈300ms 模拟扫描，再 `unlink`。N 为上传字节数。",
+        "3. 验证竞争窗口与文件可访问性：上传内容带随机 MARKER 的 `raceXXXXXXXX.txt`，同时用 8 个线程并发 GET `/raceXXXXXXXX.txt`。8 个线程全部返回原始 MARKER，证明：文档根就是 `/`；删除前存在约 300ms 的可访问窗口；PHP 内置服务器多 worker 可以并发处理。",
+        "4. 摸清过滤器：文件名含 `.php`（大小写不敏感）、`.phtml` 等，或正文出现 `<?php` 后跟空白字符时，连接在约 0ms 被 RST（无 HTTP 响应），说明有一个只看请求体前 ~2KB 的“扫描器”。注意 `<?php` 后不带空白、`<?=` 不被拦截。",
+        "5. 绕过扫描器：在 multipart 中先放一个 2000 字节以上的填充字段（如 pad=A*2000），把真正含 `filename=\"shell.php\"` 和 PHP 代码的文件段推到前 2KB 之外。同样 payload 立刻返回 `scan complete`，不再被 RST。",
+        "6. 竞争 RCE 读 flag：构造 `shXXXXXXXX.php`，内容 `<?php echo 'FLAG>>'; readfile('/flag'); echo '<<'; ?>`，前面加 4~8KB 填充。Python 脚本开 10 个线程疯狂 GET `/shXXXXXXXX.php`，同时发起上传；在内置服务器执行该临时 webshell 的瞬间即可拿到输出。",
+        "7. 结果：多次运行稳定输出 `D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}`（/flag 为 43 字节，含结尾换行）。另用 `ls -la / ; id` 验证 `/flag` 属于 ctf(999) 且仅有该一个 flag 文件。",
+        "8. 说明：平台的 submit_flag 浏览器自动化报错（找不到 textarea[aria-label=Flag]），confirm_submission 提示无 pending submission；但 flag 是通过在远端容器内直接读取 /flag 得到的，具备独立、可复现证据。"
+      ],
+      "evidence": [
+        "GET / returns upload form, PHP/8.2.34, hint: '上传的文件在/路径...可能被point删了' (file is placed at document root / and deleted shortly after).",
+        "POST multipart file -> `<p>scan complete (N bytes), file removed.</p>` after ~0.38s, proving move to doc root then delayed unlink (~300ms window).",
+        "Race test with benign file: uploaded raceXXXXXXXX.txt and 8 concurrent GET /raceXXXXXXXX.txt returned the exact random MARKER (8/8 hits) -> file is web-accessible at /<name> during the window and the server handles concurrent requests.",
+        "Filter mapping: filename containing '.php'/'.pHp'/'.phtml' OR content '<?php'+whitespace causes an immediate TCP reset (0ms, no HTTP response); ',i.e.' a scanner that only inspects the first ~2KB of the multipart body.",
+        "Bypass: adding a >2000-byte filler form field before the file part makes the identical 'filename=\"shell.php\"' payload return 'scan complete (2 bytes), file removed.' instead of a reset.",
+        "Final exploit: upload shXXXXXXXX.php (padding + '<?php echo \"FLAG>>\"; readfile(\"/flag\"); ?>') while 10 threads GET /shXXXXXXXX.php -> 40+ hits of D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}; reproduced in 3 independent runs.",
+        "Independent container check via raced shell: ls -la / shows '-rw-r--r-- 1 ctf ctf 43 ... /flag', id = uid=999(ctf) gid=999(ctf), /flag present.",
+        "Note: submit_flag browser automation failed with 'textarea[aria-label=\"Flag\"] does not match any elements' (platform-side selector issue), and confirm_submission reported 'No pending submission'; the flag itself was verified directly from the remote /flag file by RCE."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/d9b86e5e4b265250/exploit_final.py",
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/9517900c1a7a386a/exploit.py",
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/4ca1c94b8393944b/exploit_ls.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/exploit_final.py",
+      "saved_artifacts": [
+        {
+          "id": "artifact-12ad13c46d908abb",
+          "path": "solution/artifacts/12ad13c46d908abb7c3a/evidence_flag_capture.txt",
+          "sha256": "12ad13c46d908abb7c3a73884b2fa65619da2958d793cc6dd8b517cb1d9bdc24",
+          "bytes": 120,
+          "media_type": "text/plain",
+          "kind": "generated",
+          "caption": "evidence_flag_capture.txt",
+          "source": "deepseek/deepseek-flash",
+          "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+          "stage": "solver",
+          "created_at": "2026-10-23T12:23:20.346909+00:00",
+          "original_path": "/challenge/workspace/evidence_flag_capture.txt"
+        }
+      ],
+      "artifact_issues": [
+        "未保存产物 /challenge/workspace/evidence_notes.md：Unsupported evidence artifact type",
+        "未保存产物 /challenge/workspace/exploit_final.py：Unsupported evidence artifact type",
+        "未保存产物 /challenge/workspace/exploit.py：Unsupported evidence artifact type",
+        "未保存产物 /challenge/workspace/exploit_ls.py：Unsupported evidence artifact type"
+      ],
+      "evidence_logs": [
+        "solution/evidence/8f09f13f555c4faf83cfc141bc75b195/commands.jsonl"
+      ],
+      "sandbox_image": "ctf-sandbox",
+      "format_version": 2,
+      "generation_id": "9223297cc1754c99817e3f0c4115e4ed",
+      "exp_sha256": {
+        "exp/exploit_final.py": "d9b86e5e4b265250de696fb829bedcc125218407b25eb9e044742a28a470753d",
+        "exp/exploit.py": "9517900c1a7a386a726545f1fb104a22ecdf2830768ec505f74624f4678305fd",
+        "exp/exploit_ls.py": "4ca1c94b8393944b566e436f35deb36dbd6c3526d2ed74bad3b47c064538c33d"
+      },
+      "status": "needs_review",
+      "replay": {
+        "status": "manual",
+        "reason": "候选 Flag 尚未进行平台验证或自动复现；此题解依据求解器记录生成。",
+        "command": "",
+        "exit_code": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      "writeup_sha256": "f1007800a4e81c65e82be7cf2b0a681043050758a4a10e0bd9dede9ab602c7e3",
+      "planned_sha256": null,
+      "created_at": "2026-10-23T12:23:20.361555+00:00",
+      "updated_at": "2026-10-23T12:24:13.624403+00:00",
+      "inputs": [],
+      "evidence_log_sha256": {
+        "solution/evidence/8f09f13f555c4faf83cfc141bc75b195/commands.jsonl": "788883b8bbd22c887528f1913bbeaa988970082066c6d3a9fbc6e7713eef9e9d"
+      }
+    },
+    {
+      "key": "69689ae4bc318ef0e15f:independent_quorum",
+      "flag": "D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}",
+      "confirmation_source": "independent_quorum",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+      "verified_by": [
+        "deepseek/deepseek-flash",
+        "deepseek/deepseek-flash#verifier"
+      ],
+      "challenge": {
+        "name": "upload-again",
+        "category": "Web",
+        "description": "又是文件上传 (file upload again). Dynamic flag, runtime environment required.",
+        "connection_info": "http://noctf.fa1lsnow.com:40074",
+        "value": 421,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Upload-to-document-root + body-prefix scanner bypass (padding) + race-condition PHP webshell execution while the file is alive during the ~300ms 'scan' before unlink; readfile('/flag').: D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b} | Evidence: GET / returns upload form, PHP/8.2.34, hint: '上传的文件在/路径...可能被point删了' (file is placed at document root / and deleted shortly after). ; POST multipart file -> `<p>scan complete (N bytes), file removed.</p>` after ~0.38s, proving move to doc root then delayed unlink (~300ms window). ; Race test with benign file: uploaded raceXXXXXXXX.txt and 8 concurrent GET /raceXXXXXXXX.txt returned the exact random MARKER (8/8 hits) -> file is web-accessible at /<name> during the window and the server handles concurrent requests. ; Filter mapping: filename containing '.php'/'.pHp'/'.phtml' OR content '<?php'+whitespace causes an immediate TCP reset (0ms, no HTTP response); ',i.e.' a scanner that only inspects the first ~2KB of the multipart body. ; Bypass: adding a >2000-byte filler form field before the file part makes the identical 'filename=\"shell.php\"' payload return 'scan complete (2 bytes), file removed.' instead of a reset. | Independently verified by deepseek/deepseek-flash, deepseek/deepseek-flash#verifier",
+      "solution_steps": [
+        "1. 连接服务：`curl -s http://noctf.fa1lsnow.com:40074/`，页面为 PHP 8.2.34 上传表单，提示“上传的文件在/路径……可能被point删了”。“point/点”= 点号/文档根，说明文件被写到文档根目录 `/`，随后被删除。",
+        "2. 观察上传流程：用 curl 上传任意文件，响应为 `<p>scan complete (N bytes), file removed.</p>`，耗时约 0.38s。说明服务端先 `move_uploaded_file` 到 `/` + 文件名，sleep≈300ms 模拟扫描，再 `unlink`。N 为上传字节数。",
+        "3. 验证竞争窗口与文件可访问性：上传内容带随机 MARKER 的 `raceXXXXXXXX.txt`，同时用 8 个线程并发 GET `/raceXXXXXXXX.txt`。8 个线程全部返回原始 MARKER，证明：文档根就是 `/`；删除前存在约 300ms 的可访问窗口；PHP 内置服务器多 worker 可以并发处理。",
+        "4. 摸清过滤器：文件名含 `.php`（大小写不敏感）、`.phtml` 等，或正文出现 `<?php` 后跟空白字符时，连接在约 0ms 被 RST（无 HTTP 响应），说明有一个只看请求体前 ~2KB 的“扫描器”。注意 `<?php` 后不带空白、`<?=` 不被拦截。",
+        "5. 绕过扫描器：在 multipart 中先放一个 2000 字节以上的填充字段（如 pad=A*2000），把真正含 `filename=\"shell.php\"` 和 PHP 代码的文件段推到前 2KB 之外。同样 payload 立刻返回 `scan complete`，不再被 RST。",
+        "6. 竞争 RCE 读 flag：构造 `shXXXXXXXX.php`，内容 `<?php echo 'FLAG>>'; readfile('/flag'); echo '<<'; ?>`，前面加 4~8KB 填充。Python 脚本开 10 个线程疯狂 GET `/shXXXXXXXX.php`，同时发起上传；在内置服务器执行该临时 webshell 的瞬间即可拿到输出。",
+        "7. 结果：多次运行稳定输出 `D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}`（/flag 为 43 字节，含结尾换行）。另用 `ls -la / ; id` 验证 `/flag` 属于 ctf(999) 且仅有该一个 flag 文件。",
+        "8. 说明：平台的 submit_flag 浏览器自动化报错（找不到 textarea[aria-label=Flag]），confirm_submission 提示无 pending submission；但 flag 是通过在远端容器内直接读取 /flag 得到的，具备独立、可复现证据。"
+      ],
+      "evidence": [
+        "GET / returns upload form, PHP/8.2.34, hint: '上传的文件在/路径...可能被point删了' (file is placed at document root / and deleted shortly after).",
+        "POST multipart file -> `<p>scan complete (N bytes), file removed.</p>` after ~0.38s, proving move to doc root then delayed unlink (~300ms window).",
+        "Race test with benign file: uploaded raceXXXXXXXX.txt and 8 concurrent GET /raceXXXXXXXX.txt returned the exact random MARKER (8/8 hits) -> file is web-accessible at /<name> during the window and the server handles concurrent requests.",
+        "Filter mapping: filename containing '.php'/'.pHp'/'.phtml' OR content '<?php'+whitespace causes an immediate TCP reset (0ms, no HTTP response); ',i.e.' a scanner that only inspects the first ~2KB of the multipart body.",
+        "Bypass: adding a >2000-byte filler form field before the file part makes the identical 'filename=\"shell.php\"' payload return 'scan complete (2 bytes), file removed.' instead of a reset.",
+        "Final exploit: upload shXXXXXXXX.php (padding + '<?php echo \"FLAG>>\"; readfile(\"/flag\"); ?>') while 10 threads GET /shXXXXXXXX.php -> 40+ hits of D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}; reproduced in 3 independent runs.",
+        "Independent container check via raced shell: ls -la / shows '-rw-r--r-- 1 ctf ctf 43 ... /flag', id = uid=999(ctf) gid=999(ctf), /flag present.",
+        "Note: submit_flag browser automation failed with 'textarea[aria-label=\"Flag\"] does not match any elements' (platform-side selector issue), and confirm_submission reported 'No pending submission'; the flag itself was verified directly from the remote /flag file by RCE."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/d9b86e5e4b265250/exploit_final.py",
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/9517900c1a7a386a/exploit.py",
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/4ca1c94b8393944b/exploit_ls.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/exploit_final.py",
+      "saved_artifacts": [
+        {
+          "id": "artifact-12ad13c46d908abb",
+          "path": "solution/artifacts/12ad13c46d908abb7c3a/evidence_flag_capture.txt",
+          "sha256": "12ad13c46d908abb7c3a73884b2fa65619da2958d793cc6dd8b517cb1d9bdc24",
+          "bytes": 120,
+          "media_type": "text/plain",
+          "kind": "generated",
+          "caption": "evidence_flag_capture.txt",
+          "source": "deepseek/deepseek-flash",
+          "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+          "stage": "solver",
+          "created_at": "2026-10-23T12:23:20.346909+00:00",
+          "original_path": "/challenge/workspace/evidence_flag_capture.txt"
+        }
+      ],
+      "artifact_issues": [
+        "未保存产物 /challenge/workspace/evidence_notes.md：Unsupported evidence artifact type",
+        "未保存产物 /challenge/workspace/exploit_final.py：Unsupported evidence artifact type",
+        "未保存产物 /challenge/workspace/exploit.py：Unsupported evidence artifact type",
+        "未保存产物 /challenge/workspace/exploit_ls.py：Unsupported evidence artifact type"
+      ],
+      "evidence_logs": [
+        "solution/evidence/8f09f13f555c4faf83cfc141bc75b195/commands.jsonl"
+      ],
+      "sandbox_image": "ctf-sandbox",
+      "format_version": 2,
+      "generation_id": "4ee0d95fed1248f4867f86f7f8474949",
+      "exp_sha256": {
+        "exp/exploit_final.py": "d9b86e5e4b265250de696fb829bedcc125218407b25eb9e044742a28a470753d",
+        "exp/exploit.py": "9517900c1a7a386a726545f1fb104a22ecdf2830768ec505f74624f4678305fd",
+        "exp/exploit_ls.py": "4ca1c94b8393944b566e436f35deb36dbd6c3526d2ed74bad3b47c064538c33d"
+      },
+      "status": "needs_review",
+      "replay": {
+        "status": "verified",
+        "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+        "command": "cd /challenge/workspace && python3 exploit_final.py",
+        "exit_code": 0,
+        "stdout": "[upload] <hr>\n<p>scan complete (53 bytes), file removed.</p>\n[+] FLAG: {'D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}\\n'}\n",
+        "stderr": "",
+        "artifacts": [],
+        "artifact_issues": [],
+        "evidence_path": "solution/replays/9a02e723bdffdec4be75fb78.json"
+      },
+      "writeup_sha256": "feccd81d5afc0d953c9b525c91e7f046b07fe13b9e84fa5d8f537116ba4c01e3",
+      "planned_sha256": null,
+      "created_at": "2026-10-23T12:23:20.361555+00:00",
+      "updated_at": "2026-10-23T12:25:44.521765+00:00",
+      "inputs": [],
+      "evidence_log_sha256": {
+        "solution/evidence/8f09f13f555c4faf83cfc141bc75b195/commands.jsonl": "788883b8bbd22c887528f1913bbeaa988970082066c6d3a9fbc6e7713eef9e9d"
+      }
+    },
+    {
+      "key": "69689ae4bc318ef0e15f:platform_confirmed",
+      "flag": "D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}",
+      "confirmation_source": "platform_confirmed",
+      "model_spec": "deepseek/deepseek-flash",
+      "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+      "verified_by": [],
+      "challenge": {
+        "name": "upload-again",
+        "category": "Web",
+        "description": "又是文件上传 (file upload again). Dynamic flag, runtime environment required.",
+        "connection_info": "http://noctf.fa1lsnow.com:40074",
+        "value": 421,
+        "tags": [],
+        "hints": []
+      },
+      "findings_summary": "Flag found via Upload-to-document-root + body-prefix scanner bypass (padding) + race-condition PHP webshell execution while the file is alive during the ~300ms 'scan' before unlink; readfile('/flag').: D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b} | Evidence: GET / returns upload form, PHP/8.2.34, hint: '上传的文件在/路径...可能被point删了' (file is placed at document root / and deleted shortly after). ; POST multipart file -> `<p>scan complete (N bytes), file removed.</p>` after ~0.38s, proving move to doc root then delayed unlink (~300ms window). ; Race test with benign file: uploaded raceXXXXXXXX.txt and 8 concurrent GET /raceXXXXXXXX.txt returned the exact random MARKER (8/8 hits) -> file is web-accessible at /<name> during the window and the server handles concurrent requests. ; Filter mapping: filename containing '.php'/'.pHp'/'.phtml' OR content '<?php'+whitespace causes an immediate TCP reset (0ms, no HTTP response); ',i.e.' a scanner that only inspects the first ~2KB of the multipart body. ; Bypass: adding a >2000-byte filler form field before the file part makes the identical 'filename=\"shell.php\"' payload return 'scan complete (2 bytes), file removed.' instead of a reset.",
+      "solution_steps": [
+        "1. 连接服务：`curl -s http://noctf.fa1lsnow.com:40074/`，页面为 PHP 8.2.34 上传表单，提示“上传的文件在/路径……可能被point删了”。“point/点”= 点号/文档根，说明文件被写到文档根目录 `/`，随后被删除。",
+        "2. 观察上传流程：用 curl 上传任意文件，响应为 `<p>scan complete (N bytes), file removed.</p>`，耗时约 0.38s。说明服务端先 `move_uploaded_file` 到 `/` + 文件名，sleep≈300ms 模拟扫描，再 `unlink`。N 为上传字节数。",
+        "3. 验证竞争窗口与文件可访问性：上传内容带随机 MARKER 的 `raceXXXXXXXX.txt`，同时用 8 个线程并发 GET `/raceXXXXXXXX.txt`。8 个线程全部返回原始 MARKER，证明：文档根就是 `/`；删除前存在约 300ms 的可访问窗口；PHP 内置服务器多 worker 可以并发处理。",
+        "4. 摸清过滤器：文件名含 `.php`（大小写不敏感）、`.phtml` 等，或正文出现 `<?php` 后跟空白字符时，连接在约 0ms 被 RST（无 HTTP 响应），说明有一个只看请求体前 ~2KB 的“扫描器”。注意 `<?php` 后不带空白、`<?=` 不被拦截。",
+        "5. 绕过扫描器：在 multipart 中先放一个 2000 字节以上的填充字段（如 pad=A*2000），把真正含 `filename=\"shell.php\"` 和 PHP 代码的文件段推到前 2KB 之外。同样 payload 立刻返回 `scan complete`，不再被 RST。",
+        "6. 竞争 RCE 读 flag：构造 `shXXXXXXXX.php`，内容 `<?php echo 'FLAG>>'; readfile('/flag'); echo '<<'; ?>`，前面加 4~8KB 填充。Python 脚本开 10 个线程疯狂 GET `/shXXXXXXXX.php`，同时发起上传；在内置服务器执行该临时 webshell 的瞬间即可拿到输出。",
+        "7. 结果：多次运行稳定输出 `D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}`（/flag 为 43 字节，含结尾换行）。另用 `ls -la / ; id` 验证 `/flag` 属于 ctf(999) 且仅有该一个 flag 文件。",
+        "8. 说明：平台的 submit_flag 浏览器自动化报错（找不到 textarea[aria-label=Flag]），confirm_submission 提示无 pending submission；但 flag 是通过在远端容器内直接读取 /flag 得到的，具备独立、可复现证据。"
+      ],
+      "evidence": [
+        "Platform page after Enter shows status text \"Flag 正确\" and the Flag input placeholder changed to \"Challenge is Solved ！\" for upload-again; flag D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b} was independently read from /flag on the challenge container (43-byte file, md5 ce22793b0e448a918d7588307868608b)."
+      ],
+      "saved_exp_paths": [
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/d9b86e5e4b265250/exploit_final.py",
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/9517900c1a7a386a/exploit.py",
+        ".writeup-drafts/69689ae4bc318ef0e15f/deepseek-deepseek-flash-5403e74e/4ca1c94b8393944b/exploit_ls.py"
+      ],
+      "exp_run_command": "python3 /challenge/workspace/exploit_final.py",
+      "saved_artifacts": [
+        {
+          "id": "artifact-12ad13c46d908abb",
+          "path": "solution/artifacts/12ad13c46d908abb7c3a/evidence_flag_capture.txt",
+          "sha256": "12ad13c46d908abb7c3a73884b2fa65619da2958d793cc6dd8b517cb1d9bdc24",
+          "bytes": 120,
+          "media_type": "text/plain",
+          "kind": "generated",
+          "caption": "evidence_flag_capture.txt",
+          "source": "deepseek/deepseek-flash",
+          "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+          "stage": "solver",
+          "created_at": "2026-10-23T12:23:20.346909+00:00",
+          "original_path": "/challenge/workspace/evidence_flag_capture.txt"
+        },
+        {
+          "id": "artifact-886963e960ac807e",
+          "path": "solution/artifacts/886963e960ac807ec2f5/submission-page.txt",
+          "sha256": "886963e960ac807ec2f5b0d175abf4f69d1d1f9f581dc3640ef62d734a10a0c6",
+          "bytes": 23643,
+          "media_type": "text/plain",
+          "kind": "generated",
+          "caption": "提交后的页面文字记录；接受状态另见确认记录",
+          "source": "Playwright MCP",
+          "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+          "stage": "submission",
+          "created_at": "2026-10-23T12:30:36.631839+00:00"
+        },
+        {
+          "id": "artifact-5ab084bf20a53465",
+          "path": "solution/artifacts/5ab084bf20a534652c96/submission-page.png",
+          "sha256": "5ab084bf20a534652c961bb7dec5261403378bc114dd4a0c9576ea0d9baeecba",
+          "bytes": 460913,
+          "media_type": "image/png",
+          "kind": "screenshot",
+          "caption": "提交后的真实浏览器页面；接受状态另见确认记录",
+          "source": "Playwright MCP",
+          "run_id": "cc3541f884a540f6bc5d88791fd00d0f",
+          "stage": "submission",
+          "created_at": "2026-10-23T12:30:36.833151+00:00"
+        }
+      ],
+      "artifact_issues": [],
+      "evidence_logs": [
+        "solution/evidence/8f09f13f555c4faf83cfc141bc75b195/commands.jsonl"
+      ],
+      "sandbox_image": "ctf-sandbox",
+      "format_version": 2,
+      "generation_id": "3714d05454be46fcb045c1e1b682f4f1",
+      "exp_sha256": {
+        "exp/exploit_final.py": "d9b86e5e4b265250de696fb829bedcc125218407b25eb9e044742a28a470753d",
+        "exp/exploit.py": "9517900c1a7a386a726545f1fb104a22ecdf2830768ec505f74624f4678305fd",
+        "exp/exploit_ls.py": "4ca1c94b8393944b566e436f35deb36dbd6c3526d2ed74bad3b47c064538c33d"
+      },
+      "status": "needs_review",
+      "replay": {
+        "status": "needs_review",
+        "reason": "EXP 运行失败或未输出记录的 Flag，且没有可核对的媒体产物。",
+        "command": "cd /challenge/workspace && python3 exploit_final.py",
+        "exit_code": 0,
+        "stdout": "[upload] ERR HTTPConnectionPool(host='noctf.fa1lsnow.com', port=40074): Max retries exceeded with url: / (Caused by NewConnectionError(\"HTTPConnection(host='noctf.fa1lsnow.com', port=40074): Failed to establish a new connection: [Errno 111] Connection refused\"))\n[+] FLAG: set()\n",
+        "stderr": "",
+        "artifacts": [],
+        "artifact_issues": [],
+        "evidence_path": "solution/replays/22320090613eeafdce20bdb4.json"
+      },
+      "writeup_sha256": "fac87bbb67f7600b9f13ff290465bdcca95b4044e0c4edf4bec556cb3f6f5b61",
+      "planned_sha256": null,
+      "created_at": "2026-10-23T12:23:20.361555+00:00",
+      "updated_at": "2026-10-23T12:31:35.480991+00:00",
+      "inputs": [],
+      "evidence_log_sha256": {
+        "solution/evidence/8f09f13f555c4faf83cfc141bc75b195/commands.jsonl": "788883b8bbd22c887528f1913bbeaa988970082066c6d3a9fbc6e7713eef9e9d"
+      }
+    }
+  ]
+}

@@ -128,11 +128,28 @@ async def do_get_solve_status(deps: CoordinatorDeps) -> str:
     return json.dumps(
         {
             "solved": sorted(solved),
+            "results": deps.results,
             "active_swarms": swarm_status,
             "pending_challenges": deps.pending_challenges,
+            "usage_by_category": deps.cost_tracker.get_usage_by_category(),
+            "cost_incomplete": bool(deps.cost_tracker.unknown_price_requests),
         },
         indent=2,
     )
+
+
+def _existing_result_notice(deps: CoordinatorDeps, challenge_name: str) -> str | None:
+    recorded = deps.results.get(challenge_name, {})
+    if not recorded.get("flag"):
+        return None
+    if recorded.get("submit") == "platform confirmed":
+        return f"Already platform confirmed: {challenge_name}; flag={recorded['flag']}"
+    if recorded.get("submit") == "independently verified":
+        return (
+            f"Independently verified candidate already available for {challenge_name}: {recorded['flag']}. "
+            "Complete platform submission and confirmation before starting another solver."
+        )
+    return None
 
 
 async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
@@ -150,6 +167,9 @@ async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
     for name in finished:
         del deps.swarms[name]
         deps.swarm_tasks.pop(name, None)
+
+    if notice := _existing_result_notice(deps, challenge_name):
+        return notice
 
     active_count = len(deps.swarms)
     if active_count >= deps.max_concurrent_challenges:
@@ -206,6 +226,14 @@ async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
         await deps.analysis_gateway.register_challenge(
             challenge_name, deps.challenge_dirs[challenge_name]
         )
+
+    # Preparation and gateway registration await other tasks; recheck before reserving a slot.
+    if notice := _existing_result_notice(deps, challenge_name):
+        return notice
+    if challenge_name in deps.swarms:
+        return f"Swarm still running for {challenge_name}"
+    if len(deps.swarms) >= deps.max_concurrent_challenges:
+        return f"At capacity ({len(deps.swarms)}/{deps.max_concurrent_challenges} challenges running). Wait for one to finish."
 
     swarm = ChallengeSwarm(
         challenge_dir=deps.challenge_dirs[challenge_name],
@@ -297,6 +325,8 @@ async def do_submit_flag(deps: CoordinatorDeps, challenge_name: str, flag: str) 
         result = await deps.platform.submit_flag(challenge_name, flag)
         if result.status in {"correct", "already_solved"}:
             await _record_coordinator_confirmation(deps, challenge_name, flag, result.display)
+        elif result.status == "incorrect":
+            _record_coordinator_rejection(deps, challenge_name, flag)
         return result.display
     except Exception as e:
         return f"submit_flag error: {e}"
@@ -311,9 +341,17 @@ async def do_confirm_submission(
         result = await deps.platform.confirm_submission(challenge_name, flag, accepted, reason)
         if accepted and result.status in {"correct", "already_solved"}:
             await _record_coordinator_confirmation(deps, challenge_name, flag, reason)
+        elif result.status == "incorrect":
+            _record_coordinator_rejection(deps, challenge_name, flag)
         return result.display
     except Exception as e:
         return f"confirm_submission error: {e}"
+
+
+def _record_coordinator_rejection(deps: CoordinatorDeps, challenge_name: str, flag: str) -> None:
+    record = deps.results.get(challenge_name, {})
+    if record.get("submit") == "independently verified" and record.get("flag") == flag.strip():
+        record["submit"] = "platform rejected"
 
 
 async def _record_coordinator_confirmation(

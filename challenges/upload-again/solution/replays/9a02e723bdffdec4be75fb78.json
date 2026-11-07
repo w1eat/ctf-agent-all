@@ -1,0 +1,10 @@
+{
+  "status": "verified",
+  "reason": "全新沙箱运行成功，输出与记录的 Flag 一致。",
+  "command": "cd /challenge/workspace && python3 exploit_final.py",
+  "exit_code": 0,
+  "stdout": "[upload] <hr>\n<p>scan complete (53 bytes), file removed.</p>\n[+] FLAG: {'D1no{6ca65c0c-b756-49b1-aa5c-0d8b49d75e7b}\\n'}\n",
+  "stderr": "",
+  "artifacts": [],
+  "artifact_issues": []
+}

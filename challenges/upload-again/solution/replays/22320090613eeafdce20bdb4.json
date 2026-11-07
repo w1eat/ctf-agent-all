@@ -1,0 +1,10 @@
+{
+  "status": "needs_review",
+  "reason": "EXP 运行失败或未输出记录的 Flag，且没有可核对的媒体产物。",
+  "command": "cd /challenge/workspace && python3 exploit_final.py",
+  "exit_code": 0,
+  "stdout": "[upload] ERR HTTPConnectionPool(host='noctf.fa1lsnow.com', port=40074): Max retries exceeded with url: / (Caused by NewConnectionError(\"HTTPConnection(host='noctf.fa1lsnow.com', port=40074): Failed to establish a new connection: [Errno 111] Connection refused\"))\n[+] FLAG: set()\n",
+  "stderr": "",
+  "artifacts": [],
+  "artifact_issues": []
+}

@@ -1,0 +1,24 @@
+- generic [ref=f3e2]:
+  - heading "欢迎，7900F3DE89AF8E2E210263B0BEB2E431！" [level=1] [ref=f3e3]
+  - paragraph [ref=f3e4]: 你已成功登录车载系统。
+  - generic [ref=f3e5]:
+    - link [ref=f3e6] [cursor=pointer]:
+      - /url: file.php
+      - heading "阅读" [level=2] [ref=f3e7]
+    - link [ref=f3e8] [cursor=pointer]:
+      - /url: upload.php
+      - heading "上传文件" [level=2] [ref=f3e9]
+    - link [ref=f3e10] [cursor=pointer]:
+      - /url: ""
+      - heading "应用" [level=2] [ref=f3e11]
+    - link [ref=f3e12] [cursor=pointer]:
+      - /url: ""
+      - heading "应用" [level=2] [ref=f3e13]
+    - link [ref=f3e14] [cursor=pointer]:
+      - /url: ""
+      - heading "应用" [level=2] [ref=f3e15]
+    - link [ref=f3e16] [cursor=pointer]:
+      - /url: ""
+      - heading "应用" [level=2] [ref=f3e17]
+  - link "退出登录" [ref=f3e18] [cursor=pointer]:
+    - /url: logout.php

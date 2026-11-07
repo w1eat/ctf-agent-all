@@ -224,3 +224,75 @@ async def test_backfill_can_upgrade_existing_candidate_writeup(monkeypatch, tmp_
     )
     assert count == 1
     assert calls == ["platform_confirmed"]
+
+
+def test_historical_backfill_archives_actual_commands_with_truncation_label(tmp_path):
+    from backend.writeup_evidence import load_command_evidence
+
+    root = tmp_path / "challenges"
+    challenge = _challenge(root)
+    logs = tmp_path / "logs"
+    _jsonl(logs / "trace-scoped.jsonl",
+        {"type": "start", "challenge": "Test Challenge", "run_id": "run-one"},
+        {"type": "tool_call", "tool": "bash", "args": json.dumps({"command": "python3 extract.py"}), "step": 1},
+        {"type": "tool_result", "tool": "bash", "result": "Observed key extraction from the supplied binary", "step": 1},
+        {"type": "finish", "status": "candidate_found", "flag": "FLAG{ok}", "confirmed": False, "run_id": "run-one"},
+    )
+    candidates, _ = writeup_cli.discover_candidates("run-one", root, logs)
+    paths = writeup_cli._archive_trace(candidates[0], "run-one")
+    rows = load_command_evidence(challenge, paths, run_id="run-one")
+    assert rows[0]["command"] == "python3 extract.py"
+    assert rows[0]["provenance"] == "historical_trace"
+    assert rows[0]["truncated"] is True
+
+
+@pytest.mark.asyncio
+async def test_format_upgrade_respects_challenge_filter_and_hands_off_evidence(tmp_path, monkeypatch):
+    root = tmp_path / "challenges"
+    challenge = _challenge(root)
+    (challenge / "writeup.md").write_text("old generated writeup", encoding="utf-8")
+    solution = challenge / "solution"
+    solution.mkdir()
+    (solution / "manifest.json").write_text(json.dumps({"current_key": "old", "records": [{
+        "key": "old", "run_id": "run-one", "flag": "FLAG{ok}", "confirmation_source": "candidate_found",
+        "findings_summary": "Recovered the exact flag from the attachment", "status": "complete", "format_version": 1,
+        "evidence_logs": ["solution/evidence/old/commands.jsonl"],
+    }]}), encoding="utf-8")
+    _jsonl(solution / "evidence/old/commands.jsonl", {
+        "id": "command-original", "run_id": "run-one", "command": "python3 solve.py", "output": "real output",
+    })
+    calls = []
+
+    class Manager:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def record_and_schedule(self, *args, **kwargs):
+            calls.append(kwargs["solver_result"])
+            return challenge / "writeup.md"
+
+        async def wait_for_pending(self, **kwargs):
+            pass
+
+    monkeypatch.setattr(writeup_cli, "WriteupManager", Manager)
+    count, _ = await writeup_cli.run_backfill("run-one", root, tmp_path / "logs", upgrade_format=True,
+                                            challenge_names=("another-challenge",))
+    assert count == 0 and not calls
+    count, _ = await writeup_cli.run_backfill("run-one", root, tmp_path / "logs", upgrade_format=True,
+                                            challenge_names=("test-challenge",))
+    assert count == 1
+    assert calls[0].evidence_logs == ("solution/evidence/old/commands.jsonl",)
+
+
+def test_audit_reports_broken_images_without_mutating_the_writeup(tmp_path):
+    root = tmp_path / "challenges"
+    challenge = _challenge(root)
+    content = "# Actual writeup\n\n![missing](solution/artifacts/missing.png)\n"
+    (challenge / "writeup.md").write_text(content, encoding="utf-8")
+    rows = writeup_cli.audit_writeups(root)
+    assert rows[0]["image_count"] == 1
+    assert any("配图缺失" in issue for issue in rows[0]["issues"])
+    assert (challenge / "writeup.md").read_text(encoding="utf-8") == content
+    result = CliRunner().invoke(writeup_cli.main, ["audit", "--challenges-dir", str(root), "--json"])
+    assert result.exit_code == 0
+    assert json.loads(result.output)[0]["format_version"] == 1

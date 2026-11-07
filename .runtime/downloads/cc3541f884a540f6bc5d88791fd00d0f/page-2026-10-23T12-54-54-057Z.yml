@@ -1,0 +1,6 @@
+- generic [ref=f11e2]:
+  - heading "车载系统登录" [level=2] [ref=f11e3]
+  - generic [ref=f11e4]:
+    - textbox "用户名" [ref=f11e6]
+    - textbox "密码" [ref=f11e8]
+    - button "登录" [ref=f11e9] [cursor=pointer]

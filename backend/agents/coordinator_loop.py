@@ -162,10 +162,12 @@ def build_deps(
         challenge_dirs=challenge_dirs or {},
         challenge_metas=challenge_metas or {},
         tracer=CoordinatorTracer(getattr(settings, "challenge_run_id", ""),
-                                 stamp=getattr(settings, "run_log_stamp", "")),
+                                 stamp=getattr(settings, "run_log_stamp", ""),
+                                 raw_progress=getattr(settings, "coordinator_trace_raw_progress", False)),
         writeup_manager=WriteupManager(
             settings,
             default_model_spec=getattr(settings, "writeup_model_spec", "") or specs[0],
+            cost_tracker=cost_tracker,
         ),
     )
     if hasattr(platform, "browser"):

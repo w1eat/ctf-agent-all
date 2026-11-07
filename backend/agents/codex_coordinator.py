@@ -37,6 +37,7 @@ from backend.config import Settings
 from backend.deps import CoordinatorDeps
 from backend.platforms.base import BrowserToolProvider
 from backend.platforms.recipes import SAVE_RECIPE_TOOL_SCHEMA
+from backend.sdk_usage import CodexUsage
 from backend.submission_setup import CoordinatorTurnError
 
 logger = logging.getLogger(__name__)
@@ -475,6 +476,10 @@ class CodexCoordinator:
                 if turn.get("status") == "failed":
                     self._turn_error = str(turn.get("error", "unknown"))
                 self._turn_done.set()
+            elif method == "thread/tokenUsage/updated":
+                if not hasattr(self, "_usage_ledger"):
+                    self._usage_ledger = CodexUsage(self.deps.cost_tracker, f"coordinator:codex/{self.model}", self.model, "coordinator")
+                self._usage_ledger.observe(params)
 
     async def _handle_tool_call(self, request_id: int, params: dict) -> None:
         tool_name = params.get("tool", "")

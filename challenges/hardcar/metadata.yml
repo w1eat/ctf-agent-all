@@ -1,0 +1,33 @@
+version: beta2
+platform: noctf
+native_id: 01a0bcdf-2bff-7ea3-b1c6-b8c66a0e7948
+name: hardcar
+category: Web
+description: xy 鸽鸽研发的智能车载系统 (smart car system). Dynamic flag, runtime environment
+  required.
+value: 1000
+files:
+- distfiles/附件.zip
+challenge_mode: hybrid
+connection_info: http://noctf.fa1lsnow.com:40075
+environment_required: true
+challenge_url: https://noctf.fa1lsnow.com/competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0bcdf-2bff-7ea3-b1c6-b8c66a0e7948
+environment:
+  status: running
+  source: remote
+  url: http://noctf.fa1lsnow.com:40075
+  host: noctf.fa1lsnow.com
+  port: 40075
+  compose_project: ''
+  metadata: {}
+capabilities: []
+attachments:
+- byte_length: 4108
+  content_type: application/zip
+  file_name: 附件.zip
+  id: 01a0bcde-d7a7-7018-92d8-7d13077fe448
+  name: 附件.zip
+  sha256: 56E76B04AF87229F744B8ACBA9B0C03B155CC0ADDE919115D088155F1F7BA16F
+attachments_scanned: false
+state: preparing
+reason: ''

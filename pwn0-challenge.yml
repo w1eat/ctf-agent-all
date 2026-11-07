@@ -1,0 +1,470 @@
+- generic [active] [ref=f6e1]:
+  - generic [ref=f6e4]:
+    - banner:
+      - generic:
+        - link "DINO CTF" [ref=f6e6] [cursor=pointer]:
+          - /url: /
+          - img "DINO CTF" [ref=f6e7]
+        - navigation "主导航" [ref=f6e10]:
+          - link "竞赛" [ref=f6e12] [cursor=pointer]:
+            - /url: /competitions
+          - link "理论答题" [ref=f6e17] [cursor=pointer]:
+            - /url: /theory
+          - link "通知，有未读消息" [ref=f6e22] [cursor=pointer]:
+            - /url: /notifications
+            - generic [ref=f6e23]:
+              - generic [ref=f6e26]: 通知
+              - generic [ref=f6e27]: 有未读通知
+        - generic [ref=f6e28]:
+          - button "切换为英文" [ref=f6e29]
+          - button "主题调色板" [ref=f6e30]
+          - button "切换为浅色模式" [ref=f6e31]
+          - button "账户设置" [ref=f6e32]:
+            - generic [ref=f6e33]: w1
+    - main [ref=f6e35]:
+      - generic [ref=f6e37]:
+        - generic [ref=f6e38]:
+          - generic [ref=f6e39]:
+            - generic [aria-hidden]: CTF
+            - generic [ref=f6e40]: CTF
+            - generic [ref=f6e41]:
+              - heading "Start！" [level=1] [ref=f6e42]
+              - generic [ref=f6e43]: 进行中
+            - generic [ref=f6e44]:
+              - generic [ref=f6e45]: 2026/9/16 00:00:00 ~ 2036/9/30 00:00:00
+              - generic [ref=f6e46]: 距结束 3629 天 5 小时
+          - generic [ref=f6e47]:
+            - generic [ref=f6e48]:
+              - term [ref=f6e49]: 本队排名
+              - definition [ref=f6e50]: "#1"
+            - generic [ref=f6e51]:
+              - term [ref=f6e52]: 本队积分
+              - definition [ref=f6e53]: 22758 分
+        - generic [ref=f6e54]:
+          - complementary "题目列表" [ref=f6e56]:
+            - generic [ref=f6e57]:
+              - generic [ref=f6e58]:
+                - heading "题目列表" [level=2] [ref=f6e59]
+                - textbox "搜索题目（正则）" [ref=f6e60]
+              - button "按标签筛选" [ref=f6e62]
+              - generic [ref=f6e64]:
+                - generic [ref=f6e65] [cursor=pointer]: 隐藏已解出
+                - switch "隐藏已解出" [ref=f6e66]
+              - generic [ref=f6e67]:
+                - generic [ref=f6e68] [cursor=pointer]: 隐藏未解锁
+                - switch "隐藏未解锁" [ref=f6e69]
+            - generic "题目列表" [ref=f6e71]:
+              - group "题目列表" [ref=f6e72]:
+                - button "Misc 20" [ref=f6e74]:
+                  - generic [ref=f6e75]: Misc
+                  - generic [ref=f6e77]: "20"
+                - generic [ref=f6e78]:
+                  - button "Pwn 18" [expanded] [ref=f6e79]:
+                    - generic [ref=f6e80]: Pwn
+                    - generic [ref=f6e82]: "18"
+                  - listbox "Pwn" [ref=f6e83]:
+                    - generic [ref=f6e84]:
+                      - option "[第五届信安大挑战] Caculate!" [ref=f6e85]:
+                        - generic [ref=f6e86]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战] Caculate!"
+                              - img "已解出"
+                              - generic: 456 分
+                            - generic:
+                              - generic: 8 支队伍已解出
+                              - generic:
+                                - img "一血 · 半夜起床嚼槟榔发现是性感母蟑螂"
+                                - img "二血 · yza"
+                                - img "三血 · 不知道"
+                      - option "[第五届信安大挑战]fmt" [ref=f6e87]:
+                        - generic [ref=f6e88]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]fmt"
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 2 支队伍已解出
+                              - generic:
+                                - img "一血 · 半夜起床嚼槟榔发现是性感母蟑螂"
+                      - option "[第五届信安大挑战]orw" [ref=f6e89]:
+                        - generic [ref=f6e90]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]orw"
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic: 2 支队伍已解出
+                      - option "[第五届信安大挑战]nice connect" [ref=f6e91]:
+                        - generic [ref=f6e92]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]nice connect"
+                              - generic: 未解锁
+                              - img "已解出"
+                              - generic: 480 分
+                            - generic:
+                              - generic: 前驱 0/4 已满足
+                              - generic: 9 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · THocK"
+                                - img "三血 · 不知道"
+                      - option "ret2text_rain" [ref=f6e93]:
+                        - generic [ref=f6e94]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: ret2text_rain
+                              - generic: 未解锁
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 前驱 0/4 已满足
+                              - generic: 7 支队伍已解出
+                              - generic:
+                                - img "一血 · 半夜起床嚼槟榔发现是性感母蟑螂"
+                                - img "二血 · yza"
+                                - img "三血 · THocK"
+                      - option "[第五届信安大挑战]我挚爱的flag，你为什么不出现？" [ref=f6e95]:
+                        - generic [ref=f6e96]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]我挚爱的flag，你为什么不出现？"
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic: 2 支队伍已解出
+                      - option "[第五届信安大挑战]什么，不让我提权？" [ref=f6e97]:
+                        - generic [ref=f6e98]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第五届信安大挑战]什么，不让我提权？"
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic: 1 支队伍已解出
+                      - option "canary_rain" [ref=f6e99]:
+                        - generic [ref=f6e100]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: canary_rain
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 4 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · THocK"
+                                - img "三血 · 不知道"
+                      - option "pie_rain" [ref=f6e101]:
+                        - generic [ref=f6e102]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: pie_rain
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 4 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · THocK"
+                                - img "三血 · 不知道"
+                      - option "ret2syscall_rain" [ref=f6e103]:
+                        - generic [ref=f6e104]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: ret2syscall_rain
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 3 支队伍已解出
+                              - generic:
+                                - img "一血 · THocK"
+                                - img "二血 · yza"
+                      - option "orw_rain" [ref=f6e105]:
+                        - generic [ref=f6e106]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: orw_rain
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 4 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · THocK"
+                                - img "三血 · 不知道"
+                      - option "shellcode_rain" [ref=f6e107]:
+                        - generic [ref=f6e108]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: shellcode_rain
+                              - img "已解出"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 4 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · 不知道"
+                                - img "三血 · THocK"
+                      - 'option "PWN 0x00: Foundation" [selected] [ref=f6e109]':
+                        - generic [ref=f6e111]:
+                          - generic [ref=f6e112]: Pwn
+                          - generic [ref=f6e113]:
+                            - generic [ref=f6e114]: "PWN 0x00: Foundation"
+                            - generic [ref=f6e115]: 100 分
+                          - generic [ref=f6e116]:
+                            - generic [ref=f6e117]: 9 支队伍已解出
+                            - generic [ref=f6e119]:
+                              - img "一血 · yza" [ref=f6e120]
+                              - img "二血 · 不知道" [ref=f6e122]
+                              - img "三血 · THocK" [ref=f6e124]
+                      - 'option "PWN 0x01: Insight" [ref=f6e126]':
+                        - generic [ref=f6e127]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "PWN 0x01: Insight"
+                              - generic: 100 分
+                            - generic:
+                              - generic: 7 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · 不知道"
+                                - img "三血 · THocK"
+                      - 'option "PWN 0x02: Interaction" [ref=f6e128]':
+                        - generic [ref=f6e129]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "PWN 0x02: Interaction"
+                              - generic: 100 分
+                            - generic:
+                              - generic: 7 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · 不知道"
+                                - img "三血 · THocK"
+                      - 'option "PWN 0x03: Breakpoint" [ref=f6e130]':
+                        - generic [ref=f6e131]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "PWN 0x03: Breakpoint"
+                              - generic: 100 分
+                            - generic:
+                              - generic: 7 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                                - img "二血 · THocK"
+                                - img "三血 · 不知道"
+                      - option "[第六届信安大挑战]shellcode" [ref=f6e132]:
+                        - generic [ref=f6e133]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第六届信安大挑战]shellcode"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 1 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                      - option "[第六届信安大挑战]shellcode_revenge" [ref=f6e134]:
+                        - generic [ref=f6e135]:
+                          - generic:
+                            - generic: Pwn
+                            - generic:
+                              - generic: "[第六届信安大挑战]shellcode_revenge"
+                              - generic: 500 分
+                            - generic:
+                              - generic: 1 支队伍已解出
+                              - generic:
+                                - img "一血 · yza"
+                - button "Reverse 18" [ref=f6e137]:
+                  - generic [ref=f6e138]: Reverse
+                  - generic [ref=f6e140]: "18"
+                - button "Crypto 13" [ref=f6e142]:
+                  - generic [ref=f6e143]: Crypto
+                  - generic [ref=f6e145]: "13"
+                - button "Web 11" [ref=f6e147]:
+                  - generic [ref=f6e148]: Web
+                  - generic [ref=f6e150]: "11"
+                - button "Mobile 2" [ref=f6e152]:
+                  - generic [ref=f6e153]: Mobile
+                  - generic [ref=f6e155]: "2"
+                - button "AI 1" [ref=f6e157]:
+                  - generic [ref=f6e158]: AI
+                  - generic [ref=f6e160]: "1"
+          - main [ref=f6e161]:
+            - generic [ref=f6e162]:
+              - region [ref=f6e164]:
+                - heading "提交 Flag" [level=3] [ref=f6e165]
+                - generic [ref=f6e167]:
+                  - generic [aria-hidden] [ref=f6e168]: ">_"
+                  - generic "Flag" [ref=f6e169]:
+                    - textbox "Flag" [ref=f6e171]:
+                      - /placeholder: Type Your Flag ~~
+              - generic "题目" [ref=f6e174]:
+                - generic [ref=f6e177]:
+                  - generic [ref=f6e178]:
+                    - generic [aria-hidden]: Pwn
+                    - 'heading "PWN 0x00: Foundation" [level=2] [ref=f6e188]'
+                    - button "本题提交记录" [ref=f6e189]
+                    - button "单题题解" [ref=f6e190]
+                    - generic [ref=f6e191]: Pwn
+                  - 'region "PWN 0x00: Foundation" [ref=f6e192]':
+                    - paragraph [ref=f6e194]: PWN 的第一步，不是漏洞利用，而是先学会看懂代码。 这一关需要你掌握最基础的 C 语言、Python 与 x86-64 汇编。你不需要一开始就成为某门语言的大师，但至少应该能够读懂简单的 C 程序、使用 Python 编写脚本，并认识常见的寄存器与汇编指令。 完成这些基础内容后，找到隐藏在教程中的 FLAG，正式迈出 PWN 的第一步。 C 语言是大多数 PWN 题目的基础，Python 常用于编写利用脚本，而汇编则是理解程序底层行为、栈帧、函数调用和后续漏洞利用的重要基础。
+                  - region [ref=f6e196]:
+                    - heading "附件" [level=3] [ref=f6e198]
+                    - list [ref=f6e199]:
+                      - listitem [ref=f6e200]:
+                        - button "pwn_programming_basics.pdf" [ref=f6e201]
+                  - region [ref=f6e203]:
+                    - generic [ref=f6e204]:
+                      - heading "题目提示" [level=3] [ref=f6e205]
+                      - button "刷新提示" [ref=f6e208]
+                    - paragraph [ref=f6e209]: 暂无已发布的提示
+          - complementary [ref=f6e211]:
+            - navigation "赛事导航" [ref=f6e212]:
+              - generic "赛事导航" [ref=f6e218]:
+                - generic [ref=f6e219]:
+                  - generic [ref=f6e220]:
+                    - heading "竞赛" [level=3] [ref=f6e221]
+                    - generic [ref=f6e222]:
+                      - link "概览" [ref=f6e223] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0
+                      - link "题目" [ref=f6e230] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges
+                      - link "闯关与勋章" [ref=f6e234] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/progression
+                      - link "记分板" [ref=f6e240] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/leaderboard
+                      - link "咨询" [ref=f6e248] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/questions
+                  - generic [ref=f6e253]:
+                    - heading "我的" [level=3] [ref=f6e254]
+                    - generic [ref=f6e255]:
+                      - link "我的队伍" [ref=f6e256] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/team
+                      - link "我的题解" [ref=f6e261] [cursor=pointer]:
+                        - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/my/writeup
+            - complementary "赛事播报" [ref=f6e266]:
+              - generic [ref=f6e267]:
+                - generic [ref=f6e268]: 赛事播报
+                - generic [ref=f6e273]: 直播
+              - generic "赛事播报" [ref=f6e274]:
+                - list [ref=f6e275]:
+                  - listitem [ref=f6e276]:
+                    - link [ref=f6e277] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b02c-68c7-7ffa-8deb-8522d4bd65ef
+                      - paragraph [ref=f6e278]: 队伍「yza」获得题目「ret2syscall_rain」二血
+                      - time [ref=f6e279]: 2026/10/23 17:43:08
+                  - listitem [ref=f6e280]:
+                    - link [ref=f6e281] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a1150d-105f-7a48-986c-c4c1188e11d3
+                      - paragraph [ref=f6e282]: 队伍「yza」获得题目「[第六届信安大挑战]shellcode_revenge」一血
+                      - time [ref=f6e283]: 2026/10/23 16:00:09
+                  - listitem [ref=f6e284]:
+                    - link [ref=f6e285] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0af42-f049-7703-b65c-ba05af2041c1
+                      - paragraph [ref=f6e286]: 队伍「LE^aVe」获得题目「谎言不会伤人」二血
+                      - time [ref=f6e287]: 2026/10/23 15:20:39
+                  - listitem [ref=f6e288]:
+                    - link [ref=f6e289] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a12070-33e5-732f-ac45-7c541cd5f457
+                      - paragraph [ref=f6e290]: 队伍「zzzz」获得题目「赞美太阳」三血
+                      - time [ref=f6e291]: 2026/10/22 21:58:06
+                  - listitem [ref=f6e292]:
+                    - link [ref=f6e293] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c36a-3556-75a1-8d8d-88180a53cbd2
+                      - paragraph [ref=f6e294]: 队伍「LE^aVe」获得题目「[day4]selfHook」二血
+                      - time [ref=f6e295]: 2026/10/22 20:54:17
+                  - listitem [ref=f6e296]:
+                    - link [ref=f6e297] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c36a-0eb5-7de5-95d8-afe18f7ff8e6
+                      - paragraph [ref=f6e298]: 队伍「LE^aVe」获得题目「[day4]sm4」二血
+                      - time [ref=f6e299]: 2026/10/22 14:06:25
+                  - listitem [ref=f6e300]:
+                    - link [ref=f6e301] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f6e302]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f6e303]: 2026/10/21 16:16:12
+                  - listitem [ref=f6e304]:
+                    - link [ref=f6e305] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f6e306]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f6e307]: 2026/10/21 16:13:08
+                  - listitem [ref=f6e308]:
+                    - link [ref=f6e309] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f6e310]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f6e311]: 2026/10/21 16:12:10
+                  - listitem [ref=f6e312]:
+                    - link [ref=f6e313] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0aa11-63ac-7865-9b96-b82623e2d39d
+                      - paragraph [ref=f6e314]: 题目「ret2text_rain」已更新描述
+                      - time [ref=f6e315]: 2026/10/21 16:11:38
+                  - listitem [ref=f6e316]:
+                    - link [ref=f6e317] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0afb0-ed1a-7121-b8f2-f3c70a1cca45
+                      - paragraph [ref=f6e318]: 题目「canary_rain」已更新描述
+                      - time [ref=f6e319]: 2026/10/21 16:03:08
+                  - listitem [ref=f6e320]:
+                    - link [ref=f6e321] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b02c-68c7-7ffa-8deb-8522d4bd65ef
+                      - paragraph [ref=f6e322]: 队伍「THocK」获得题目「ret2syscall_rain」一血
+                      - time [ref=f6e323]: 2026/10/21 00:50:48
+                  - listitem [ref=f6e324]:
+                    - link [ref=f6e325] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a11158-4f33-7b47-8c5b-d527fb919b67
+                      - paragraph [ref=f6e326]: 队伍「zzzz」获得题目「这题做了，不烧心」三血
+                      - time [ref=f6e327]: 2026/10/20 23:08:04
+                  - listitem [ref=f6e328]:
+                    - link [ref=f6e329] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0c8e2-3473-75e0-af33-3ecc34d3ed49
+                      - paragraph [ref=f6e330]: 队伍「www」获得题目「Silent Mutation」三血
+                      - time [ref=f6e331]: 2026/10/20 22:55:34
+                  - listitem [ref=f6e332]:
+                    - link [ref=f6e333] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0bea8-f1eb-7eae-ba38-9a1224e17c4f
+                      - paragraph [ref=f6e334]: 队伍「www」获得题目「像素后的隐秘」三血
+                      - time [ref=f6e335]: 2026/10/20 22:41:59
+                  - listitem [ref=f6e336]:
+                    - link [ref=f6e337] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0ba16-bb5a-7d79-b946-67e11eafe3de
+                      - paragraph [ref=f6e338]: 队伍「www」获得题目「God's Oracle」二血
+                      - time [ref=f6e339]: 2026/10/20 20:38:40
+                  - listitem [ref=f6e340]:
+                    - link [ref=f6e341] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a134e2-0840-77b7-90fe-720a518ed75b
+                      - paragraph [ref=f6e342]: 队伍「星月」获得题目「羽量背包」一血
+                      - time [ref=f6e343]: 2026/10/20 14:07:19
+                  - listitem [ref=f6e344]:
+                    - link [ref=f6e345] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0dd9c-f187-7c23-ac93-0dd8810c97b2
+                      - paragraph [ref=f6e346]: "队伍「不知道」获得题目「PWN 0x01: Insight」二血"
+                      - time [ref=f6e347]: 2026/10/20 12:21:44
+                  - listitem [ref=f6e348]:
+                    - link [ref=f6e349] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0a966-ab7f-78ef-b221-1708ac7ff8f9
+                      - paragraph [ref=f6e350]: 队伍「半夜起床嚼槟榔发现是性感母蟑螂」获得题目「[day1]upx-mini」一血
+                      - time [ref=f6e351]: 2026/10/20 12:21:44
+                  - listitem [ref=f6e352]:
+                    - link [ref=f6e353] [cursor=pointer]:
+                      - /url: /competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a0b3bc-f4a6-7833-bebf-969bca1161c2
+                      - paragraph [ref=f6e354]: 队伍「lgls」获得题目「babyinclude」三血
+                      - time [ref=f6e355]: 2026/10/20 12:21:44
+                - button "加载更早动态" [ref=f6e357]
+  - region "通知 alt+T":
+    - list

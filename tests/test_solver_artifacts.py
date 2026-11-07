@@ -26,6 +26,7 @@ def test_solver_output_artifact_fields_are_optional() -> None:
     assert old_output.solution_steps == []
     assert old_output.exp_paths == []
     assert old_output.exp_run_command == ""
+    assert old_output.artifact_paths == []
 
     candidate = CandidateFound(
         flag="FLAG{ok}",
@@ -37,6 +38,7 @@ def test_solver_output_artifact_fields_are_optional() -> None:
     assert candidate.solution_steps == ["运行脚本"]
     schema = solver_output_json_schema()
     assert all("exp_paths" in option["properties"] for option in schema["oneOf"][:2])
+    assert all("artifact_paths" in option["properties"] for option in schema["oneOf"][:2])
 
 
 def test_gave_up_output_is_supported_by_all_provider_schemas() -> None:
@@ -65,6 +67,7 @@ def test_platform_confirmation_keeps_exact_flag_and_discards_stale_artifacts() -
     solver._evidence = ("wrong flag evidence",)
     solver._solution_steps = ("错误步骤",)
     solver._exp_paths = ("/challenge/workspace/wrong.py",)
+    solver._artifact_paths = ("/challenge/workspace/wrong.png",)
     solver._exp_run_command = "python3 wrong.py"
     solver._step_count = [2]
     solver.model_spec = "azure/example"
@@ -82,12 +85,16 @@ def test_platform_confirmation_keeps_exact_flag_and_discards_stale_artifacts() -
     assert result.evidence == ()
     assert result.exp_paths == ()
     assert result.solution_steps == ()
+    assert result.artifact_paths == ()
     assert result.model_spec == "azure/example"
     assert events[-1][1]["run_id"] == "test-run"
 
 
 @pytest.mark.asyncio
 async def test_swarm_captures_registered_exp_before_solver_stop(tmp_path, monkeypatch) -> None:
+    workspace = tmp_path / "workspace"
+    workspace.mkdir()
+    (workspace / "analysis.txt").write_text("Observed decoding intermediate result", encoding="utf-8")
     settings = Settings(
         _env_file=None,
         knowledge_enabled=False,
@@ -117,6 +124,7 @@ async def test_swarm_captures_registered_exp_before_solver_stop(tmp_path, monkey
             return SolverResult(
                 "FLAG{ok}", FLAG_FOUND, "decode", 1, 0.01, "trace.jsonl",
                 exp_paths=("/challenge/workspace/solve.py",),
+                artifact_paths=("/challenge/workspace/analysis.txt",),
                 model_spec=self.model_spec,
             )
 
@@ -142,6 +150,8 @@ async def test_swarm_captures_registered_exp_before_solver_stop(tmp_path, monkey
     assert result is not None
     assert result.status == FLAG_FOUND
     assert result.saved_exp_paths == ("exp/solve.py",)
+    assert result.saved_artifacts[0]["original_path"] == "/challenge/workspace/analysis.txt"
+    assert (tmp_path / result.saved_artifacts[0]["path"]).read_text(encoding="utf-8") == "Observed decoding intermediate result"
     assert solver.stopped
     assert calls == [
         (str(tmp_path), solver.sandbox, ("/challenge/workspace/solve.py",), "FLAG{ok}", "fake/model")
@@ -342,7 +352,7 @@ async def test_claude_gave_up_preserves_findings_for_retry(monkeypatch) -> None:
     solver._solution_steps = ("stale step",)
     solver._exp_paths = ("/challenge/workspace/stale.py",)
     solver._exp_run_command = "python3 stale.py"
-    solver.cost_tracker = SimpleNamespace(record_tokens=lambda *_args, **_kwargs: None)
+    solver.cost_tracker = CostTracker()
     solver.tracer = SimpleNamespace(path="trace.jsonl", event=lambda *_args, **_kwargs: None)
     solver.agent_name = "test"
     solver.model_id = "example"
@@ -451,6 +461,8 @@ async def test_claude_failure_preserves_only_current_attempt_analysis(monkeypatc
     solver._exp_run_command = ""
     solver.tracer = SimpleNamespace(path="trace.jsonl", event=lambda *_args, **_kwargs: None)
     solver.agent_name = "test"
+    solver.cost_tracker = CostTracker()
+    solver.model_id = "example"
     solver.role = "primary_analysis"
     solver.model_spec = "claude-sdk/example"
 

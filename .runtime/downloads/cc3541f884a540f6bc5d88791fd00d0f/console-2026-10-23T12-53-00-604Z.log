@@ -1,0 +1,12 @@
+[     148ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://noctf.fa1lsnow.com:40075/login.php:0
+[     236ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/favicon.ico:0
+[   58349ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40075/.git/HEAD:0
+[   58392ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40075/.git/config:0
+[   58472ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/%2egit/HEAD:0
+[   58513ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/.g%69t/HEAD:0
+[   58553ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/%2E%67%69%74/HEAD:0
+[   58595ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/.git%2fHEAD:0
+[   58636ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://noctf.fa1lsnow.com:40075/server-status:0
+[   58677ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/server-info:0
+[   58716ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/%E9%99%84%E4%BB%B6.zip:0
+[   58756ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40075/%E9%99%84%E4%BB%B6.zip:0

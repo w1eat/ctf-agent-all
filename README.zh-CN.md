@@ -496,9 +496,16 @@ EXTERNAL_KNOWLEDGE_CONTEXT_CHARS=4000
 challenges/<题目目录>/writeup.md
 challenges/<题目目录>/exp/
 challenges/<题目目录>/solution/manifest.json
+challenges/<题目目录>/solution/evidence/<记录编号>/commands.jsonl
+challenges/<题目目录>/solution/artifacts/<内容哈希>/
+challenges/<题目目录>/solution/replays/
 ```
 
 题解记录解题过程、证据和结果状态。Solver 应把实际使用的 EXP 写入 `/challenge/workspace/` 并在结果中登记路径，程序在停止沙箱前保存文件，然后在新的沙箱中尝试复现。复现失败会记录待检查状态，需要人工环境的步骤会明确标注。
+
+题解包含环境与附件校验值、解题路线、逐步复现、实际命令与输出、关键图片或音频以及验证限制。Solver 通过 `artifact_paths` 登记工作目录中的实际产物；程序会在沙箱停止前归档，并在复现阶段保存新生成的媒体。浏览器提交同时保存页面文字，并尝试截图，截图与具体 Flag 和运行绑定。图片由程序按已登记证据插入，写作模型只引用证据编号。
+
+生成图片或音频但未自动识别 Flag 时，复现状态为 `artifacts_generated`（产物已生成，待人工核对）。候选、脚本输出匹配、图像或音频核对及平台确认分别记录，不能互相替代。详细机制与限制见 [题解证据流程](docs/writeup-evidence.md)。
 
 默认由发现候选的 Solver 模型生成题解，可以用 `--writeup-model provider/model` 或 `WRITEUP_MODEL_SPEC` 指定其他模型。生成失败可重试，已完成题解默认保留。
 
@@ -507,6 +514,16 @@ challenges/<题目目录>/solution/manifest.json
 ```powershell
 uv run ctf-writeup backfill --run-id YOUR_RUN_ID
 ```
+
+先检查现有题解，再按题目升级旧格式：
+
+```powershell
+uv run ctf-writeup audit
+uv run ctf-writeup audit --challenge you-cut-me-off --json
+uv run ctf-writeup backfill --run-id YOUR_RUN_ID --upgrade-format --challenge you-cut-me-off
+```
+
+`audit` 只读取文件，不调用模型。`--challenge` 可重复使用，接受题目名称或目录名。`--upgrade-format` 补写旧版生成文件并保留人工修改；历史工具日志会以“历史记录”归档，已有截断不会被当作完整输出。
 
 也可添加 `--model provider/model` 覆盖写作模型。`--force` 会重新生成已有题解，包括人工修改，应在确实需要覆盖时使用。缺少明确 Flag 或解题材料的历史题目会跳过。
 

@@ -1,0 +1,2 @@
+[     271ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://noctf.fa1lsnow.com/favicon.ico:0
+[   38065ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://noctf.fa1lsnow.com/api/v1/competitions/01a0a8b9-cfc9-7d8d-872b-fad6d2935ff0/challenges/01a134e2-6144-79db-8d22-3cd4a1ae3f23/runtimes/current:0

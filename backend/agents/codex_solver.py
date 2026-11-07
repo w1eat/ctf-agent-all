@@ -28,8 +28,10 @@ from backend.output_types import solver_output_json_schema
 from backend.platforms.base import PlatformAdapter
 from backend.prompts import ChallengeMeta, build_prompt, list_distfiles
 from backend.sandbox import DockerSandbox
+from backend.sdk_usage import CodexUsage
 from backend.solver_base import (
     BLOCKED,
+    BUDGET_EXHAUSTED,
     CANCELLED,
     CANDIDATE_FOUND,
     ERROR,
@@ -52,6 +54,7 @@ from backend.tools.core import (
 )
 from backend.tools.knowledge import KNOWLEDGE_TOOL_SPECS
 from backend.tracing import SolverTracer
+from backend.writeup_evidence import evidence_context
 
 logger = logging.getLogger(__name__)
 
@@ -189,7 +192,10 @@ class CodexSolver:
         )
         self.use_vision = supports_vision(model_spec)
         self.loop_detector = LoopDetector()
-        self.tracer = SolverTracer(meta.name, self.model_id)
+        self.tracer = SolverTracer(
+            meta.name, self.model_id, challenge_dir=challenge_dir,
+            run_id=str(getattr(settings, "challenge_run_id", "") or ""),
+        )
         self.tracer.knowledge_snapshots = {
             "external": knowledge_service.external.snapshot_id if knowledge_service else "",
             "local": knowledge_service.local.snapshot_id if knowledge_service else "",
@@ -206,6 +212,7 @@ class CodexSolver:
         self._evidence: tuple[str, ...] = ()
         self._solution_steps: tuple[str, ...] = ()
         self._exp_paths: tuple[str, ...] = ()
+        self._artifact_paths: tuple[str, ...] = ()
         self._exp_run_command = ""
         self._cost_usd = 0.0
         self._bump_insights: str | None = None
@@ -422,7 +429,6 @@ class CodexSolver:
             # params: {threadId, turnId, tokenUsage: {last: TokenUsageBreakdown, total: TokenUsageBreakdown}}
             elif method == "thread/tokenUsage/updated":
                 token_usage = params.get("tokenUsage", {})
-                last = token_usage.get("last", {})
                 total = token_usage.get("total", {})
 
                 # Proactive compaction at 70% context window (only for small-context models like spark)
@@ -437,13 +443,9 @@ class CodexSolver:
                         except Exception as e:
                             logger.warning(f"[{self.agent_name}] Compaction request failed: {e}")
 
-                self.cost_tracker.record_tokens(
-                    self.agent_name, self.model_id,
-                    input_tokens=last.get("inputTokens", 0),
-                    output_tokens=last.get("outputTokens", 0),
-                    cache_read_tokens=last.get("cachedInputTokens", 0),
-                    provider_spec="codex",
-                )
+                if not hasattr(self, "_usage_ledger"):
+                    self._usage_ledger = CodexUsage(self.cost_tracker, self.agent_name, self.model_id)
+                self._usage_ledger.observe(params)
                 agent_usage = self.cost_tracker.by_agent.get(self.agent_name)
                 self._cost_usd = agent_usage.cost_usd if agent_usage else 0.0
                 self.tracer.usage(
@@ -452,9 +454,19 @@ class CodexSolver:
                     total.get("cachedInputTokens", 0),
                     self._cost_usd,
                 )
+                max_cost = float(getattr(self.settings, "solver_max_cost_usd", 0) or 0)
+                if max_cost and self._cost_usd >= max_cost:
+                    self._budget_exhausted = True
+                    self._turn_done.set()
 
     async def _handle_tool_call(self, request_id: int, params: dict) -> None:
         """Handle item/tool/call server request. Params are DynamicToolCallParams."""
+        if getattr(self, "_budget_exhausted", False):
+            await self._respond_to_request(request_id, {
+                "contentItems": [{"type": "inputText", "text": "Cost budget exhausted; stopping this turn."}],
+                "success": False,
+            })
+            return
         tool_name = params.get("tool", "")
         try:
             args = params.get("arguments", {})
@@ -479,7 +491,8 @@ class CodexSolver:
             self.tracer.event("loop_break", tool=tool_name, step=self._step_count)
             result = "Loop detected — try a completely different approach."
         else:
-            result = await self._exec_tool(tool_name, args)
+            with evidence_context(getattr(self.tracer, "evidence_recorder", None), tool_name, self._step_count):
+                result = await self._exec_tool(tool_name, args)
             if loop_status == "warn" and isinstance(result, str):
                 from backend.loop_detect import LOOP_WARNING_MESSAGE
                 result = f"{result}\n\n{LOOP_WARNING_MESSAGE}"
@@ -492,8 +505,7 @@ class CodexSolver:
             self.tracer.tool_result(tool_name, f"image:{mime_type}:{len(image_bytes)}b", self._step_count)
         else:
             result_text = str(result)
-            self.tracer.tool_result(tool_name, result_text if tool_name.endswith(
-                ("search_knowledge", "read_knowledge")) else result_text[:500], self._step_count)
+            self.tracer.tool_result(tool_name, result_text, self._step_count)
 
             if self._step_count % 5 == 0 and self.message_bus:
                 from backend.tools.core import do_check_findings
@@ -563,6 +575,7 @@ class CodexSolver:
                     self._evidence = ()
                     self._solution_steps = ()
                     self._exp_paths = ()
+                    self._artifact_paths = ()
                     self._exp_run_command = ""
                 self._confirmed = True
                 self._flag = flag.strip()
@@ -584,6 +597,7 @@ class CodexSolver:
                     self._evidence = ()
                     self._solution_steps = ()
                     self._exp_paths = ()
+                    self._artifact_paths = ()
                     self._exp_run_command = ""
                 self._confirmed = True
                 self._flag = flag.strip()
@@ -615,6 +629,7 @@ class CodexSolver:
             self._evidence = ()
             self._solution_steps = ()
             self._exp_paths = ()
+            self._artifact_paths = ()
             self._exp_run_command = ""
 
         t0 = time.monotonic()
@@ -633,8 +648,14 @@ class CodexSolver:
 
         try:
             self._turn_done.clear()
+            max_cost = float(getattr(self.settings, "solver_max_cost_usd", 0) or 0)
+            if max_cost and self._cost_usd >= max_cost:
+                self._findings = "Cost budget exhausted"
+                return self._result(BUDGET_EXHAUSTED)
+            self._budget_exhausted = False
             self._structured_output = None
             self._turn_error = None
+            self.tracer.event("model_request", step=self._step_count)
             await self._rpc("turn/start", {
                 "threadId": self._thread_id,
                 "input": [{"type": "text", "text": prompt_text}],
@@ -646,6 +667,10 @@ class CodexSolver:
                 await asyncio.wait_for(self._turn_done.wait(), timeout=timeout_s)
             else:
                 await self._turn_done.wait()
+
+            if self._budget_exhausted and not self._confirmed:
+                self._findings = "Cost budget exhausted"
+                return self._result(BUDGET_EXHAUSTED)
 
             duration = time.monotonic() - t0
             self.tracer.event("turn_complete", duration=round(duration, 1), steps=self._step_count)
@@ -673,6 +698,8 @@ class CodexSolver:
                     self._evidence = tuple(str(item)[:1000] for item in evidence[:20]) if isinstance(evidence, list) else ()
                     self._solution_steps = tuple(str(item)[:2000] for item in steps[:30]) if isinstance(steps, list) else ()
                     self._exp_paths = tuple(str(item) for item in paths[:12]) if isinstance(paths, list) else ()
+                    artifacts = structured_output.get("artifact_paths") or []
+                    self._artifact_paths = tuple(str(item) for item in artifacts[:12]) if isinstance(artifacts, list) else ()
                     self._exp_run_command = str(structured_output.get("exp_run_command") or "")[:1000]
                     if self._evidence:
                         self._findings += " | Evidence: " + " ; ".join(self._evidence[:5])
@@ -681,6 +708,7 @@ class CodexSolver:
                     self._evidence = ()
                     self._solution_steps = ()
                     self._exp_paths = ()
+                    self._artifact_paths = ()
                     self._exp_run_command = ""
             elif structured_output and structured_output.get("type") in {"blocked", "needs_input"}:
                 self._findings = structured_output.get("message") or structured_output.get("reason", "solver is blocked")
@@ -747,6 +775,8 @@ class CodexSolver:
         self.tracer.event(
             "finish", status=status, flag=self._flag, confirmed=self._confirmed,
             run_id=str(getattr(self.settings, "challenge_run_id", "") or ""),
+            evidence_logs=[self.tracer.evidence_log_path] if getattr(self.tracer, "evidence_log_path", "") else [],
+            artifact_paths=list(getattr(self, "_artifact_paths", ())),
         )
         return SolverResult(
             flag=self._flag, status=status,
@@ -760,6 +790,8 @@ class CodexSolver:
             exp_paths=self._exp_paths,
             exp_run_command=self._exp_run_command,
             model_spec=self.model_spec,
+            artifact_paths=getattr(self, "_artifact_paths", ()),
+            evidence_logs=(self.tracer.evidence_log_path,) if getattr(self.tracer, "evidence_log_path", "") else (),
         )
 
     async def stop(self) -> None:

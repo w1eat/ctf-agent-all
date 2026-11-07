@@ -1,0 +1,76 @@
+[     198ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://noctf.fa1lsnow.com:40073/login.php:0
+[    2040ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/favicon.ico:0
+[    9021ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://noctf.fa1lsnow.com:40073/login.php:0
+[   15674ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://noctf.fa1lsnow.com:40073/login.php:0
+[ 1866126ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/Dockerfile:0
+[ 1866167ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/Dockerfile.bak:0
+[ 1866206ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/Dockerfile.orig:0
+[ 1866245ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/docker-compose.yml:0
+[ 1866285ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/docker-compose.yaml:0
+[ 1866324ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/compose.yml:0
+[ 1866364ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/.dockerignore:0
+[ 1866404ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/README.md:0
+[ 1866444ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/README:0
+[ 1866483ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/readme.txt:0
+[ 1866524ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/flag:0
+[ 1866565ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/flag.txt:0
+[ 1866605ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/index.php.bak:0
+[ 1866648ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/index.php~:0
+[ 1866693ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/index.php.swp:0
+[ 1866771ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/upload.php.bak:0
+[ 1866812ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/file.php.bak:0
+[ 1866849ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/auth.php.bak:0
+[ 1866955ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/login.php.bak:0
+[ 1866994ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/logout.php.bak:0
+[ 1867032ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/dist.zip:0
+[ 1867070ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/source.zip:0
+[ 1867108ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/src.zip:0
+[ 1867147ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/backup.zip:0
+[ 1867186ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/hardcar.zip:0
+[ 1867224ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/dist/:0
+[ 1867264ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/src/:0
+[ 1867307ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/app/:0
+[ 1867348ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/backup/:0
+[ 1867472ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/.DS_Store:0
+[ 1867544ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/robots.txt:0
+[ 1867583ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/sitemap.xml:0
+[ 1867618ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/docker-entrypoint.sh:0
+[ 1867654ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/apache2.conf:0
+[ 1867691ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/ports.conf:0
+[ 1867727ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/php.ini.bak:0
+[ 1867765ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/entrypoint.sh.bak:0
+[ 1867800ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/.env:0
+[ 1867843ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/config.php:0
+[ 1867879ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/config.php.bak:0
+[ 1867916ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/db.php:0
+[ 1867952ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/info.php:0
+[ 1867988ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/.user.ini:0
+[ 1932547ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://noctf.fa1lsnow.com:40073/assets/:0
+[ 1932589ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/index.html:0
+[ 1932633ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/script.js:0
+[ 1932674ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/main.js:0
+[ 1932714ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/app.js:0
+[ 1932754ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/upload.js:0
+[ 1932797ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/logo.png:0
+[ 1932838ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/favicon.ico:0
+[ 1932879ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/car.png:0
+[ 1932920ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/banner.png:0
+[ 1932961ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/images/:0
+[ 1933002ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/css/:0
+[ 1933041ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/js/:0
+[ 1933081ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/fonts/:0
+[ 1933124ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/style.css.bak:0
+[ 1933164ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/style.css~:0
+[ 1933203ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/background.png.bak:0
+[ 1933243ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://noctf.fa1lsnow.com:40073/assets/style.css.map:0
+[ 2039916ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/upload.php:0
+[ 2044920ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/upload.php?x=1:0
+[ 2049923ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/auth.php:0
+[ 2054927ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/file.php:0
+[ 2059930ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/file.php?file=nope:0
+[ 2064933ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/file.php?file=index.html:0
+[ 2075233ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/:0
+[ 2080236ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/index.php:0
+[ 2085239ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://noctf.fa1lsnow.com:40073/assets/style.css:0
+[ 2139206ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ chrome-error://chromewebdata/:0
+[ 2146422ms] [ERROR] Failed to load resource: the server responded with a status of 502 () @ chrome-error://chromewebdata/:0

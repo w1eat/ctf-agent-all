@@ -8,6 +8,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
+from urllib.parse import unquote
 
 import click
 
@@ -35,6 +36,10 @@ class BackfillCandidate:
     verified_by: tuple[str, ...] = ()
     from_manifest: bool = False
     record_status: str = ""
+    evidence_logs: tuple[str, ...] = ()
+    trace_paths: tuple[str, ...] = ()
+    saved_artifacts: tuple[dict, ...] = ()
+    format_version: int = 1
 
 
 def _jsonl(path: Path):
@@ -158,7 +163,8 @@ def _coordinator_confirmations(
 
 
 def _trace_evidence(
-    root: Path, challenge_name: str, flag: str, run_id: str
+    root: Path, challenge_name: str, flag: str, run_id: str,
+    matched_paths: list[str] | None = None,
 ) -> tuple[str, tuple[str, ...]] | None:
     """Read method evidence only from an exact confirmed finish for this flag.
 
@@ -192,6 +198,8 @@ def _trace_evidence(
         model_id = str(start.get("model") or "")
         model_spec = next((spec for spec in DEFAULT_MODELS if model_id_from_spec(spec) == model_id), "")
         selected = tuple(dict.fromkeys(snippets[-8:]))
+        if matched_paths is not None:
+            matched_paths.append(str(path))
         return model_spec, selected
     return None
 
@@ -241,6 +249,8 @@ def _run_scoped_traces(
             challenge_dir, meta, flag, source, model_spec,
             tuple(dict.fromkeys(snippets[-8:])),
             findings_summary=snippets[-1] if snippets else "",
+            evidence_logs=tuple(str(item) for item in finish.get("evidence_logs", [])),
+            trace_paths=(str(path),),
         ))
     return accepted, skipped
 
@@ -299,6 +309,12 @@ def discover_candidates(
                 challenge_dir, meta, flag, source,
                 str(record.get("model_spec") or ""), evidence, steps, summary,
                 verified_by, True, str(record.get("status") or ""),
+                evidence_logs=tuple(dict.fromkeys([
+                    *(previous.evidence_logs if previous else ()), *record.get("evidence_logs", []),
+                ])),
+                trace_paths=previous.trace_paths if previous else (),
+                saved_artifacts=tuple(record.get("saved_artifacts", [])),
+                format_version=int(record.get("format_version") or 1),
             )
 
     for (challenge_name, flag), reason in confirmations.items():
@@ -308,9 +324,8 @@ def discover_candidates(
             continue
         challenge_dir, meta = entry
         prior = candidates.get((challenge_dir, flag))
-        if prior and prior.source == "platform_confirmed":
-            continue
-        trace = _trace_evidence(logs_dir, meta.name, flag, run_id)
+        matched_paths: list[str] = []
+        trace = _trace_evidence(logs_dir, meta.name, flag, run_id, matched_paths)
         model_spec, snippets = trace if trace else ("", ())
         evidence = tuple(dict.fromkeys((*(prior.evidence if prior else ()), *snippets, reason))) if reason else tuple(
             dict.fromkeys((*(prior.evidence if prior else ()), *snippets))
@@ -324,11 +339,39 @@ def discover_candidates(
             findings_summary=snippets[-1] if snippets else (prior.findings_summary if prior else ""),
             from_manifest=bool(prior and prior.from_manifest),
             record_status="pending" if prior and prior.source != "platform_confirmed" else (prior.record_status if prior else ""),
+            evidence_logs=prior.evidence_logs if prior else (),
+            trace_paths=tuple(dict.fromkeys([*(prior.trace_paths if prior else ()), *matched_paths])),
+            saved_artifacts=prior.saved_artifacts if prior else (),
+            format_version=prior.format_version if prior else 1,
         )
 
     # Only run-scoped trace candidates and exact coordinator confirmations are
     # considered. Unscoped guesses and external solve status are ignored.
     return list(candidates.values()), skipped
+
+
+def _archive_trace(candidate: BackfillCandidate, run_id: str) -> tuple[str, ...]:
+    """Archive actual call/result pairs from already identity-checked traces."""
+    from backend.writeup_evidence import EvidenceRecorder, load_command_evidence
+
+    paths = list(candidate.evidence_logs)
+    if paths and load_command_evidence(candidate.challenge_dir, paths, run_id=run_id):
+        return tuple(paths)
+    paths = []
+    for raw in candidate.trace_paths[:6]:
+        recorder = EvidenceRecorder(candidate.challenge_dir, Path(raw).name, run_id, provenance="historical_trace")
+        for event in _jsonl(Path(raw)):
+            step = event.get("step")
+            if not isinstance(step, int):
+                continue
+            tool = str(event.get("tool") or "")
+            if event.get("type") == "tool_call":
+                recorder.call(tool, _args(event.get("args")), step)
+            elif event.get("type") == "tool_result":
+                recorder.result(tool, _result_text(event.get("result")) or str(event.get("result") or ""), step)
+        if recorder.path.is_file():
+            paths.append(recorder.relative_path)
+    return tuple(dict.fromkeys(paths))
 
 
 def _current_writeup_source(challenge_dir: Path) -> str:
@@ -345,6 +388,53 @@ def _current_writeup_source(challenge_dir: Path) -> str:
         return ""
 
 
+def audit_writeups(challenges_dir: Path, challenge_names: tuple[str, ...] = ()) -> list[dict[str, Any]]:
+    """Inspect saved writeup quality without models, network calls or writes."""
+    from backend.writeup_evidence import load_command_evidence, safe_path, validated_artifacts
+
+    rows = []
+    for writeup in sorted(challenges_dir.glob("*/writeup.md")):
+        challenge = writeup.parent
+        issues = []
+        try:
+            manifest = json.loads((challenge / "solution/manifest.json").read_text(encoding="utf-8"))
+            record = next((item for item in manifest.get("records", []) if item.get("key") == manifest.get("current_key")), {})
+        except (OSError, ValueError, TypeError):
+            record = {}
+            issues.append("缺少有效的题解清单")
+        name = str(record.get("challenge", {}).get("name") or challenge.name)
+        if challenge_names and name not in challenge_names and challenge.name not in challenge_names:
+            continue
+        text = writeup.read_text(encoding="utf-8")
+        images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
+        for image in images:
+            if image.startswith(("https://", "http://", "data:")):
+                continue
+            try:
+                safe_path(challenge, unquote(image))
+            except (OSError, ValueError):
+                issues.append(f"配图缺失或路径无效：{image}")
+        artifacts = list(record.get("saved_artifacts", []))
+        valid = validated_artifacts(challenge, artifacts)
+        if {item.get("path") for item in artifacts} - {item["path"] for item in valid}:
+            issues.append("证据产物缺失、被修改或格式无效")
+        evidence = load_command_evidence(challenge, record.get("evidence_logs", []), run_id=record.get("run_id", ""))
+        if not evidence:
+            issues.append("没有可审计的命令与输出记录")
+        version = int(record.get("format_version") or 1)
+        if version < 2:
+            issues.append("题解仍为旧版结构")
+        if not images and not valid:
+            issues.append("尚未嵌入图片，可按题型补充")
+        rows.append({"name": name, "directory": str(challenge), "format_version": version,
+                     "image_count": len(images), "command_count": len(evidence),
+                     "replay_status": record.get("replay", {}).get("status", "missing"),
+                     "confirmation_source": record.get("confirmation_source", "missing"),
+                     "review_reason": record.get("review_reason") or record.get("replay", {}).get("reason", ""),
+                     "issues": issues})
+    return rows
+
+
 async def run_backfill(
     run_id: str,
     challenges_dir: Path,
@@ -352,6 +442,8 @@ async def run_backfill(
     *,
     model_spec: str = "",
     force: bool = False,
+    challenge_names: tuple[str, ...] = (),
+    upgrade_format: bool = False,
 ) -> tuple[int, list[str]]:
     settings = Settings()
     settings.challenge_run_id = run_id
@@ -364,14 +456,18 @@ async def run_backfill(
     candidates, messages = discover_candidates(run_id, challenges_dir, logs_dir)
     scheduled = 0
     for candidate in candidates:
+        if challenge_names and candidate.meta.name not in challenge_names and candidate.challenge_dir.name not in challenge_names:
+            continue
         writeup = candidate.challenge_dir / "writeup.md"
         current_source = _current_writeup_source(candidate.challenge_dir)
         upgrade = SOURCE_PRIORITY[candidate.source] > SOURCE_PRIORITY.get(current_source, -1)
+        upgrade = upgrade or (upgrade_format and candidate.format_version < 2)
         if writeup.exists() and not force and candidate.record_status not in {"pending", "failed"} and not upgrade:
             messages.append(f"{candidate.meta.name}: 已有 writeup.md，保持原样")
             continue
+        evidence_logs = _archive_trace(candidate, run_id)
         solver_result = None
-        if candidate.from_manifest or candidate.solution_steps or candidate.findings_summary:
+        if candidate.from_manifest or candidate.solution_steps or candidate.findings_summary or evidence_logs:
             solver_result = SolverResult(
                 flag=candidate.flag,
                 status={"independent_quorum": "verified", "platform_confirmed": "flag_found",
@@ -384,6 +480,8 @@ async def run_backfill(
                 verified_by=candidate.verified_by,
                 solution_steps=candidate.solution_steps,
                 model_spec=candidate.model_spec,
+                evidence_logs=evidence_logs,
+                saved_artifacts=candidate.saved_artifacts,
             )
         result = await manager.record_and_schedule(
             candidate.challenge_dir,
@@ -408,6 +506,8 @@ async def run_backfill(
             + 90,
         )
     )
+    if tracker := getattr(manager, "cost_tracker", None):
+        tracker.log_summary()
     return scheduled, messages
 
 
@@ -417,13 +517,32 @@ def main() -> None:
 
 
 @main.command()
+@click.option("--challenges-dir", type=click.Path(path_type=Path), default=Path("challenges"))
+@click.option("--challenge", "challenge_names", multiple=True, help="Only these challenge names or directory names")
+@click.option("--json", "as_json", is_flag=True, help="Print the inspection report as JSON")
+def audit(challenges_dir: Path, challenge_names: tuple[str, ...], as_json: bool) -> None:
+    """Inspect evidence, image links and format without invoking a model."""
+    rows = audit_writeups(challenges_dir, challenge_names)
+    if as_json:
+        click.echo(json.dumps(rows, ensure_ascii=False, indent=2))
+        return
+    for row in rows:
+        detail = "；".join(row["issues"]) or "证据与配图检查通过"
+        click.echo(f"{row['name']}: v{row['format_version']}，{row['image_count']} 张图，{row['command_count']} 条命令；复现={row['replay_status']}；{detail}")
+    click.echo(f"已检查 {len(rows)} 篇题解，{sum(bool(row['issues']) for row in rows)} 篇有待补充项。")
+
+
+@main.command()
 @click.option("--run-id", required=True, help="Existing competition run ID")
 @click.option("--model", "model_spec", default="", help="Override provider/model for writing")
 @click.option("--force", is_flag=True, help="Regenerate existing writeups, including manual edits")
+@click.option("--challenge", "challenge_names", multiple=True, help="Only these challenge names or directory names; repeatable")
+@click.option("--upgrade-format", is_flag=True, help="Upgrade older generated writeups while preserving manual edits")
 @click.option("--challenges-dir", type=click.Path(path_type=Path), default=Path("challenges"))
 @click.option("--logs-dir", type=click.Path(path_type=Path), default=Path("logs"))
 def backfill(
-    run_id: str, model_spec: str, force: bool, challenges_dir: Path, logs_dir: Path
+    run_id: str, model_spec: str, force: bool, challenges_dir: Path, logs_dir: Path,
+    challenge_names: tuple[str, ...], upgrade_format: bool,
 ) -> None:
     """Backfill one run; candidate writeups are marked unverified."""
     if not _RUN_ID.fullmatch(run_id):
@@ -431,7 +550,8 @@ def backfill(
     if model_spec and "/" not in model_spec:
         raise click.BadParameter("模型必须使用 provider/model 格式", param_hint="--model")
     scheduled, messages = asyncio.run(
-        run_backfill(run_id, challenges_dir, logs_dir, model_spec=model_spec, force=force)
+        run_backfill(run_id, challenges_dir, logs_dir, model_spec=model_spec, force=force,
+                     challenge_names=challenge_names, upgrade_format=upgrade_format)
     )
     for message in messages:
         click.echo(message)
