@@ -91,6 +91,12 @@ class ChallengePreparationManager:
     async def enqueue(self, challenge_name: str) -> bool:
         if not self.supported or challenge_name in self._scheduled:
             return False
+        is_catalog_only = getattr(self.platform, "is_catalog_only", None)
+        if callable(is_catalog_only) and is_catalog_only(challenge_name):
+            return False
+        is_locked = getattr(self.platform, "is_challenge_locked", None)
+        if callable(is_locked) and is_locked(challenge_name):
+            return False
         self._scheduled.add(challenge_name)
         self._queue.put_nowait(challenge_name)
         return True
@@ -125,6 +131,9 @@ class ChallengePreparationManager:
             await self._resume.wait()
             self._active.add(name)
             try:
+                is_locked = getattr(self.platform, "is_challenge_locked", None)
+                if callable(is_locked) and is_locked(name):
+                    continue
                 outcome = await prepare(name)
                 state = str(outcome.get("state", "needs_input"))
                 message = str(outcome.get("message", ""))

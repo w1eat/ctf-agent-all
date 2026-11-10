@@ -105,6 +105,11 @@ SANDBOX_TOOLS = [
         "inputSchema": {"type": "object", "properties": {"flag": {"type": "string"}}, "required": ["flag"]},
     },
     {
+        "name": "submit_artifact",
+        "description": "Submit named text artifacts through the challenge-specific workflow. files maps field names to sandbox workspace paths; values maps other fields to text. Pending is not a confirmed solve.",
+        "inputSchema": {"type": "object", "properties": {"files": {"type": "object", "additionalProperties": {"type": "string"}}, "values": {"type": "object", "additionalProperties": {"type": "string"}}, "uploads": {"type": "object", "additionalProperties": {"type": "string"}}}, "required": ["files", "values"]},
+    },
+    {
         "name": "confirm_submission",
         "description": "Judge the browser evidence from submit_flag. Set accepted=true only when the page clearly confirms this exact flag was accepted.",
         "inputSchema": {
@@ -142,6 +147,16 @@ SANDBOX_TOOLS = [
         "description": "Send a strategic message to the coordinator (e.g. flag format discovery, shared vulnerability, request for help).",
         "inputSchema": {"type": "object", "properties": {"message": {"type": "string"}}, "required": ["message"]},
     },
+    {
+        "name": "request_coordinator",
+        "description": "Ask the coordinator to perform a concrete action or provide information, and wait for its correlated reply. Never send credentials.",
+        "inputSchema": {"type": "object", "properties": {"message": {"type": "string"}}, "required": ["message"]},
+    },
+    {
+        "name": "check_coordinator_request",
+        "description": "Check one coordinator request by ID, or list this solver's requests with an empty ID.",
+        "inputSchema": {"type": "object", "properties": {"request_id": {"type": "string"}}},
+    },
 ]
 
 
@@ -161,9 +176,11 @@ class CodexSolver:
         submit_fn=None,
         message_bus=None,
         notify_coordinator=None,
+        request_coordinator=None,
         knowledge_context: str = "",
         knowledge_service=None,
         analysis_gateway=None,
+        check_coordinator_request=None,
     ) -> None:
         self.model_spec = model_spec
         self.model_id = model_id_from_spec(model_spec)
@@ -171,6 +188,8 @@ class CodexSolver:
         self.meta = meta
         self.message_bus = message_bus
         self.notify_coordinator = notify_coordinator
+        self.request_coordinator = request_coordinator
+        self.check_coordinator_request = check_coordinator_request
         self.knowledge_context = knowledge_context
         self.knowledge_service = knowledge_service
         from backend.knowledge_service import KnowledgeQueryBudget
@@ -249,6 +268,7 @@ class CodexSolver:
             role=self.role,
             has_analysis_tools=self.analysis_gateway is not None,
             has_ghidra=ghidra_result.exit_code == 0,
+            has_coordinator=self.request_coordinator is not None,
         )
 
         self._proc = await asyncio.create_subprocess_exec(
@@ -486,7 +506,8 @@ class CodexSolver:
             return
         self.tracer.tool_call(tool_name, args, self._step_count)
 
-        loop_status = self.loop_detector.check(tool_name, args)
+        coordination_tools = {"request_coordinator", "check_coordinator_request"}
+        loop_status = None if tool_name in coordination_tools else self.loop_detector.check(tool_name, args)
         if loop_status == "break":
             self.tracer.event("loop_break", tool=tool_name, step=self._step_count)
             result = "Loop detected — try a completely different approach."
@@ -507,7 +528,7 @@ class CodexSolver:
             result_text = str(result)
             self.tracer.tool_result(tool_name, result_text, self._step_count)
 
-            if self._step_count % 5 == 0 and self.message_bus:
+            if tool_name not in coordination_tools and self._step_count % 5 == 0 and self.message_bus:
                 from backend.tools.core import do_check_findings
                 findings = await do_check_findings(self.message_bus, self.model_spec)
                 if findings and "No new findings" not in findings:
@@ -561,6 +582,10 @@ class CodexSolver:
             return await do_write_file(self.sandbox, args.get("path", ""), args.get("content", ""))
         elif name == "list_files":
             return await do_list_files(self.sandbox, args.get("path", "/challenge/distfiles"))
+        elif name == "submit_artifact":
+            from backend.tools.core import do_submit_artifact
+            return await do_submit_artifact(self.platform, self.sandbox, self.meta.name,
+                                            args.get("files", {}), args.get("values", {}), self.no_submit, args.get("uploads", {}))
         elif name == "submit_flag":
             flag = args.get("flag", "")
             if self.no_submit:
@@ -615,6 +640,14 @@ class CodexSolver:
                 await self.notify_coordinator(args.get("message", ""))
                 return "Message sent to coordinator."
             return "No coordinator connected."
+        elif name == "request_coordinator":
+            from backend.coordination import call_coordinator
+
+            return await call_coordinator(getattr(self, "request_coordinator", None), args.get("message", ""))
+        elif name == "check_coordinator_request":
+            from backend.coordination import check_coordinator
+
+            return await check_coordinator(getattr(self, "check_coordinator_request", None), args.get("request_id", ""))
         return f"Unknown tool: {name}"
 
     async def run_until_done_or_gave_up(self) -> SolverResult:

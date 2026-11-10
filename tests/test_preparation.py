@@ -64,6 +64,18 @@ async def test_preparation_manager_queues_all_waiting_challenges_with_limit():
 
 
 @pytest.mark.asyncio
+async def test_catalog_only_challenge_is_not_prepared_until_registered():
+    platform = FakePreparationPlatform(1)
+    platform.is_catalog_only = lambda name: name == "challenge-0"
+    manager = ChallengePreparationManager(platform)
+
+    assert not await manager.enqueue("challenge-0")
+    assert manager.queued_count == 0
+    platform.is_catalog_only = lambda name: False
+    assert await manager.enqueue("challenge-0")
+
+
+@pytest.mark.asyncio
 async def test_stop_joins_tasks_parked_in_scan_sleep():
     platform = FakePreparationPlatform(0)
     manager = ChallengePreparationManager(platform, concurrency=2, scan_interval=30)

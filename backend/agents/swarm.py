@@ -38,6 +38,7 @@ from backend.solver_base import (
 
 if TYPE_CHECKING:
     from backend.config import Settings
+    from backend.coordination import CoordinatorRequestBroker
     from backend.writeups import WriteupManager
 
 logger = logging.getLogger(__name__)
@@ -90,6 +91,7 @@ class ChallengeSwarm:
     model_specs: list[str] = field(default_factory=lambda: list(DEFAULT_MODELS))
     no_submit: bool = False
     coordinator_inbox: asyncio.Queue | None = None
+    coordination: CoordinatorRequestBroker | None = None
     analysis_gateway: object | None = None
     writeup_manager: WriteupManager | None = None
 
@@ -148,6 +150,8 @@ class ChallengeSwarm:
 
         def _submit_fn(flag): return self.try_submit_flag(flag, model_spec)
         _notify = self._make_notify_fn(model_spec)
+        _request = self._make_request_fn(model_spec)
+        _check_request = self._make_check_request_fn(model_spec)
 
         if provider == "claude-sdk":
             from backend.agents.claude_solver import ClaudeSolver
@@ -163,6 +167,8 @@ class ChallengeSwarm:
                 submit_fn=_submit_fn,
                 message_bus=self.message_bus,
                 notify_coordinator=_notify,
+                request_coordinator=_request,
+                check_coordinator_request=_check_request,
                 knowledge_context=self.knowledge_context,
                 knowledge_service=self.knowledge_service,
                 analysis_gateway=self.analysis_gateway,
@@ -182,6 +188,8 @@ class ChallengeSwarm:
                 submit_fn=_submit_fn,
                 message_bus=self.message_bus,
                 notify_coordinator=_notify,
+                request_coordinator=_request,
+                check_coordinator_request=_check_request,
                 knowledge_context=self.knowledge_context,
                 knowledge_service=self.knowledge_service,
                 analysis_gateway=self.analysis_gateway,
@@ -213,6 +221,32 @@ class ChallengeSwarm:
                 )
         return _notify
 
+    def _make_request_fn(self, model_spec: str):
+        if self.coordination is None:
+            return None
+
+        async def _request(message: str) -> dict[str, str]:
+            assert self.coordination is not None
+            return await self.coordination.request(
+                self.meta.name,
+                model_spec,
+                message,
+                timeout_seconds=float(getattr(self.settings, "solver_coordinator_request_timeout_seconds", 300)),
+                cancel_event=self.cancel_event,
+            )
+
+        return _request
+
+    def _make_check_request_fn(self, model_spec: str):
+        if self.coordination is None:
+            return None
+
+        async def _check(request_id: str):
+            assert self.coordination is not None
+            return self.coordination.check(self.meta.name, model_spec, request_id)
+
+        return _check
+
     def _create_pydantic_solver(self, model_spec: str, sandbox=None, owns_sandbox: bool | None = None) -> Solver:
         """Create a Pydantic AI solver. Pass sandbox to reuse an existing container (quota fallback)."""
         solver = Solver(
@@ -234,6 +268,8 @@ class ChallengeSwarm:
         solver.deps.no_submit = self.no_submit
         solver.deps.submit_fn = lambda flag: self.try_submit_flag(flag, model_spec)
         solver.deps.notify_coordinator = self._make_notify_fn(model_spec)
+        solver.deps.request_coordinator = self._make_request_fn(model_spec)
+        solver.deps.check_coordinator_request = self._make_check_request_fn(model_spec)
         solver.deps.analysis_gateway = self.analysis_gateway
         return self._track_solver(solver, model_spec)
 
@@ -345,7 +381,7 @@ class ChallengeSwarm:
         while not self.cancel_event.is_set():
             self.agent_attempts[model_spec] = attempt_count + 1
             self.agent_last_activity[model_spec] = time.time()
-            result = await solver.run_until_done_or_gave_up()
+            result = await self._run_attempt(solver)
             self.agent_last_activity[model_spec] = time.time()
             if not result.model_spec:
                 result = replace(result, model_spec=solver.model_spec)
@@ -616,6 +652,25 @@ class ChallengeSwarm:
 
         return result, solver
 
+    async def _run_attempt(self, solver: SolverProtocol) -> SolverResult:
+        """Interrupt an active solver turn when its swarm is cancelled."""
+        attempt = asyncio.create_task(solver.run_until_done_or_gave_up())
+        cancelled = asyncio.create_task(self.cancel_event.wait())
+        try:
+            done, _ = await asyncio.wait({attempt, cancelled}, return_when=asyncio.FIRST_COMPLETED)
+            if attempt in done:
+                return await attempt
+            attempt.cancel()
+            outcome = (await asyncio.gather(attempt, return_exceptions=True))[0]
+            if isinstance(outcome, SolverResult):
+                return replace(outcome, status=CANCELLED)
+            return SolverResult(None, CANCELLED, "Swarm cancelled", 0, 0, "")
+        finally:
+            for task in (attempt, cancelled):
+                if not task.done():
+                    task.cancel()
+            await asyncio.gather(attempt, cancelled, return_exceptions=True)
+
     async def _run_independent_verifier(
         self,
         model_spec: str,
@@ -638,6 +693,13 @@ class ChallengeSwarm:
             verifier = self._create_solver(model_spec)
             self._track_solver(verifier, verifier_spec)
             verifier.role = "verifier"
+            if hasattr(verifier, "request_coordinator"):
+                verifier.request_coordinator = self._make_request_fn(verifier_spec)
+            if hasattr(verifier, "check_coordinator_request"):
+                verifier.check_coordinator_request = self._make_check_request_fn(verifier_spec)
+            if getattr(verifier, "deps", None) is not None:
+                verifier.deps.request_coordinator = self._make_request_fn(verifier_spec)
+                verifier.deps.check_coordinator_request = self._make_check_request_fn(verifier_spec)
             self._mark_activity(verifier_spec, "starting")
             await verifier.start()
             verifier.bump(
@@ -647,7 +709,7 @@ class ChallengeSwarm:
                 "Only report a candidate if you can independently derive the exact same value. "
                 "Otherwise explain why it is rejected or inconclusive."
             )
-            result = await verifier.run_until_done_or_gave_up()
+            result = await self._run_attempt(verifier)
             self.agent_last_activity[verifier_spec] = time.time()
             accepted = None
             if result.status in (CANDIDATE_FOUND, FLAG_FOUND, VERIFIED) and result.flag:

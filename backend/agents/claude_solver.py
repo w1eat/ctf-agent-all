@@ -72,9 +72,11 @@ class ClaudeSolver:
         submit_fn=None,
         message_bus=None,
         notify_coordinator=None,
+        request_coordinator=None,
         knowledge_context: str = "",
         knowledge_service=None,
         analysis_gateway=None,
+        check_coordinator_request=None,
     ) -> None:
         self.model_spec = model_spec
         self.model_id = model_id_from_spec(model_spec)
@@ -88,6 +90,8 @@ class ClaudeSolver:
         self.submit_fn = submit_fn
         self.message_bus = message_bus
         self.notify_coordinator = notify_coordinator
+        self.request_coordinator = request_coordinator
+        self.check_coordinator_request = check_coordinator_request
         self.knowledge_context = knowledge_context
         self.knowledge_service = knowledge_service
         from backend.knowledge_service import KnowledgeQueryBudget
@@ -148,11 +152,17 @@ class ClaudeSolver:
             "All files are under /challenge/ — distfiles at /challenge/distfiles/, "
             "workspace at /challenge/workspace/. Do NOT use any paths outside /challenge/. "
             "All bash commands run inside the container via docker exec. "
-            "Use bash for everything: cat/head to read files, tee/echo> to write, find/grep to search. "
+            "Use bash for sandbox files and commands: cat/head to read, tee/echo> to write, find/grep to search. "
          "submit_flag 'FLAG' to submit. After reviewing SUBMISSION_PENDING evidence, use "
+         "For a configured artifact workflow use submit_artifact '<JSON>' with JSON keys files "
+         "(field names to /challenge/workspace paths) and values (field names to text). "
          "confirm_submission yes 'FLAG' 'reason' only when the page clearly accepts it. "
          "notify_coordinator 'MSG' to message the coordinator.\n\n"
         )
+        if self.request_coordinator is not None:
+            sandbox_preamble += "Use `mcp__coordination__request_coordinator` for coordinator requests. "
+            sandbox_preamble += "Use `mcp__coordination__check_coordinator_request` to check their status. "
+            sandbox_preamble += "\n\n"
         system_prompt = sandbox_preamble + build_prompt(
             self.meta, distfile_names, container_arch=container_arch,
             has_named_tools=False,
@@ -160,6 +170,7 @@ class ClaudeSolver:
             role=self.role,
             has_analysis_tools=self.analysis_gateway is not None,
             has_ghidra=ghidra_result.exit_code == 0,
+            has_coordinator=self.request_coordinator is not None,
         )
 
         # PreToolUse hook: rewrite Bash commands to run in the sandbox container.
@@ -190,7 +201,8 @@ class ClaudeSolver:
                 }
             self._step_count += 1
             self.tracer.tool_call(tool_name, tool_input, self._step_count, call_id=tool_use_id)
-            loop_status = self.loop_detector.check(tool_name, str(tool_input)[:200])
+            coordination_tools = {"mcp__coordination__request_coordinator", "mcp__coordination__check_coordinator_request"}
+            loop_status = None if tool_name in coordination_tools else self.loop_detector.check(tool_name, str(tool_input)[:200])
             if loop_status == "break":
                 self.tracer.event("loop_break", tool=tool_name, step=self._step_count)
                 return {
@@ -207,6 +219,24 @@ class ClaudeSolver:
 
             if tool_name == "Bash":
                 command = tool_input.get("command", "")
+
+                artifact_match = re.match(r"submit_artifact\s+(.+)$", command.strip(), re.DOTALL)
+                if artifact_match:
+                    from backend.tools.core import do_submit_artifact
+                    try:
+                        parts = shlex.split(artifact_match.group(1))
+                        payload = json.loads(parts[0]) if len(parts) == 1 else None
+                        if not isinstance(payload, dict):
+                            raise ValueError("expected one JSON object")
+                        result_msg = await do_submit_artifact(
+                            self.platform, self.sandbox, self.meta.name,
+                            payload.get("files", {}), payload.get("values", {}), self.no_submit, payload.get("uploads", {}),
+                        )
+                    except (ValueError, TypeError, json.JSONDecodeError) as exc:
+                        result_msg = f"submit_artifact error: {exc}"
+                    return {"hookSpecificOutput": {"hookEventName": "PreToolUse",
+                            "permissionDecision": "allow", "updatedInput": {
+                                **tool_input, "command": f"echo {shlex.quote(result_msg)}"}}}
 
                 # Intercept submit_flag commands — handle submission directly
                 flag_match = re.match(r"submit_flag\s+['\"]?(.+?)['\"]?\s*$", command.strip())
@@ -311,7 +341,7 @@ class ClaudeSolver:
                     result["systemMessage"] = warn_msg
                 return result
 
-            if tool_name in ("WebFetch", "WebSearch") or tool_name.startswith(("mcp__analysis__", "mcp__knowledge__")):
+            if tool_name in ("WebFetch", "WebSearch") or tool_name.startswith(("mcp__analysis__", "mcp__knowledge__", "mcp__coordination__")):
                 return {"systemMessage": warn_msg} if warn_msg else {}
 
             # Everything else is denied — Glob/Grep/Read/Write/Edit/Agent/etc.
@@ -364,6 +394,14 @@ class ClaudeSolver:
 
         mcp_servers = {}
         allowed_tools = ["Bash", "WebFetch", "WebSearch"]
+        if self.request_coordinator is not None:
+            from backend.coordination import make_claude_coordination_server
+
+            mcp_servers["coordination"] = make_claude_coordination_server(
+                self.request_coordinator, self.check_coordinator_request
+            )
+            allowed_tools.append("mcp__coordination__request_coordinator")
+            allowed_tools.append("mcp__coordination__check_coordinator_request")
         if self.analysis_gateway:
             from backend.solver_mcp import make_claude_analysis_server
             mcp_servers["analysis"] = make_claude_analysis_server(

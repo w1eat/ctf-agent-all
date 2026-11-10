@@ -11,6 +11,7 @@ from collections.abc import Callable, Coroutine
 from pathlib import Path
 from typing import Any
 
+from backend.catalog_monitor import CatalogRefreshSchedule
 from backend.challenge_filter import normalize_challenge_types
 from backend.config import Settings
 from backend.cost_tracker import CostTracker
@@ -118,6 +119,7 @@ async def _shutdown_services(
         await _guarded_step(tracer, "message_server.wait_closed", msg_server.wait_closed())
     await _guarded_step(tracer, "preparation.stop", preparation.stop())
     await _guarded_step(tracer, "poller.stop", poller.stop())
+    _guarded_action(tracer, "coordination.close", deps.coordination.close)
     for name, swarm in deps.swarms.items():
         _guarded_action(tracer, f"swarm.kill:{name}", swarm.kill)
     for name, task in deps.swarm_tasks.items():
@@ -217,6 +219,7 @@ async def run_event_loop(
                 "total_tokens": cost_tracker.total_tokens, "error": error}
 
     poller = CTFdPoller(platform=platform, interval_s=5.0)
+    deps.coordination.set_wakeup(poller.wake)
     preparation = ChallengePreparationManager(
         platform,
         concurrency=int(getattr(deps.settings, "preparation_concurrency", 4) or 4),
@@ -274,9 +277,23 @@ async def run_event_loop(
         "has an environment control, start/register required environments, and spawn only after "
         "get_challenge_state reports ready."
     )
+    catalog_monitor_enabled = callable(getattr(platform, "discover_challenges", None)) and callable(
+        getattr(platform, "catalog_sources", None)
+    )
+    if catalog_monitor_enabled:
+        initial_msg += (
+            "\nPreviously observed catalog sources: "
+            + json.dumps(_catalog_sources(platform), ensure_ascii=False)
+            + "\nUnregistered catalog entries needing review: "
+            + json.dumps(await _catalog_backlog(platform, poller.known_solved), ensure_ascii=False)
+            + "\nRefresh the sources and inspect selected available catalog-only challenges."
+        )
 
     fatal_error: str | None = None
     try:
+        begin_catalog_scan = getattr(platform, "begin_catalog_scan", None)
+        if callable(begin_catalog_scan):
+            begin_catalog_scan()
         try:
             await turn_fn(initial_msg)
         finally:
@@ -287,10 +304,19 @@ async def run_event_loop(
             await _queue_or_spawn_unsolved(deps, poller, preparation)
 
         last_status = asyncio.get_event_loop().time()
+        catalog_schedule = None
+        if catalog_monitor_enabled:
+            catalog_schedule = CatalogRefreshSchedule(
+                float(getattr(deps.settings, "coordinator_catalog_refresh_interval_seconds", 120)),
+                last_status,
+            )
+            if not getattr(platform, "catalog_scan_generation", 0):
+                catalog_schedule.retry(last_status)
 
         while True:
             events = []
-            evt = await poller.get_event(timeout=5.0)
+            wait_seconds = catalog_schedule.wait_seconds(time.monotonic()) if catalog_schedule else 5.0
+            evt = await poller.get_event(timeout=wait_seconds)
             if evt:
                 events.append(evt)
             events.extend(poller.drain_events())
@@ -303,6 +329,8 @@ async def run_event_loop(
                         swarm.kill()
                         logger.info("Auto-killed swarm for: %s", evt.challenge_name)
                 if evt.kind == "challenge_solved":
+                    if catalog_schedule is not None:
+                        catalog_schedule.request(f"platform confirmed {evt.challenge_name}", time.monotonic())
                     deps.deferred_auto_spawn.discard(evt.challenge_name)
                     confirmed_flag_getter = getattr(deps.platform, "get_confirmed_flag", None)
                     confirmed_flag = (
@@ -328,10 +356,37 @@ async def run_event_loop(
 
             parts: list[str] = []
             for evt in events:
-                if evt.kind == "new_challenge":
-                    if deps.challenge_types:
+                if evt.kind in {"new_challenge", "challenge_available", "challenge_unlocked"}:
+                    if evt.challenge_name in poller.known_solved:
+                        continue
+                    is_locked = getattr(platform, "is_challenge_locked", None)
+                    if evt.details.get("locked") is True or (
+                        callable(is_locked) and is_locked(evt.challenge_name)
+                    ):
+                        parts.append(f"DISCOVERED: '{evt.challenge_name}' is locked. Wait until it becomes available.")
+                        continue
+                    if evt.kind == "challenge_unlocked":
+                        completed_task = deps.swarm_tasks.get(evt.challenge_name)
+                        if completed_task is not None and completed_task.done():
+                            deps.swarms.pop(evt.challenge_name, None)
+                            deps.swarm_tasks.pop(evt.challenge_name, None)
+                            deps.reported_finished_swarms.discard(evt.challenge_name)
+                    elif evt.kind in {"new_challenge", "challenge_available"}:
+                        completed_task = deps.swarm_tasks.get(evt.challenge_name)
+                        if evt.challenge_name in deps.started_challenges or (
+                            completed_task is not None and completed_task.done()
+                        ):
+                            parts.append(f"AVAILABLE: '{evt.challenge_name}' was already started. Inspect its status before retrying.")
+                            continue
+                    is_catalog_only = getattr(platform, "is_catalog_only", None)
+                    if callable(is_catalog_only) and is_catalog_only(evt.challenge_name):
+                        event_label = {"challenge_unlocked": "UNLOCKED", "challenge_available": "AVAILABLE"}.get(
+                            evt.kind, "DISCOVERED"
+                        )
+                        parts.append(f"{event_label}: '{evt.challenge_name}' is catalog-only. Verify its status and inspect its details before registration.")
+                    elif deps.challenge_types:
                         parts.append(
-                            f"NEW CHALLENGE: '{evt.challenge_name}' appeared. Classify it against the requested preference before spawning."
+                            f"AVAILABLE CHALLENGE: '{evt.challenge_name}'. Classify it against the requested preference before spawning."
                         )
                     elif preparation.supported:
                         queued = await preparation.enqueue(evt.challenge_name)
@@ -359,6 +414,15 @@ async def run_event_loop(
                     parts.append(f"SOLVER MESSAGE: {solver_msg}")
                 except asyncio.QueueEmpty:
                     break
+
+            for request in deps.coordination.announcements():
+                parts.append(
+                    "SOLVER REQUEST: " + json.dumps(request, ensure_ascii=False)
+                    + "\nClaim a queued request with claim_solver_request to read its action. "
+                    "Only act after the claim succeeds. An in_progress reminder is not permission "
+                    "to repeat an action. Reply to the exact request with reply_to_solver_request; "
+                    "use unknown when a side effect may have happened but its outcome is unclear."
+                )
 
             for prep_event in preparation.drain_events():
                 details = (
@@ -402,6 +466,9 @@ async def run_event_loop(
 
             for pending_name in list(deps.pending_challenges):
                 if pending_name not in deps.swarms:
+                    is_locked = getattr(platform, "is_challenge_locked", None)
+                    if callable(is_locked) and is_locked(pending_name):
+                        continue
                     try:
                         package_state = await deps.platform.get_challenge_state(pending_name)
                     except Exception:
@@ -444,6 +511,22 @@ async def run_event_loop(
 
             parts.extend(await _drain_deferred_auto_spawns(deps, poller.known_solved))
 
+            catalog_reasons = catalog_schedule.take_due(time.monotonic()) if catalog_schedule else []
+            catalog_generation = getattr(platform, "catalog_scan_generation", 0)
+            if catalog_reasons:
+                begin_catalog_scan = getattr(platform, "begin_catalog_scan", None)
+                if callable(begin_catalog_scan):
+                    begin_catalog_scan()
+                parts.append(
+                    "CATALOG REFRESH: " + "; ".join(catalog_reasons)
+                    + ". Re-observe all recorded listing sources, including pagination and categories; "
+                    "record the observed challenges and mark scan_complete=true only after a complete scan. "
+                    "Inspect and register selected newly available challenges. Sources: "
+                    + json.dumps(_catalog_sources(platform), ensure_ascii=False)
+                    + "\nUnregistered catalog entries needing review: "
+                    + json.dumps(await _catalog_backlog(platform, poller.known_solved), ensure_ascii=False)
+                )
+
             # Drain operator messages
             while True:
                 try:
@@ -481,6 +564,12 @@ async def run_event_loop(
                     await turn_fn(msg)
                 finally:
                     preparation.resume()
+                if catalog_schedule is not None:
+                    if getattr(platform, "catalog_scan_generation", 0) != catalog_generation:
+                        catalog_schedule.succeeded(time.monotonic())
+                    elif catalog_reasons:
+                        logger.warning("Catalog refresh did not complete; scheduling a retry")
+                        catalog_schedule.retry(time.monotonic())
 
     except (KeyboardInterrupt, asyncio.CancelledError) as exc:
         logger.info("Coordinator shutting down...")
@@ -515,6 +604,9 @@ async def run_event_loop(
 
 async def _auto_spawn_one(deps: CoordinatorDeps, challenge_name: str) -> str:
     """Auto-spawn a swarm for a single challenge if not already running."""
+    is_locked = getattr(deps.platform, "is_challenge_locked", None)
+    if callable(is_locked) and is_locked(challenge_name):
+        return f"Challenge is locked: {challenge_name}"
     if challenge_name in deps.swarms:
         task = deps.swarm_tasks.get(challenge_name)
         return (
@@ -559,6 +651,12 @@ async def _drain_deferred_auto_spawns(
 async def _queue_or_spawn_unsolved(deps: CoordinatorDeps, poller, preparation) -> None:
     """Queue package preparation before spawning browser-platform swarms."""
     unsolved = poller.known_challenges - poller.known_solved
+    list_challenges = getattr(deps.platform, "list_challenges", None)
+    if callable(list_challenges):
+        unsolved -= {
+            item.name for item in await list_challenges()
+            if item.source_data.get("catalog_only") or item.source_data.get("locked") is True
+        }
     for name in sorted(unsolved):
         if preparation.supported:
             queued = await preparation.enqueue(name)
@@ -566,6 +664,31 @@ async def _queue_or_spawn_unsolved(deps: CoordinatorDeps, poller, preparation) -
                 logger.info("Challenge queued for preparation: %s", name)
         else:
             await _auto_spawn_one(deps, name)
+
+
+def _catalog_sources(platform: PlatformAdapter) -> list[dict]:
+    try:
+        return list(platform.catalog_sources())
+    except Exception as exc:
+        logger.warning("Could not read catalog sources: %s", exc)
+        return []
+
+
+async def _catalog_backlog(platform: PlatformAdapter, solved: set[str]) -> list[dict[str, Any]]:
+    is_catalog_only = getattr(platform, "is_catalog_only", None)
+    if not callable(is_catalog_only):
+        return []
+    try:
+        challenges = await platform.list_challenges()
+        return [
+            {"native_id": item.native_id, "name": item.name, "category": item.category,
+             "locked": item.source_data.get("locked")}
+            for item in challenges
+            if is_catalog_only(item.name) and item.name not in solved and item.source_data.get("locked") is not True
+        ]
+    except Exception as exc:
+        logger.warning("Could not read catalog backlog: %s", exc)
+        return []
 
 
 async def _start_msg_server(inbox: asyncio.Queue, port: int = 0) -> asyncio.Server | None:

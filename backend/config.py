@@ -26,9 +26,11 @@ class Settings(BaseSettings):
     attachment_max_retries: int = 3
     preparation_concurrency: int = 4
     coordinator_decision_timeout_seconds: int = 180  # 0 disables the timeout.
+    coordinator_catalog_refresh_interval_seconds: int = 120  # 0 disables periodic refresh.
     coordinator_full_access: bool = False
     coordinator_trace_raw_progress: bool = False
     solver_attempt_timeout_seconds: int = 1800
+    solver_coordinator_request_timeout_seconds: int = 300
     solver_max_tool_steps_per_attempt: int = 160
     solver_max_cost_usd: float = 15.0
     flag_verification_quorum: int = 2
@@ -80,6 +82,7 @@ class Settings(BaseSettings):
         "max_attempts_per_challenge",
         "preparation_concurrency",
         "solver_attempt_timeout_seconds",
+        "solver_coordinator_request_timeout_seconds",
         "solver_max_tool_steps_per_attempt",
         "flag_verification_quorum",
         "writeup_timeout_seconds",
@@ -91,7 +94,7 @@ class Settings(BaseSettings):
             raise ValueError("must be a positive integer")
         return value
 
-    @field_validator("coordinator_decision_timeout_seconds")
+    @field_validator("coordinator_decision_timeout_seconds", "coordinator_catalog_refresh_interval_seconds")
     @classmethod
     def non_negative_coordinator_timeout(cls, value: int) -> int:
         if value < 0:

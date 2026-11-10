@@ -18,7 +18,7 @@ from contextlib import AsyncExitStack
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import parse_qsl, quote, urlparse
 
 import yaml
 from mcp.client.stdio import stdio_client
@@ -108,6 +108,7 @@ BROWSER_TOOL_SCHEMAS = [
     {"name": "browser_click", "description": "Click an element from the latest snapshot.", "inputSchema": {"type": "object", "properties": {"target": {"type": "string"}, "element": {"type": "string"}, "button": {"type": "string"}, "doubleClick": {"type": "boolean"}, "modifiers": {"type": "array", "items": {"type": "string"}}}, "required": ["target"]}},
     {"name": "browser_type", "description": "Type into an element from the latest snapshot.", "inputSchema": {"type": "object", "properties": {"target": {"type": "string"}, "text": {"type": "string"}, "element": {"type": "string"}, "slowly": {"type": "boolean"}, "submit": {"type": "boolean"}}, "required": ["target", "text"]}},
     {"name": "browser_fill_form", "description": "Fill multiple form fields.", "inputSchema": {"type": "object", "properties": {"fields": {"type": "array"}}, "required": ["fields"]}},
+    {"name": "browser_file_upload", "description": "Upload files to an already opened file chooser.", "inputSchema": {"type": "object", "properties": {"paths": {"type": "array", "items": {"type": "string"}}}, "required": ["paths"]}},
     {"name": "browser_wait_for", "description": "Wait for text or time.", "inputSchema": {"type": "object", "properties": {"text": {"type": "string"}, "textGone": {"type": "string"}, "time": {"type": "number"}}}},
     {"name": "browser_tabs", "description": "List, create, close, or select browser tabs.", "inputSchema": {"type": "object", "properties": {"action": {"type": "string"}, "index": {"type": "integer"}, "url": {"type": "string"}}, "required": ["action"]}},
     {"name": "browser_network_requests", "description": "Inspect requests made by the current page.", "inputSchema": {"type": "object", "properties": {"filter": {"type": "string"}, "static": {"type": "boolean"}, "filename": {"type": "string"}}}},
@@ -431,6 +432,9 @@ class BrowserMCPClient:
                                   traceback="".join(traceback.format_exception(exc)),
                                   session_state="started" if self._session else "stopped")
             if self._is_connection_error(exc):
+                if name in {"browser_click", "browser_file_upload", "browser_type", "browser_fill_form"}:
+                    return (f"Playwright MCP error: {name} outcome is unknown after disconnect; "
+                            "inspect the page and submission records before retrying")
                 try:
                     await self.restart(parent_call_id=trace_call_id)
                     session = self._session
@@ -568,6 +572,10 @@ class BrowserAutoPlatformAdapter:
         self.browser.allow_origin(self.base_url)
         self.recipes = RecipeStore(settings.platform_recipe_dir)
         self._bundles: dict[str, ChallengeBundle] = {}
+        self._discovered: dict[str, ChallengeBundle] = {}
+        self.catalog_scan_generation = 0
+        self._catalog_scan_sources: set[str] = set()
+        self._catalog_scan_has_errors = False
         self._directories: dict[str, Path] = {}
         self._solved: set[str] = set()
         self._pending_submissions: dict[str, PendingSubmission] = {}
@@ -593,7 +601,6 @@ class BrowserAutoPlatformAdapter:
                     "请先退出另一个 ctf-solve 进程；或用 --browser-profile 指定另一个目录后重跑。"
                 )
             await asyncio.to_thread(input, "Complete platform login in the Playwright browser, then press Enter here: ")
-
     def _restore_state(self) -> None:
         """Restore only challenges belonging to the selected persisted run."""
         for row in self.state.list_challenges():
@@ -649,6 +656,26 @@ class BrowserAutoPlatformAdapter:
                     encoding="utf-8",
                 )
                 temporary.replace(metadata)
+        self._restore_catalog()
+
+    def _restore_catalog(self) -> None:
+        known_ids = {bundle.native_id: bundle.name for bundle in self._bundles.values()}
+        for item in self.state.list_catalog_entries():
+            try:
+                name = str(item["name"])
+                native_id = str(item["native_id"])
+                existing = self._bundles.get(name) or self._discovered.get(name)
+                if existing and existing.native_id != native_id:
+                    raise ValueError("catalog name belongs to another ID")
+                if native_id in known_ids and known_ids[native_id] != name:
+                    raise ValueError("catalog ID belongs to another name")
+                bundle = self._catalog_bundle(item)
+                self._discovered[name] = bundle
+                known_ids[native_id] = name
+                if item.get("solved") is True:
+                    self._solved.add(name)
+            except (KeyError, TypeError, ValueError, ValidationError) as exc:
+                logger.warning("Could not restore catalog entry: %s", exc)
 
     async def discover(self) -> PlatformProfile:
         await self.browser.call("browser_navigate", {"url": self.base_url})
@@ -663,7 +690,164 @@ class BrowserAutoPlatformAdapter:
         )
 
     async def list_challenges(self) -> list[ChallengeBundle]:
-        return [bundle.normalized() for bundle in self._bundles.values()]
+        results = []
+        for name, bundle in {**self._discovered, **self._bundles}.items():
+            observed = self._discovered.get(name)
+            if observed and name in self._bundles:
+                bundle = bundle.model_copy(update={
+                    "source_data": {**bundle.source_data, "locked": observed.source_data.get("locked")},
+                })
+            results.append(bundle.normalized())
+        return results
+
+    def is_catalog_only(self, name: str) -> bool:
+        return name in self._discovered and name not in self._bundles
+
+    def is_challenge_locked(self, name: str) -> bool:
+        observed = self._discovered.get(name) or next(
+            (item for item in self._discovered.values() if item.native_id == str(name)), None
+        )
+        return bool(observed and observed.source_data.get("locked") is True)
+
+    @staticmethod
+    def _catalog_bundle(item: dict[str, Any]) -> ChallengeBundle:
+        return ChallengeBundle(
+            platform=str(item.get("platform") or "browser-auto"),
+            native_id=str(item["native_id"]), name=str(item["name"]),
+            category=str(item.get("category") or ""),
+            points=int(item.get("points") or 0),
+            description=str(item.get("description") or ""),
+            challenge_url=str(item.get("challenge_url") or ""),
+            state=ChallengeState.DISCOVERED,
+            source_data={"catalog_only": True, "locked": item.get("locked")},
+        )
+
+    def catalog_sources(self) -> list[dict[str, Any]]:
+        return self.state.list_catalog_sources()
+
+    def begin_catalog_scan(self) -> None:
+        self._catalog_scan_sources.clear()
+        self._catalog_scan_has_errors = False
+
+    @staticmethod
+    def _contains_url_credentials(url: str) -> bool:
+        parsed = urlparse(url)
+        sensitive_key = re.compile(
+            r"(?i)(token|password|passwd|secret|authorization|credential|session|api[_-]?key|"
+            r"signature|ticket|^code$|^key$|^auth$|^jwt$|^sid$|^csrf)"
+        )
+        params = [*parse_qsl(parsed.query, keep_blank_values=True),
+                  *parse_qsl(parsed.fragment.partition("?")[2] if "?" in parsed.fragment else parsed.fragment,
+                             keep_blank_values=True)]
+        return bool(parsed.username or parsed.password or any(sensitive_key.search(key) for key, _ in params)
+                    or redact_sensitive_text(url) != url)
+
+    def _validate_catalog_source(self, source: Any) -> dict[str, Any]:
+        if not isinstance(source, dict):
+            raise ValueError("source must be an object")
+        url = str(source.get("url") or "").strip()
+        kind = str(source.get("kind") or "page").strip().lower()
+        navigation = str(source.get("navigation") or "").strip()
+        active = source.get("active", True)
+        if kind not in {"page", "api"}:
+            raise ValueError("source kind must be page or api")
+        if not isinstance(active, bool):
+            raise ValueError("source active must be true or false")
+        if self.browser._check_url(url):
+            raise ValueError("source URL must use an allowed HTTP(S) origin without credentials")
+        if self._contains_url_credentials(url):
+            raise ValueError("source URL contains credential-like parameters")
+        if len(navigation) > 1000 or redact_sensitive_text(navigation) != navigation:
+            raise ValueError("source navigation must be short and credential-free")
+        return {"url": url, "kind": kind, "navigation": navigation, "active": active}
+
+    def discover_challenges(
+        self,
+        items: list[dict[str, Any]],
+        sources: list[dict[str, Any]] | None = None,
+        *,
+        scan_complete: bool = False,
+    ) -> dict[str, Any]:
+        """Record an observed listing without preparing uninspected challenges."""
+        discovered, errors = [], []
+        catalog_updates = []
+        updated_discovered = dict(self._discovered)
+        updated_solved = set(self._solved)
+        known_ids = {bundle.native_id: bundle.name
+                     for bundle in [*self._bundles.values(), *updated_discovered.values()]}
+        for index, item in enumerate(items):
+            try:
+                if not isinstance(item, dict):
+                    raise ValueError("expected an object")
+                raw_id = item.get("native_id")
+                if raw_id is None or raw_id == "":
+                    raw_id = item.get("challenge_id")
+                if isinstance(raw_id, bool):
+                    raise ValueError("native_id must be a string or integer")
+                native_id = str(raw_id).strip() if raw_id is not None else ""
+                name = str(item.get("name") or "").strip()
+                if not native_id or not name:
+                    raise ValueError("native_id and name are required")
+                existing = self._bundles.get(name) or updated_discovered.get(name)
+                if existing and existing.native_id != native_id:
+                    raise ValueError("challenge name already belongs to another ID")
+                if native_id in known_ids and known_ids[native_id] != name:
+                    raise ValueError("challenge ID already belongs to another name")
+                observed = updated_discovered.get(name) or existing
+                locked = item.get("locked")
+                if locked is not None and not isinstance(locked, bool):
+                    raise ValueError("locked must be true, false, or null")
+                if locked is None and observed:
+                    locked = observed.source_data.get("locked")
+                solved = item.get("solved")
+                if solved is not None and not isinstance(solved, bool):
+                    raise ValueError("solved must be true, false, or null")
+                challenge_url = str(item.get("challenge_url") or (observed.challenge_url if observed else ""))
+                if self._contains_url_credentials(challenge_url):
+                    challenge_url = ""
+                catalog_item = {
+                    "native_id": native_id, "name": name,
+                    "platform": str(item.get("platform") or (observed.platform if observed else "browser-auto")),
+                    "category": str(item.get("category") or (observed.category if observed else "")),
+                    "points": int(item["points"]) if item.get("points") is not None else (observed.points if observed else 0),
+                    "description": str(item.get("description") or (observed.description if observed else "")),
+                    "challenge_url": challenge_url,
+                    "locked": locked,
+                    "solved": solved is True or name in updated_solved,
+                }
+                bundle = self._catalog_bundle(catalog_item)
+                catalog_updates.append(catalog_item)
+                updated_discovered[name] = bundle
+                known_ids[native_id] = name
+                if item.get("solved") is True:
+                    updated_solved.add(name)
+                discovered.append(name)
+            except (TypeError, ValueError, ValidationError) as exc:
+                errors.append({"index": index, "error": str(exc)})
+        self.state.upsert_catalog_entries(catalog_updates)
+        self._discovered = updated_discovered
+        self._solved.update(updated_solved)
+        source_errors = []
+        for index, source in enumerate(sources or []):
+            try:
+                validated = self._validate_catalog_source(source)
+                self.state.upsert_catalog_source(validated)
+                if validated["active"]:
+                    self._catalog_scan_sources.add(self.state.catalog_source_key(validated))
+            except (TypeError, ValueError) as exc:
+                source_errors.append({"index": index, "error": str(exc)})
+        self._catalog_scan_has_errors |= bool(errors or source_errors)
+        active_sources = self.catalog_sources()
+        missing_sources = [source for source in active_sources
+                           if self.state.catalog_source_key(source) not in self._catalog_scan_sources]
+        complete = (scan_complete is True and not self._catalog_scan_has_errors
+                    and bool(active_sources) and not missing_sources)
+        if complete:
+            self.catalog_scan_generation += 1
+        logger.info("Challenge listing: %d discovered, %d rejected", len(discovered), len(errors))
+        return {"discovered": discovered, "errors": errors, "source_errors": source_errors,
+                "missing_sources": missing_sources, "source_required": not active_sources,
+                "scan_had_errors": self._catalog_scan_has_errors, "scan_complete": complete}
 
     def _slug(self, name: str) -> str:
         slug = re.sub(r'[<>:"/\\|?*\.\x00-\x1f]', "", name.lower().strip())
@@ -813,7 +997,12 @@ class BrowserAutoPlatformAdapter:
 
     def register_challenge(self, data: dict[str, Any]) -> ChallengeBundle:
         payload = dict(data)
+        source_data = dict(payload.get("source_data") or {})
+        source_data.pop("catalog_only", None)
         attachments = list(payload.get("attachments") or [])
+        for item in source_data.get("attachments") or []:
+            if item not in attachments:
+                attachments.append(item)
         local_files: list[str] = []
         for index, item in enumerate(payload.get("files") or []):
             if isinstance(item, dict):
@@ -838,10 +1027,10 @@ class BrowserAutoPlatformAdapter:
         )
         payload["environment_required"] = environment_required
         payload["source_data"] = {
-            **dict(payload.get("source_data") or {}),
+            **source_data,
             "attachments": attachments,
             "environment_required": environment_required,
-            "attachments_scanned": bool(payload.get("attachments_scanned")) or (
+            "attachments_scanned": bool(payload.get("attachments_scanned") or source_data.get("attachments_scanned")) or (
                 bool(attachments)
                 and all(
                     self._has_usable_attachment_metadata(item)
@@ -869,6 +1058,14 @@ class BrowserAutoPlatformAdapter:
         bundle = ChallengeBundle.model_validate(payload).model_copy(
             update={"state": initial_state}
         ).normalized()
+        observed = self._discovered.get(bundle.name)
+        if observed and observed.native_id != bundle.native_id:
+            raise ValueError(f"Catalog name {bundle.name!r} belongs to another challenge ID")
+        if any(item.native_id == bundle.native_id and item.name != bundle.name
+               for item in self._discovered.values()):
+            raise ValueError(f"Catalog ID {bundle.native_id!r} belongs to another challenge name")
+        if observed and observed.source_data.get("locked") is True and bundle.name not in self._bundles:
+            raise ValueError(f"Challenge {bundle.name!r} is locked; wait until it becomes available")
         existing = next((known for known in self._bundles.values()
                          if known.native_id == bundle.native_id), None)
         if existing:
@@ -1982,17 +2179,21 @@ class BrowserAutoPlatformAdapter:
     async def submit_flag(self, challenge_id: str, flag: str) -> SubmissionResult:
         if not self.allow_submit:
             return SubmissionResult(status="dry_run", display=f'DRY RUN — would submit "{flag.strip()}" for {challenge_id}')
-        recipe = self.recipes.load(self.base_url)
-        issue = submission_recipe_issue(recipe, self.base_url)
-        if issue:
-            raise RuntimeError(f"{issue}; use the Coordinator to discover and save one")
-        assert recipe is not None
         bundle = next(
             (item for item in self._bundles.values()
              if item.name == challenge_id or item.native_id == challenge_id),
             None,
         )
         route_id = bundle.native_id if bundle else challenge_id
+        recipe = self.recipes.load(self.base_url, route_id)
+        if recipe is None:
+            raise RuntimeError("Submission workflow unknown for this challenge; inspect and configure it first")
+        if recipe.kind != "flag":
+            raise RuntimeError(f"This challenge uses a {recipe.kind} workflow, not a flag workflow")
+        issue = submission_recipe_issue(recipe, self.base_url)
+        if issue:
+            raise RuntimeError(f"{issue}; use the Coordinator to discover and save one")
+        assert recipe is not None
         async with self._browser_action_lock:
             await self._execute_recipe(recipe, challenge_id=route_id, flag=flag, purpose="submit")
             snapshot = await self._checked_recipe_browser_call("browser_snapshot", {})
@@ -2016,6 +2217,109 @@ class BrowserAutoPlatformAdapter:
                 f"{snapshot[:12000]}"
             ),
         )
+
+    async def submit_artifact(self, challenge_id: str, fields: dict[str, str], uploads: dict[str, str] | None = None) -> SubmissionResult:
+        """Execute an observed, challenge-specific text artifact workflow."""
+        if not self.allow_submit:
+            return SubmissionResult(status="dry_run", display="DRY RUN — artifact not submitted")
+        bundle = next((item for item in self._bundles.values()
+                       if item.name == challenge_id or item.native_id == challenge_id), None)
+        route_id = bundle.native_id if bundle else challenge_id
+        recipe = self.recipes.load(self.base_url, route_id)
+        if recipe is None or recipe.kind != "artifact":
+            raise RuntimeError("No challenge-specific artifact workflow; inspect the page and save one")
+        issue = submission_recipe_issue(recipe, self.base_url)
+        if issue:
+            raise RuntimeError(issue)
+        names = {step.value[1:-1] for step in recipe.steps
+                 if step.action == "type" and re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value)}
+        missing = sorted(name for name in names if name not in fields or not isinstance(fields[name], str))
+        if missing:
+            raise RuntimeError(f"Missing artifact fields: {', '.join(missing)}")
+        upload_names = {step.value[1:-1] for step in recipe.steps if step.action == "upload"
+                        and re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value)}
+        if upload_names - set(uploads or {}):
+            raise RuntimeError(f"Missing uploads: {', '.join(sorted(upload_names - set(uploads or {})))}")
+        async with self._browser_action_lock:
+            previous = self.state.get_artifact_submission(route_id)
+            if previous and previous["status"] in {"submitting", "pending", "unknown"}:
+                raise RuntimeError("A submission is pending or has an unknown outcome; inspect it before retrying")
+            def before_submit() -> None:
+                self.state.save_artifact_submission(route_id, "", "submitting", "")
+
+            await self._execute_recipe(recipe, challenge_id=route_id, fields=fields, uploads=uploads,
+                                       purpose="submit", before_submit=before_submit)
+            snapshot = await self._checked_recipe_browser_call("browser_snapshot", {})
+            submission_id = ""
+            if recipe.tracking:
+                matches = re.findall(recipe.tracking["id_pattern"], snapshot)
+                if len(matches) == 1 and re.fullmatch(r"[A-Za-z0-9_-]{1,100}", matches[0]):
+                    submission_id = matches[0]
+            self.state.save_artifact_submission(route_id, submission_id, "pending", redact_sensitive_text(snapshot))
+        if submission_id:
+            deadline = time.monotonic() + float(recipe.tracking.get("timeout_seconds", 30))
+            while time.monotonic() < deadline:
+                try:
+                    result = await self.check_artifact_submission(challenge_id)
+                except Exception as exc:
+                    return SubmissionResult(status="pending", display=(
+                        f"ARTIFACT_SUBMISSION_PENDING — submission_id={submission_id}; "
+                        f"status check failed: {exc}. Inspect the recorded submission before retrying."
+                    ))
+                if result.status in {"correct", "incorrect"}:
+                    return result
+                await asyncio.sleep(min(float(recipe.tracking.get("interval_seconds", 5)), max(0, deadline - time.monotonic())))
+        return SubmissionResult(status="pending", display=(
+            f"ARTIFACT_SUBMISSION_PENDING — submission_id={submission_id or 'unavailable'}. "
+            "Inspect submission records for the final verdict; "
+            "do not treat a queued evaluation as a solve.\n" + snapshot[:12000]
+        ))
+
+    async def check_artifact_submission(self, challenge_id: str) -> SubmissionResult:
+        bundle = next((item for item in self._bundles.values()
+                       if item.name == challenge_id or item.native_id == challenge_id), None)
+        route_id = bundle.native_id if bundle else challenge_id
+        recipe = self.recipes.load(self.base_url, route_id)
+        record = self.state.get_artifact_submission(route_id)
+        if not record:
+            return SubmissionResult(status="unknown", display="No recorded artifact submission.")
+        submission_id = record["submission_id"]
+        if not recipe or not recipe.tracking or not submission_id:
+            return SubmissionResult(status="unknown", display=(
+                f"Submission state={record['status']}; outcome requires manual inspection; "
+                "no verified submission ID is available.\n" + record["evidence"][:12000]
+            ))
+        tracking = recipe.tracking
+        url = tracking["url"].replace("{challenge_id}", quote(route_id, safe="")).replace("{submission_id}", submission_id)
+        target = tracking["target"].replace("{submission_id}", submission_id)
+        async with self._browser_action_lock:
+            await self._checked_recipe_browser_call("browser_navigate", {"url": url})
+            snapshot = await self._checked_recipe_browser_call("browser_snapshot", {"target": target})
+        text = snapshot.casefold()
+        success = any(marker.casefold() in text for marker in recipe.success_markers)
+        failure = any(marker.casefold() in text for marker in recipe.failure_markers)
+        status = "correct" if success and not failure else "incorrect" if failure and not success else "pending"
+        self.state.save_artifact_submission(route_id, submission_id, status, redact_sensitive_text(snapshot))
+        return SubmissionResult(status=status, display=f"ARTIFACT_{status.upper()} — submission_id={submission_id}\n{snapshot[:12000]}")
+
+    async def resolve_artifact_submission(self, challenge_id: str, outcome: str, evidence: str) -> str:
+        """Release a pending submission only after inspecting a challenge-specific page."""
+        if outcome not in {"incorrect", "not_submitted"} or not evidence.strip():
+            raise ValueError("Provide an observed evidence phrase and outcome incorrect or not_submitted")
+        bundle = next((item for item in self._bundles.values()
+                       if item.name == challenge_id or item.native_id == challenge_id), None)
+        if not bundle:
+            raise ValueError("Challenge must be registered")
+        async with self._browser_action_lock:
+            record = self.state.get_artifact_submission(bundle.native_id)
+            if not record or record["status"] not in {"submitting", "pending", "unknown"}:
+                raise ValueError("No unresolved artifact submission")
+            snapshot = await self._checked_recipe_browser_call("browser_snapshot", {})
+            if bundle.name not in snapshot or evidence.strip().casefold() not in snapshot.casefold():
+                raise ValueError("Current page must show the challenge name and the exact evidence phrase")
+            self.state.save_artifact_submission(bundle.native_id, record["submission_id"], outcome,
+                                                redact_sensitive_text(snapshot))
+        return f"Artifact submission marked {outcome} based on the current page. No solve was recorded."
 
     async def _archive_submission_evidence(self, bundle: ChallengeBundle, flag: str, snapshot: str) -> None:
         """Capture the same page under the submission lock, before it changes.
@@ -2076,7 +2380,9 @@ class BrowserAutoPlatformAdapter:
         if not reason:
             raise RuntimeError("Submission confirmation requires a non-empty reason")
 
-        recipe = self.recipes.load(self.base_url)
+        bundle = next((item for item in self._bundles.values()
+                       if item.name == challenge_id or item.native_id == challenge_id), None)
+        recipe = self.recipes.load(self.base_url, bundle.native_id if bundle else challenge_id)
         if not recipe:
             raise RuntimeError("No submit recipe is available for confirmation")
         async with self._browser_action_lock:
@@ -2127,21 +2433,24 @@ class BrowserAutoPlatformAdapter:
             raise RuntimeError(f"Submission recipe {name} failed: {result[:500]}")
         return result
 
-    async def _execute_recipe(self, recipe: PlatformRecipe, *, challenge_id: str, flag: str = "", purpose: str) -> None:
-        for step in recipe.steps:
+    async def _execute_recipe(self, recipe: PlatformRecipe, *, challenge_id: str, flag: str = "", fields: dict[str, str] | None = None, uploads: dict[str, str] | None = None, purpose: str, before_submit=None) -> None:
+        submit_index = max((i for i, item in enumerate(recipe.steps) if item.action == "click"), default=-1)
+        for index, step in enumerate(recipe.steps):
             data = dict(step.data)
             action = step.action
             if action == "navigate":
                 url = step.value or data.get("url", "")
                 if not url:
                     raise RuntimeError("Recipe navigate step has no URL")
-                url = str(url).replace("{challenge_id}", challenge_id)
+                url = str(url).replace("{challenge_id}", quote(challenge_id, safe=""))
                 await self._checked_recipe_browser_call("browser_navigate", {"url": url})
             elif action == "click":
                 target = step.target or data.get("target", "")
                 if not target:
                     raise RuntimeError("Recipe click step has no target")
                 await self._checked_recipe_browser_call("browser_snapshot", {})
+                if before_submit and index == submit_index:
+                    before_submit()
                 await self._checked_recipe_browser_call("browser_click", {"target": target})
             elif action == "type":
                 target = step.target or data.get("target", "")
@@ -2150,11 +2459,18 @@ class BrowserAutoPlatformAdapter:
                 await self._checked_recipe_browser_call("browser_snapshot", {})
                 arguments: dict[str, Any] = {
                     "target": target,
-                    "text": flag if step.value == "{flag}" else step.value,
+                    "text": (fields[step.value[1:-1]] if fields is not None and
+                             re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value)
+                             else flag if step.value == "{flag}" else step.value),
                 }
                 if data.get("submit") is True:
                     arguments["submit"] = True
                 await self._checked_recipe_browser_call("browser_type", arguments)
+            elif action == "upload":
+                name = step.value[1:-1]
+                if not uploads or name not in uploads:
+                    raise RuntimeError(f"Missing upload: {name}")
+                await self._checked_recipe_browser_call("browser_file_upload", {"paths": [uploads[name]]})
             elif action == "fill":
                 fields = data.get("fields", [])
                 if not fields:
@@ -2211,7 +2527,27 @@ class BrowserAutoPlatformAdapter:
             return self.browser.status()
 
     def submission_recipe_issue(self) -> str | None:
-        return submission_recipe_issue(self.recipes.load(self.base_url), self.base_url)
+        issue = submission_recipe_issue(self.recipes.load(self.base_url), self.base_url)
+        if issue:
+            for bundle in self._bundles.values():
+                scoped = self.recipes.load(self.base_url, bundle.native_id)
+                if scoped and submission_recipe_issue(scoped, self.base_url) is None:
+                    return None
+        return issue
+
+    def challenge_submission_workflow(self, challenge_id: str) -> dict[str, Any] | None:
+        bundle = next((item for item in self._bundles.values()
+                       if item.name == challenge_id or item.native_id == challenge_id), None)
+        route_id = bundle.native_id if bundle else challenge_id
+        recipe = self.recipes.load(self.base_url, route_id)
+        if (recipe is None or recipe.challenge_id != route_id
+                or submission_recipe_issue(recipe, self.base_url)):
+            return None
+        fields = sorted({step.value[1:-1] for step in recipe.steps
+                         if step.action == "type" and re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value)})
+        uploads = sorted({step.value[1:-1] for step in recipe.steps
+                          if step.action == "upload" and re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value)})
+        return {"kind": recipe.kind, "fields": fields, "uploads": uploads}
 
     def save_recipe(self, data: dict[str, Any]) -> Path:
         try:
@@ -2227,7 +2563,7 @@ class BrowserAutoPlatformAdapter:
                 "then action='type' with target=<CSS selector>, value='{flag}', "
                 "and data.submit=true when Enter submits."
             ) from exc
-        if not recipe.steps:
+        if not recipe.steps and recipe.kind != "interactive":
             raise RuntimeError("Submit recipe must contain browser steps")
         issue = submission_recipe_issue(recipe, self.base_url)
         if issue:
@@ -2235,12 +2571,14 @@ class BrowserAutoPlatformAdapter:
         for step in recipe.steps:
             if step.action == "type" and "submit" in step.data and not isinstance(step.data["submit"], bool):
                 raise RuntimeError("Recipe type submit option must be a boolean")
-            if step.action == "type" and step.data.get("submit") is True and step.value != "{flag}":
+            if step.action == "type" and step.data.get("submit") is True and (recipe.kind != "flag" or step.value != "{flag}"):
                 raise RuntimeError("Recipe can only submit after typing the {flag} placeholder")
             if step.action in {"click", "type"} and not (step.target or step.data.get("target")):
                 raise RuntimeError(f"Recipe {step.action} step must contain a target")
             if step.action == "navigate" and not (step.value or step.data.get("url")):
                 raise RuntimeError("Recipe navigate step must contain a URL")
+            if step.action == "upload" and not re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value):
+                raise RuntimeError("Recipe upload step needs a named placeholder")
             if step.action == "fill" and not step.data.get("fields"):
                 raise RuntimeError("Recipe fill step must contain fields")
             if re.search(r"(?i)(cookie|password|authorization|bearer|token)", json.dumps(step.model_dump())):

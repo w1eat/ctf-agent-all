@@ -106,6 +106,9 @@ async def do_fetch_challenges(deps: CoordinatorDeps) -> str:
             "mode": ch.mode.value,
             "state": getattr(ch.state, "value", str(getattr(ch, "state", "discovered"))),
             "status": "SOLVED" if ch.name in solved else "unsolved",
+            "catalog_only": bool(ch.source_data.get("catalog_only")),
+            "locked": ch.source_data.get("locked"),
+            "challenge_url": ch.challenge_url,
             "has_files": bool(ch.files),
             "has_attachments": bool(ch.files or ch.source_data.get("attachments")),
             "environment_required": bool(
@@ -155,6 +158,10 @@ def _existing_result_notice(deps: CoordinatorDeps, challenge_name: str) -> str |
 async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
     from backend.submission_setup import submission_setup_issue
 
+    is_locked = getattr(deps.platform, "is_challenge_locked", None)
+    if callable(is_locked) and is_locked(challenge_name):
+        return f"Challenge '{challenge_name}' is locked; wait for the platform to unlock it."
+
     issue = submission_setup_issue(deps)
     if issue:
         return f"Submission setup required before spawning {challenge_name}: {issue}. Call save_recipe first."
@@ -201,6 +208,15 @@ async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
 
     deps.selected_challenges.add(challenge_name)
 
+    workflow_getter = getattr(deps.platform, "challenge_submission_workflow", None)
+    if callable(workflow_getter):
+        workflow = workflow_getter(challenge_name)
+        if not deps.no_submit and getattr(deps.platform, "browser_submission", False) and not workflow:
+            return (f"Submission workflow unknown for {challenge_name}. Inspect this challenge's "
+                    "submission page, then save a challenge-specific workflow or mark it interactive "
+                    "before spawning. Do not use another challenge's recipe.")
+        deps.challenge_metas[challenge_name].submission_workflow = workflow or {}
+
     state_getter = getattr(deps.platform, "get_challenge_state", None)
     if state_getter:
         try:
@@ -228,6 +244,8 @@ async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
         )
 
     # Preparation and gateway registration await other tasks; recheck before reserving a slot.
+    if callable(is_locked) and is_locked(challenge_name):
+        return f"Challenge '{challenge_name}' is locked; wait for the platform to unlock it."
     if notice := _existing_result_notice(deps, challenge_name):
         return notice
     if challenge_name in deps.swarms:
@@ -244,6 +262,7 @@ async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
         model_specs=deps.model_specs,
         no_submit=deps.no_submit,
         coordinator_inbox=deps.coordinator_inbox,
+        coordination=deps.coordination,
         analysis_gateway=deps.analysis_gateway,
         writeup_manager=deps.writeup_manager,
     )
@@ -307,6 +326,7 @@ async def do_spawn_swarm(deps: CoordinatorDeps, challenge_name: str) -> str:
 
     task = asyncio.create_task(_run_and_cleanup(), name=f"swarm-{challenge_name}")
     deps.swarm_tasks[challenge_name] = task
+    deps.started_challenges.add(challenge_name)
     deps.reported_finished_swarms.discard(challenge_name)
     return f"Swarm spawned for {challenge_name} with {len(deps.model_specs)} models"
 
@@ -316,6 +336,26 @@ async def do_check_swarm_status(deps: CoordinatorDeps, challenge_name: str) -> s
     if not swarm:
         return f"No swarm running for {challenge_name}"
     return json.dumps(swarm.get_status(), indent=2)
+
+
+async def do_check_artifact_submission(deps: CoordinatorDeps, challenge_name: str) -> str:
+    check = getattr(deps.platform, "check_artifact_submission", None)
+    if not callable(check):
+        return "Artifact submission tracking is not supported by this platform."
+    try:
+        return (await check(challenge_name)).display
+    except Exception as exc:
+        return f"Artifact status check failed: {exc}"
+
+
+async def do_resolve_artifact_submission(deps: CoordinatorDeps, challenge_name: str, outcome: str, evidence: str) -> str:
+    resolve = getattr(deps.platform, "resolve_artifact_submission", None)
+    if not callable(resolve):
+        return "Artifact submission resolution is not supported by this platform."
+    try:
+        return await resolve(challenge_name, outcome, evidence)
+    except Exception as exc:
+        return f"Artifact resolution failed: {exc}"
 
 
 async def do_submit_flag(deps: CoordinatorDeps, challenge_name: str, flag: str) -> str:
@@ -460,6 +500,32 @@ async def do_broadcast(deps: CoordinatorDeps, challenge_name: str, message: str)
     return f"Broadcast to all solvers on {challenge_name}"
 
 
+async def do_list_solver_requests(deps: CoordinatorDeps) -> str:
+    """List outstanding requests with their exact messages and identities."""
+    return json.dumps(deps.coordination.pending(), ensure_ascii=False)
+
+
+async def do_claim_solver_request(
+    deps: CoordinatorDeps, request_id: str, challenge_name: str, model_spec: str
+) -> str:
+    """Claim a live queued request before carrying out its action."""
+    result = deps.coordination.claim(request_id, challenge_name, model_spec)
+    return json.dumps(result, ensure_ascii=False)
+
+
+async def do_reply_to_solver_request(
+    deps: CoordinatorDeps,
+    request_id: str,
+    challenge_name: str,
+    model_spec: str,
+    status: str,
+    response: str,
+) -> str:
+    """Resolve one request without broadcasting its response to other solvers."""
+    result = deps.coordination.reply(request_id, challenge_name, model_spec, status, response)
+    return json.dumps(result, ensure_ascii=False)
+
+
 def re_slug(name: str) -> str:
     """Match the platform adapters' stable challenge directory naming."""
     import re
@@ -500,6 +566,20 @@ async def do_register_challenge(deps: CoordinatorDeps, data: dict) -> str:
         return "The configured platform does not support Agent registration."
     bundle = register(data)
     return json.dumps(bundle.model_dump(mode="json"), indent=2, ensure_ascii=False)
+
+
+async def do_discover_challenges(
+    deps: CoordinatorDeps, challenges: list[dict], sources: list[dict] | None = None,
+    scan_complete: bool = False,
+) -> str:
+    discover = getattr(deps.platform, "discover_challenges", None)
+    if not callable(discover):
+        return "The configured platform does not support browser catalog discovery."
+    if sources is None and not scan_complete:
+        result = discover(challenges)
+    else:
+        result = discover(challenges, sources=sources, scan_complete=scan_complete)
+    return json.dumps(result, ensure_ascii=False)
 
 
 async def do_set_environment(deps: CoordinatorDeps, challenge_name: str, data: dict) -> str:

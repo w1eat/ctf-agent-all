@@ -121,6 +121,20 @@ class ChallengeStateStore:
                 );
                 CREATE INDEX IF NOT EXISTS idx_challenges_run_state
                     ON challenges(run_id, state, updated_at);
+                CREATE TABLE IF NOT EXISTS catalog_entries (
+                    run_id TEXT NOT NULL,
+                    native_id TEXT NOT NULL,
+                    data_json TEXT NOT NULL,
+                    updated_at REAL NOT NULL,
+                    PRIMARY KEY (run_id, native_id)
+                );
+                CREATE TABLE IF NOT EXISTS catalog_sources (
+                    run_id TEXT NOT NULL,
+                    source_key TEXT NOT NULL,
+                    data_json TEXT NOT NULL,
+                    updated_at REAL NOT NULL,
+                    PRIMARY KEY (run_id, source_key)
+                );
                 CREATE TABLE IF NOT EXISTS attachments (
                     run_id TEXT NOT NULL,
                     native_id TEXT NOT NULL,
@@ -141,8 +155,34 @@ class ChallengeStateStore:
                 );
                 CREATE INDEX IF NOT EXISTS idx_attachments_state
                     ON attachments(run_id, native_id, state);
+                CREATE TABLE IF NOT EXISTS artifact_submissions (
+                    run_id TEXT NOT NULL,
+                    native_id TEXT NOT NULL,
+                    submission_id TEXT NOT NULL DEFAULT '',
+                    status TEXT NOT NULL,
+                    evidence TEXT NOT NULL DEFAULT '',
+                    updated_at REAL NOT NULL,
+                    PRIMARY KEY (run_id, native_id)
+                );
                 """
             )
+
+    def save_artifact_submission(self, native_id: str, submission_id: str, status: str, evidence: str) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO artifact_submissions VALUES (?, ?, ?, ?, ?, ?) "
+                "ON CONFLICT(run_id, native_id) DO UPDATE SET submission_id=excluded.submission_id, "
+                "status=excluded.status, evidence=excluded.evidence, updated_at=excluded.updated_at",
+                (self.run_id, native_id, submission_id, status, evidence[:12000], time.time()),
+            )
+
+    def get_artifact_submission(self, native_id: str) -> dict[str, Any] | None:
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM artifact_submissions WHERE run_id=? AND native_id=?",
+                (self.run_id, native_id),
+            ).fetchone()
+        return dict(row) if row else None
 
     def _ensure_run(self) -> None:
         now = time.time()
@@ -182,6 +222,51 @@ class ChallengeStateStore:
                 "UPDATE runs SET status=?, updated_at=? WHERE run_id=?",
                 (status, time.time(), self.run_id),
             )
+
+    def upsert_catalog_entries(self, entries: list[dict[str, Any]]) -> None:
+        if not entries:
+            return
+        now = time.time()
+        with self._connect() as connection:
+            connection.executemany(
+                "INSERT INTO catalog_entries VALUES (?, ?, ?, ?) "
+                "ON CONFLICT(run_id, native_id) DO UPDATE SET "
+                "data_json=excluded.data_json, updated_at=excluded.updated_at",
+                [(self.run_id, str(data["native_id"]), json.dumps(data, ensure_ascii=False), now)
+                 for data in entries],
+            )
+
+    def list_catalog_entries(self) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT data_json FROM catalog_entries WHERE run_id=? ORDER BY rowid", (self.run_id,)
+            ).fetchall()
+        return [json.loads(row["data_json"]) for row in rows]
+
+    @staticmethod
+    def catalog_source_key(data: dict[str, Any]) -> str:
+        identity = json.dumps({key: value for key, value in data.items() if key != "active"},
+                              ensure_ascii=False, sort_keys=True)
+        return hashlib.sha256(identity.encode("utf-8")).hexdigest()
+
+    def upsert_catalog_source(self, data: dict[str, Any]) -> None:
+        serialized = json.dumps(data, ensure_ascii=False, sort_keys=True)
+        key = self.catalog_source_key(data)
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO catalog_sources VALUES (?, ?, ?, ?) "
+                "ON CONFLICT(run_id, source_key) DO UPDATE SET "
+                "data_json=excluded.data_json, updated_at=excluded.updated_at",
+                (self.run_id, key, serialized, time.time()),
+            )
+
+    def list_catalog_sources(self) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT data_json FROM catalog_sources WHERE run_id=? ORDER BY rowid", (self.run_id,)
+            ).fetchall()
+        result = [json.loads(row["data_json"]) for row in rows]
+        return [source for source in result if source.get("active", True)]
 
     def upsert_challenge(
         self,

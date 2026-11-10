@@ -132,6 +132,51 @@ def test_browser_registration_separates_attachment_objects_from_downloaded_files
     assert bundle.source_data["attachments_scanned"] is False
 
 
+def test_browser_registration_accepts_nested_attachment_metadata(tmp_path):
+    adapter = BrowserAutoPlatformAdapter(_browser_settings(tmp_path), str(tmp_path / "challenges"))
+    attachment = {"id": "a1", "fileName": "source.zip", "target": "a.download"}
+    bundle = adapter.register_challenge({
+        "native_id": "one", "name": "one",
+        "source_data": {"attachments": [attachment], "attachments_scanned": True},
+    })
+
+    assert bundle.source_data["attachments"] == [attachment]
+    assert bundle.source_data["attachments_scanned"] is True
+    assert bundle.mode == ChallengeMode.ATTACHMENT
+
+    other = {"id": "a2", "fileName": "other.zip", "target": "a.other"}
+    combined = adapter.register_challenge({
+        "native_id": "two", "name": "two", "attachments": [other, attachment],
+        "source_data": {"attachments": [attachment]},
+    })
+    assert combined.source_data["attachments"] == [other, attachment]
+
+
+@pytest.mark.asyncio
+async def test_browser_discovery_catalog_keeps_listing_separate_from_registration(tmp_path):
+    adapter = BrowserAutoPlatformAdapter(_browser_settings(tmp_path), str(tmp_path / "challenges"))
+    result = adapter.discover_challenges([
+        {"native_id": "1", "name": "first", "challenge_url": "https://platform.test/one"},
+        {"native_id": "2", "name": "locked", "locked": True},
+        {"native_id": "3", "name": "solved", "solved": True},
+        {"name": "missing id"},
+    ])
+
+    assert result["discovered"] == ["first", "locked", "solved"]
+    assert result["errors"][0]["index"] == 3
+    catalog = {item.name: item for item in await adapter.list_challenges()}
+    assert catalog["first"].state == ChallengeState.DISCOVERED
+    assert catalog["locked"].source_data["locked"] is True
+    assert await adapter.get_solve_status() == {"solved"}
+    assert not (tmp_path / "challenges").exists()
+    assert adapter.is_catalog_only("first")
+
+    adapter.register_challenge({"native_id": "1", "name": "first"})
+    assert not adapter.is_catalog_only("first")
+    assert (tmp_path / "challenges" / "first" / "metadata.yml").is_file()
+    assert len(await adapter.list_challenges()) == 3
+
+
 def test_browser_registration_preserves_solved_state(tmp_path):
     settings = Settings(
         _env_file=None,
@@ -958,7 +1003,7 @@ def test_submission_setup_rejects_non_submitting_recipes(tmp_path, steps):
     settings = _browser_settings(tmp_path)
     adapter = BrowserAutoPlatformAdapter(settings, str(tmp_path / "challenges"), allow_submit=True)
     with pytest.raises(RuntimeError, match="recipe"):
-        adapter.save_recipe({"platform_origin": "https://platform.test", "steps": steps})
+        adapter.save_recipe({"platform_origin": "https://platform.test", "challenge_id": "42", "steps": steps})
     assert adapter.submission_recipe_issue() is not None
 
 
@@ -985,9 +1030,9 @@ async def test_logged_recipe_aliases_save_and_execute(tmp_path, steps):
         return "Flag form" if name == "browser_snapshot" else "ok"
 
     adapter.browser.call = browser_call
-    adapter.save_recipe({"platform_origin": "https://platform.test", "steps": steps})
+    adapter.save_recipe({"platform_origin": "https://platform.test", "challenge_id": "real-id", "steps": steps})
     assert adapter.submission_recipe_issue() is None
-    recipe = adapter.recipes.load("https://platform.test")
+    recipe = adapter.recipes.load("https://platform.test", "real-id")
     assert [step.action for step in recipe.steps] == ["navigate", "type"]
     assert recipe.steps[1].data["submit"] is True
     result = await adapter.submit_flag("demo", "FLAG{ok}")
@@ -996,6 +1041,125 @@ async def test_logged_recipe_aliases_save_and_execute(tmp_path, steps):
     assert ("browser_type", {
         "target": 'textarea[aria-label="Flag"]', "text": "FLAG{ok}", "submit": True,
     }) in calls
+    await adapter.close()
+
+
+@pytest.mark.asyncio
+async def test_challenge_specific_artifact_workflow_and_flag_isolation(tmp_path):
+    adapter = BrowserAutoPlatformAdapter(
+        _browser_settings(tmp_path), str(tmp_path / "challenges"), allow_submit=True,
+    )
+    adapter.register_challenge({"native_id": "code-1", "name": "code"})
+    calls = []
+
+    async def browser_call(name, args=None):
+        calls.append((name, args))
+        return "queued" if name == "browser_snapshot" else "ok"
+
+    adapter.browser.call = browser_call
+    adapter.save_recipe({
+        "platform_origin": "https://platform.test", "challenge_id": "code-1", "kind": "artifact",
+        "steps": [
+            {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
+            {"action": "type", "target": "#code", "value": "{code}"},
+            {"action": "click", "target": "#requirements-tab"},
+            {"action": "type", "target": "#requirements", "value": "{requirements}"},
+            {"action": "click", "target": "#submit"},
+        ],
+    })
+    with pytest.raises(RuntimeError, match="Missing artifact fields"):
+        await adapter.submit_artifact("code", {"code": "print(1)"})
+    assert calls == []
+    with pytest.raises(RuntimeError, match="artifact workflow"):
+        await adapter.submit_flag("code", "FLAG{wrong-type}")
+    result = await adapter.submit_artifact("code", {"code": "print(1)", "requirements": ""})
+    assert result.status == "pending"
+    assert ("browser_type", {"target": "#code", "text": "print(1)"}) in calls
+    assert ("browser_type", {"target": "#requirements", "text": ""}) in calls
+    assert calls.index(("browser_click", {"target": "#submit"})) > calls.index(
+        ("browser_type", {"target": "#requirements", "text": ""}))
+    with pytest.raises(RuntimeError, match="No challenge-specific"):
+        await adapter.submit_artifact("other", {"code": "print(1)"})
+    await adapter.close()
+
+
+@pytest.mark.asyncio
+async def test_tracked_artifact_uses_receipt_id_and_prevents_pending_retry(tmp_path):
+    adapter = BrowserAutoPlatformAdapter(_browser_settings(tmp_path), str(tmp_path / "challenges"), allow_submit=True)
+    adapter.register_challenge({"native_id": "code", "name": "code"})
+    calls = []
+    verdict = ["评测中"]
+
+    async def browser_call(name, args=None):
+        calls.append((name, args))
+        if name == "browser_snapshot" and args and args.get("target"):
+            assert args["target"] == '#result-123'
+            return verdict[0]
+        return "receipt ID: 123" if name == "browser_snapshot" else "ok"
+
+    adapter.browser.call = browser_call
+    adapter.save_recipe({
+        "platform_origin": "https://platform.test", "challenge_id": "code", "kind": "artifact",
+        "steps": [
+            {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
+            {"action": "type", "target": "#code", "value": "{code}"},
+            {"action": "click", "target": "#submit"},
+        ],
+        "success_markers": ["通过"], "failure_markers": ["失败"],
+        "tracking": {"id_pattern": r"receipt ID: (\d+)", "url": "https://platform.test/results/{submission_id}",
+                     "target": "#result-{submission_id}", "timeout_seconds": 0},
+    })
+    result = await adapter.submit_artifact("code", {"code": "print(1)"})
+    assert result.status == "pending"
+    assert adapter.state.get_artifact_submission("code")["submission_id"] == "123"
+    assert (await adapter.check_artifact_submission("code")).status == "pending"
+    assert ("browser_navigate", {"url": "https://platform.test/results/123"}) in calls
+    with pytest.raises(RuntimeError, match="pending or has an unknown outcome"):
+        await adapter.submit_artifact("code", {"code": "print(1)"})
+    with pytest.raises(ValueError, match="exact evidence"):
+        await adapter.resolve_artifact_submission("code", "not_submitted", "no record")
+    verdict[0] = "评测通过"
+    assert (await adapter.check_artifact_submission("code")).status == "correct"
+    assert adapter.state.get_artifact_submission("code")["status"] == "correct"
+    await adapter.close()
+
+
+@pytest.mark.asyncio
+async def test_legacy_platform_recipe_cannot_submit_unknown_challenge(tmp_path):
+    adapter = BrowserAutoPlatformAdapter(_browser_settings(tmp_path), str(tmp_path / "challenges"), allow_submit=True)
+    adapter.recipes.root.mkdir(parents=True, exist_ok=True)
+    adapter.recipes.path_for("https://platform.test").write_text('{"platform_origin":"https://platform.test","steps":[]}', encoding="utf-8")
+    with pytest.raises(RuntimeError, match="workflow unknown"):
+        await adapter.submit_flag("unknown", "flag{test}")
+    await adapter.close()
+
+
+@pytest.mark.asyncio
+async def test_upload_workflow_uses_file_chooser_then_submit(tmp_path):
+    adapter = BrowserAutoPlatformAdapter(_browser_settings(tmp_path), str(tmp_path / "challenges"), allow_submit=True)
+    adapter.register_challenge({"native_id": "upload", "name": "upload"})
+    calls = []
+
+    async def browser_call(name, args=None):
+        calls.append((name, args))
+        return "queued" if name == "browser_snapshot" else "ok"
+
+    adapter.browser.call = browser_call
+    adapter.save_recipe({"platform_origin": "https://platform.test", "challenge_id": "upload", "kind": "artifact",
+                         "steps": [
+                             {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
+                             {"action": "click", "target": "#choose-file"},
+                             {"action": "upload", "value": "{archive}"},
+                             {"action": "click", "target": "#submit"},
+                         ]})
+    with pytest.raises(RuntimeError, match="Missing uploads"):
+        await adapter.submit_artifact("upload", {})
+    assert not calls
+    result = await adapter.submit_artifact("upload", {}, {"archive": "C:/temp/run.zip"})
+    assert result.status == "pending"
+    assert calls.index(("browser_click", {"target": "#choose-file"})) < calls.index(
+        ("browser_file_upload", {"paths": ["C:/temp/run.zip"]})) < calls.index(
+        ("browser_click", {"target": "#submit"}))
     await adapter.close()
 
 
@@ -1017,6 +1181,7 @@ async def test_failed_browser_click_never_creates_pending_submission(tmp_path):
     adapter.register_challenge({"native_id": "42", "name": "demo"})
     adapter.save_recipe({
         "platform_origin": "https://platform.test",
+        "challenge_id": "42",
         "steps": [
             {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
             {"action": "type", "target": "flag-input", "value": "{flag}"},
@@ -1050,6 +1215,7 @@ async def test_submission_recipe_uses_native_id_for_challenge_url(tmp_path):
     adapter.browser.call = browser_call
     adapter.save_recipe({
         "platform_origin": "https://platform.test",
+        "challenge_id": "real-id",
         "steps": [
             {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
             {"action": "type", "target": "flag-input", "value": "{flag}"},
@@ -1307,6 +1473,7 @@ async def test_browser_submission_returns_evidence_for_agent_judgment(tmp_path):
     adapter.save_recipe(
         {
             "platform_origin": "https://platform.test",
+            "challenge_id": "42",
             "steps": [
                 {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
                 {"action": "type", "target": "flag-input", "value": "{flag}"},
@@ -1360,6 +1527,7 @@ async def test_browser_submission_confirmation_requires_matching_pending_flag(tm
     adapter.save_recipe(
         {
             "platform_origin": "https://platform.test",
+            "challenge_id": "42",
             "steps": [
                 {"action": "navigate", "value": "https://platform.test/challenges/{challenge_id}"},
                 {"action": "type", "target": "flag-input", "value": "{flag}"},

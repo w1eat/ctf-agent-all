@@ -1,7 +1,7 @@
 [project]
 name = "ctf-agent-two"
-version = "0.1.0"
-description = "CTF agent v2 — multi-model solver swarm"
+version = "3.0.0"
+description = "CTF agent v3 — multi-model solver swarm"
 requires-python = ">=3.14"
 dependencies = [
     "pydantic-ai[bedrock,openai,google]",

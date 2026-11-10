@@ -65,6 +65,29 @@ async def notify_coordinator(ctx: RunContext[SolverDeps], message: str) -> str:
     return "No coordinator connected."
 
 
+async def request_coordinator(ctx: RunContext[SolverDeps], message: str) -> str:
+    """Request a concrete action or information from the coordinator and wait for its reply.
+
+    Include the exact task and relevant observations. The result contains a request ID,
+    a status, and the coordinator's response. A timeout does not prove an action failed.
+    Never include credentials in the request.
+    """
+    from backend.coordination import call_coordinator
+
+    return await call_coordinator(ctx.deps.request_coordinator, message)
+
+
+async def check_coordinator_request(ctx: RunContext[SolverDeps], request_id: str = "") -> str:
+    """Check a coordinator request by ID, or list this solver's requests if ID is empty.
+
+    A claimed or unknown request may still have produced side effects. Inspect its
+    result and platform records before requesting the same action again.
+    """
+    from backend.coordination import check_coordinator
+
+    return await check_coordinator(ctx.deps.check_coordinator_request, request_id)
+
+
 async def web_fetch(ctx: RunContext[SolverDeps], url: str, method: str = "GET", body: str = "") -> str:
     """Fetch a URL from the host. Useful for web challenges.
 

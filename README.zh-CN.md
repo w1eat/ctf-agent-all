@@ -167,6 +167,10 @@ docker run --rm ctf-sandbox ctf-tools-check --json
 
 单题 `--challenge` 模式直接启动 Solver，因此可以仅配置一个 API 模型来运行本地题目。
 
+多题模式中，Solver 需要协调器掌握的信息或操作时，可调用 `request_coordinator` 并等待回复，例如检查已登录页面、启动环境或确认附件。请求以题目、模型和唯一请求 ID 匹配；协调器先调用 `claim_solver_request` 领取请求，再通过 `reply_to_solver_request` 返回观察结果或阻塞原因。它与用于共享发现的 `broadcast` 分开。等待期间不发起新的 Solver 模型调用。单题模式没有协调器时，该请求返回不可用。
+
+请求仅保存在当前进程内，不随运行恢复。等待超时后，未领取的请求会标记为 `not_started`；已领取的请求返回 `in_progress` 并继续保留，迟到回复可通过 `check_coordinator_request` 按请求 ID 查询，传空 ID 可列出本 Solver 的请求。若操作可能已经执行但结果不明，状态为 `unknown`，提交前必须先核对请求与平台记录，不要自动重发。请求及回复可能出现在运行日志中，不应包含平台 Cookie、Token 或密码。Solver 单轮总时间也包含等待协调器的时间。
+
 ### DeepSeek 示例
 
 ```env
@@ -221,6 +225,10 @@ uv run ctf-solve `
 将示例地址替换为比赛平台地址。浏览器打开后手动完成登录，回到终端按 Enter，程序继续发现题目。`--login` 登录的是比赛平台，Claude/Codex 的认证需要在运行前准备。
 
 浏览器 profile 默认保存在 `.runtime/playwright-profile/`，后续运行可复用登录状态。同一 profile 同时只能由一个运行使用；并行运行时用 `--browser-profile` 指定不同目录。
+
+多题浏览器模式会保存已观察的题目目录及不含凭据的列表来源。协调器按配置间隔重新观察列表，并在平台确认解出题目后尽快复查；即使当前没有活跃 Solver 也会继续检查。新题及已知题目的解锁会触发后续检查和登记，锁定题不会进入准备或解题队列。未能确认的锁定状态保持未知；扫描失败或不完整时会重试，不会因为列表暂时缺项删除已记录的题目。
+
+列表来源及仅发现、尚未登记的题目按 Run ID 持久化，可随 `--resume-run` 恢复。来源 URL 必须属于浏览器已允许访问的 HTTP(S) 来源，且不能包含凭据参数。浏览器模式的复查由协调器重新读取已观察的页面或接口，因此会产生协调器模型调用；登录过期、来源变化或无法观察完整分页时可能需要重新发现来源。程序会核对协调器报告的来源是否覆盖所有已记录来源；分页是否完整仍依赖协调器对平台页面的观察。
 
 ### 题包准备与状态
 
@@ -534,6 +542,8 @@ uv run ctf-writeup backfill --run-id YOUR_RUN_ID --upgrade-format --challenge yo
 | 配置 | 默认值 | 作用 |
 | --- | --- | --- |
 | `SOLVER_ATTEMPT_TIMEOUT_SECONDS` | `1800` | 单轮 Solver 时间上限，秒 |
+| `SOLVER_COORDINATOR_REQUEST_TIMEOUT_SECONDS` | `300` | Solver 等待协调器回复的单次时间上限，秒 |
+| `COORDINATOR_CATALOG_REFRESH_INTERVAL_SECONDS` | `120` | 浏览器模式周期复查目录的间隔，秒；`0` 关闭周期复查，解题触发及未完成扫描重试仍然有效 |
 | `SOLVER_MAX_TOOL_STEPS_PER_ATTEMPT` | `160` | 单轮工具步骤上限 |
 | `SOLVER_MAX_COST_USD` | `15` | Solver 成本预算，美元 |
 | `MAX_ATTEMPTS_PER_CHALLENGE` | `5` | 每模型最多尝试轮次 |

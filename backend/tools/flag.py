@@ -3,7 +3,18 @@
 from pydantic_ai import RunContext
 
 from backend.deps import SolverDeps
-from backend.tools.core import do_confirm_submission, do_submit_flag
+from backend.tools.core import do_confirm_submission, do_submit_artifact, do_submit_flag
+
+
+async def submit_artifact(ctx: RunContext[SolverDeps], files: dict[str, str], values: dict[str, str], uploads: dict[str, str] | None = None) -> str:
+    """Submit named text fields using this challenge's observed workflow.
+
+    files maps field names to /challenge/workspace paths; values maps other field names
+    to text. Ask the coordinator to inspect and configure the workflow if unavailable.
+    A pending evaluation is not a confirmed solve.
+    """
+    return await do_submit_artifact(ctx.deps.platform, ctx.deps.sandbox, ctx.deps.challenge_name,
+                                    files, values, ctx.deps.no_submit, uploads)
 
 
 async def submit_flag(ctx: RunContext[SolverDeps], flag: str) -> str:

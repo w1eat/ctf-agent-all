@@ -7,6 +7,7 @@ from collections.abc import Callable, Coroutine
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
+from backend.coordination import CoordinatorRequestBroker
 from backend.cost_tracker import CostTracker
 from backend.platforms.base import PlatformAdapter
 from backend.sandbox import DockerSandbox
@@ -33,6 +34,8 @@ class SolverDeps:
     submit_fn: SubmitFn | None = None  # Deduped flag submission via swarm
     no_submit: bool = False
     notify_coordinator: Callable[[str], Coroutine[Any, Any, None]] | None = None
+    request_coordinator: Callable[[str], Coroutine[Any, Any, dict[str, str]]] | None = None
+    check_coordinator_request: Callable[[str], Coroutine[Any, Any, Any]] | None = None
     analysis_gateway: Any | None = None
     knowledge_service: Any | None = None
     knowledge_query_budget: Any | None = None
@@ -61,6 +64,7 @@ class CoordinatorDeps:
     submission_setup_complete: bool = False
     coordinator_inbox: asyncio.Queue = field(default_factory=asyncio.Queue)
     operator_inbox: asyncio.Queue = field(default_factory=asyncio.Queue)
+    coordination: CoordinatorRequestBroker = field(default_factory=CoordinatorRequestBroker)
     swarms: dict[str, Any] = field(default_factory=dict)
     swarm_tasks: dict[str, asyncio.Task] = field(default_factory=dict)
     results: dict[str, dict] = field(default_factory=dict)
@@ -70,4 +74,5 @@ class CoordinatorDeps:
     pending_since: dict[str, float] = field(default_factory=dict)
     deferred_auto_spawn: set[str] = field(default_factory=set)
     reported_finished_swarms: set[str] = field(default_factory=set)
+    started_challenges: set[str] = field(default_factory=set)
     selected_challenges: set[str] = field(default_factory=set)

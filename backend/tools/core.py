@@ -2,6 +2,7 @@
 
 import json
 import shlex
+import tempfile
 from pathlib import Path
 
 import httpx
@@ -95,6 +96,48 @@ async def do_submit_flag(platform, challenge_name: str, flag: str) -> tuple[str,
         return result.display, is_confirmed
     except Exception as e:
         return f"submit_flag error: {e}", False
+
+
+async def do_submit_artifact(platform, sandbox, challenge_name: str, files: dict[str, str],
+                             values: dict[str, str], no_submit: bool = False,
+                             uploads: dict[str, str] | None = None) -> str:
+    """Read named text artifacts from the solver sandbox and submit them without truncation."""
+    if no_submit:
+        return "DRY RUN — artifact not submitted."
+    submit = getattr(platform, "submit_artifact", None)
+    if not callable(submit):
+        return "Artifact submission is not supported by this platform adapter."
+    uploads = uploads or {}
+    if set(files) & set(values) or (set(files) | set(values)) & set(uploads):
+        return "Artifact field names must not appear in both files and values."
+    fields = dict(values)
+    try:
+        for name, path in files.items():
+            if not path.startswith("/challenge/workspace/") or ".." in path.split("/"):
+                raise ValueError("Artifact files must be under /challenge/workspace")
+            data = await sandbox.read_file(path)
+            if isinstance(data, bytes):
+                data = data.decode("utf-8")
+            if len(data.encode("utf-8")) > 1_000_000:
+                raise ValueError("Artifact exceeds 1 MB")
+            fields[name] = data
+        with tempfile.TemporaryDirectory(prefix="ctf-submit-") as directory:
+            staged = {}
+            for index, (name, path) in enumerate(uploads.items()):
+                if not path.startswith("/challenge/workspace/") or ".." in path.split("/"):
+                    raise ValueError("Upload files must be under /challenge/workspace")
+                data = await sandbox.read_file(path)
+                raw = data.encode("utf-8") if isinstance(data, str) else data
+                if len(raw) > 50_000_000:
+                    raise ValueError("Upload exceeds 50 MB")
+                destination = Path(directory) / str(index) / Path(path).name
+                destination.parent.mkdir()
+                destination.write_bytes(raw)
+                staged[name] = str(destination)
+            result = await submit(challenge_name, fields, staged) if staged else await submit(challenge_name, fields)
+        return result.display
+    except Exception as exc:
+        return f"submit_artifact error: {exc}"
 
 
 async def do_confirm_submission(

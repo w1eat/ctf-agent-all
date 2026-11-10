@@ -19,13 +19,15 @@ SAVE_RECIPE_TOOL_SCHEMA: dict[str, Any] = {
             "description": "Credential-free submission workflow. Use action/value and data.submit in each step.",
             "properties": {
                 "platform_origin": {"type": "string"},
+                "challenge_id": {"type": "string", "description": "Native challenge ID for a challenge-specific workflow."},
+                "kind": {"type": "string", "enum": ["flag", "artifact", "interactive"]},
                 "steps": {
                     "type": "array",
                     "items": {
                         "type": "object",
                         "description": "Navigate: action=navigate, value=same-origin URL with {challenge_id}. Input: action=type, target=CSS selector, value={flag}, data.submit=true only when Enter submits.",
                         "properties": {
-                            "action": {"type": "string", "enum": ["navigate", "type", "fill", "click", "wait_for", "snapshot"]},
+                            "action": {"type": "string", "enum": ["navigate", "type", "fill", "click", "upload", "wait_for", "snapshot"]},
                             "target": {"type": "string", "description": "Stable CSS selector observed on the page"},
                             "value": {"type": "string"},
                             "data": {"type": "object", "properties": {"submit": {"type": "boolean"}}},
@@ -39,6 +41,7 @@ SAVE_RECIPE_TOOL_SCHEMA: dict[str, Any] = {
                 },
                 "success_markers": {"type": "array", "items": {"type": "string"}},
                 "failure_markers": {"type": "array", "items": {"type": "string"}},
+                "tracking": {"type": "object", "description": "Observed receipt ID regex, same-origin result URL and ID-specific result selector.", "properties": {"id_pattern": {"type": "string"}, "url": {"type": "string"}, "target": {"type": "string"}, "interval_seconds": {"type": "number"}, "timeout_seconds": {"type": "number"}}},
             },
             "required": ["platform_origin", "steps"],
         }
@@ -102,11 +105,14 @@ class RecipeStep(BaseModel):
 
 class PlatformRecipe(BaseModel):
     platform_origin: str
+    challenge_id: str = ""
+    kind: str = "flag"
     version: int = 1
     confidence: float = 0.0
     steps: list[RecipeStep] = Field(default_factory=list)
     success_markers: list[str] = Field(default_factory=list)
     failure_markers: list[str] = Field(default_factory=list)
+    tracking: dict[str, Any] = Field(default_factory=dict)
 
 
 class RecipeStore:
@@ -117,11 +123,12 @@ class RecipeStore:
     def key(origin: str) -> str:
         return hashlib.sha256(origin.rstrip("/").encode()).hexdigest()[:16]
 
-    def path_for(self, origin: str) -> Path:
-        return self.root / f"{self.key(origin)}.json"
+    def path_for(self, origin: str, challenge_id: str = "") -> Path:
+        suffix = f"-{self.key(challenge_id)}" if challenge_id else ""
+        return self.root / f"{self.key(origin)}{suffix}.json"
 
-    def load(self, origin: str) -> PlatformRecipe | None:
-        path = self.path_for(origin)
+    def load(self, origin: str, challenge_id: str = "") -> PlatformRecipe | None:
+        path = self.path_for(origin, challenge_id)
         try:
             return PlatformRecipe.model_validate_json(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
@@ -129,7 +136,7 @@ class RecipeStore:
 
     def save(self, recipe: PlatformRecipe) -> Path:
         self.root.mkdir(parents=True, exist_ok=True)
-        path = self.path_for(recipe.platform_origin)
+        path = self.path_for(recipe.platform_origin, recipe.challenge_id)
         path.write_text(recipe.model_dump_json(indent=2), encoding="utf-8")
         return path
 
@@ -140,10 +147,43 @@ def submission_recipe_issue(recipe: PlatformRecipe | None, origin: str) -> str |
         return "No submit recipe is available for this platform"
     if recipe.platform_origin.rstrip("/") != origin.rstrip("/"):
         return "Submit recipe origin does not match the configured platform URL"
+    if recipe.kind not in {"flag", "artifact", "interactive"}:
+        return "Unsupported submission workflow kind"
+    if not recipe.challenge_id:
+        return "Submission workflows must be scoped to a challenge"
+    if recipe.kind == "interactive":
+        return None if not recipe.steps else "Interactive workflows do not accept scripted steps"
     if not recipe.steps:
         return "Submit recipe has no browser steps"
+    if any(step.action not in {"navigate", "type", "fill", "click", "upload", "wait_for", "snapshot"}
+           for step in recipe.steps):
+        return "Submit recipe contains an unsupported action"
+    for index, step in enumerate(recipe.steps):
+        if step.action == "upload" and (index == 0 or recipe.steps[index - 1].action != "click"):
+            return "Upload must immediately follow the observed file chooser click"
 
     expected = urlparse(origin)
+    if recipe.tracking:
+        tracking = recipe.tracking
+        url = str(tracking.get("url", ""))
+        target = str(tracking.get("target", ""))
+        pattern = str(tracking.get("id_pattern", ""))
+        if "{submission_id}" not in url or "{submission_id}" not in target or not pattern:
+            return "Tracking requires an observed receipt ID pattern and ID-specific URL and target"
+        parsed = urlparse(url)
+        if (parsed.scheme, parsed.netloc) != (expected.scheme, expected.netloc):
+            return "Tracking URL must stay on the configured platform origin"
+        try:
+            if re.compile(pattern).groups != 1:
+                return "Tracking receipt ID pattern must have exactly one capture group"
+            interval = float(tracking.get("interval_seconds", 5))
+            timeout = float(tracking.get("timeout_seconds", 30))
+            if not 1 <= interval <= 60 or not 0 <= timeout <= 60:
+                return "Tracking interval or timeout is out of bounds"
+        except (ValueError, TypeError, re.error):
+            return "Invalid tracking configuration"
+        if not recipe.success_markers or not recipe.failure_markers:
+            return "Tracking needs observed success and failure markers"
     navigations = [
         (index, step.value or step.data.get("url", ""))
         for index, step in enumerate(recipe.steps) if step.action == "navigate"
@@ -166,6 +206,18 @@ def submission_recipe_issue(recipe: PlatformRecipe | None, origin: str) -> str |
                 for field in step.data.get("fields", []) if isinstance(field, dict)
             )
         return False
+
+    if recipe.kind == "artifact":
+        input_indices = [index for index, step in enumerate(recipe.steps)
+                         if (step.action == "type" and step.target or step.action == "upload")
+                         and re.fullmatch(r"\{[a-zA-Z_][a-zA-Z0-9_]*\}", step.value)]
+        if not input_indices:
+            return "Artifact workflow needs a named input placeholder"
+        if not any(step.action == "click" and step.target and index > max(input_indices)
+                   and any(nav_index < min(input_indices) for nav_index, _ in navigations)
+                   for index, step in enumerate(recipe.steps)):
+            return "Artifact workflow needs a submit click after its inputs"
+        return None
 
     input_indices = [index for index, step in enumerate(recipe.steps) if inputs_flag(step)]
     if not input_indices:

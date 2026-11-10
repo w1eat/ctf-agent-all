@@ -51,14 +51,16 @@ from backend.solver_base import (
     SolverResult,
 )
 from backend.tools.analysis import analysis_status, call_analysis_tool, list_analysis_tools
-from backend.tools.flag import confirm_submission, submit_flag
+from backend.tools.flag import confirm_submission, submit_artifact, submit_flag
 from backend.tools.knowledge import read_knowledge, search_knowledge, stage_knowledge_script
 from backend.tools.sandbox import (
     bash,
+    check_coordinator_request,
     check_findings,
     list_files,
     notify_coordinator,
     read_file,
+    request_coordinator,
     web_fetch,
     webhook_create,
     webhook_get_requests,
@@ -98,7 +100,8 @@ class TracingToolset(WrapperToolset[SolverDeps]):
         self.tracer.tool_call(name, tool_args, step)
 
         # Loop detection
-        loop_status = self.loop_detector.check(name, tool_args)
+        coordination_tools = {"request_coordinator", "check_coordinator_request"}
+        loop_status = None if name in coordination_tools else self.loop_detector.check(name, tool_args)
         if loop_status == "break":
             logger.warning(f"Loop break on {name} at step {step}")
             self.tracer.event("loop_break", tool=name, step=step)
@@ -123,7 +126,7 @@ class TracingToolset(WrapperToolset[SolverDeps]):
         ):
             self.tracer.event("flag_confirmed", tool=name, step=step)
 
-        if step % 5 == 0 and ctx.deps.message_bus and isinstance(result, str):
+        if name not in coordination_tools and step % 5 == 0 and ctx.deps.message_bus and isinstance(result, str):
             from backend.tools.core import do_check_findings
             findings_text = await do_check_findings(ctx.deps.message_bus, ctx.deps.model_spec)
             if findings_text and "No new findings" not in findings_text:
@@ -135,8 +138,9 @@ class TracingToolset(WrapperToolset[SolverDeps]):
 
 def _build_toolset(deps: SolverDeps) -> FunctionToolset[SolverDeps]:
     """Build the raw toolset for a solver agent."""
-    tools = [bash, read_file, write_file, list_files, submit_flag, confirm_submission, web_fetch,
-             webhook_create, webhook_get_requests, check_findings, notify_coordinator]
+    tools = [bash, read_file, write_file, list_files, submit_flag, submit_artifact, confirm_submission, web_fetch,
+             webhook_create, webhook_get_requests, check_findings, notify_coordinator, request_coordinator,
+             check_coordinator_request]
     if deps.use_vision:
         tools.append(view_image)
     if deps.analysis_gateway:
@@ -257,6 +261,7 @@ class Solver:
             role=self.role,
             has_analysis_tools=self.analysis_gateway is not None,
             has_ghidra=ghidra_result.exit_code == 0,
+            has_coordinator=self.deps.request_coordinator is not None,
         )
 
         model = resolve_model(self.model_spec, self.settings)

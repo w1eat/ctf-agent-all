@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class PollEvent:
-    kind: str  # "new_challenge" | "challenge_solved"
+    kind: str  # "new_challenge" | "challenge_available" | "challenge_unlocked" | "challenge_solved"
     challenge_name: str
     details: dict = field(default_factory=dict)
 
@@ -25,6 +25,7 @@ class CTFdPoller:
 
     _known_challenges: set[str] = field(default_factory=set)
     _known_solved: set[str] = field(default_factory=set)
+    _known_by_id: dict[str, tuple[str, bool | None]] = field(default_factory=dict)
     _event_queue: asyncio.Queue[PollEvent] = field(default_factory=asyncio.Queue)
     _task: asyncio.Task | None = field(default=None, repr=False)
     _stop: asyncio.Event = field(default_factory=asyncio.Event)
@@ -42,6 +43,7 @@ class CTFdPoller:
     async def _seed(self) -> None:
         """Initial fetch — just populate known state, no events."""
         challenges = await self.platform.list_challenges()
+        self._known_by_id = self._snapshot(challenges)
         self._known_challenges = {challenge.name for challenge in challenges}
         self._known_solved = (await self.platform.get_solve_status()) & self._known_challenges
 
@@ -61,6 +63,10 @@ class CTFdPoller:
         except (TimeoutError, asyncio.CancelledError):
             return None
 
+    def wake(self) -> None:
+        """Wake the coordinator when a solver has a pending request."""
+        self._event_queue.put_nowait(PollEvent("coordination_request", ""))
+
     def drain_events(self) -> list[PollEvent]:
         """Drain all pending events without blocking."""
         events: list[PollEvent] = []
@@ -79,9 +85,25 @@ class CTFdPoller:
     def known_solved(self) -> set[str]:
         return set(self._known_solved)
 
+    @staticmethod
+    def _snapshot(challenges) -> dict[str, tuple[str, bool | None]]:
+        snapshot = {}
+        for challenge in challenges:
+            name = str(challenge.name)
+            native_id = str(getattr(challenge, "native_id", "") or name)
+            source_data = getattr(challenge, "source_data", None) or {}
+            locked = source_data.get("locked")
+            if not isinstance(locked, bool):
+                locked = None
+            if native_id in snapshot and snapshot[native_id][0] != name:
+                raise ValueError(f"Duplicate challenge ID {native_id!r}")
+            snapshot[native_id] = (name, locked)
+        return snapshot
+
     async def _poll_once(self) -> None:
         try:
             challenges = await self.platform.list_challenges()
+            current_by_id = self._snapshot(challenges)
             current_names = {challenge.name for challenge in challenges}
             current_solved = (await self.platform.get_solve_status()) & current_names
 
@@ -95,12 +117,22 @@ class CTFdPoller:
                 return
 
             # Detect new challenges
-            new_challenges = current_names - self._known_challenges
-            for name in new_challenges:
+            for native_id in current_by_id.keys() - self._known_by_id.keys():
+                name, locked = current_by_id[native_id]
                 logger.info("New challenge detected: %s", name)
                 self._event_queue.put_nowait(
-                    PollEvent("new_challenge", name)
+                    PollEvent("new_challenge", name, {"native_id": native_id, "locked": locked})
                 )
+
+            for native_id in current_by_id.keys() & self._known_by_id.keys():
+                name, locked = current_by_id[native_id]
+                previous_locked = self._known_by_id[native_id][1]
+                if locked is False and previous_locked is not False:
+                    logger.info("Challenge became available: %s", name)
+                    kind = "challenge_unlocked" if previous_locked is True else "challenge_available"
+                    self._event_queue.put_nowait(
+                        PollEvent(kind, name, {"native_id": native_id})
+                    )
 
             # Detect newly solved
             new_solves = current_solved - self._known_solved
@@ -112,6 +144,7 @@ class CTFdPoller:
 
             self._known_challenges = current_names
             self._known_solved = current_solved
+            self._known_by_id = current_by_id
 
         except Exception as e:
             logger.warning(f"Poll error: {e}")
